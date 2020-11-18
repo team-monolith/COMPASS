@@ -24,8 +24,8 @@ class MapFragment : Fragment() {
     ): View? {
         dashboardViewModel =
             ViewModelProvider(this).get(MapViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        val root = inflater.inflate(R.layout.fragment_map, container, false)
+        val textView: TextView = root.findViewById(R.id.txt_map)
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })

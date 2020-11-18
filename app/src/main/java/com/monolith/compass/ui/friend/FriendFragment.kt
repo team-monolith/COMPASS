@@ -23,8 +23,8 @@ class FriendFragment : Fragment() {
     ): View? {
         dashboardViewModel =
             ViewModelProvider(this).get(FriendViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        val root = inflater.inflate(R.layout.fragment_friend, container, false)
+        val textView: TextView = root.findViewById(R.id.txt_friend)
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })

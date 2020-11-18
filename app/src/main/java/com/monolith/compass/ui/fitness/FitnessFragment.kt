@@ -23,8 +23,8 @@ class FitnessFragment : Fragment() {
     ): View? {
         dashboardViewModel =
             ViewModelProvider(this).get(FitnessViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        val root = inflater.inflate(R.layout.fragment_fitness, container, false)
+        val textView: TextView = root.findViewById(R.id.txt_fitness)
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })

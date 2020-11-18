@@ -23,8 +23,8 @@ class SettingFragment : Fragment() {
     ): View? {
         dashboardViewModel =
             ViewModelProvider(this).get(SettingViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        val root = inflater.inflate(R.layout.fragment_setting, container, false)
+        val textView: TextView = root.findViewById(R.id.txt_setting)
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
