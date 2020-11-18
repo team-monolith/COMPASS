@@ -16,6 +16,7 @@ class SettingFragment : Fragment() {
 
     private lateinit var dashboardViewModel: SettingViewModel
 
+    //フラグメント生成時処理
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,4 +31,5 @@ class SettingFragment : Fragment() {
         })
         return root
     }
+
 }
