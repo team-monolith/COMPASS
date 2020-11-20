@@ -12,7 +12,7 @@
         android:title="@string/title_fitness" />
 
     <item
-        android:id="@+id/navigation_map"
+        android:id="@+id/navigation_navchoice"
         android:icon="@drawable/ic_baseline_public_24"
         android:title="@string/title_map" />
     <item

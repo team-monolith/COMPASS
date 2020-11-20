@@ -6,6 +6,8 @@
     <string name="title_profile">Profile</string>
     <string name="title_fitness">Fitness</string>
     <string name="title_map">Map</string>
+    <string name="title_nav_choice">NavChoice</string>
+    <string name="title_event">Event</string>
     <string name="title_friend">Friend</string>
     <string name="title_setting">Setting</string>
 </resources>

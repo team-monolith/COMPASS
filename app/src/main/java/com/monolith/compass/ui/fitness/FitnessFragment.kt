@@ -14,18 +14,18 @@ import com.monolith.compass.R
 
 class FitnessFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: FitnessViewModel
+    private lateinit var fitnessViewModel: FitnessViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
+        fitnessViewModel =
             ViewModelProvider(this).get(FitnessViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_fitness, container, false)
         val textView: TextView = root.findViewById(R.id.txt_fitness)
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+        fitnessViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

@@ -1,6 +1,5 @@
 package com.monolith.compass.ui.setting
 
-import android.R.attr.button
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +15,7 @@ import com.monolith.compass.R
 
 class SettingFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: SettingViewModel
+    private lateinit var settingViewModel: SettingViewModel
 
     var _clickListener: OnClickListener? = null
 
@@ -26,11 +25,11 @@ class SettingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
+        settingViewModel =
             ViewModelProvider(this).get(SettingViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_setting, container, false)
         val textView: TextView = root.findViewById(R.id.txt_setting)
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+        settingViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return inflater.inflate(R.layout.fragment_setting, container, false)

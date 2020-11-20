@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        GLOBAL.maincontext=application
 
 
         if (RequestGPSPermission()) {
@@ -60,6 +59,8 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         return false
     }
 
+
+
     // 結果の受け取り
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String?>,
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
                 startLocationService()
             } else {
                 // それでも拒否された時の対応
-                toastMake("位置情報が取得できないため終了します")
+                MyApp().toastMake(this,"位置情報が取得できないため終了します")
                 finish()
             }
         }
@@ -79,18 +80,14 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
 
     override fun onClick_start(){
         startLocationService()
-        toastMake("計測を開始します")
+        MyApp().toastMake(this,"計測を開始します")
     }
 
     override fun onClick_stop(){
         stopLocationService()
-        toastMake("計測を終了します")
+        MyApp().toastMake(this,"計測を終了します")
     }
 
-    fun toastMake(message: String) {
-        val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
-        toast.show()
-    }
 
     //位置情報取得を開始
     fun startLocationService() {
