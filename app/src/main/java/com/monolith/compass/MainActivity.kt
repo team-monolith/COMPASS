@@ -2,34 +2,29 @@ package com.monolith.compass
 
 import android.Manifest
 import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.monolith.compass.com.monolith.compass.MyApp
 import com.monolith.compass.ui.setting.SettingFragment
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
 
-    val GLOBAL=MyApp.getInstance()
+    val GLOBAL= MyApp.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        GLOBAL.maincontext=application
 
 
         if (RequestGPSPermission()) {
@@ -81,6 +76,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onClick_start(){
+        startLocationService()
+    }
+
+    override fun onClick_stop(){
+        stopLocationService()
+    }
+
     fun toastMake(message: String) {
         val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
         toast.show()
@@ -94,7 +97,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //位置情報取得を終了
-    fun stopLocationService(app:Application){
+    fun stopLocationService(){
         val intent = Intent(application, LocationService::class.java)
         stopService(intent)
     }
