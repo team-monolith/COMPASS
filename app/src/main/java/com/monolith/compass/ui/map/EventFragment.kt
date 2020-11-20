@@ -12,20 +12,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
 
-class MapFragment : Fragment() {
+class EventFragment : Fragment() {
 
-    private lateinit var mapViewModel: MapViewModel
+    private lateinit var eventViewModel: EventViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
-        mapViewModel =
-            ViewModelProvider(this).get(MapViewModel::class.java)
+        eventViewModel =
+                ViewModelProvider(this).get(EventViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_map, container, false)
         val textView: TextView = root.findViewById(R.id.txt_map)
-        mapViewModel.text.observe(viewLifecycleOwner, Observer {
+        eventViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

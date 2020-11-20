@@ -14,18 +14,18 @@ import com.monolith.compass.R
 
 class FriendFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: FriendViewModel
+    private lateinit var friendViewModel: FriendViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
+        friendViewModel =
             ViewModelProvider(this).get(FriendViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_friend, container, false)
         val textView: TextView = root.findViewById(R.id.txt_friend)
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+        friendViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
