@@ -76,16 +76,19 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         }
     }
 
+
     override fun onClick_start(){
         startLocationService()
+        toastMake("計測を開始します")
     }
 
     override fun onClick_stop(){
         stopLocationService()
+        toastMake("計測を終了します")
     }
 
     fun toastMake(message: String) {
-        val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
+        val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
         toast.show()
     }
 
