@@ -1,4 +1,4 @@
-package com.monolith.compass.com.monolith.compass.ui.profile
+package com.monolith.compass.ui.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater

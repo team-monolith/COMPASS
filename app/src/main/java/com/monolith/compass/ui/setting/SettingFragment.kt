@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -53,7 +52,6 @@ class SettingFragment : Fragment() {
             _clickListener!!.onClick_stop()
         })
         view.findViewById<Button>(R.id.btnPOST).setOnClickListener(View.OnClickListener {
-            //_clickListener!!.onClick_post()
             datapost()
         })
 
@@ -72,7 +70,6 @@ class SettingFragment : Fragment() {
     interface OnClickListener {
         fun onClick_start()
         fun onClick_stop()
-        //fun onClick_post()
     }
 
     fun datapost(){
