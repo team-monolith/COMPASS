@@ -106,8 +106,7 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener, NavCh
         stopService(intent)
     }
 
-
-
+    //フラグメントを再配置　引数:フラグメント
     fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
