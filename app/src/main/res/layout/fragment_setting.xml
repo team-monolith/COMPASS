@@ -39,4 +39,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_setting"
         app:layout_constraintVertical_bias="0.652" />
+
+    <Button
+        android:id="@+id/btnPOST"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="POST"
+        app:layout_constraintBottom_toTopOf="@+id/btnSTART"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_setting" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
 
 
 class SettingFragment : Fragment() {
@@ -45,6 +48,10 @@ class SettingFragment : Fragment() {
         view.findViewById<Button>(R.id.btnSTOP).setOnClickListener(View.OnClickListener {
             _clickListener!!.onClick_stop()
         })
+        view.findViewById<Button>(R.id.btnPOST).setOnClickListener(View.OnClickListener {
+            //_clickListener!!.onClick_post()
+            datapost()
+        })
 
     }
 
@@ -61,7 +68,25 @@ class SettingFragment : Fragment() {
     interface OnClickListener {
         fun onClick_start()
         fun onClick_stop()
+        //fun onClick_post()
     }
+
+    fun datapost(){
+
+        val POSTDATA = HashMap<String, String>()
+        POSTDATA.put("data", "TEST")
+
+        "https://ky-server.net/monolith/system/send.php".httpPost(POSTDATA.toList()).response { _, response, result ->
+            when (result) {
+                is Result.Success -> {
+                }
+                is Result.Failure -> {
+                }
+            }
+        }
+    }
+
+
 
 
 
