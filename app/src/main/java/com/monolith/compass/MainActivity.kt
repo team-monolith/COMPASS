@@ -10,30 +10,27 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
-import com.monolith.compass.ui.profile.ProfileFragment
+import com.monolith.compass.ui.map.MapFragment
+import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 
 
-class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
+class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener, NavChoiceFragment.OnClickListener {
 
     val GLOBAL= MyApp.getInstance()
-
-    /*吉田
-    val  fragments = arrayListOf(
-        ProfileFragment().apply{arguments = bundleOf("url" to)}
-    )*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         if (RequestGPSPermission()) {
-            startLocationService()
+            //startLocationService()
         }
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -41,6 +38,7 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         //ナビゲーションバーのコントローラー設定
         val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
+
     }
 
     //GPSパーミッションを取得、trueが返されれば実行OK
@@ -81,7 +79,6 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         }
     }
 
-
     override fun onClick_start(){
         startLocationService()
         MyApp().toastMake(this,"計測を開始します")
@@ -90,6 +87,10 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
     override fun onClick_stop(){
         stopLocationService()
         MyApp().toastMake(this,"計測を終了します")
+    }
+
+    override fun onClick_map() {
+        replaceFragment(MapFragment())
     }
 
     //位置情報取得を開始
@@ -104,4 +105,13 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         val intent = Intent(application, LocationService::class.java)
         stopService(intent)
     }
+
+    //フラグメントを再配置　引数:フラグメント
+    fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container, fragment)
+        fragmentTransaction.commit()
+    }
+
 }
