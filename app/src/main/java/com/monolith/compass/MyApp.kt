@@ -8,6 +8,7 @@ import android.widget.Toast
 class MyApp: Application(){
 
     //このコメント下にグローバル変数等記述、必要分のみをコメント付きで記述すること
+    val SERVER_URL:String="https://ky-server.net/~monolith/system/"
 
     //開始時処理
     override fun onCreate(){

@@ -14,11 +14,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import com.monolith.compass.com.monolith.compass.MyApp
 
 
 class SettingFragment : Fragment() {
 
     private lateinit var settingViewModel: SettingViewModel
+
+    val GLOBAL= MyApp.getInstance()
+
 
     var _clickListener: OnClickListener? = null
 
@@ -74,9 +78,9 @@ class SettingFragment : Fragment() {
     fun datapost(){
 
         val POSTDATA = HashMap<String, String>()
-        POSTDATA.put("data", "TEST")
+        POSTDATA.put("data", "monolith")
 
-        "https://ky-server.net/monolith/system/send.php".httpPost(POSTDATA.toList()).response { _, response, result ->
+        GLOBAL.SERVER_URL+"send.php".httpPost(POSTDATA.toList()).response { _, response, result ->
             when (result) {
                 is Result.Success -> {
                 }
@@ -84,6 +88,7 @@ class SettingFragment : Fragment() {
                 }
             }
         }
+
     }
 
 
