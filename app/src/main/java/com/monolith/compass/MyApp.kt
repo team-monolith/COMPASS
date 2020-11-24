@@ -3,6 +3,9 @@ package com.monolith.compass.com.monolith.compass
 import android.app.Application
 import android.content.Context
 import android.widget.Toast
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
+import kotlin.random.Random
 
 
 class MyApp: Application(){
@@ -33,20 +36,36 @@ class MyApp: Application(){
         }
     }
 
+    //トースト生成関数、第一引数：実行画面コンテキスト、第二引数：表示メッセージ
     fun toastMake(context: Context,message: String) {
         val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
         toast.show()
     }
 
+    //マップ読み込み処理
     fun MAPLOAD(){
         MAPCLEAR()
-        //読み込み処理を記述
+
+        /*val POSTDATA = HashMap<String, String>()
+        POSTDATA.put("data", "monolith")
+
+        SERVER_URL+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.php".httpPost(POSTDATA.toList()).response { _, response, result ->
+            when (result) {
+                is Result.Success -> {
+                }
+                is Result.Failure -> {
+                }
+            }
+        }*/
     }
 
+    //マップ情報保持用変数のリセット処理
+    //現状、仮でランダムな値を入力しています
     fun MAPCLEAR(){
-        for(y in 0..500){
-            for(x in 0..500){
-                SERVER_MAP[y][x]=-1
+        val GLOBAL=MyApp.getInstance()
+        for(y in 0 until 500){
+            for(x in 0 until 500){
+                GLOBAL.SERVER_MAP[y][x]=Random.nextInt(3)
             }
         }
     }
