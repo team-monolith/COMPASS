@@ -89,7 +89,4 @@ class SettingFragment : Fragment() {
     }
 
 
-
-
-
 }
