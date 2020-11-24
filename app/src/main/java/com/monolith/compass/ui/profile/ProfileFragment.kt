@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,29 +12,54 @@ import com.monolith.compass.R
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var ProfileViewModel: ProfileViewModel
+    private lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        ProfileViewModel =
+        profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
         val textView: TextView = root.findViewById(R.id.txt_profile)
-        val card_img: ImageView = root.findViewById(R.id.card_img)
+        val imgCard: ImageView = root.findViewById(R.id.card_img)
+        val button: Button =root.findViewById(R.id.button)
+        val imgBtn: ImageButton = root.findViewById(R.id.imageButton2)
 
-        card_img.setOnClickListener{
 
+        imgCard.setImageResource(R.drawable.ic_launcher_background)
+
+        imgBtn.setBackgroundResource(R.drawable.ic_launcher_background)
+
+
+
+        imgBtn.setOnClickListener{
+            textView.text ="cccc"
+        }
+
+        imgCard.setOnClickListener {
+            textView.text ="aaaa"
+        }
+        button.setOnClickListener {
+            textView.text ="bbbb"
         }
 
 
-        ProfileViewModel.text.observe(viewLifecycleOwner, Observer {
+
+        profileViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
         return root
     }
+
+    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val url = requireArguments().getString("url")
+        // urlから画像を読み込み...
+    }*/
 }
 
 

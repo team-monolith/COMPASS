@@ -10,10 +10,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.profile.ProfileFragment
 import com.monolith.compass.ui.setting.SettingFragment
 
 
@@ -21,10 +23,14 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
 
     val GLOBAL= MyApp.getInstance()
 
+    /*吉田
+    val  fragments = arrayListOf(
+        ProfileFragment().apply{arguments = bundleOf("url" to)}
+    )*/
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         if (RequestGPSPermission()) {
             startLocationService()
@@ -35,7 +41,6 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         //ナビゲーションバーのコントローラー設定
         val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
-
     }
 
     //GPSパーミッションを取得、trueが返されれば実行OK
@@ -58,7 +63,6 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         }
         return false
     }
-
 
 
     // 結果の受け取り
@@ -88,7 +92,6 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         MyApp().toastMake(this,"計測を終了します")
     }
 
-
     //位置情報取得を開始
     fun startLocationService() {
         val intent = Intent(application, LocationService::class.java)
@@ -101,5 +104,4 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         val intent = Intent(application, LocationService::class.java)
         stopService(intent)
     }
-
 }
