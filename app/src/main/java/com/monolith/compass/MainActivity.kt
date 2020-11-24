@@ -79,16 +79,22 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener, NavCh
         }
     }
 
+    //SettingFragmentからのコール
+    //GPS開始処理
     override fun onClick_start(){
         startLocationService()
         MyApp().toastMake(this,"計測を開始します")
     }
 
+    //SettingFragmentからのコール
+    //GPS停止処理
     override fun onClick_stop(){
         stopLocationService()
         MyApp().toastMake(this,"計測を終了します")
     }
 
+    //NavChoiceFragmentからのコール
+    //Mapフラグメントへの遷移処理
     override fun onClick_map() {
         replaceFragment(MapFragment())
     }
@@ -108,8 +114,7 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener, NavCh
 
     //フラグメントを再配置　引数:フラグメント
     fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container, fragment)
         fragmentTransaction.commit()
     }

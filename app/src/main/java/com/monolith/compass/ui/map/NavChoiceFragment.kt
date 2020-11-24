@@ -39,12 +39,12 @@ class NavChoiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.btnMap).setOnClickListener(View.OnClickListener {
+        view.findViewById<Button>(R.id.btnMap).setOnClickListener{
             _clickListener!!.onClick_map()
-        })
-        view.findViewById<Button>(R.id.btnEvent).setOnClickListener(View.OnClickListener {
+        }
+        view.findViewById<Button>(R.id.btnEvent).setOnClickListener {
             //遷移処理
-        })
+        }
 
     }
 
