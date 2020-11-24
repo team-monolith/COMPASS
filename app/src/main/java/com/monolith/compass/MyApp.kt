@@ -9,6 +9,8 @@ class MyApp: Application(){
 
     //このコメント下にグローバル変数等記述、必要分のみをコメント付きで記述すること
     val SERVER_URL:String="https://ky-server.net/~monolith/system/"
+    val CENTRAL_LONGITUDE:Int=335841//Y座標側、下四桁が小数
+    val CENTRAL_LATITUDE:Int=1304088//X座標側、下四桁が少数
 
     //開始時処理
     override fun onCreate(){
