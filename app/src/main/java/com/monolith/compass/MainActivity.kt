@@ -10,10 +10,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.map.MapFragment
+import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 
 
@@ -27,7 +30,7 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
 
 
         if (RequestGPSPermission()) {
-            startLocationService()
+            //startLocationService()
         }
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -60,7 +63,6 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
     }
 
 
-
     // 結果の受け取り
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String?>,
@@ -77,17 +79,19 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         }
     }
 
-
+    //SettingFragmentからのコール
+    //GPS開始処理
     override fun onClick_start(){
         startLocationService()
         MyApp().toastMake(this,"計測を開始します")
     }
 
+    //SettingFragmentからのコール
+    //GPS停止処理
     override fun onClick_stop(){
         stopLocationService()
         MyApp().toastMake(this,"計測を終了します")
     }
-
 
     //位置情報取得を開始
     fun startLocationService() {
@@ -100,6 +104,13 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
     fun stopLocationService(){
         val intent = Intent(application, LocationService::class.java)
         stopService(intent)
+    }
+
+    //フラグメントを再配置　引数:フラグメント
+    fun replaceFragment(fragment: Fragment) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container, fragment)
+        fragmentTransaction.commit()
     }
 
 }
