@@ -61,7 +61,7 @@
             android:id="@+id/action_navigation_navchoice_to_navigation_profile"
             app:destination="@id/navigation_profile" />
         <action
-            android:id="@+id/action_navigation_navchoice_to_navigation_map2"
+            android:id="@+id/action_navigation_navchoice_to_navigation_map"
             app:destination="@id/navigation_map" />
         <action
             android:id="@+id/action_navigation_navchoice_to_navigation_event3"

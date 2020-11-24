@@ -20,7 +20,7 @@ import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 
 
-class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener, NavChoiceFragment.OnClickListener {
+class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
 
     val GLOBAL= MyApp.getInstance()
 
@@ -91,12 +91,6 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener, NavCh
     override fun onClick_stop(){
         stopLocationService()
         MyApp().toastMake(this,"計測を終了します")
-    }
-
-    //NavChoiceFragmentからのコール
-    //Mapフラグメントへの遷移処理
-    override fun onClick_map() {
-        replaceFragment(MapFragment())
     }
 
     //位置情報取得を開始
