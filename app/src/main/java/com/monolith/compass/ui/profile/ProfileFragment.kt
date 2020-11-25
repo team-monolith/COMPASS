@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 
 class ProfileFragment : Fragment() {
@@ -24,23 +24,45 @@ class ProfileFragment : Fragment() {
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
         val textView: TextView = root.findViewById(R.id.txt_profile)
-        val card_img: ImageView = root.findViewById(R.id.card_img)
+        val imgCard: ImageView = root.findViewById(R.id.card_img)
+        val button: Button =root.findViewById(R.id.button)
+        val imgBtn: ImageButton = root.findViewById(R.id.imageButton2)
+        val progressBar:ProgressBar =root.findViewById(R.id.progress_bar)
 
-        card_img.setOnClickListener{
 
+        imgCard.setImageResource(R.drawable.ic_launcher_background)
+
+        //imgBtn.setBackgroundResource(R.drawable.ic_launcher_background)
+
+
+
+        imgCard.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
 
+        button.setOnClickListener {
+            if(progressBar.progress  == 100){
+                progressBar.progress = 0
+            }else {
+                progressBar.progress += 10
+            }
+        }
+
+        imgBtn.setOnClickListener{
+            textView.text ="cccc"
+        }
 
         profileViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
         return root
     }
 }
 
 
 /*
-プログレスバー
+プログレスバー(役立)
 https://hirauchi-genta.com/kotlin-progressbarhorizontal/
 
 丸ボタン(バッジ用)
@@ -64,6 +86,9 @@ https://developer.android.com/training/permissions/requesting?hl=ja
 https://hiropoppo.hatenablog.com/entry/kotlin-recipe/permission#Permission%E3%81%A8%E3%81%AF
 パーミッション2
 https://symfoware.blog.fc2.com/blog-entry-2033.html
+
+livedataに関して(developers)
+https://developer.android.com/topic/libraries/architecture/livedata?hl=ja
 
 
 
