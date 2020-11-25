@@ -106,11 +106,4 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         stopService(intent)
     }
 
-    //フラグメントを再配置　引数:フラグメント
-    fun replaceFragment(fragment: Fragment) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.container, fragment)
-        fragmentTransaction.commit()
-    }
-
 }
