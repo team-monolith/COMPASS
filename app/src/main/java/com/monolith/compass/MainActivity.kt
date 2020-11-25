@@ -6,17 +6,13 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
-import com.monolith.compass.ui.map.MapFragment
-import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 
 
@@ -40,6 +36,9 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         navView.setupWithNavController(navController)
 
     }
+
+    //戻るボタン無効化、そのうちもどす
+    override fun onBackPressed() {}
 
     //GPSパーミッションを取得、trueが返されれば実行OK
     private fun RequestGPSPermission(): Boolean {
