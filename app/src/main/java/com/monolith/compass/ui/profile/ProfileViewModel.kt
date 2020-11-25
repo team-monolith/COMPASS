@@ -16,12 +16,5 @@ class ProfileViewModel : ViewModel() {
         value = "This is profile Fragment"
     }
 
-    private val _img = MutableLiveData<String>().apply{
-        value ="@tools:sample/backgrounds/scenic"
-    }
-
-    val img:MutableLiveData<String> = _img
     val text:MutableLiveData<String> =_text
 }
-
-

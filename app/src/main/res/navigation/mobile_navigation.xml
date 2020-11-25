@@ -22,6 +22,10 @@
         <action
             android:id="@+id/action_navigation_profile_to_navigation_navchoice"
             app:destination="@id/navigation_navchoice" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_profile_edit"
+            app:destination="@id/navigation_profile_edit"
+            />
     </fragment>
 
     <fragment
@@ -147,5 +151,16 @@
         <action
             android:id="@+id/action_navigation_setting_to_navigation_navchoice"
             app:destination="@id/navigation_navchoice" />
+    </fragment>
+
+    <fragment
+        android:id ="@+id/navigation_profile_edit"
+        android:name="com.monolith.compass.ui.profile.Prof_Edit_Fragment"
+        android:label="ProfileEdit"
+        tools:layout="@layout/fragment_profile_edit">
+
+        <action
+            android:id="@+id/action_navigation_profile_edit_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
     </fragment>
 </navigation>
