@@ -12,14 +12,14 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 
 class NavChoiceFragment : Fragment() {
 
     private lateinit var navchoiceViewModel: NavChoiceViewModel
-
-    var _clickListener: NavChoiceFragment.OnClickListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,26 +39,13 @@ class NavChoiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.btnMap).setOnClickListener(View.OnClickListener {
-            _clickListener!!.onClick_map()
-        })
-        view.findViewById<Button>(R.id.btnEvent).setOnClickListener(View.OnClickListener {
-            //遷移処理
-        })
-
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            _clickListener = context as OnClickListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException(activity.toString() + "must implement OnArticleSelectedListener.")
+        view.findViewById<Button>(R.id.btnMap).setOnClickListener{
+            findNavController().navigate(R.id.action_navigation_navchoice_to_navigation_map)
         }
+        view.findViewById<Button>(R.id.btnEvent).setOnClickListener {
+            //遷移処理
+        }
+
     }
 
-    //Activityにイベントを通知
-    interface OnClickListener {
-        fun onClick_map()
-    }
 }

@@ -20,7 +20,7 @@ import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 
 
-class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener, NavChoiceFragment.OnClickListener {
+class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
 
     val GLOBAL= MyApp.getInstance()
 
@@ -79,18 +79,18 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener, NavCh
         }
     }
 
+    //SettingFragmentからのコール
+    //GPS開始処理
     override fun onClick_start(){
         startLocationService()
         MyApp().toastMake(this,"計測を開始します")
     }
 
+    //SettingFragmentからのコール
+    //GPS停止処理
     override fun onClick_stop(){
         stopLocationService()
         MyApp().toastMake(this,"計測を終了します")
-    }
-
-    override fun onClick_map() {
-        replaceFragment(MapFragment())
     }
 
     //位置情報取得を開始
@@ -108,8 +108,7 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener, NavCh
 
     //フラグメントを再配置　引数:フラグメント
     fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container, fragment)
         fragmentTransaction.commit()
     }
