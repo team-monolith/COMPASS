@@ -11,41 +11,15 @@
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_navigation_profile_to_navigation_fitness"
-            app:destination="@id/navigation_fitness" />
-        <action
-            android:id="@+id/action_navigation_profile_to_navigation_setting"
-            app:destination="@id/navigation_setting" />
-        <action
-            android:id="@+id/action_navigation_profile_to_navigation_friend"
-            app:destination="@id/navigation_friend" />
-        <action
-            android:id="@+id/action_navigation_profile_to_navigation_navchoice"
-            app:destination="@id/navigation_navchoice" />
-        <action
             android:id="@+id/action_navigation_profile_to_navigation_profile_edit"
-            app:destination="@id/navigation_profile_edit"
-            />
+            app:destination="@id/navigation_profile_edit" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_fitness"
         android:name="com.monolith.compass.ui.fitness.FitnessFragment"
         android:label="@string/title_fitness"
-        tools:layout="@layout/fragment_fitness" >
-        <action
-            android:id="@+id/action_navigation_fitness_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
-        <action
-            android:id="@+id/action_navigation_fitness_to_navigation_friend"
-            app:destination="@id/navigation_friend" />
-        <action
-            android:id="@+id/action_navigation_fitness_to_navigation_setting"
-            app:destination="@id/navigation_setting" />
-        <action
-            android:id="@+id/action_navigation_fitness_to_navigation_navchoice"
-            app:destination="@id/navigation_navchoice" />
-    </fragment>
+        tools:layout="@layout/fragment_fitness" />
 
     <fragment
         android:id="@+id/navigation_navchoice"
@@ -53,22 +27,10 @@
         android:label="@string/title_nav_choice"
         tools:layout="@layout/fragment_nav_choice" >
         <action
-            android:id="@+id/action_navigation_navchoice_to_navigation_friend"
-            app:destination="@id/navigation_friend" />
-        <action
-            android:id="@+id/action_navigation_navchoice_to_navigation_setting"
-            app:destination="@id/navigation_setting" />
-        <action
-            android:id="@+id/action_navigation_navchoice_to_navigation_fitness"
-            app:destination="@id/navigation_fitness" />
-        <action
-            android:id="@+id/action_navigation_navchoice_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
-        <action
             android:id="@+id/action_navigation_navchoice_to_navigation_map"
             app:destination="@id/navigation_map" />
         <action
-            android:id="@+id/action_navigation_navchoice_to_navigation_event3"
+            android:id="@+id/action_navigation_navchoice_to_navigation_event"
             app:destination="@id/navigation_event" />
     </fragment>
 
@@ -76,89 +38,30 @@
         android:id="@+id/navigation_map"
         android:name="com.monolith.compass.ui.map.MapFragment"
         android:label="@string/title_map"
-        tools:layout="@layout/fragment_map" >
-        <action
-            android:id="@+id/action_navigation_map_to_navigation_navchoice"
-            app:destination="@id/navigation_navchoice" />
-        <action
-            android:id="@+id/action_navigation_map_to_navigation_friend"
-            app:destination="@id/navigation_friend" />
-        <action
-            android:id="@+id/action_navigation_map_to_navigation_setting"
-            app:destination="@id/navigation_setting" />
-        <action
-            android:id="@+id/action_navigation_map_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
-        <action
-            android:id="@+id/action_navigation_map_to_navigation_fitness"
-            app:destination="@id/navigation_fitness" />
-    </fragment>
+        tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/navigation_event"
         android:name="com.monolith.compass.ui.map.EventFragment"
         android:label="@string/title_event"
-        tools:layout="@layout/fragment_event" >
-        <action
-            android:id="@+id/action_navigation_event_to_navigation_navchoice"
-            app:destination="@id/navigation_navchoice" />
-        <action
-            android:id="@+id/action_navigation_event_to_navigation_friend"
-            app:destination="@id/navigation_friend" />
-        <action
-            android:id="@+id/action_navigation_event_to_navigation_setting"
-            app:destination="@id/navigation_setting" />
-        <action
-            android:id="@+id/action_navigation_event_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
-        <action
-            android:id="@+id/action_navigation_event_to_navigation_fitness"
-            app:destination="@id/navigation_fitness" />
-    </fragment>
+        tools:layout="@layout/fragment_event" />
 
     <fragment
         android:id="@+id/navigation_friend"
         android:name="com.monolith.compass.ui.friend.FriendFragment"
         android:label="@string/title_friend"
-        tools:layout="@layout/fragment_friend" >
-        <action
-            android:id="@+id/action_navigation_friend_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
-        <action
-            android:id="@+id/action_navigation_friend_to_navigation_fitness"
-            app:destination="@id/navigation_fitness" />
-        <action
-            android:id="@+id/action_navigation_friend_to_navigation_setting"
-            app:destination="@id/navigation_setting" />
-        <action
-            android:id="@+id/action_navigation_friend_to_navigation_navchoice"
-            app:destination="@id/navigation_navchoice" />
-    </fragment>
+        tools:layout="@layout/fragment_friend" />
     <fragment
         android:id="@+id/navigation_setting"
         android:name="com.monolith.compass.ui.setting.SettingFragment"
         android:label="@string/title_setting"
-        tools:layout="@layout/fragment_setting" >
-        <action
-            android:id="@+id/action_navigation_setting_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
-        <action
-            android:id="@+id/action_navigation_setting_to_navigation_fitness"
-            app:destination="@id/navigation_fitness" />
-        <action
-            android:id="@+id/action_navigation_setting_to_navigation_friend"
-            app:destination="@id/navigation_friend" />
-        <action
-            android:id="@+id/action_navigation_setting_to_navigation_navchoice"
-            app:destination="@id/navigation_navchoice" />
-    </fragment>
+        tools:layout="@layout/fragment_setting" />
 
     <fragment
         android:id ="@+id/navigation_profile_edit"
         android:name="com.monolith.compass.ui.profile.Prof_Edit_Fragment"
         android:label="ProfileEdit"
         tools:layout="@layout/fragment_profile_edit">
-
         <action
             android:id="@+id/action_navigation_profile_edit_to_navigation_profile"
             app:destination="@id/navigation_profile" />
