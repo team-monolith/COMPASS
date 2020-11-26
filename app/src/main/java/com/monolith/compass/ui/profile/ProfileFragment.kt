@@ -95,6 +95,8 @@ https://toronavi.com/jetpack-livedata
 databinding
 https://toronavi.com/jetpack-databinding
 
+fragment
+https://qiita.com/m-coder/items/3a8e66d49f2830b09bf4
 
 必要と思われるデータ
 開拓ポイント（新旧２種類）
