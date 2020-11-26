@@ -19,6 +19,9 @@ class Prof_Card_Fragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
 
 
+    
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,4 +36,5 @@ class Prof_Card_Fragment : Fragment() {
         
         return root
     }
+
 }

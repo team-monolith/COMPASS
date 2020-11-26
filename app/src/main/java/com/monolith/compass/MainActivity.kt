@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.profile.ProfileFragment
 import com.monolith.compass.ui.setting.SettingFragment
 
 
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
 
+
+        //吉田のテスト
+        val profileFragment = ProfileFragment.newInstance("testdayo")
     }
 
     //戻るボタン無効化、そのうちもどす

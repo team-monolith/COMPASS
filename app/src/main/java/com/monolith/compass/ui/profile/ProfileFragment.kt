@@ -1,19 +1,35 @@
 package com.monolith.compass.ui.profile
 
 import android.os.Bundle
+import android.provider.Settings.Global.putInt
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 
+
+
+private const val ARG_TEST = "test1"
 class ProfileFragment : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
+
+    private var test1:String? = null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            test1 = it.getString(ARG_TEST)
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +66,7 @@ class ProfileFragment : Fragment() {
 
         imgBtn.setOnClickListener{
             //textView.text = profileViewModel.getValue()
+            textView.text = test1
         }
 
         profileViewModel.test.observe(viewLifecycleOwner, Observer {
@@ -57,6 +74,18 @@ class ProfileFragment : Fragment() {
         })
 
         return root
+
+
+
+    }
+
+    companion object{
+        fun newInstance(test1:String)=
+            ProfileFragment().apply {
+                arguments = Bundle().apply{
+                    putString(ARG_TEST,test1)
+                }
+            }
     }
 }
 
@@ -97,6 +126,10 @@ https://toronavi.com/jetpack-databinding
 
 fragment
 https://qiita.com/m-coder/items/3a8e66d49f2830b09bf4
+
+
+activityからfragmentへのデータの受け渡し
+https://101010.fun/programming/android-try-fragment.html
 
 必要と思われるデータ
 開拓ポイント（新旧２種類）
