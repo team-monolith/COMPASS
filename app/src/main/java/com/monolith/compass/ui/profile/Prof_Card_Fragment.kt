@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 import com.monolith.compass.ui.profile.ProfileViewModel
 
-class Prof_Edit_Fragment : Fragment() {
+class Prof_Card_Fragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
 
 
@@ -26,21 +26,11 @@ class Prof_Edit_Fragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_profile_edit, container, false)
-        val textView: TextView = root.findViewById(R.id.txt_profile)
-        val okbtn : Button = root.findViewById(R.id.combtn)
-        val name_text :EditText = root.findViewById(R.id.name_txt)
+        val root = inflater.inflate(R.layout.fragment_profile_card, container, false)
+        val framebtn: Button = root.findViewById(R.id.frame_btn)
+        val backgbtn: Button = root.findViewById(R.id.background_btn)
 
-
-
-
-        okbtn.setOnClickListener{
-            //profileViewModel.test.value = name_text.text.toString()
-            //okbtn.text = profileViewModel.test.value
-            //profileViewModel.setValue(name_text.text.toString())
-            //okbtn.text = profileViewModel.getValue()
-            findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile)
-        }
+        
         return root
     }
 }

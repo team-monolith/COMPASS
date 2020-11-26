@@ -35,7 +35,6 @@ class ProfileFragment : Fragment() {
         //imgBtn.setBackgroundResource(R.drawable.ic_launcher_background)
 
 
-
         imgCard.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
@@ -48,18 +47,18 @@ class ProfileFragment : Fragment() {
             }
         }
 
+
         imgBtn.setOnClickListener{
-            textView.text ="cccc"
+            //textView.text = profileViewModel.getValue()
         }
 
-        profileViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        profileViewModel.test.observe(viewLifecycleOwner, Observer {
+            //textView.text = profileViewModel.getValue()
         })
 
         return root
     }
 }
-
 
 /*
 プログレスバー(役立)
@@ -90,7 +89,14 @@ https://symfoware.blog.fc2.com/blog-entry-2033.html
 livedataに関して(developers)
 https://developer.android.com/topic/libraries/architecture/livedata?hl=ja
 
+livedataに関して(参考文献)
+https://toronavi.com/jetpack-livedata
 
+databinding
+https://toronavi.com/jetpack-databinding
+
+fragment
+https://qiita.com/m-coder/items/3a8e66d49f2830b09bf4
 
 必要と思われるデータ
 開拓ポイント（新旧２種類）
