@@ -15,20 +15,11 @@ import com.monolith.compass.R
 
 
 
-private const val ARG_TEST = "test1"
 class ProfileFragment : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
 
     private var test1:String? = null
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            test1 = it.getString(ARG_TEST)
-        }
-    }
 
 
     override fun onCreateView(
@@ -77,15 +68,6 @@ class ProfileFragment : Fragment() {
 
 
 
-    }
-
-    companion object{
-        fun newInstance(test1:String)=
-            ProfileFragment().apply {
-                arguments = Bundle().apply{
-                    putString(ARG_TEST,test1)
-                }
-            }
     }
 }
 
