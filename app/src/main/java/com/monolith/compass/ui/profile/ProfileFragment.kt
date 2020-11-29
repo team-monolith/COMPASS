@@ -1,21 +1,19 @@
 package com.monolith.compass.ui.profile
 
 import android.os.Bundle
-import android.provider.Settings.Global.putInt
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 
 
-
 class ProfileFragment : Fragment() {
+
 
     private lateinit var profileViewModel: ProfileViewModel
 
@@ -112,6 +110,16 @@ https://qiita.com/m-coder/items/3a8e66d49f2830b09bf4
 
 activityからfragmentへのデータの受け渡し
 https://101010.fun/programming/android-try-fragment.html
+
+
+データの受け渡し
+https://aresei-note.com/1017
+https://teratail.com/questions/114570
+https://tech.mokelab.com/android/Fragment/argument.html
+https://tkm0on.hatenablog.com/entry/2015/05/26/180655
+
+
+
 
 必要と思われるデータ
 開拓ポイント（新旧２種類）
