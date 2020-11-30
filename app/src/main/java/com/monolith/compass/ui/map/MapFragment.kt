@@ -39,8 +39,8 @@ class MapFragment : Fragment() {
     var moveview: MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
 
     var scale: Float = 20F   //地図表示のスケール
-    var posX: Int = -2500    //地図表示の相対X座標
-    var posY: Int = -2500    //地図表示の絶対Y座標
+    var posX: Int = 0    //地図表示の相対X座標
+    var posY: Int = 0    //地図表示の絶対Y座標
     var logX: Int? = null  //タップ追従用X座標
     var logY: Int? = null  //タップ追従用Y座標
 
@@ -61,6 +61,7 @@ class MapFragment : Fragment() {
         layout.setWillNotDraw(false)
 
         maploadtest()
+
         getMapData()
 
         HandlerDraw(moveview!!)
@@ -117,7 +118,7 @@ class MapFragment : Fragment() {
                     override fun onScale(detector: ScaleGestureDetector): Boolean {
                         // ピンチイン・アウト中に継続して呼び出される
                         // getScaleFactor()は『今回の2点タッチの距離/前回の2点タッチの距離』を返す
-                        scale*=detector.scaleFactor
+                        scale *= detector.scaleFactor
                         return true
                     }
 
@@ -176,42 +177,48 @@ class MapFragment : Fragment() {
 
             for (y in 0 until 500) {
                 for (x in 0 until 500) {
-                    val rect=Rect((x*scale+posX).toInt(), (y*scale+posY).toInt(), (x*scale+scale+posX).toInt(), (y*scale+scale+posY).toInt())
-                    canvas!!.drawRect(rect,paint[MAP[y][x]!!])
+                    val rect = Rect(
+                        (x * scale + posX).toInt(),
+                        (y * scale + posY).toInt(),
+                        (x * scale + scale + posX).toInt(),
+                        (y * scale + scale + posY).toInt()
+                    )
+                    canvas!!.drawRect(rect, paint[MAP[y][x]!!])
                 }
             }
 
         }
     }
 
-    fun getMapData(){
+    fun getMapData() {
 
         val POSTDATA = HashMap<String, String>()
         POSTDATA.put("data", "monolith")
 
-        "https://ky-server.net/~monolith/system/dev/test.php".httpPost(POSTDATA.toList()).response { _, response, result ->
-            when (result) {
-                is Result.Success -> {
+        "https://ky-server.net/~monolith/system/dev/test.php".httpPost(POSTDATA.toList())
+            .response { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
                         setMap(String(response.data))
                         HandlerDraw(MoveView(this.activity))
-                }
-                is Result.Failure -> {
+                    }
+                    is Result.Failure -> {
+                    }
                 }
             }
-        }
 
     }
 
-    fun setMap(str:String){
-        val scan= Scanner(str)
+    fun setMap(data: String) {
+        val str = data.replace("\r\n", ",")
+        val scan = Scanner(str)
         scan.useDelimiter(",")
-        for(y in 0 until 500){
-            for(x in 0 until 500){
-                MAP[y][x]=scan.nextInt()
+        val n = 0
+        for (fy in 0 until 500) {
+            for (fx in 0 until 500) {
+                if (scan.hasNextInt()) MAP[fy][fx] = scan.nextInt()
             }
         }
-        val pointer=5
-        val test="test"
     }
 
     //ここの読み込みから
