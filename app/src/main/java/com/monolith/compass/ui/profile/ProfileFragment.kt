@@ -1,14 +1,17 @@
 package com.monolith.compass.ui.profile
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 
 
@@ -16,10 +19,6 @@ class ProfileFragment : Fragment() {
 
 
     private lateinit var profileViewModel: ProfileViewModel
-
-    private var test1:String? = null
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,12 +34,20 @@ class ProfileFragment : Fragment() {
         val progressBar:ProgressBar =root.findViewById(R.id.progress_bar)
 
 
+        val ma = activity as MainActivity?
+
+        var value =ma?.SharedValue
+
+        textView.text = value
+
+
         imgCard.setImageResource(R.drawable.ic_launcher_background)
 
         //imgBtn.setBackgroundResource(R.drawable.ic_launcher_background)
 
 
         imgCard.setOnClickListener {
+            ma?.SharedValue = "こんばんは"
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
 
@@ -54,8 +61,10 @@ class ProfileFragment : Fragment() {
 
 
         imgBtn.setOnClickListener{
-            //textView.text = profileViewModel.getValue()
-            textView.text = test1
+            //textView.text = testtext
+            //test = textView.text.toString()
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
+
         }
 
         profileViewModel.test.observe(viewLifecycleOwner, Observer {
@@ -63,9 +72,6 @@ class ProfileFragment : Fragment() {
         })
 
         return root
-
-
-
     }
 }
 
@@ -118,6 +124,11 @@ https://teratail.com/questions/114570
 https://tech.mokelab.com/android/Fragment/argument.html
 https://tkm0on.hatenablog.com/entry/2015/05/26/180655
 
+
+
+
+fragment savedinstancestateについて
+https://stackoverflow.com/questions/20550016/savedinstancestate-is-always-null-in-fragment
 
 
 
