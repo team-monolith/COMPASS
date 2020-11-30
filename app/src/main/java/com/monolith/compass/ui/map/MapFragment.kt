@@ -13,12 +13,18 @@ import android.util.Log
 import android.view.*
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.monolith.compass.R
+import com.monolith.compass.com.monolith.compass.MyApp
 import com.monolith.compass.ui.setting.SettingFragment
+import java.util.*
+import kotlin.collections.HashMap
 import kotlin.random.Random
 
 
@@ -28,6 +34,7 @@ class MapFragment : Fragment() {
 
     private lateinit var mScaleDetector: ScaleGestureDetector
 
+    val handler = Handler()//メインスレッド処理用ハンドラ
 
     var moveview: MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
 
@@ -54,6 +61,7 @@ class MapFragment : Fragment() {
         layout.setWillNotDraw(false)
 
         maploadtest()
+        getMapData()
 
         HandlerDraw(moveview!!)
 
@@ -132,14 +140,13 @@ class MapFragment : Fragment() {
     fun maploadtest() {
         for (y in 0 until 500) {
             for (x in 0 until 500) {
-                MAP[y][x] = Random.nextInt(4)
+                MAP[y][x] = 3
             }
         }
     }
 
     //描画関数　再描画用
     fun HandlerDraw(mv: MoveView) {
-        val handler = Handler()
         handler.post(object : Runnable {
             override fun run() {
                 mv.invalidate()
@@ -176,5 +183,37 @@ class MapFragment : Fragment() {
 
         }
     }
+
+    fun getMapData(){
+
+        val POSTDATA = HashMap<String, String>()
+        POSTDATA.put("data", "monolith")
+
+        "https://ky-server.net/~monolith/system/dev/test.php".httpPost(POSTDATA.toList()).response { _, response, result ->
+            when (result) {
+                is Result.Success -> {
+                        setMap(String(response.data))
+                        HandlerDraw(MoveView(this.activity))
+                }
+                is Result.Failure -> {
+                }
+            }
+        }
+
+    }
+
+    fun setMap(str:String){
+        val scan= Scanner(str)
+        scan.useDelimiter(",")
+        for(y in 0 until 500){
+            for(x in 0 until 500){
+                MAP[y][x]=scan.nextInt()
+            }
+        }
+        val pointer=5
+        val test="test"
+    }
+
+    //ここの読み込みから
 
 }
