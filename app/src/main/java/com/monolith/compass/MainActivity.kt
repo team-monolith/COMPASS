@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.profile.ProfileFragment
 import com.monolith.compass.ui.setting.SettingFragment
 
 

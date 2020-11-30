@@ -11,9 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 
+
 class ProfileFragment : Fragment() {
 
+
     private lateinit var profileViewModel: ProfileViewModel
+
+    private var test1:String? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +40,6 @@ class ProfileFragment : Fragment() {
         //imgBtn.setBackgroundResource(R.drawable.ic_launcher_background)
 
 
-
         imgCard.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
@@ -48,18 +52,22 @@ class ProfileFragment : Fragment() {
             }
         }
 
+
         imgBtn.setOnClickListener{
-            textView.text ="cccc"
+            //textView.text = profileViewModel.getValue()
+            textView.text = test1
         }
 
-        profileViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        profileViewModel.test.observe(viewLifecycleOwner, Observer {
+            //textView.text = profileViewModel.getValue()
         })
 
         return root
+
+
+
     }
 }
-
 
 /*
 プログレスバー(役立)
@@ -89,6 +97,27 @@ https://symfoware.blog.fc2.com/blog-entry-2033.html
 
 livedataに関して(developers)
 https://developer.android.com/topic/libraries/architecture/livedata?hl=ja
+
+livedataに関して(参考文献)
+https://toronavi.com/jetpack-livedata
+
+databinding
+https://toronavi.com/jetpack-databinding
+
+fragment
+https://qiita.com/m-coder/items/3a8e66d49f2830b09bf4
+
+
+activityからfragmentへのデータの受け渡し
+https://101010.fun/programming/android-try-fragment.html
+
+
+データの受け渡し
+https://aresei-note.com/1017
+https://teratail.com/questions/114570
+https://tech.mokelab.com/android/Fragment/argument.html
+https://tkm0on.hatenablog.com/entry/2015/05/26/180655
+
 
 
 
