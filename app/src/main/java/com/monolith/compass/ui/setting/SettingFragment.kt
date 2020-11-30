@@ -51,6 +51,7 @@ class SettingFragment : Fragment() {
         view.findViewById<Button>(R.id.btnSTOP).setOnClickListener(View.OnClickListener {
             _clickListener!!.onClick_stop()
         })
+
         view.findViewById<Button>(R.id.btnPOST).setOnClickListener(View.OnClickListener {
             datapost()
         })
