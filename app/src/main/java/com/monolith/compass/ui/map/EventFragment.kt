@@ -23,7 +23,7 @@ class EventFragment : Fragment() {
     ): View? {
         eventViewModel =
                 ViewModelProvider(this).get(EventViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_map, container, false)
+        val root = inflater.inflate(R.layout.fragment_event, container, false)
         //val textView: TextView = root.findViewById(R.id.txt_map)
         eventViewModel.text.observe(viewLifecycleOwner, Observer {
             //textView.text = it
