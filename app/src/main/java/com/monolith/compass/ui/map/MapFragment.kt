@@ -60,7 +60,7 @@ class MapFragment : Fragment() {
         layout.addView(moveview)
         layout.setWillNotDraw(false)
 
-        maploadtest()
+        mapReset()
 
         getMapData()
 
@@ -76,14 +76,9 @@ class MapFragment : Fragment() {
 
         val fab_current = view.findViewById<FloatingActionButton>(R.id.fab_current)
 
-        view.findViewById<FloatingActionButton>(R.id.fabBig).setOnClickListener {
-            scale += 5
-            HandlerDraw(moveview!!)
-        }
-        view.findViewById<FloatingActionButton>(R.id.fabSmall).setOnClickListener {
-            if (scale > 5) scale -= 5
-            HandlerDraw(moveview!!)
-        }
+        var pinchFlg=false
+
+        //地図を自分中心に戻す
         fab_current.setOnClickListener {
             posX = -2500
             posY = -2500
@@ -93,6 +88,10 @@ class MapFragment : Fragment() {
         //ビューにリスナーを設定
         view.setOnTouchListener { _, event ->
             mScaleDetector.onTouchEvent(event)
+
+            pinchFlg=false
+            if(event.pointerCount>1)pinchFlg=true
+
             when {
                 event.action == MotionEvent.ACTION_DOWN -> {
                     logX = event.x.toInt()
@@ -103,42 +102,39 @@ class MapFragment : Fragment() {
                     posY += event.y.toInt()!! - logY!!
                     logX = event.x.toInt()
                     logY = event.y.toInt()
-                    HandlerDraw(moveview!!)
                 }
             }
+            HandlerDraw(moveview!!)
             true
         }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        try {
-            mScaleDetector = ScaleGestureDetector(context,
-                object : OnScaleGestureListener {
-                    override fun onScale(detector: ScaleGestureDetector): Boolean {
-                        // ピンチイン・アウト中に継続して呼び出される
-                        // getScaleFactor()は『今回の2点タッチの距離/前回の2点タッチの距離』を返す
-                        scale *= detector.scaleFactor
-                        return true
-                    }
+        mScaleDetector = ScaleGestureDetector(context,
+            object : OnScaleGestureListener {
 
-                    override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
-                        Log.d("MyView", "MyView.onScaleBegin")
-                        return true
-                    }
+                //スケール変更処理
+                override fun onScale(detector: ScaleGestureDetector): Boolean {
+                    // ピンチイン・アウト中に継続して呼び出される
+                    // getScaleFactor()は『今回の2点タッチの距離/前回の2点タッチの距離』を返す
+                    scale *= detector.scaleFactor
+                    return true
+                }
 
-                    override fun onScaleEnd(detector: ScaleGestureDetector) {
-                        Log.d("MyView", "MyView.onScaleEnd")
-                    }
-                })
-        } catch (e: ClassCastException) {
-            throw ClassCastException(activity.toString() + "must implement OnArticleSelectedListener.")
-        }
+                override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+                    return true
+                }
+
+                override fun onScaleEnd(detector: ScaleGestureDetector) {
+                }
+            }
+        )
     }
 
 
     //マップ情報仮読み込み関数
-    fun maploadtest() {
+    fun mapReset() {
         for (y in 0 until 500) {
             for (x in 0 until 500) {
                 MAP[y][x] = 3
@@ -220,7 +216,5 @@ class MapFragment : Fragment() {
             }
         }
     }
-
-    //ここの読み込みから
 
 }
