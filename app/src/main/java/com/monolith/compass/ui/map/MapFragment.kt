@@ -6,30 +6,39 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import com.monolith.compass.ui.map.MapViewModel
-
 import android.os.Bundle
 import android.os.Handler
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import android.util.Log
+import android.view.*
+import android.view.ScaleGestureDetector.OnScaleGestureListener
+import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.monolith.compass.R
+import com.monolith.compass.ui.setting.SettingFragment
+import kotlin.random.Random
+
 
 class MapFragment : Fragment() {
 
     private lateinit var mapViewModel: MapViewModel
 
-    var moveview:MoveView?=null
+    private lateinit var mScaleDetector: ScaleGestureDetector
 
-    var tapX:Float? = null
-    var tapY:Float? = null
+
+    var moveview: MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
+
+    var scale: Float = 20F   //地図表示のスケール
+    var posX: Int = -2500    //地図表示の相対X座標
+    var posY: Int = -2500    //地図表示の絶対Y座標
+    var logX: Int? = null  //タップ追従用X座標
+    var logY: Int? = null  //タップ追従用Y座標
+
+    var MAP = Array(500, { arrayOfNulls<Int>(500) }) //地図データ保持用変数
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,59 +47,131 @@ class MapFragment : Fragment() {
     ): View? {
         mapViewModel =
             ViewModelProvider(this).get(MapViewModel::class.java)
-        val view=inflater.inflate(R.layout.fragment_map,container,false)
-        val layout=view.findViewById<ConstraintLayout>(R.id.constmap)
-        moveview=MoveView(this.activity)
+        val view = inflater.inflate(R.layout.fragment_map, container, false)
+        val layout = view.findViewById<ConstraintLayout>(R.id.constmap)
+        moveview = MoveView(this.activity)
         layout.addView(moveview)
         layout.setWillNotDraw(false)
+
+        maploadtest()
 
         HandlerDraw(moveview!!)
 
         return view
     }
 
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val fab_current = view.findViewById<FloatingActionButton>(R.id.fab_current)
+
+        view.findViewById<FloatingActionButton>(R.id.fabBig).setOnClickListener {
+            scale += 5
+            HandlerDraw(moveview!!)
+        }
+        view.findViewById<FloatingActionButton>(R.id.fabSmall).setOnClickListener {
+            if (scale > 5) scale -= 5
+            HandlerDraw(moveview!!)
+        }
+        fab_current.setOnClickListener {
+            posX = -2500
+            posY = -2500
+            HandlerDraw(moveview!!)
+        }
+
         //ビューにリスナーを設定
         view.setOnTouchListener { _, event ->
-            if (event.action== MotionEvent.ACTION_DOWN||event.action == MotionEvent.ACTION_MOVE) {
-                //MoveView(this.activity).postInvalidate()
-                tapX=event.x
-                tapY=event.y
-
-                HandlerDraw(moveview!!)
+            mScaleDetector.onTouchEvent(event)
+            when {
+                event.action == MotionEvent.ACTION_DOWN -> {
+                    logX = event.x.toInt()
+                    logY = event.y.toInt()
+                }
+                event.action == MotionEvent.ACTION_MOVE -> {
+                    posX += event.x.toInt() - logX!!
+                    posY += event.y.toInt()!! - logY!!
+                    logX = event.x.toInt()
+                    logY = event.y.toInt()
+                    HandlerDraw(moveview!!)
+                }
             }
             true
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            mScaleDetector = ScaleGestureDetector(context,
+                object : OnScaleGestureListener {
+                    override fun onScale(detector: ScaleGestureDetector): Boolean {
+                        // ピンチイン・アウト中に継続して呼び出される
+                        // getScaleFactor()は『今回の2点タッチの距離/前回の2点タッチの距離』を返す
+                        scale*=detector.scaleFactor
+                        return true
+                    }
 
-    fun HandlerDraw(mv:MoveView){
+                    override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+                        Log.d("MyView", "MyView.onScaleBegin")
+                        return true
+                    }
+
+                    override fun onScaleEnd(detector: ScaleGestureDetector) {
+                        Log.d("MyView", "MyView.onScaleEnd")
+                    }
+                })
+        } catch (e: ClassCastException) {
+            throw ClassCastException(activity.toString() + "must implement OnArticleSelectedListener.")
+        }
+    }
+
+
+    //マップ情報仮読み込み関数
+    fun maploadtest() {
+        for (y in 0 until 500) {
+            for (x in 0 until 500) {
+                MAP[y][x] = Random.nextInt(4)
+            }
+        }
+    }
+
+    //描画関数　再描画用
+    fun HandlerDraw(mv: MoveView) {
         val handler = Handler()
-        handler.post(object : Runnable{
+        handler.post(object : Runnable {
             override fun run() {
                 mv.invalidate()
             }
         })
     }
 
-    inner class MoveView: View {
+    inner class MoveView : View {
         constructor(context: Context?) : super(context)
         constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-        constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+        constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+            context,
+            attrs,
+            defStyleAttr
+        )
 
         @SuppressLint("DrawAllocation")
-        override fun onDraw(canvas : Canvas?){
+        override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
 
-            val paint = Paint()
-            paint.color = Color.RED
+            val paint: Array<Paint> = Array<Paint>(5) { Paint() }
+            paint[0].color = Color.parseColor("#FFFFFF")
+            paint[1].color = Color.parseColor("#CCCCCC")
+            paint[2].color = Color.parseColor("#666666")
+            paint[3].color = Color.parseColor("#000000")
 
-            if(tapX!=null&&tapY!=null){
-                val rect = Rect((tapX!!-100).toInt(), (tapY!!-100).toInt(), (tapX!!+100).toInt(), (tapY!!+100).toInt())
-                canvas!!.drawRect(rect, paint)
+
+            for (y in 0 until 500) {
+                for (x in 0 until 500) {
+                    val rect=Rect((x*scale+posX).toInt(), (y*scale+posY).toInt(), (x*scale+scale+posX).toInt(), (y*scale+scale+posY).toInt())
+                    canvas!!.drawRect(rect,paint[MAP[y][x]!!])
+                }
             }
 
         }
