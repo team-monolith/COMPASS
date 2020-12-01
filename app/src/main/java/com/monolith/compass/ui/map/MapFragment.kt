@@ -2,10 +2,7 @@ package com.monolith.compass.ui.map
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.os.Bundle
 import android.os.Handler
 import android.util.AttributeSet
@@ -13,6 +10,7 @@ import android.util.Log
 import android.view.*
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
+import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -44,9 +42,12 @@ class MapFragment : Fragment() {
     var logX: Int? = null  //タップ追従用X座標
     var logY: Int? = null  //タップ追従用Y座標
 
+    var centerX: Int = 0 //地図の中心点（現在地）の計算用
+    var centerY: Int = 0 //地図の中心点（現在地）の計算用
+
     var MAP = Array(500, { arrayOfNulls<Int>(500) }) //地図データ保持用変数
 
-    var size:Rect?=null
+    var size: Rect? = null
 
 
     override fun onCreateView(
@@ -54,6 +55,11 @@ class MapFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        //最優先でデータをダウンロード
+        mapReset()
+        getMapData()
+
         mapViewModel =
             ViewModelProvider(this).get(MapViewModel::class.java)
         val view = inflater.inflate(R.layout.fragment_map, container, false)
@@ -62,12 +68,6 @@ class MapFragment : Fragment() {
 
         layout.addView(moveview)
         layout.setWillNotDraw(false)
-
-        mapReset()
-
-        getMapData()
-
-        HandlerDraw(moveview!!)
 
         return view
     }
@@ -79,21 +79,38 @@ class MapFragment : Fragment() {
 
         val fab_current = view.findViewById<FloatingActionButton>(R.id.fab_current)
 
+        size = Rect()
+        activity?.window?.decorView?.getWindowVisibleDisplayFrame(size)
+
+        //画面の中心座標を取得
+        centerX = (-250 * scale + (size!!.width() + scale) / 2).toInt()
+        centerY = (-250 * scale + (size!!.height()) / 3 * 2 + (scale / 2)).toInt()
+
+        //表示座標を中心に設定
+        posX=centerX
+        posY=centerY
+
+        //FABボタンを水色に変更
+        fab_current.setColorFilter(Color.parseColor("#00AAFF"))
+
+        //アニメーションループを再生
+        HandlerDraw(moveview!!)
+
 
         //地図を自分中心に戻す
         fab_current.setOnClickListener {
-            posX = (-250*scale+(size!!.width()+scale)/2).toInt()
-            posY = (-250*scale+(size!!.height())/4*3+(scale/2)).toInt()
+            posX = centerX
+            posY = centerY
+            fab_current.setColorFilter(Color.parseColor("#00AAFF"))
             HandlerDraw(moveview!!)
         }
 
         //ビューにリスナーを設定
         view.setOnTouchListener { _, event ->
 
-            if(event.pointerCount>1){
+            if (event.pointerCount > 1) {
                 mScaleDetector.onTouchEvent(event)
-            }
-            else{
+            } else {
                 when {
                     event.action == MotionEvent.ACTION_DOWN -> {
                         logX = event.x.toInt()
@@ -107,12 +124,14 @@ class MapFragment : Fragment() {
                     }
                 }
             }
+
+            //中心にいない場合はFABを黒色にする
+            if (!isCenter(posX, posY)) fab_current.setColorFilter(Color.parseColor("#000000"))
+
+            //描画処理
             HandlerDraw(moveview!!)
             true
         }
-
-        size = Rect()
-        activity?.window?.decorView?.getWindowVisibleDisplayFrame(size)
 
     }
 
@@ -125,21 +144,37 @@ class MapFragment : Fragment() {
                 override fun onScale(detector: ScaleGestureDetector): Boolean {
                     // ピンチイン・アウト中に継続して呼び出される
                     // getScaleFactor()は『今回の2点タッチの距離/前回の2点タッチの距離』を返す
+
+                    posX += (scale * scale / 2).toInt()
+                    posY += (scale * scale / 2).toInt()
+
                     scale *= detector.scaleFactor
-                    if(scale<=20f){
-                        scale=20f
+                    if (scale <= 15f) {
+                        scale = 15f
                         //ここで地図の再ロード処理
                     }
-                    posX+=detector.focusX.toInt()-logX!!
-                    posY+=detector.focusY.toInt()-logY!!
-                    logX=detector.focusX.toInt()
-                    logY=detector.focusY.toInt()
+                    if (scale >= 45f) {
+                        scale = 45f
+                        //ここでも地図の再ロード処理
+                    }
+
+                    posX -= (scale * scale / 2).toInt()
+                    posY -= (scale * scale / 2).toInt()
+
+                    posX += detector.focusX.toInt() - logX!!
+                    posY += detector.focusY.toInt() - logY!!
+                    logX = detector.focusX.toInt()
+                    logY = detector.focusY.toInt()
+
+                    //画面中心に戻すための位置を再計算
+                    centerX = (-250 * scale + (size!!.width() + scale) / 2).toInt()
+                    centerY = (-250 * scale + (size!!.height()) / 3 * 2 + (scale / 2)).toInt()
                     return true
                 }
 
                 override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
-                    logX=detector.focusX.toInt()
-                    logY=detector.focusY.toInt()
+                    logX = detector.focusX.toInt()
+                    logY = detector.focusY.toInt()
                     return true
                 }
 
@@ -154,7 +189,7 @@ class MapFragment : Fragment() {
     fun mapReset() {
         for (y in 0 until 500) {
             for (x in 0 until 500) {
-                MAP[y][x] = 3
+                MAP[y][x] = -1
             }
         }
     }
@@ -164,8 +199,14 @@ class MapFragment : Fragment() {
         handler.post(object : Runnable {
             override fun run() {
                 mv.invalidate()
+                if(MAP[499][499]==-1)handler.postDelayed(this, 1)
             }
         })
+    }
+
+    //センター検出用 trueで中心
+    fun isCenter(x: Int, y: Int): Boolean {
+        return centerX == x && centerY == y
     }
 
     inner class MoveView : View {
@@ -187,8 +228,8 @@ class MapFragment : Fragment() {
             paint[2].color = Color.parseColor("#666666")
             paint[3].color = Color.parseColor("#000000")
 
-            val Circle=Paint()
-            Circle.color=Color.parseColor("#FF0000")
+            val Circle = Paint()
+            Circle.color = Color.parseColor("#FF0000")
 
 
             for (y in 0 until 500) {
@@ -199,12 +240,10 @@ class MapFragment : Fragment() {
                         (x * scale + scale + posX).toInt(),
                         (y * scale + scale + posY).toInt()
                     )
-                    canvas!!.drawRect(rect, paint[MAP[y][x]!!])
+                    if (MAP[y][x]!! > 0) canvas!!.drawRect(rect, paint[MAP[y][x]!!])
                 }
             }
-
-            canvas!!.drawCircle(size!!.width()/2f,size!!.height()/4*3f,25f,Circle)
-
+            canvas!!.drawCircle(size!!.width() / 2f, size!!.height() / 3 * 2f, 25f, Circle)
         }
     }
 
@@ -218,19 +257,17 @@ class MapFragment : Fragment() {
                 when (result) {
                     is Result.Success -> {
                         setMap(String(response.data))
-                        HandlerDraw(MoveView(this.activity))
+                        MoveView(this.activity).invalidate()
                     }
                     is Result.Failure -> {
                     }
                 }
             }
-
     }
 
     fun setMap(data: String) {
-        val str = data.replace("\r\n", ",")
-        val scan = Scanner(str)
-        scan.useDelimiter(",")
+        val scan = Scanner(data)
+        scan.useDelimiter(",|\r\n")
         val n = 0
         for (fy in 0 until 500) {
             for (fx in 0 until 500) {
