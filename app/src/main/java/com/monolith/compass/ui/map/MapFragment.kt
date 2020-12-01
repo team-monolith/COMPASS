@@ -1,8 +1,9 @@
-package com.monolith.compass.ui.map
+package com.monolith. compass.ui.map
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.util.AttributeSet
@@ -48,7 +49,14 @@ class MapFragment : Fragment() {
     var CurrentMAP = Array(500, { arrayOfNulls<Int>(500) }) //現在地周辺地図データ保持用変数
     var OtherMAP=Array(500, { arrayOfNulls<Int>(500) }) //現在地以外の地図データ保持用変数
 
+    var Current_X:Float?=null   //現在地マップの中心座標
+    var Current_Y:Float?=null   //現在地マップの中心座標
+    var Other_X:Float?=null     //現在地以外のマップの中心座標
+    var Other_Y:Float?=null     //現在地以外のマップの中心座標
+
     var size: Rect? = null
+
+    var location: Location?=null
 
 
     override fun onCreateView(
@@ -77,6 +85,13 @@ class MapFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        location?.latitude =33.5841
+        location?.longitude=130.4088
+        location?.accuracy=30f
+        location?.speed=10f
+
 
         //FABボタンID取得
         val fab_current=view.findViewById<FloatingActionButton>(R.id.fab_current)
@@ -250,6 +265,9 @@ class MapFragment : Fragment() {
             val Circle = Paint()
             Circle.color = Color.parseColor("#FF0000")
 
+            val Circle2 = Paint()
+            Circle.color = Color.parseColor("#00FF00")
+
 
             for (y in 0 until 500) {
                 for (x in 0 until 500) {
@@ -263,6 +281,10 @@ class MapFragment : Fragment() {
                 }
             }
             canvas!!.drawCircle(size!!.width() / 2f, size!!.height() / 4 * 3f, 25f, Circle)
+
+            //現在地の表示処理を記述するところから再開
+            /*canvas!!.drawCircle((size!!.height() / 2+(location!!.longitude-Current_X!!)*scale).toFloat(),
+                (size!!.height() / 4 * 3+(Current_Y!!-location!!.latitude)*scale).toFloat(), 25f, Circle2)*/
         }
     }
 
@@ -289,6 +311,11 @@ class MapFragment : Fragment() {
     fun setMap(data: String) {
         val scan = Scanner(data)
         scan.useDelimiter(",|\r\n")
+
+        Current_X=130.4088f
+        Current_Y=33.5841f
+
+
         for (fy in 0 until 500) {
             for (fx in 0 until 500) {
                 if (scan.hasNextInt()) CurrentMAP[fy][fx] = scan.nextInt()
