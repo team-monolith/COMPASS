@@ -38,13 +38,15 @@ class MapFragment : Fragment() {
 
     var moveview: MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
 
-    var scale: Float = 20F   //地図表示のスケール
+    var scale: Float = 30F   //地図表示のスケール
     var posX: Int = 0    //地図表示の相対X座標
     var posY: Int = 0    //地図表示の絶対Y座標
     var logX: Int? = null  //タップ追従用X座標
     var logY: Int? = null  //タップ追従用Y座標
 
     var MAP = Array(500, { arrayOfNulls<Int>(500) }) //地図データ保持用変数
+
+    var size:Rect?=null
 
 
     override fun onCreateView(
@@ -57,6 +59,7 @@ class MapFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_map, container, false)
         val layout = view.findViewById<ConstraintLayout>(R.id.constmap)
         moveview = MoveView(this.activity)
+
         layout.addView(moveview)
         layout.setWillNotDraw(false)
 
@@ -76,37 +79,41 @@ class MapFragment : Fragment() {
 
         val fab_current = view.findViewById<FloatingActionButton>(R.id.fab_current)
 
-        var pinchFlg=false
 
         //地図を自分中心に戻す
         fab_current.setOnClickListener {
-            posX = -2500
-            posY = -2500
+            posX = (-250*scale+(size!!.width()+scale)/2).toInt()
+            posY = (-250*scale+(size!!.height())/4*3+(scale/2)).toInt()
             HandlerDraw(moveview!!)
         }
 
         //ビューにリスナーを設定
         view.setOnTouchListener { _, event ->
-            mScaleDetector.onTouchEvent(event)
 
-            pinchFlg=false
-            if(event.pointerCount>1)pinchFlg=true
-
-            when {
-                event.action == MotionEvent.ACTION_DOWN -> {
-                    logX = event.x.toInt()
-                    logY = event.y.toInt()
-                }
-                event.action == MotionEvent.ACTION_MOVE -> {
-                    posX += event.x.toInt() - logX!!
-                    posY += event.y.toInt()!! - logY!!
-                    logX = event.x.toInt()
-                    logY = event.y.toInt()
+            if(event.pointerCount>1){
+                mScaleDetector.onTouchEvent(event)
+            }
+            else{
+                when {
+                    event.action == MotionEvent.ACTION_DOWN -> {
+                        logX = event.x.toInt()
+                        logY = event.y.toInt()
+                    }
+                    event.action == MotionEvent.ACTION_MOVE -> {
+                        posX += event.x.toInt() - logX!!
+                        posY += event.y.toInt()!! - logY!!
+                        logX = event.x.toInt()
+                        logY = event.y.toInt()
+                    }
                 }
             }
             HandlerDraw(moveview!!)
             true
         }
+
+        size = Rect()
+        activity?.window?.decorView?.getWindowVisibleDisplayFrame(size)
+
     }
 
     override fun onAttach(context: Context) {
@@ -119,10 +126,20 @@ class MapFragment : Fragment() {
                     // ピンチイン・アウト中に継続して呼び出される
                     // getScaleFactor()は『今回の2点タッチの距離/前回の2点タッチの距離』を返す
                     scale *= detector.scaleFactor
+                    if(scale<=20f){
+                        scale=20f
+                        //ここで地図の再ロード処理
+                    }
+                    posX+=detector.focusX.toInt()-logX!!
+                    posY+=detector.focusY.toInt()-logY!!
+                    logX=detector.focusX.toInt()
+                    logY=detector.focusY.toInt()
                     return true
                 }
 
                 override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+                    logX=detector.focusX.toInt()
+                    logY=detector.focusY.toInt()
                     return true
                 }
 
@@ -170,6 +187,9 @@ class MapFragment : Fragment() {
             paint[2].color = Color.parseColor("#666666")
             paint[3].color = Color.parseColor("#000000")
 
+            val Circle=Paint()
+            Circle.color=Color.parseColor("#FF0000")
+
 
             for (y in 0 until 500) {
                 for (x in 0 until 500) {
@@ -182,6 +202,8 @@ class MapFragment : Fragment() {
                     canvas!!.drawRect(rect, paint[MAP[y][x]!!])
                 }
             }
+
+            canvas!!.drawCircle(size!!.width()/2f,size!!.height()/4*3f,25f,Circle)
 
         }
     }

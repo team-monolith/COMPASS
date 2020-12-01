@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         if (requestCode == 1000) {
             // 使用が許可された
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startLocationService()
             } else {
                 // それでも拒否された時の対応
                 MyApp().toastMake(this,"位置情報が取得できないため終了します")
