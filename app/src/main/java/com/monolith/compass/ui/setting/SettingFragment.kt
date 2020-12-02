@@ -55,6 +55,7 @@ class SettingFragment : Fragment() {
         view.findViewById<Button>(R.id.btnSTOP).setOnClickListener(View.OnClickListener {
             _clickListener!!.onClick_stop()
         })
+
         view.findViewById<Button>(R.id.btnPOST).setOnClickListener(View.OnClickListener {
             datapost()
         })
@@ -90,7 +91,7 @@ class SettingFragment : Fragment() {
         val POSTDATA = HashMap<String, String>()
         POSTDATA.put("data", "monolith")
 
-        GLOBAL.SERVER_URL+"send.php".httpPost(POSTDATA.toList()).response { _, response, result ->
+        "https://ky-server.net/~monolith/system/send.php".httpPost(POSTDATA.toList()).response { _, response, result ->
             when (result) {
                 is Result.Success -> {
                 }

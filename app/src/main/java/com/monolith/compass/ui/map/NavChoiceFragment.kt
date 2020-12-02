@@ -40,7 +40,6 @@ class NavChoiceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.btnMap).setOnClickListener{
-            getFragmentManager()?.beginTransaction()?.remove(this)?.commit()
             findNavController().navigate(R.id.action_navigation_navchoice_to_navigation_map)
         }
         view.findViewById<Button>(R.id.btnEvent).setOnClickListener {

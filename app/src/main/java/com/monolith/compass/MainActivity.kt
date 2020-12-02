@@ -13,12 +13,20 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.profile.ProfileFragment
+import com.monolith.compass.ui.profile.ProfileViewModel
 import com.monolith.compass.ui.setting.SettingFragment
 
 
 class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
 
     val GLOBAL= MyApp.getInstance()
+
+
+    var SharedValue  ="こんにちは"
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +79,6 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         if (requestCode == 1000) {
             // 使用が許可された
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startLocationService()
             } else {
                 // それでも拒否された時の対応
                 MyApp().toastMake(this,"位置情報が取得できないため終了します")

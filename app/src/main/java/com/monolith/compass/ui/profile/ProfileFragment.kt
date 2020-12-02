@@ -1,20 +1,24 @@
 package com.monolith.compass.ui.profile
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.monolith.compass.MainActivity
 import com.monolith.compass.R
+
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var profileViewModel: ProfileViewModel
 
+    private lateinit var profileViewModel: ProfileViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,13 +34,20 @@ class ProfileFragment : Fragment() {
         val progressBar:ProgressBar =root.findViewById(R.id.progress_bar)
 
 
+        val ma = activity as MainActivity?
+
+        var value =ma?.SharedValue
+
+        textView.text = value
+
+
         imgCard.setImageResource(R.drawable.ic_launcher_background)
 
         //imgBtn.setBackgroundResource(R.drawable.ic_launcher_background)
 
 
-
         imgCard.setOnClickListener {
+            ma?.SharedValue = "こんばんは"
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
 
@@ -48,18 +59,21 @@ class ProfileFragment : Fragment() {
             }
         }
 
+
         imgBtn.setOnClickListener{
-            textView.text ="cccc"
+            //textView.text = testtext
+            //test = textView.text.toString()
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
+
         }
 
-        profileViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        profileViewModel.test.observe(viewLifecycleOwner, Observer {
+            //textView.text = profileViewModel.getValue()
         })
 
         return root
     }
 }
-
 
 /*
 プログレスバー(役立)
@@ -89,6 +103,32 @@ https://symfoware.blog.fc2.com/blog-entry-2033.html
 
 livedataに関して(developers)
 https://developer.android.com/topic/libraries/architecture/livedata?hl=ja
+
+livedataに関して(参考文献)
+https://toronavi.com/jetpack-livedata
+
+databinding
+https://toronavi.com/jetpack-databinding
+
+fragment
+https://qiita.com/m-coder/items/3a8e66d49f2830b09bf4
+
+
+activityからfragmentへのデータの受け渡し
+https://101010.fun/programming/android-try-fragment.html
+
+
+データの受け渡し
+https://aresei-note.com/1017
+https://teratail.com/questions/114570
+https://tech.mokelab.com/android/Fragment/argument.html
+https://tkm0on.hatenablog.com/entry/2015/05/26/180655
+
+
+
+
+fragment savedinstancestateについて
+https://stackoverflow.com/questions/20550016/savedinstancestate-is-always-null-in-fragment
 
 
 
