@@ -55,7 +55,26 @@
         android:id="@+id/navigation_setting"
         android:name="com.monolith.compass.ui.setting.SettingFragment"
         android:label="@string/title_setting"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_navigation_setting_to_usrinfoFragment"
+            app:destination="@id/usrinfoFragment" />
+        <action
+            android:id="@+id/action_navigation_setting_to_systemSettingFragment"
+            app:destination="@id/systemSettingFragment" />
+        <action
+            android:id="@+id/action_navigation_setting_to_infomationFragment"
+            app:destination="@id/infomationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/usrinfoFragment"
+        android:name="com.monolith.compass.ui.setting.UsrinfoFragment"
+        android:label="fragment_usrinfo"
+        tools:layout="@layout/fragment_usrinfo" >
+        <action
+            android:id="@+id/action_usrinfoFragment_to_navigation_setting"
+            app:destination="@id/navigation_setting" />
+    </fragment>
 
     <fragment
         android:id ="@+id/navigation_profile_edit"
@@ -66,4 +85,14 @@
             android:id="@+id/action_navigation_profile_edit_to_navigation_profile"
             app:destination="@id/navigation_profile" />
     </fragment>
+    <fragment
+        android:id="@+id/systemSettingFragment"
+        android:name="com.monolith.compass.ui.setting.SystemSettingFragment"
+        android:label="fragment_system_setting"
+        tools:layout="@layout/fragment_system_setting" />
+    <fragment
+        android:id="@+id/infomationFragment"
+        android:name="com.monolith.compass.ui.setting.InfomationFragment"
+        android:label="fragment_infomation"
+        tools:layout="@layout/fragment_infomation" />
 </navigation>

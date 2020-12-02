@@ -10,7 +10,7 @@
         android:id="@+id/txt_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="設定画面"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,8 @@
         app:layout_constraintHorizontal_bias="0.795"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_setting"
-        app:layout_constraintVertical_bias="0.652" />
+        app:layout_constraintVertical_bias="0.652"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/btnSTART"
@@ -38,7 +39,19 @@
         app:layout_constraintHorizontal_bias="0.275"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_setting"
-        app:layout_constraintVertical_bias="0.652" />
+        app:layout_constraintVertical_bias="0.652"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/btnUSRINFO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="ユーザー情報"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/btnPOST"
@@ -48,5 +61,29 @@
         app:layout_constraintBottom_toTopOf="@+id/btnSTART"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_setting" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_setting"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/btnSystemSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="システム設定"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnUSRINFO"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnInfomation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="お知らせ"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSystemSetting"
+        tools:ignore="HardcodedText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

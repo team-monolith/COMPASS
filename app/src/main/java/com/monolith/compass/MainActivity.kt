@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
     }
 
 
+
+
     // 結果の受け取り
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String?>,
@@ -91,6 +93,9 @@ class MainActivity : AppCompatActivity(), SettingFragment.OnClickListener{
         stopLocationService()
         MyApp().toastMake(this,"計測を終了します")
     }
+
+
+
 
     //位置情報取得を開始
     fun startLocationService() {

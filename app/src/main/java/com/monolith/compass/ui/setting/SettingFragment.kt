@@ -7,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
@@ -54,7 +58,16 @@ class SettingFragment : Fragment() {
         view.findViewById<Button>(R.id.btnPOST).setOnClickListener(View.OnClickListener {
             datapost()
         })
-
+        view.findViewById<Button>(R.id.btnUSRINFO).setOnClickListener (View.OnClickListener {
+            //Toast.makeText(context,"テストメッセージ",Toast.LENGTH_LONG).show()
+            findNavController().navigate(R.id.action_navigation_setting_to_usrinfoFragment)
+        })
+        view.findViewById<Button>(R.id.btnSystemSetting).setOnClickListener (View.OnClickListener {
+            findNavController().navigate(R.id.action_navigation_setting_to_systemSettingFragment)
+        })
+        view.findViewById<Button>(R.id.btnInfomation).setOnClickListener (View.OnClickListener {
+            findNavController().navigate(R.id.action_navigation_setting_to_infomationFragment)
+        })
     }
 
     override fun onAttach(context: Context) {
