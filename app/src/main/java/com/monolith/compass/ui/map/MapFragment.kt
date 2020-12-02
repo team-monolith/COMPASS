@@ -1,4 +1,4 @@
-package com.monolith. compass.ui.map
+package com.monolith.compass.ui.map
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -47,16 +47,16 @@ class MapFragment : Fragment() {
     var centerY: Int = 0 //地図の中心点（現在地）の計算用
 
     var CurrentMAP = Array(500, { arrayOfNulls<Int>(500) }) //現在地周辺地図データ保持用変数
-    var OtherMAP=Array(500, { arrayOfNulls<Int>(500) }) //現在地以外の地図データ保持用変数
+    var OtherMAP = Array(500, { arrayOfNulls<Int>(500) }) //現在地以外の地図データ保持用変数
 
-    var Current_X:Float?=null   //現在地マップの中心座標
-    var Current_Y:Float?=null   //現在地マップの中心座標
-    var Other_X:Float?=null     //現在地以外のマップの中心座標
-    var Other_Y:Float?=null     //現在地以外のマップの中心座標
+    var Current_X: Float? = null   //現在地マップの中心座標
+    var Current_Y: Float? = null   //現在地マップの中心座標
+    var Other_X: Float? = null     //現在地以外のマップの中心座標
+    var Other_Y: Float? = null     //現在地以外のマップの中心座標
+    var Location_X: Float? = null   //ユーザの現在地のX座標
+    var Location_Y: Float? = null   //ユーザの現在地のY座標
 
     var size: Rect? = null
-
-    var location: Location?=null
 
 
     override fun onCreateView(
@@ -87,14 +87,12 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        location?.latitude =33.5841
-        location?.longitude=130.4088
-        location?.accuracy=30f
-        location?.speed=10f
+        Location_X = 130.4089f
+        Location_Y = 33.5844f
 
 
         //FABボタンID取得
-        val fab_current=view.findViewById<FloatingActionButton>(R.id.fab_current)
+        val fab_current = view.findViewById<FloatingActionButton>(R.id.fab_current)
 
         //画面サイズ取得
         size = Rect()
@@ -105,11 +103,12 @@ class MapFragment : Fragment() {
         centerY = (-250 * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
 
         //表示座標を中心に設定
-        posX=centerX
-        posY=centerY
+        posX = centerX
+        posY = centerY
 
         //FABボタンを水色に変更
-        view.findViewById<FloatingActionButton>(R.id.fab_current).setColorFilter(Color.parseColor("#00AAFF"))
+        view.findViewById<FloatingActionButton>(R.id.fab_current)
+            .setColorFilter(Color.parseColor("#00AAFF"))
 
         //アニメーションループを再生
         HandlerDraw(moveview!!)
@@ -117,13 +116,22 @@ class MapFragment : Fragment() {
 
         //ビューにリスナーを設定
         view.setOnTouchListener { _, event ->
-            onTouch(view,event)
+            onTouch(view, event)
         }
 
         //FABボタンリスナー
         fab_current.setOnClickListener {
-            posX = centerX
-            posY = centerY
+            //表示座標を中心に設定
+            if (Location_X != null && Current_X != null) {
+                val cx=((Location_X!! - Current_X!!) * 10000).toInt()
+                val cy=((Location_Y!! - Current_Y!!) * 10000).toInt()
+                posX =(-250 * scale -((Location_X!! - Current_X!!) * 10000).toInt()*scale+ (size!!.width() + scale) / 2).toInt()
+                posY =(-250 * scale -((Location_Y!! - Current_Y!!) * 10000).toInt()*scale+ (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+            } else {
+                //posX = centerX
+                //posY = centerY
+            }
+
             fab_current.setColorFilter(Color.parseColor("#00AAFF"))
             HandlerDraw(moveview!!)
         }
@@ -131,7 +139,7 @@ class MapFragment : Fragment() {
     }
 
     //タッチイベント実行時処理
-    fun onTouch(view:View,event:MotionEvent):Boolean{
+    fun onTouch(view: View, event: MotionEvent): Boolean {
 
         //複数本タッチの場合はピンチ処理
         if (event.pointerCount > 1) {
@@ -221,7 +229,7 @@ class MapFragment : Fragment() {
         for (y in 0 until 500) {
             for (x in 0 until 500) {
                 CurrentMAP[y][x] = -1
-                OtherMAP[y][x]=-1
+                OtherMAP[y][x] = -1
             }
         }
     }
@@ -233,7 +241,7 @@ class MapFragment : Fragment() {
                 //再描画
                 mv.invalidate()
                 //地図データが未完成の場合はリフレッシュし続ける
-                if(CurrentMAP[499][499]==-1)handler.postDelayed(this, 1)
+                if (CurrentMAP[499][499] == -1) handler.postDelayed(this, 1)
             }
         })
     }
@@ -264,9 +272,10 @@ class MapFragment : Fragment() {
 
             val Circle = Paint()
             Circle.color = Color.parseColor("#FF0000")
-
+            Circle.isAntiAlias = true
             val Circle2 = Paint()
-            Circle.color = Color.parseColor("#00FF00")
+            Circle2.color = Color.parseColor("#00FF00")
+            Circle2.isAntiAlias = true
 
 
             for (y in 0 until 500) {
@@ -282,9 +291,17 @@ class MapFragment : Fragment() {
             }
             canvas!!.drawCircle(size!!.width() / 2f, size!!.height() / 4 * 3f, 25f, Circle)
 
-            //現在地の表示処理を記述するところから再開
-            /*canvas!!.drawCircle((size!!.height() / 2+(location!!.longitude-Current_X!!)*scale).toFloat(),
-                (size!!.height() / 4 * 3+(Current_Y!!-location!!.latitude)*scale).toFloat(), 25f, Circle2)*/
+            //現在地等わかっている場合は現在地を表示
+            if (Location_X != null && Current_X != null) {
+                val cx=(250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2
+                val cy=(250 * scale + posY) + (((Location_Y!! - Current_Y!!) * 10000).toInt()) * scale - scale / 2
+                canvas!!.drawCircle(
+                    (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
+                    (250 * scale + posY) + (((Location_Y!! - Current_Y!!) * 10000).toInt()) * scale - scale / 2,
+                    scale,
+                    Circle2
+                )
+            }
         }
     }
 
@@ -312,8 +329,8 @@ class MapFragment : Fragment() {
         val scan = Scanner(data)
         scan.useDelimiter(",|\r\n")
 
-        Current_X=130.4088f
-        Current_Y=33.5841f
+        Current_X = 130.4088f
+        Current_Y = 33.5841f
 
 
         for (fy in 0 until 500) {
