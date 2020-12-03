@@ -49,11 +49,11 @@ class SettingFragment : Fragment() {
         super.onViewCreated(view,savedInstanceState)
 
         view.findViewById<Button>(R.id.btnSTART).setOnClickListener(View.OnClickListener {
-            _clickListener!!.onClick_start()
+            _clickListener?.onClick_start()
         })
 
         view.findViewById<Button>(R.id.btnSTOP).setOnClickListener(View.OnClickListener {
-            _clickListener!!.onClick_stop()
+            _clickListener?.onClick_stop()
         })
 
         view.findViewById<Button>(R.id.btnPOST).setOnClickListener(View.OnClickListener {

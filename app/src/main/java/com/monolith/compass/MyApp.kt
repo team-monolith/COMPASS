@@ -15,9 +15,16 @@ class MyApp: Application(){
     val CENTRAL_LATITUDE:Int=1304088//X座標側、下四桁が少数
     val CENTRAL_LONGITUDE:Int=335841//Y座標側、下四桁が小数
 
+    var GPS_LOG_X:Float?=null
+    var GPS_LOG_Y:Float?=null
+    var GPS_LOG_A:Float?=null
+    var GPS_LOG_S:Float?=null
+
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
     //500x500でバッファリングする
+
+    //1単位当たり10mで計算
 
     //開始時処理
     override fun onCreate(){
