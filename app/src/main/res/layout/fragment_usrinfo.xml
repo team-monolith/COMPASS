@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.setting.UsrinfoFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="720dp">
+
+                    <EditText
+                        android:id="@+id/editWeight"
+                        android:layout_width="285dp"
+                        android:layout_height="63dp"
+                        android:layout_marginTop="72dp"
+                        android:hint="体重/Kg"
+                        android:inputType="number"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.738"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="Autofill,HardcodedText,MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/textWeight"
+                        android:layout_width="51dp"
+                        android:layout_height="31dp"
+                        android:layout_marginTop="84dp"
+                        android:text="体重"
+                        android:textAlignment="center"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toStartOf="@+id/editWeight"
+                        app:layout_constraintHorizontal_bias="0.38"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText,MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="68dp"
+                        android:hint="身長"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toStartOf="@+id/editHeight"
+                        app:layout_constraintHorizontal_bias="0.521"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textWeight"
+                        tools:ignore="HardcodedText" />
+
+                    <EditText
+                        android:id="@+id/editHeight"
+                        android:layout_width="285dp"
+                        android:layout_height="63dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginEnd="32dp"
+                        android:ems="10"
+                        android:hint="身長/cm"
+                        android:inputType="number"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/editWeight"
+                        tools:ignore="Autofill,HardcodedText" />
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="285dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="276dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.746"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints" />
+
+                    <Button
+                        android:id="@+id/buttonUsrinfoSave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="404dp"
+                        android:layout_marginEnd="80dp"
+                        android:text="保存"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
+
+                    <Button
+                        android:id="@+id/buttonUsrinfoCancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="80dp"
+                        android:layout_marginTop="404dp"
+                        android:text="キャンセル"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
+
+                    <ImageView
+                        android:id="@+id/imgAlert"
+                        android:layout_width="34dp"
+                        android:layout_height="28dp"
+                        android:src="?android:attr/alertDialogIcon"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toStartOf="@+id/spinner"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_editor_absoluteY="276dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
