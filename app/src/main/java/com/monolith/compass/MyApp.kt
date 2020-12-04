@@ -18,12 +18,13 @@ class MyApp: Application(){
     val CENTRAL_LATITUDE:Int=1304090//X座標側、下四桁が少数
     val CENTRAL_LONGITUDE:Int=335840//Y座標側、下四桁が小数
 
-    var GPS_LOG_X:Float?=null
-    var GPS_LOG_Y:Float?=null
-    var GPS_LOG_A:Float?=null
-    var GPS_LOG_S:Float?=null
-
     var DIRECTORY:String?=null
+
+    data class GPSDATA(var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
+
+    var GPS_LOG=mutableListOf<GPSDATA>()
+
+    var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
@@ -34,6 +35,7 @@ class MyApp: Application(){
     //開始時処理
     override fun onCreate(){
         super.onCreate()
+
     }
 
     companion object{
@@ -68,6 +70,27 @@ class MyApp: Application(){
         }catch(e: FileNotFoundException){
             val file= File(GLOBAL.DIRECTORY+"/", child)
             file.writeText(str)
+        }
+    }
+
+    fun FileRead(child:String){
+        var buf:String=""
+        val GLOBAL= getInstance()
+
+        if(GLOBAL.DIRECTORY==null)return
+
+        try{
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            val scan= Scanner(file)
+            scan.useDelimiter("[,\n]")
+            while(scan.hasNextLine()&&scan.hasNext()){
+                val FILE_X:String=scan.next().substring(2)
+                val FILE_Y:String=scan.next().substring(2)
+                val FILE_A:String=scan.next().substring(2)
+                val FILE_S:String=scan.next().substring(2)
+                GLOBAL.GPS_LOG.add(MyApp.GPSDATA(FILE_X.toFloat(),FILE_Y.toFloat(),FILE_A.toFloat(),FILE_S.toFloat()))
+            }
+        }catch(e: FileNotFoundException){
         }
     }
 

@@ -37,7 +37,10 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         GLOBAL.DIRECTORY="$filesDir"
+        MyApp().FileRead("GPSLOG.txt")
+
         if (RequestGPSPermission()) {
             startLocationService()
         }
@@ -163,12 +166,12 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
     override fun onLocationChanged(location: Location) {
 
         //GPS取得時にデータを一時保持
-        GLOBAL.GPS_LOG_Y=location.latitude.toFloat()
-        GLOBAL.GPS_LOG_X=location.longitude.toFloat()
-        GLOBAL.GPS_LOG_A=location.accuracy
-        GLOBAL.GPS_LOG_S=location.speed
+        GLOBAL.GPS_BUF.GPS_Y=location.latitude.toFloat()
+        GLOBAL.GPS_BUF.GPS_X=location.longitude.toFloat()
+        GLOBAL.GPS_BUF.GPS_A=location.accuracy
+        GLOBAL.GPS_BUF.GPS_S=location.speed
 
-        var filestr:String="X="+GLOBAL.GPS_LOG_X+","+"Y="+GLOBAL.GPS_LOG_Y+","+"A="+GLOBAL.GPS_LOG_A+","+"S="+GLOBAL.GPS_LOG_S+"\n"
+        var filestr:String="X="+GLOBAL.GPS_BUF.GPS_X+","+"Y="+GLOBAL.GPS_BUF.GPS_Y+","+"A="+GLOBAL.GPS_BUF.GPS_A+","+"S="+GLOBAL.GPS_BUF.GPS_S+"\n"
         MyApp().FileWriteAdd(filestr,"GPSLOG.txt")
 
     }

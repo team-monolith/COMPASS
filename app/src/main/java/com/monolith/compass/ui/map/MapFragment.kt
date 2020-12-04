@@ -277,15 +277,15 @@ class MapFragment : Fragment() {
         }
 
         //新規GPS情報取得時
-        if (GLOBAL.GPS_LOG_X != null) {
-            Location_X = GLOBAL.GPS_LOG_X
-            Location_Y = GLOBAL.GPS_LOG_Y
-            Location_A = GLOBAL.GPS_LOG_A
-            Location_S = GLOBAL.GPS_LOG_S
-            GLOBAL.GPS_LOG_X=null
-            GLOBAL.GPS_LOG_Y=null
-            GLOBAL.GPS_LOG_A=null
-            GLOBAL.GPS_LOG_S=null
+        if (GLOBAL.GPS_BUF.GPS_X != null) {
+            Location_X = GLOBAL.GPS_BUF.GPS_X
+            Location_Y = GLOBAL.GPS_BUF.GPS_Y
+            Location_A = GLOBAL.GPS_BUF.GPS_A
+            Location_S = GLOBAL.GPS_BUF.GPS_S
+            GLOBAL.GPS_BUF.GPS_X=null
+            GLOBAL.GPS_BUF.GPS_Y=null
+            GLOBAL.GPS_BUF.GPS_A=null
+            GLOBAL.GPS_BUF.GPS_S=null
         }
     }
 
