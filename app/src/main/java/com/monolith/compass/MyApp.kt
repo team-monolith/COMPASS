@@ -5,6 +5,9 @@ import android.content.Context
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.*
 import kotlin.random.Random
 
 
@@ -20,7 +23,7 @@ class MyApp: Application(){
     var GPS_LOG_A:Float?=null
     var GPS_LOG_S:Float?=null
 
-    lateinit var DIRECTORY:String
+    var DIRECTORY:String?=null
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
@@ -46,6 +49,26 @@ class MyApp: Application(){
     fun toastMake(context: Context,message: String) {
         val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
         toast.show()
+    }
+
+    fun FileWriteAdd(str:String,child:String){
+        var buf:String=""
+        val GLOBAL= getInstance()
+
+        if(GLOBAL.DIRECTORY==null)return
+
+        try{
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            val scan= Scanner(file)
+            while(scan.hasNextLine()){
+                buf+=scan.nextLine()+"\n"
+            }
+            buf+=str
+            file.writeText(buf)
+        }catch(e: FileNotFoundException){
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            file.writeText(str)
+        }
     }
 
 }

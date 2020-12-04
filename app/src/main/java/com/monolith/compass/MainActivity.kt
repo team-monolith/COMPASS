@@ -168,6 +168,11 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
         GLOBAL.GPS_LOG_A=location.accuracy
         GLOBAL.GPS_LOG_S=location.speed
 
+        var filestr:String="X="+GLOBAL.GPS_LOG_X+","+"Y="+GLOBAL.GPS_LOG_Y+","+"A="+GLOBAL.GPS_LOG_A+","+"S="+GLOBAL.GPS_LOG_S+"\n"
+        MyApp().FileWriteAdd(filestr,"GPSLOG.txt")
+
     }
+
+
 
 }

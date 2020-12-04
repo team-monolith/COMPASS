@@ -157,7 +157,7 @@ class MapFragment : Fragment() {
                 }
                 event.action == MotionEvent.ACTION_MOVE -> {
                     posX += event.x.toInt() - logX!!
-                    posY += event.y.toInt()!! - logY!!
+                    posY += event.y.toInt() - logY!!
                     logX = event.x.toInt()
                     logY = event.y.toInt()
                 }
@@ -254,7 +254,6 @@ class MapFragment : Fragment() {
     //変数類をリアルタイムで変更
     fun SystemReflesh() {
 
-
         if (Location_X != null && Current_X != null) {
             centerX =
                 (-250 * scale - ((Location_X!! - Current_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
@@ -288,7 +287,6 @@ class MapFragment : Fragment() {
             GLOBAL.GPS_LOG_A=null
             GLOBAL.GPS_LOG_S=null
         }
-
     }
 
     inner class MoveView : View {
@@ -314,7 +312,7 @@ class MapFragment : Fragment() {
             Circle.color = Color.parseColor("#FF0000")
             Circle.isAntiAlias = true
 
-
+            //マップの表示処理
             for (y in 0 until 500) {
                 for (x in 0 until 500) {
                     val rect = Rect(
@@ -329,7 +327,6 @@ class MapFragment : Fragment() {
 
             //現在地等わかっている場合は現在地を表示
             if (Location_X != null && Current_X != null && CurrentMAP[499][499] != -1) {
-                val Circle = Paint()
 
                 //GPS誤差が70m以上ある場合は赤表示
                 if (Location_A!! < 50f) Circle.color = Color.parseColor("#00FF00")
@@ -346,7 +343,7 @@ class MapFragment : Fragment() {
                 Circle.style = Paint.Style.STROKE
                 Circle.strokeWidth = 5f
                 //座標外周円
-                canvas!!.drawCircle(
+                canvas.drawCircle(
                     (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
                     (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
                     Location_A!! / 10 * scale,
@@ -354,7 +351,7 @@ class MapFragment : Fragment() {
                 )
                 Circle.strokeWidth = 2f
                 //座標円周円
-                canvas!!.drawCircle(
+                canvas.drawCircle(
                     (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
                     (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
                     anim_ringR,
@@ -366,21 +363,20 @@ class MapFragment : Fragment() {
             }
             //わかっていない場合はローディング表示をする
             else {
-                val Circle = Paint()
                 Circle.color = Color.parseColor("#FF0000")
                 Circle.isAntiAlias = true
-                Circle.strokeWidth = 5f
+                Circle.strokeWidth = 3f
                 //中心円
                 canvas!!.drawCircle(size!!.width() / 2f, size!!.height() / 4 * 3f, 25f, Circle)
                 //外周円
-                canvas!!.drawCircle(
+                canvas.drawCircle(
                     size!!.width() / 2f + cos(anim_ringR) * 150f,
                     size!!.height() / 4 * 3f + sin(anim_ringR) * 150f,
                     20f, Circle
                 )
                 Circle.style = Paint.Style.STROKE
                 //円周円
-                canvas!!.drawCircle(size!!.width() / 2f, size!!.height() / 4 * 3f, 150f, Circle)
+                canvas.drawCircle(size!!.width() / 2f, size!!.height() / 4 * 3f, 150f, Circle)
                 anim_ringR += 0.2f
                 if (anim_ringR >= 360) anim_ringR = 0f
             }
@@ -422,22 +418,5 @@ class MapFragment : Fragment() {
             }
         }
     }
-
-    fun WriteFileTest(str:String){
-        var buf:String=""
-        try{
-            val file= File(GLOBAL.DIRECTORY+"/", "GPS.txt")
-            val scan= Scanner(file)
-            while(scan.hasNextLine()){
-                buf+=scan.nextLine()+"\n"
-            }
-            buf+="\n"+str
-            file.writeText(buf)
-        }catch(e: FileNotFoundException){
-            val file= File(GLOBAL.DIRECTORY+"/", "GPS.txt")
-            file.writeText("NEW CREATE FILE")
-        }
-    }
-
 
 }

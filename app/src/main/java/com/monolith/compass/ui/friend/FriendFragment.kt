@@ -24,9 +24,7 @@ class FriendFragment : Fragment() {
         friendViewModel =
             ViewModelProvider(this).get(FriendViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_friend, container, false)
-        val textView: TextView = root.findViewById(R.id.txt_friend)
         friendViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
         })
         return root
     }
