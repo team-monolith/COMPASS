@@ -69,6 +69,9 @@ class SettingFragment : Fragment() {
         view.findViewById<Button>(R.id.btnInfomation).setOnClickListener (View.OnClickListener {
             findNavController().navigate(R.id.action_navigation_setting_to_infomationFragment)
         })
+        view.findViewById<Button>(R.id.btnTerms).setOnClickListener (View.OnClickListener {
+            findNavController().navigate(R.id.action_navigation_setting_to_termsFragment)
+        })
     }
 
     override fun onAttach(context: Context) {

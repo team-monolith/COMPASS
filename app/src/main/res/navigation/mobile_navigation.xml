@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_navigation_setting_to_infomationFragment"
             app:destination="@id/infomationFragment" />
+        <action
+            android:id="@+id/action_navigation_setting_to_termsFragment"
+            app:destination="@id/termsFragment" />
     </fragment>
     <fragment
         android:id="@+id/usrinfoFragment"
@@ -94,5 +97,18 @@
         android:id="@+id/infomationFragment"
         android:name="com.monolith.compass.ui.setting.InfomationFragment"
         android:label="fragment_infomation"
-        tools:layout="@layout/fragment_infomation" />
+        tools:layout="@layout/fragment_infomation" >
+        <action
+            android:id="@+id/action_infomationFragment_to_navigation_setting"
+            app:destination="@id/navigation_setting" />
+    </fragment>
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.monolith.compass.ui.setting.termsFragment"
+        android:label="fragment_terms"
+        tools:layout="@layout/fragment_terms" >
+        <action
+            android:id="@+id/action_termsFragment_to_navigation_setting"
+            app:destination="@id/navigation_setting" />
+    </fragment>
 </navigation>

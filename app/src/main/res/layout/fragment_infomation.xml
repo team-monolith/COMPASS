@@ -13,7 +13,7 @@
         <ScrollView
             android:layout_width="460dp"
             android:layout_height="675dp"
-            app:layout_constraintBottom_toTopOf="@+id/button3"
+            app:layout_constraintBottom_toTopOf="@+id/btnPrevInfo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.666"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,11 +27,11 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnPrevInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="80dp"
-            android:text="Button"
+            android:text="戻る"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

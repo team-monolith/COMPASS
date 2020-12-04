@@ -11,16 +11,11 @@ import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 
-
-class InfomationFragment : Fragment() {
+class termsFragment : Fragment() {
 
     private lateinit var settingViewModel: SettingViewModel
 
     val GLOBAL = MyApp.getInstance()
-
-
-    //var _clickListener: SettingFragment.OnClickListener? = null
-
 
     //フラグメント生成時処理
     override fun onCreateView(
@@ -30,17 +25,19 @@ class InfomationFragment : Fragment() {
     ): View? {
         settingViewModel =
             ViewModelProvider(this).get(SettingViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_infomation, container, false)
+        val root = inflater.inflate(R.layout.fragment_terms, container, false)
         //val textView: TextView = root.findViewById(R.id.txt_setting)
-        return inflater.inflate(R.layout.fragment_infomation, container, false)
+        return inflater.inflate(R.layout.fragment_terms, container, false)
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+    override fun onViewCreated(view:View,savedInstanceState:Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.btnPrevInfo).setOnClickListener {
-            findNavController().navigate(R.id.action_infomationFragment_to_navigation_setting)
-        }
+        view.findViewById<Button>(R.id.btnPrev).setOnClickListener(View.OnClickListener {
+            findNavController().navigate(R.id.action_termsFragment_to_navigation_setting)
+        })
     }
+
 }
