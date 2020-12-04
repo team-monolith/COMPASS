@@ -18,6 +18,10 @@ import com.monolith.compass.R
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.monolith.compass.com.monolith.compass.MyApp
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class SettingFragment : Fragment() {
@@ -72,6 +76,9 @@ class SettingFragment : Fragment() {
         view.findViewById<Button>(R.id.btnTerms).setOnClickListener (View.OnClickListener {
             findNavController().navigate(R.id.action_navigation_setting_to_termsFragment)
         })
+        view.findViewById<Button>(R.id.btnFWA).setOnClickListener(View.OnClickListener {
+            FileWriteAddTest("","GPSLOG.txt")
+        })
     }
 
     override fun onAttach(context: Context) {
@@ -104,6 +111,27 @@ class SettingFragment : Fragment() {
         }
 
     }
+
+    fun FileWriteAddTest(str:String,child:String){
+        var buf:String=""
+        //val GLOBAL= MyApp.getInstance()
+
+        if(GLOBAL.DIRECTORY==null)return
+
+        try{
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            val scan= Scanner(file)
+            while(scan.hasNextLine()){
+                buf+=scan.nextLine()+"\n"
+            }
+            buf+=str
+            file.writeText("")
+        }catch(e: FileNotFoundException){
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            file.writeText(str)
+        }
+    }
+
 
 
 }
