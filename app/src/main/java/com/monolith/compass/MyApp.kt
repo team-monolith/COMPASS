@@ -5,6 +5,9 @@ import android.content.Context
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.*
 import kotlin.random.Random
 
 
@@ -12,12 +15,21 @@ class MyApp: Application(){
 
     //このコメント下にグローバル変数等記述、必要分のみをコメント付きで記述すること
 
-    val CENTRAL_LATITUDE:Int=1304088//X座標側、下四桁が少数
-    val CENTRAL_LONGITUDE:Int=335841//Y座標側、下四桁が小数
+    val CENTRAL_LATITUDE:Int=1304090//X座標側、下四桁が少数
+    val CENTRAL_LONGITUDE:Int=335840//Y座標側、下四桁が小数
+
+    var GPS_LOG_X:Float?=null
+    var GPS_LOG_Y:Float?=null
+    var GPS_LOG_A:Float?=null
+    var GPS_LOG_S:Float?=null
+
+    var DIRECTORY:String?=null
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
     //500x500でバッファリングする
+
+    //1単位当たり10mで計算
 
     //開始時処理
     override fun onCreate(){
@@ -37,6 +49,26 @@ class MyApp: Application(){
     fun toastMake(context: Context,message: String) {
         val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
         toast.show()
+    }
+
+    fun FileWriteAdd(str:String,child:String){
+        var buf:String=""
+        val GLOBAL= getInstance()
+
+        if(GLOBAL.DIRECTORY==null)return
+
+        try{
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            val scan= Scanner(file)
+            while(scan.hasNextLine()){
+                buf+=scan.nextLine()+"\n"
+            }
+            buf+=str
+            file.writeText(buf)
+        }catch(e: FileNotFoundException){
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            file.writeText(str)
+        }
     }
 
 }

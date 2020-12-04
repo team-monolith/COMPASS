@@ -7,11 +7,8 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.view.ScaleGestureDetector.OnScaleGestureListener
-import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
-import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -19,12 +16,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
-import com.monolith.compass.ui.setting.SettingFragment
+import java.io.File
+import java.io.FileNotFoundException
 import java.util.*
 import kotlin.collections.HashMap
-import kotlin.random.Random
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class MapFragment : Fragment() {
@@ -33,9 +33,13 @@ class MapFragment : Fragment() {
 
     private lateinit var mScaleDetector: ScaleGestureDetector
 
+    val GLOBAL = MyApp.getInstance()
+
     val handler = Handler()//メインスレッド処理用ハンドラ
 
     var moveview: MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
+
+    var centerFlg = true
 
     var scale: Float = 30F   //地図表示のスケール
     var posX: Int = 0    //地図表示の相対X座標
@@ -53,10 +57,15 @@ class MapFragment : Fragment() {
     var Current_Y: Float? = null   //現在地マップの中心座標
     var Other_X: Float? = null     //現在地以外のマップの中心座標
     var Other_Y: Float? = null     //現在地以外のマップの中心座標
+
     var Location_X: Float? = null   //ユーザの現在地のX座標
     var Location_Y: Float? = null   //ユーザの現在地のY座標
+    var Location_A: Float? = null   //ユーザの現在地のGPS精度
+    var Location_S: Float? = null   //ユーザの現在地の移動速度
 
     var size: Rect? = null
+
+    var anim_ringR: Float = 1f
 
 
     override fun onCreateView(
@@ -87,10 +96,6 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        Location_X = 130.4089f
-        Location_Y = 33.5844f
-
-
         //FABボタンID取得
         val fab_current = view.findViewById<FloatingActionButton>(R.id.fab_current)
 
@@ -113,7 +118,6 @@ class MapFragment : Fragment() {
         //アニメーションループを再生
         HandlerDraw(moveview!!)
 
-
         //ビューにリスナーを設定
         view.setOnTouchListener { _, event ->
             onTouch(view, event)
@@ -123,23 +127,21 @@ class MapFragment : Fragment() {
         fab_current.setOnClickListener {
             //表示座標を中心に設定
             if (Location_X != null && Current_X != null) {
-                val cx=((Location_X!! - Current_X!!) * 10000).toInt()
-                val cy=((Location_Y!! - Current_Y!!) * 10000).toInt()
-                posX =(-250 * scale -((Location_X!! - Current_X!!) * 10000).toInt()*scale+ (size!!.width() + scale) / 2).toInt()
-                posY =(-250 * scale -((Location_Y!! - Current_Y!!) * 10000).toInt()*scale+ (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
-            } else {
-                //posX = centerX
-                //posY = centerY
+                posX =
+                    (-250 * scale - ((Location_X!! - Current_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
+                posY =
+                    (-250 * scale - ((Location_Y!! - Current_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
             }
-
+            centerFlg = true
             fab_current.setColorFilter(Color.parseColor("#00AAFF"))
-            HandlerDraw(moveview!!)
         }
 
     }
 
     //タッチイベント実行時処理
     fun onTouch(view: View, event: MotionEvent): Boolean {
+
+        centerFlg = false
 
         //複数本タッチの場合はピンチ処理
         if (event.pointerCount > 1) {
@@ -155,34 +157,32 @@ class MapFragment : Fragment() {
                 }
                 event.action == MotionEvent.ACTION_MOVE -> {
                     posX += event.x.toInt() - logX!!
-                    posY += event.y.toInt()!! - logY!!
+                    posY += event.y.toInt() - logY!!
                     logX = event.x.toInt()
                     logY = event.y.toInt()
                 }
             }
         }
 
-        //中心にいない場合はFABを黒色にする
-        if (!isCenter(posX, posY)) {
-            view.findViewById<FloatingActionButton>(R.id.fab_current)
-                .setColorFilter(Color.parseColor("#000000"))
-        }
 
-        //描画処理
-        HandlerDraw(moveview!!)
+
         return true
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        //GPS取得用インターフェース
+
+        //ピンチ処理関係
         mScaleDetector = ScaleGestureDetector(context,
             object : OnScaleGestureListener {
 
                 //スケール変更処理
                 override fun onScale(detector: ScaleGestureDetector): Boolean {
 
-                    posX += (scale * scale / 2).toInt()
-                    posY += (scale * scale / 2).toInt()
+
+                    var LogScale = scale * 500 + scale
 
                     //スケールが15未満及び45以上にならないように設定
                     scale *= detector.scaleFactor
@@ -195,8 +195,8 @@ class MapFragment : Fragment() {
                         //ここで地図の再ロード処理を記述
                     }
 
-                    posX -= (scale * scale / 2).toInt()
-                    posY -= (scale * scale / 2).toInt()
+                    posX += ((LogScale - (scale * 500 + scale)) / 2).toInt()
+                    posY += ((LogScale - (scale * 500 + scale)) / 2).toInt()
 
                     posX += detector.focusX.toInt() - logX!!
                     posY += detector.focusY.toInt() - logY!!
@@ -223,6 +223,10 @@ class MapFragment : Fragment() {
         )
     }
 
+    override fun onDetach() {
+        super.onDetach()
+    }
+
 
     //マップ情報リセット関数
     fun mapReset() {
@@ -238,17 +242,51 @@ class MapFragment : Fragment() {
     fun HandlerDraw(mv: MoveView) {
         handler.post(object : Runnable {
             override fun run() {
+                //変数類再設定
+                SystemReflesh()
                 //再描画
                 mv.invalidate()
-                //地図データが未完成の場合はリフレッシュし続ける
-                if (CurrentMAP[499][499] == -1) handler.postDelayed(this, 1)
+                handler.postDelayed(this, 1)
             }
         })
     }
 
-    //センター検出用 trueで中心
-    fun isCenter(x: Int, y: Int): Boolean {
-        return centerX == x && centerY == y
+    //変数類をリアルタイムで変更
+    fun SystemReflesh() {
+
+        if (Location_X != null && Current_X != null) {
+            centerX =
+                (-250 * scale - ((Location_X!! - Current_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
+            centerY =
+                (-250 * scale - ((Current_Y!!-Location_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+        }
+        //FABセンターを押下した場合は位置がずれても中心に追従する
+        if (centerFlg) {
+            view?.findViewById<FloatingActionButton>(R.id.fab_current)
+                ?.setColorFilter(Color.parseColor("#0000FF"))
+            //地図の中心に自分を置く
+            if (Location_X != null && Current_X != null) {
+                posX =
+                    (-250 * scale - ((Location_X!! - Current_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
+                posY =
+                    (-250 * scale - ((Current_Y!! - Location_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+            }
+        } else {
+            view?.findViewById<FloatingActionButton>(R.id.fab_current)
+                ?.setColorFilter(Color.parseColor("#000000"))
+        }
+
+        //新規GPS情報取得時
+        if (GLOBAL.GPS_LOG_X != null) {
+            Location_X = GLOBAL.GPS_LOG_X
+            Location_Y = GLOBAL.GPS_LOG_Y
+            Location_A = GLOBAL.GPS_LOG_A
+            Location_S = GLOBAL.GPS_LOG_S
+            GLOBAL.GPS_LOG_X=null
+            GLOBAL.GPS_LOG_Y=null
+            GLOBAL.GPS_LOG_A=null
+            GLOBAL.GPS_LOG_S=null
+        }
     }
 
     inner class MoveView : View {
@@ -273,11 +311,8 @@ class MapFragment : Fragment() {
             val Circle = Paint()
             Circle.color = Color.parseColor("#FF0000")
             Circle.isAntiAlias = true
-            val Circle2 = Paint()
-            Circle2.color = Color.parseColor("#00FF00")
-            Circle2.isAntiAlias = true
 
-
+            //マップの表示処理
             for (y in 0 until 500) {
                 for (x in 0 until 500) {
                     val rect = Rect(
@@ -289,19 +324,63 @@ class MapFragment : Fragment() {
                     if (CurrentMAP[y][x]!! > 0) canvas!!.drawRect(rect, paint[CurrentMAP[y][x]!!])
                 }
             }
-            canvas!!.drawCircle(size!!.width() / 2f, size!!.height() / 4 * 3f, 25f, Circle)
 
             //現在地等わかっている場合は現在地を表示
-            if (Location_X != null && Current_X != null) {
-                val cx=(250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2
-                val cy=(250 * scale + posY) + (((Location_Y!! - Current_Y!!) * 10000).toInt()) * scale - scale / 2
+            if (Location_X != null && Current_X != null && CurrentMAP[499][499] != -1) {
+
+                //GPS誤差が70m以上ある場合は赤表示
+                if (Location_A!! < 50f) Circle.color = Color.parseColor("#00FF00")
+                else Circle.color = Color.parseColor("#FF0000")
+
+                Circle.isAntiAlias = true
+                //座標中心円
                 canvas!!.drawCircle(
                     (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
-                    (250 * scale + posY) + (((Location_Y!! - Current_Y!!) * 10000).toInt()) * scale - scale / 2,
-                    scale,
-                    Circle2
+                    (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
+                    20f,
+                    Circle
                 )
+                Circle.style = Paint.Style.STROKE
+                Circle.strokeWidth = 5f
+                //座標外周円
+                canvas.drawCircle(
+                    (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
+                    (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
+                    Location_A!! / 10 * scale,
+                    Circle
+                )
+                Circle.strokeWidth = 2f
+                //座標円周円
+                canvas.drawCircle(
+                    (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
+                    (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
+                    anim_ringR,
+                    Circle
+                )
+                if (anim_ringR + (Location_A!! / 10 * scale)/20 <= Location_A!! / 10 * scale) anim_ringR += (Location_A!! / 10 * scale)/20
+                else anim_ringR = -50f
+
             }
+            //わかっていない場合はローディング表示をする
+            else {
+                Circle.color = Color.parseColor("#FF0000")
+                Circle.isAntiAlias = true
+                Circle.strokeWidth = 3f
+                //中心円
+                canvas!!.drawCircle(size!!.width() / 2f, size!!.height() / 4 * 3f, 25f, Circle)
+                //外周円
+                canvas.drawCircle(
+                    size!!.width() / 2f + cos(anim_ringR) * 150f,
+                    size!!.height() / 4 * 3f + sin(anim_ringR) * 150f,
+                    20f, Circle
+                )
+                Circle.style = Paint.Style.STROKE
+                //円周円
+                canvas.drawCircle(size!!.width() / 2f, size!!.height() / 4 * 3f, 150f, Circle)
+                anim_ringR += 0.2f
+                if (anim_ringR >= 360) anim_ringR = 0f
+            }
+
         }
     }
 
@@ -318,7 +397,7 @@ class MapFragment : Fragment() {
                         MoveView(this.activity).invalidate()
                     }
                     is Result.Failure -> {
-                        //通信エラー時に返却される
+                        getMapData()
                     }
                 }
             }
