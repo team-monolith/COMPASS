@@ -14,6 +14,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.provider.Settings
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        GLOBAL.DIRECTORY="$filesDir"
         if (RequestGPSPermission()) {
             startLocationService()
         }
@@ -160,22 +161,13 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
     }
 
     override fun onLocationChanged(location: Location) {
-        //取得時バイブ、動作確認用
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val vibrationEffect = VibrationEffect.createOneShot(300,
-                VibrationEffect.DEFAULT_AMPLITUDE
-            )
-            vibrator.vibrate(vibrationEffect)
-        } else {
-            vibrator.vibrate(300)
-        }
 
         //GPS取得時にデータを一時保持
-        GLOBAL.GPS_LOG_Y=location.longitude.toFloat()
-        GLOBAL.GPS_LOG_X=location.latitude.toFloat()
+        GLOBAL.GPS_LOG_Y=location.latitude.toFloat()
+        GLOBAL.GPS_LOG_X=location.longitude.toFloat()
         GLOBAL.GPS_LOG_A=location.accuracy
         GLOBAL.GPS_LOG_S=location.speed
+
     }
 
 }

@@ -9,6 +9,7 @@ import android.os.Handler
 import android.util.AttributeSet
 import android.view.*
 import android.view.ScaleGestureDetector.OnScaleGestureListener
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
+import java.io.File
+import java.io.FileNotFoundException
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.math.cos
@@ -91,12 +94,6 @@ class MapFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Location_X = 130.4089f
-        Location_Y = 33.5844f
-        Location_A = 30f
-
-        //位置情報を取得してずれる謎の問題から
 
 
         //FABボタンID取得
@@ -256,11 +253,13 @@ class MapFragment : Fragment() {
 
     //変数類をリアルタイムで変更
     fun SystemReflesh() {
+
+
         if (Location_X != null && Current_X != null) {
             centerX =
                 (-250 * scale - ((Location_X!! - Current_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
             centerY =
-                (-250 * scale - ((Location_Y!! - Current_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+                (-250 * scale - ((Current_Y!!-Location_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
         }
         //FABセンターを押下した場合は位置がずれても中心に追従する
         if (centerFlg) {
@@ -271,7 +270,7 @@ class MapFragment : Fragment() {
                 posX =
                     (-250 * scale - ((Location_X!! - Current_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
                 posY =
-                    (-250 * scale - ((Location_Y!! - Current_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+                    (-250 * scale - ((Current_Y!! - Location_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
             }
         } else {
             view?.findViewById<FloatingActionButton>(R.id.fab_current)
@@ -289,6 +288,7 @@ class MapFragment : Fragment() {
             GLOBAL.GPS_LOG_A=null
             GLOBAL.GPS_LOG_S=null
         }
+
     }
 
     inner class MoveView : View {
@@ -339,7 +339,7 @@ class MapFragment : Fragment() {
                 //座標中心円
                 canvas!!.drawCircle(
                     (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
-                    (250 * scale + posY) + (((Location_Y!! - Current_Y!!) * 10000).toInt()) * scale - scale / 2,
+                    (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
                     20f,
                     Circle
                 )
@@ -348,7 +348,7 @@ class MapFragment : Fragment() {
                 //座標外周円
                 canvas!!.drawCircle(
                     (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
-                    (250 * scale + posY) + (((Location_Y!! - Current_Y!!) * 10000).toInt()) * scale - scale / 2,
+                    (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
                     Location_A!! / 10 * scale,
                     Circle
                 )
@@ -356,11 +356,11 @@ class MapFragment : Fragment() {
                 //座標円周円
                 canvas!!.drawCircle(
                     (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
-                    (250 * scale + posY) + (((Location_Y!! - Current_Y!!) * 10000).toInt()) * scale - scale / 2,
+                    (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
                     anim_ringR,
                     Circle
                 )
-                if (anim_ringR + 5 <= Location_A!! / 10 * scale) anim_ringR += 5
+                if (anim_ringR + (Location_A!! / 10 * scale)/20 <= Location_A!! / 10 * scale) anim_ringR += (Location_A!! / 10 * scale)/20
                 else anim_ringR = -50f
 
             }
@@ -420,6 +420,22 @@ class MapFragment : Fragment() {
             for (fx in 0 until 500) {
                 if (scan.hasNextInt()) CurrentMAP[fy][fx] = scan.nextInt()
             }
+        }
+    }
+
+    fun WriteFileTest(str:String){
+        var buf:String=""
+        try{
+            val file= File(GLOBAL.DIRECTORY+"/", "GPS.txt")
+            val scan= Scanner(file)
+            while(scan.hasNextLine()){
+                buf+=scan.nextLine()+"\n"
+            }
+            buf+="\n"+str
+            file.writeText(buf)
+        }catch(e: FileNotFoundException){
+            val file= File(GLOBAL.DIRECTORY+"/", "GPS.txt")
+            file.writeText("NEW CREATE FILE")
         }
     }
 
