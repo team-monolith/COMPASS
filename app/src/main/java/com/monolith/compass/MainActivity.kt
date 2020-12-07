@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
         super.onResume()
         stopBackgroundLocationService()
         startLocationService()
+        MyApp().FileRead("GPSLOG.txt")
     }
 
     //戻るボタン無効化、そのうちもどす
@@ -171,8 +172,24 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
         GLOBAL.GPS_BUF.GPS_A=(Math.floor(location.accuracy*10000.0)/10000.0).toFloat()
         GLOBAL.GPS_BUF.GPS_S=(Math.floor(location.speed*10000.0)/10000.0).toFloat()
 
+        val last=GLOBAL.GPS_LOG.lastIndex
+
         var filestr:String="X="+GLOBAL.GPS_BUF.GPS_X+","+"Y="+GLOBAL.GPS_BUF.GPS_Y+","+"A="+GLOBAL.GPS_BUF.GPS_A+","+"S="+GLOBAL.GPS_BUF.GPS_S+"\n"
+
+        /*//ファイル内がカラの場合は新規追加
+        if(last==-1){
+            MyApp().FileWriteAdd(filestr,"GPSLOG.txt")
+        }
+        //ファイル内に存在する場合は座標に変化があった場合のみ追加
+        else if(GLOBAL.GPS_LOG[last].GPS_X!=GLOBAL.GPS_BUF.GPS_X
+            &&GLOBAL.GPS_LOG[last].GPS_Y!=GLOBAL.GPS_BUF.GPS_Y){
+            MyApp().FileWriteAdd(filestr,"GPSLOG.txt")
+        }*/
+
+        //この辺の処理も記述
+
         MyApp().FileWriteAdd(filestr,"GPSLOG.txt")
+        MyApp().FileRead("GPSLOG.txt")
 
     }
 

@@ -98,22 +98,29 @@ class CanvasDraw : Fragment(){
         if (anim_ringR >= 640) anim_ringR = 0f
     }
 
-    fun log(posX:Int,posY:Int,scale:Float,Location: MyApp.GPSDATA,canvas:Canvas?){
+    fun Log(posX:Int,posY:Int,scale:Float,Location: MyApp.GPSDATA,Current:MyApp.MAPDATA,canvas:Canvas?){
 
         val GLOBAL= MyApp.getInstance()
+        var paint=Paint()
+        paint.strokeWidth=10f
+        paint.color=Color.parseColor("#FF0000")
 
         //レコードが0件の場合は終了
         if(GLOBAL.GPS_LOG.size<=0)return
 
         //GPSレコードの件数分繰り返す
-        for(i in  1..GLOBAL.GPS_LOG.size-1){
-            val startX=GLOBAL.GPS_LOG[i].GPS_X
-            val startY=GLOBAL.GPS_LOG[i].GPS_Y
-            val stopX=GLOBAL.GPS_LOG[i+1].GPS_X
-            val stopY=GLOBAL.GPS_LOG[i+1].GPS_Y
-            //canvas!!.drawLine(GLOBAL.GPS_LOG[0].GPS_X)
+        for(i in  0..GLOBAL.GPS_LOG.size-2){
+            val startX=(250 * scale + posX) + (((GLOBAL.GPS_LOG[i].GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2
+            val startY=(250 * scale + posY) + (((Current.MAP_Y!! - GLOBAL.GPS_LOG[i].GPS_Y!!) * 10000).toInt()) * scale - scale / 2
+            val stopX=(250 * scale + posX) + (((GLOBAL.GPS_LOG[i+1].GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2
+            val stopY=(250 * scale + posY) + (((Current.MAP_Y!! - GLOBAL.GPS_LOG[i+1].GPS_Y!!) * 10000).toInt()) * scale - scale / 2
+            canvas!!.drawLine(startX, startY, stopX, stopY,paint)
+
+            val sX=(250 * scale + posX) + (((GLOBAL.GPS_LOG[i].GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale
+            val sY=(250 * scale + posY) + (((Current.MAP_Y!!-GLOBAL.GPS_LOG[i].GPS_Y!!) * 10000).toInt()) * scale
+            val rect=Rect((sX-scale).toInt(),(sY-scale).toInt(),sX.toInt(),sY.toInt())
+            canvas.drawRect(rect,paint)
         }
 
-        //(250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
     }
 }

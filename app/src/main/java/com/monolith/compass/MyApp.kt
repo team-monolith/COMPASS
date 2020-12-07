@@ -81,6 +81,8 @@ class MyApp: Application(){
 
         if(GLOBAL.DIRECTORY==null)return
 
+        GLOBAL.GPS_LOG.clear()
+
         try{
             val file= File(GLOBAL.DIRECTORY+"/", child)
             val scan= Scanner(file)
