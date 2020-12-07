@@ -166,10 +166,10 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
     override fun onLocationChanged(location: Location) {
 
         //GPS取得時にデータを一時保持
-        GLOBAL.GPS_BUF.GPS_Y=location.latitude.toFloat()
-        GLOBAL.GPS_BUF.GPS_X=location.longitude.toFloat()
-        GLOBAL.GPS_BUF.GPS_A=location.accuracy
-        GLOBAL.GPS_BUF.GPS_S=location.speed
+        GLOBAL.GPS_BUF.GPS_Y=(Math.floor(location.latitude*10000.0)/10000.0).toFloat()
+        GLOBAL.GPS_BUF.GPS_X=(Math.floor(location.longitude*10000.0)/10000.0).toFloat()
+        GLOBAL.GPS_BUF.GPS_A=(Math.floor(location.accuracy*10000.0)/10000.0).toFloat()
+        GLOBAL.GPS_BUF.GPS_S=(Math.floor(location.speed*10000.0)/10000.0).toFloat()
 
         var filestr:String="X="+GLOBAL.GPS_BUF.GPS_X+","+"Y="+GLOBAL.GPS_BUF.GPS_Y+","+"A="+GLOBAL.GPS_BUF.GPS_A+","+"S="+GLOBAL.GPS_BUF.GPS_S+"\n"
         MyApp().FileWriteAdd(filestr,"GPSLOG.txt")

@@ -33,13 +33,13 @@ class MapFragment : Fragment() {
 
     private lateinit var mScaleDetector: ScaleGestureDetector
 
-    val GLOBAL = MyApp.getInstance()
+    val GLOBAL = MyApp.getInstance()    //グローバル変数呼出用
 
     val handler = Handler()//メインスレッド処理用ハンドラ
 
     var moveview: MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
 
-    var centerFlg = true
+    var centerFlg = true    //センターボタン押下認識フラッグ
 
     var scale: Float = 30F   //地図表示のスケール
     var posX: Int = 0    //地図表示の相対X座標
@@ -47,25 +47,19 @@ class MapFragment : Fragment() {
     var logX: Int? = null  //タップ追従用X座標
     var logY: Int? = null  //タップ追従用Y座標
 
+    var size: Rect? = null  //画面サイズ取得用
+
     var centerX: Int = 0 //地図の中心点（現在地）の計算用
     var centerY: Int = 0 //地図の中心点（現在地）の計算用
 
-    var CurrentMAP = Array(500, { arrayOfNulls<Int>(500) }) //現在地周辺地図データ保持用変数
-    var OtherMAP = Array(500, { arrayOfNulls<Int>(500) }) //現在地以外の地図データ保持用変数
+    var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
 
-    var Current_X: Float? = null   //現在地マップの中心座標
-    var Current_Y: Float? = null   //現在地マップの中心座標
-    var Other_X: Float? = null     //現在地以外のマップの中心座標
-    var Other_Y: Float? = null     //現在地以外のマップの中心座標
+    var Other:MyApp.MAPDATA=MyApp.MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
 
-    var Location_X: Float? = null   //ユーザの現在地のX座標
-    var Location_Y: Float? = null   //ユーザの現在地のY座標
-    var Location_A: Float? = null   //ユーザの現在地のGPS精度
-    var Location_S: Float? = null   //ユーザの現在地の移動速度
+    var Location:MyApp.GPSDATA=MyApp.GPSDATA(null,null,null,null) //ユーザの現在地
 
-    var size: Rect? = null
 
-    var anim_ringR: Float = 1f
+    val Draw = CanvasDraw()//描画処理関係
 
 
     override fun onCreateView(
@@ -126,11 +120,11 @@ class MapFragment : Fragment() {
         //FABボタンリスナー
         fab_current.setOnClickListener {
             //表示座標を中心に設定
-            if (Location_X != null && Current_X != null) {
+            if (Location?.GPS_X != null && Current?.MAP_X != null) {
                 posX =
-                    (-250 * scale - ((Location_X!! - Current_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
+                    (-250 * scale - ((Location?.GPS_X!! - Current?.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
                 posY =
-                    (-250 * scale - ((Location_Y!! - Current_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+                    (-250 * scale - ((Location?.GPS_Y!! - Current?.MAP_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
             }
             centerFlg = true
             fab_current.setColorFilter(Color.parseColor("#00AAFF"))
@@ -232,8 +226,8 @@ class MapFragment : Fragment() {
     fun mapReset() {
         for (y in 0 until 500) {
             for (x in 0 until 500) {
-                CurrentMAP[y][x] = -1
-                OtherMAP[y][x] = -1
+                Current?.MAP!![y][x] = -1
+                Other?.MAP!![y][x] = -1
             }
         }
     }
@@ -254,22 +248,22 @@ class MapFragment : Fragment() {
     //変数類をリアルタイムで変更
     fun SystemReflesh() {
 
-        if (Location_X != null && Current_X != null) {
+        if (Location?.GPS_X != null && Current?.MAP_X != null) {
             centerX =
-                (-250 * scale - ((Location_X!! - Current_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
+                (-250 * scale - ((Location?.GPS_X!! - Current?.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
             centerY =
-                (-250 * scale - ((Current_Y!!-Location_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+                (-250 * scale - ((Current?.MAP_Y!! - Location?.GPS_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
         }
         //FABセンターを押下した場合は位置がずれても中心に追従する
         if (centerFlg) {
             view?.findViewById<FloatingActionButton>(R.id.fab_current)
                 ?.setColorFilter(Color.parseColor("#0000FF"))
             //地図の中心に自分を置く
-            if (Location_X != null && Current_X != null) {
+            if (Location?.GPS_X != null && Current?.MAP_X != null) {
                 posX =
-                    (-250 * scale - ((Location_X!! - Current_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
+                    (-250 * scale - ((Location?.GPS_X!! - Current?.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
                 posY =
-                    (-250 * scale - ((Current_Y!! - Location_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+                    (-250 * scale - ((Current?.MAP_Y!! - Location?.GPS_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
             }
         } else {
             view?.findViewById<FloatingActionButton>(R.id.fab_current)
@@ -277,15 +271,15 @@ class MapFragment : Fragment() {
         }
 
         //新規GPS情報取得時
-        if (GLOBAL.GPS_BUF.GPS_X != null) {
-            Location_X = GLOBAL.GPS_BUF.GPS_X
-            Location_Y = GLOBAL.GPS_BUF.GPS_Y
-            Location_A = GLOBAL.GPS_BUF.GPS_A
-            Location_S = GLOBAL.GPS_BUF.GPS_S
-            GLOBAL.GPS_BUF.GPS_X=null
-            GLOBAL.GPS_BUF.GPS_Y=null
-            GLOBAL.GPS_BUF.GPS_A=null
-            GLOBAL.GPS_BUF.GPS_S=null
+        if (GLOBAL.GPS_BUF.GPS_X != null&& Current?.MAP!![499][499]!=null) {
+            Location?.GPS_X = GLOBAL.GPS_BUF.GPS_X
+            Location?.GPS_Y = GLOBAL.GPS_BUF.GPS_Y
+            Location?.GPS_A = GLOBAL.GPS_BUF.GPS_A
+            Location?.GPS_S = GLOBAL.GPS_BUF.GPS_S
+            GLOBAL.GPS_BUF.GPS_X = null
+            GLOBAL.GPS_BUF.GPS_Y = null
+            GLOBAL.GPS_BUF.GPS_A = null
+            GLOBAL.GPS_BUF.GPS_S = null
         }
     }
 
@@ -299,87 +293,25 @@ class MapFragment : Fragment() {
         )
 
         @SuppressLint("DrawAllocation")
-        override fun onDraw(canvas: Canvas?) {
+        open override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
 
-            val paint: Array<Paint> = Array<Paint>(5) { Paint() }
-            paint[0].color = Color.parseColor("#FFFFFF")
-            paint[1].color = Color.parseColor("#CCCCCC")
-            paint[2].color = Color.parseColor("#666666")
-            paint[3].color = Color.parseColor("#000000")
-
-            val Circle = Paint()
-            Circle.color = Color.parseColor("#FF0000")
-            Circle.isAntiAlias = true
-
             //マップの表示処理
-            for (y in 0 until 500) {
-                for (x in 0 until 500) {
-                    val rect = Rect(
-                        (x * scale + posX).toInt(),
-                        (y * scale + posY).toInt(),
-                        (x * scale + scale + posX).toInt(),
-                        (y * scale + scale + posY).toInt()
-                    )
-                    if (CurrentMAP[y][x]!! > 0) canvas!!.drawRect(rect, paint[CurrentMAP[y][x]!!])
-                }
-            }
+            Draw.Map(posX, posY, scale, Current?.MAP!!, canvas)
 
             //現在地等わかっている場合は現在地を表示
-            if (Location_X != null && Current_X != null && CurrentMAP[499][499] != -1) {
-
-                //GPS誤差が70m以上ある場合は赤表示
-                if (Location_A!! < 50f) Circle.color = Color.parseColor("#00FF00")
-                else Circle.color = Color.parseColor("#FF0000")
-
-                Circle.isAntiAlias = true
-                //座標中心円
-                canvas!!.drawCircle(
-                    (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
-                    (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
-                    20f,
-                    Circle
+            if (Location?.GPS_X != null && Current?.MAP_X != null && Current?.MAP!![499][499] != -1) {
+                Draw.Current(
+                    posX,
+                    posY,
+                    scale,
+                    Location,
+                    Current,
+                    canvas
                 )
-                Circle.style = Paint.Style.STROKE
-                Circle.strokeWidth = 5f
-                //座標外周円
-                canvas.drawCircle(
-                    (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
-                    (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
-                    Location_A!! / 10 * scale,
-                    Circle
-                )
-                Circle.strokeWidth = 2f
-                //座標円周円
-                canvas.drawCircle(
-                    (250 * scale + posX) + (((Location_X!! - Current_X!!) * 10000).toInt()) * scale - scale / 2,
-                    (250 * scale + posY) + (((Current_Y!!-Location_Y!!) * 10000).toInt()) * scale - scale / 2,
-                    anim_ringR,
-                    Circle
-                )
-                if (anim_ringR + (Location_A!! / 10 * scale)/20 <= Location_A!! / 10 * scale) anim_ringR += (Location_A!! / 10 * scale)/20
-                else anim_ringR = -50f
-
             }
             //わかっていない場合はローディング表示をする
-            else {
-                Circle.color = Color.parseColor("#FF0000")
-                Circle.isAntiAlias = true
-                Circle.strokeWidth = 3f
-                //中心円
-                canvas!!.drawCircle(size!!.width() / 2f, size!!.height() / 4 * 3f, 25f, Circle)
-                //外周円
-                canvas.drawCircle(
-                    size!!.width() / 2f + cos(anim_ringR) * 150f,
-                    size!!.height() / 4 * 3f + sin(anim_ringR) * 150f,
-                    20f, Circle
-                )
-                Circle.style = Paint.Style.STROKE
-                //円周円
-                canvas.drawCircle(size!!.width() / 2f, size!!.height() / 4 * 3f, 150f, Circle)
-                anim_ringR += 0.2f
-                if (anim_ringR >= 360) anim_ringR = 0f
-            }
+            else Draw.Loading(canvas, size)
 
         }
     }
@@ -408,15 +340,16 @@ class MapFragment : Fragment() {
         val scan = Scanner(data)
         scan.useDelimiter(",|\r\n")
 
-        Current_X = 130.4088f
-        Current_Y = 33.5841f
+        Current?.MAP_X = 130.4088f
+        Current?.MAP_Y = 33.5841f
 
 
         for (fy in 0 until 500) {
             for (fx in 0 until 500) {
-                if (scan.hasNextInt()) CurrentMAP[fy][fx] = scan.nextInt()
+                if (scan.hasNextInt()) Current?.MAP!![fy][fx] = scan.nextInt()
             }
         }
     }
+
 
 }

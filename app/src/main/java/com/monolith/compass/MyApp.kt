@@ -22,6 +22,8 @@ class MyApp: Application(){
 
     data class GPSDATA(var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
 
+    data class MAPDATA(var MAP :Array<Array<Int?>>,var MAP_X:Float?,var MAP_Y:Float?)
+
     var GPS_LOG=mutableListOf<GPSDATA>()
 
     var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
