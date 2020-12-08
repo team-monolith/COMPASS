@@ -45,7 +45,7 @@ class MapFragment : Fragment() {
     var centerX: Int = 0 //地図の中心点（現在地）の計算用
     var centerY: Int = 0 //地図の中心点（現在地）の計算用
 
-    var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
+
 
     var Other:MyApp.MAPDATA=MyApp.MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
 
@@ -112,11 +112,11 @@ class MapFragment : Fragment() {
         //FABボタンリスナー
         fab_current.setOnClickListener {
             //表示座標を中心に設定
-            if (Location.GPS_X != null && Current.MAP_X != null) {
+            if (Location.GPS_X != null && GLOBAL.Current.MAP_X != null) {
                 posX =
-                    (-250 * scale - ((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
+                    (-250 * scale - ((Location.GPS_X!! - GLOBAL.Current.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
                 posY =
-                    (-250 * scale - ((Location.GPS_Y!! - Current.MAP_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+                    (-250 * scale - ((Location.GPS_Y!! - GLOBAL.Current.MAP_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
             }
             centerFlg = true
             fab_current.setColorFilter(Color.parseColor("#00AAFF"))
@@ -172,12 +172,12 @@ class MapFragment : Fragment() {
 
                     //スケールが15未満及び45以上にならないように設定
                     scale *= detector.scaleFactor
-                    if (scale <= 15f) {
-                        scale = 15f
+                    if (scale <= 10f) {
+                        scale = 10f
                         //ここで地図の再ロード処理を記述
                     }
-                    if (scale >= 45f) {
-                        scale = 45f
+                    if (scale >= 50f) {
+                        scale = 50f
                         //ここで地図の再ロード処理を記述
                     }
 
@@ -218,7 +218,7 @@ class MapFragment : Fragment() {
     fun mapReset() {
         for (y in 0 until 500) {
             for (x in 0 until 500) {
-                Current.MAP[y][x] = -1
+                GLOBAL.Current.MAP[y][x] = -1
                 Other.MAP[y][x] = -1
             }
         }
@@ -240,22 +240,22 @@ class MapFragment : Fragment() {
     //変数類をリアルタイムで変更
     fun SystemReflesh() {
 
-        if (Location.GPS_X != null && Current.MAP_X != null) {
+        if (Location.GPS_X != null && GLOBAL.Current.MAP_X != null) {
             centerX =
-                (-250 * scale - ((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
+                (-250 * scale - ((Location.GPS_X!! - GLOBAL.Current.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
             centerY =
-                (-250 * scale - ((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+                (-250 * scale - ((GLOBAL.Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
         }
         //FABセンターを押下した場合は位置がずれても中心に追従する
         if (centerFlg) {
             view?.findViewById<FloatingActionButton>(R.id.fab_current)
                 ?.setColorFilter(Color.parseColor("#0000FF"))
             //地図の中心に自分を置く
-            if (Location.GPS_X != null && Current.MAP_X != null) {
+            if (Location.GPS_X != null && GLOBAL.Current.MAP_X != null) {
                 posX =
-                    (-250 * scale - ((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
+                    (-250 * scale - ((Location.GPS_X!! - GLOBAL.Current.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
                 posY =
-                    (-250 * scale - ((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+                    (-250 * scale - ((GLOBAL.Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
             }
         } else {
             view?.findViewById<FloatingActionButton>(R.id.fab_current)
@@ -263,7 +263,7 @@ class MapFragment : Fragment() {
         }
 
         //新規GPS情報取得時
-        if (GLOBAL.GPS_BUF.GPS_X != null&& Current.MAP[499][499]!=null) {
+        if (GLOBAL.GPS_BUF.GPS_X != null&& GLOBAL.Current.MAP[499][499]!=null) {
             Location.GPS_X = GLOBAL.GPS_BUF.GPS_X
             Location.GPS_Y = GLOBAL.GPS_BUF.GPS_Y
             Location.GPS_A = GLOBAL.GPS_BUF.GPS_A
@@ -289,13 +289,13 @@ class MapFragment : Fragment() {
             super.onDraw(canvas)
 
             //マップの表示処理
-            Draw.Map(posX, posY, scale, Current.MAP, canvas)
+            Draw.Map(posX, posY, scale, GLOBAL.Current.MAP, canvas)
 
             //現在地等わかっている場合
-            if (Location.GPS_X != null && Current.MAP_X != null && Current.MAP[499][499] != -1) {
+            if (Location.GPS_X != null && GLOBAL.Current.MAP_X != null && GLOBAL.Current.MAP[499][499] != -1) {
 
                 //移動履歴を表示
-                Draw.Log(posX,posY,scale,Location,Current,canvas)
+                Draw.Log(posX,posY,scale,Location,GLOBAL.Current,canvas)
 
                 //現在地を表示
                 Draw.Current(
@@ -303,7 +303,7 @@ class MapFragment : Fragment() {
                     posY,
                     scale,
                     Location,
-                    Current,
+                    GLOBAL.Current,
                     canvas
                 )
 
@@ -324,7 +324,6 @@ class MapFragment : Fragment() {
                 when (result) {
                     is Result.Success -> {
                         setMap(String(response.data))
-                        MoveView(this.activity).invalidate()
                     }
                     is Result.Failure -> {
                         getMapData()
@@ -338,13 +337,12 @@ class MapFragment : Fragment() {
         val scan = Scanner(data)
         scan.useDelimiter(",|\r\n")
 
-        Current.MAP_X = 130.4088f
-        Current.MAP_Y = 33.5841f
-
+        GLOBAL.Current.MAP_X = 130.4088f
+        GLOBAL.Current.MAP_Y = 33.5841f
 
         for (fy in 0 until 500) {
             for (fx in 0 until 500) {
-                if (scan.hasNextInt()) Current.MAP[fy][fx] = scan.nextInt()
+                if (scan.hasNextInt()) GLOBAL.Current.MAP[fy][fx] = scan.nextInt()
             }
         }
     }

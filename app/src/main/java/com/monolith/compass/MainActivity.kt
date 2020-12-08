@@ -8,13 +8,9 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -22,16 +18,20 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
+import kotlin.math.floor
 
 
-class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnClickListener{
+class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.OnClickListener,SettingFragment.OnClickListener{
 
-    val GLOBAL= MyApp.getInstance()
+    private val GLOBAL= MyApp.getInstance()
 
     private lateinit var locationManager: LocationManager
 
     var SharedValue  ="こんにちは"
+
+    var itemselectedlog:Int?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +51,64 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
         val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
 
+        navView.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.navigation_profile -> {
+                    itemselectedlog=it.itemId
+                    NavChoiceDelete()
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_profile)
+                    itemselectedlog=it.itemId
+                }
+                R.id.navigation_fitness ->{
+                    itemselectedlog=it.itemId
+                    NavChoiceDelete()
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_fitness)
+                }
+                R.id.navigation_navchoice ->{
+                    val fragmentTransaction=supportFragmentManager.beginTransaction()
+                    //非表示の場合は表示、表示している場合は削除
+                    if(supportFragmentManager.findFragmentByTag("NAVCHOICE")==null){
+                        fragmentTransaction.add(R.id.nav_host_fragment,NavChoiceFragment(),"NAVCHOICE").commit()
+                        //タブ選択アイテムをマップに変更
+                        findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_navchoice).isChecked = true
+                    }
+                    else{
+                        fragmentTransaction.remove(supportFragmentManager.findFragmentByTag("NAVCHOICE")!!).commit()
+                        //タブ選択アイテムを元に戻す、nullの場合はマップをデフォルトに設定
+                        if(itemselectedlog!=null){
+                            findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(itemselectedlog!!).isChecked = true
+                        }
+                        else{
+                            findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_navchoice).isChecked = true
+                        }
+                    }
+                }
+                R.id.navigation_friend ->{
+                    itemselectedlog=it.itemId
+                    NavChoiceDelete()
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_friend)
+                }
+                R.id.navigation_setting ->{
+                    itemselectedlog=it.itemId
+                    NavChoiceDelete()
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_setting)
+                }
+            }
+
+            return@setOnNavigationItemSelectedListener false
+        }
+
+        navView.setOnClickListener{
+
+        }
+
+    }
+
+    private fun NavChoiceDelete(){
+        val NC=supportFragmentManager.findFragmentByTag("NAVCHOICE")
+        if(NC!=null){
+            supportFragmentManager.beginTransaction().remove(NC).commit()
+        }
     }
 
     override fun onPause(){
@@ -73,19 +131,15 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
     private fun RequestGPSPermission(): Boolean {
 
         // Android 6, API 23以上でパーミッションの確認
-        if (Build.VERSION.SDK_INT >= 23) {
-            // 既に許可している
-            if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                return true
-            }
-            //許可していない場合
-            else {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1000)
-            }
-        } else {
+        // 既に許可している
+        if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
             return true
+        }
+        //許可していない場合
+        else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1000)
         }
         return false
     }
@@ -96,8 +150,7 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
                                             grantResults: IntArray) {
         if (requestCode == 1000) {
             // 使用が許可された
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            } else {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 MyApp().toastMake(this,"位置情報が取得できないため終了します")
                 finish()
             }
@@ -132,7 +185,7 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
 
         locationManager.requestLocationUpdates(
             LocationManager.GPS_PROVIDER,
-            1000,
+            500,
             1f,
             this)
     }
@@ -151,15 +204,37 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
         MyApp().toastMake(this,"計測を終了します")
     }
 
+    //NavChoiceFragmentからのコール
+    //画面遷移及びタブの選択変更処理
+    override fun onClick_Map() {
+        //NavChoiceフラグメントを削除
+        NavChoiceDelete()
+        //選択ログを設定
+        itemselectedlog=findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_navchoice).itemId
+        //画面遷移
+        findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_map)
+    }
+
+    //NavChoiceFragmentからのコール
+    //画面遷移及びタブの選択変更処理
+    override fun onClick_Event() {
+        //NavChoiceフラグメントを削除
+        NavChoiceDelete()
+        //選択ログを設定
+        itemselectedlog=findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_navchoice).itemId
+        //画面遷移
+        findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_event)
+    }
+
     //位置情報取得を開始
-    fun startBackgroundLocationService() {
+    private fun startBackgroundLocationService() {
         val intent = Intent(application, LocationService::class.java)
         val test: Application=application
         startForegroundService(intent)
     }
 
     //位置情報取得を終了
-    fun stopBackgroundLocationService(){
+    private fun stopBackgroundLocationService(){
         val intent = Intent(application, LocationService::class.java)
         stopService(intent)
     }
@@ -167,16 +242,16 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
     override fun onLocationChanged(location: Location) {
 
         //GPS取得時にデータを一時保持
-        GLOBAL.GPS_BUF.GPS_Y=(Math.floor(location.latitude*10000.0)/10000.0).toFloat()
-        GLOBAL.GPS_BUF.GPS_X=(Math.floor(location.longitude*10000.0)/10000.0).toFloat()
-        GLOBAL.GPS_BUF.GPS_A=(Math.floor(location.accuracy*10000.0)/10000.0).toFloat()
-        GLOBAL.GPS_BUF.GPS_S=(Math.floor(location.speed*10000.0)/10000.0).toFloat()
+        GLOBAL.GPS_BUF.GPS_Y=(floor(location.latitude*10000.0) /10000.0).toFloat()
+        GLOBAL.GPS_BUF.GPS_X=(floor(location.longitude*10000.0) /10000.0).toFloat()
+        GLOBAL.GPS_BUF.GPS_A=(floor(location.accuracy*10000.0) /10000.0).toFloat()
+        GLOBAL.GPS_BUF.GPS_S=(floor(location.speed*10000.0) /10000.0).toFloat()
 
         val last=GLOBAL.GPS_LOG.lastIndex
 
-        var filestr:String="X="+GLOBAL.GPS_BUF.GPS_X+","+"Y="+GLOBAL.GPS_BUF.GPS_Y+","+"A="+GLOBAL.GPS_BUF.GPS_A+","+"S="+GLOBAL.GPS_BUF.GPS_S+"\n"
+        val filestr:String="X="+GLOBAL.GPS_BUF.GPS_X+","+"Y="+GLOBAL.GPS_BUF.GPS_Y+","+"A="+GLOBAL.GPS_BUF.GPS_A+","+"S="+GLOBAL.GPS_BUF.GPS_S+"\n"
 
-        /*//ファイル内がカラの場合は新規追加
+        //ファイル内がカラの場合は新規追加
         if(last==-1){
             MyApp().FileWriteAdd(filestr,"GPSLOG.txt")
         }
@@ -184,14 +259,11 @@ class MainActivity : AppCompatActivity(), LocationListener, SettingFragment.OnCl
         else if(GLOBAL.GPS_LOG[last].GPS_X!=GLOBAL.GPS_BUF.GPS_X
             &&GLOBAL.GPS_LOG[last].GPS_Y!=GLOBAL.GPS_BUF.GPS_Y){
             MyApp().FileWriteAdd(filestr,"GPSLOG.txt")
-        }*/
-
-        //この辺の処理も記述
-
-        MyApp().FileWriteAdd(filestr,"GPSLOG.txt")
+        }
         MyApp().FileRead("GPSLOG.txt")
 
     }
+
 
 
 

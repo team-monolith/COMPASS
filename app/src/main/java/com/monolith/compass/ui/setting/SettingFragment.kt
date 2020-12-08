@@ -90,6 +90,11 @@ class SettingFragment : Fragment() {
         }
     }
 
+    override fun onDetach(){
+        super.onDetach()
+        _clickListener=null
+    }
+
     //Activityにイベントを通知
     interface OnClickListener {
         fun onClick_start()

@@ -28,6 +28,8 @@ class MyApp: Application(){
 
     var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
 
+    var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
+
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
     //500x500でバッファリングする
@@ -37,7 +39,6 @@ class MyApp: Application(){
     //開始時処理
     override fun onCreate(){
         super.onCreate()
-
     }
 
     companion object{
