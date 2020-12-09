@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -39,7 +40,7 @@ class NavChoiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.btnMap).setOnClickListener{
+        view.findViewById<ImageButton>(R.id.btnMap).setOnClickListener{
             findNavController().navigate(R.id.action_navigation_navchoice_to_navigation_map)
         }
         view.findViewById<Button>(R.id.btnEvent).setOnClickListener {

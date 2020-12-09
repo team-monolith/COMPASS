@@ -43,7 +43,7 @@ class UsrinfoFragment : Fragment() {
 
         //コンボボックス生成処理・所持している線の色の読み込み処理が必要
         //現在設定中の色を取得ー＞nowSelectLine
-        val spinner= view.findViewById<Spinner>(R.id.spinner)
+        val spinner= view.findViewById<Spinner>(R.id.spinnerLineColor)
         val nowSelectLine="金色"
         val spinnerItems= arrayOf("色を選択してください","赤","青","緑","黄","黒")
         val adapter= context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,spinnerItems) }
@@ -82,11 +82,11 @@ class UsrinfoFragment : Fragment() {
             //色を選択してくださいの時の例外処理
             val lineColor=spinner.selectedItem as String
             if (lineColor=="色を選択してください"){
-                val toast=Toast.makeText(context,"色が選択されていません",Toast.LENGTH_LONG)
+                /*val toast=Toast.makeText(context,"色が選択されていません",Toast.LENGTH_LONG)
                 val toastView=toast.view
                 toastView?.setBackgroundColor(Color.YELLOW)
                 //toast.show()
-                //spinner.setBackgroundColor(Color.RED)
+                //spinner.setBackgroundColor(Color.RED)*/
                 val imgAlert=view.findViewById<ImageView>(R.id.imgAlert)
                 imgAlert.visibility=View.VISIBLE
             }else  {
