@@ -130,11 +130,11 @@ https://tkm0on.hatenablog.com/entry/2015/05/26/180655
 fragment savedinstancestateについて
 https://stackoverflow.com/questions/20550016/savedinstancestate-is-always-null-in-fragment
 
-
+入力領域の空白自動削除
+ val text = editText.text.toString().trim()
 
 必要と思われるデータ
 開拓ポイント（新旧２種類）
 各バッジの獲得に必要なポイント
 名刺の背景・フレーム
-
  */
