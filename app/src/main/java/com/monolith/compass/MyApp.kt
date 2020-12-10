@@ -28,7 +28,7 @@ class MyApp: Application(){
 
     var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
 
-    var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
+    var Current:MAPDATA=MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
@@ -56,15 +56,27 @@ class MyApp: Application(){
         toast.show()
     }
 
-    fun FileWriteAdd(str:String,child:String){
-        var buf:String=""
+    fun FileWrite(str:String,child:String){
         val GLOBAL= getInstance()
 
         if(GLOBAL.DIRECTORY==null)return
 
         try{
             val file= File(GLOBAL.DIRECTORY+"/", child)
-            val scan= Scanner(file)
+            file.writeText(str)
+        }catch(e: FileNotFoundException){
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            file.writeText(str)
+        }
+    }
+
+    fun FileWriteAdd(str:String,child:String){
+        var buf:String=""
+        val GLOBAL= getInstance()
+
+        try{
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            val scan= Scanner(FileRead(child))
             while(scan.hasNextLine()){
                 buf+=scan.nextLine()+"\n"
             }
@@ -76,17 +88,13 @@ class MyApp: Application(){
         }
     }
 
-    fun FileRead(child:String){
-        var buf:String=""
+    fun GPSFileRead(child:String){
         val GLOBAL= getInstance()
-
-        if(GLOBAL.DIRECTORY==null)return
 
         GLOBAL.GPS_LOG.clear()
 
         try{
-            val file= File(GLOBAL.DIRECTORY+"/", child)
-            val scan= Scanner(file)
+            val scan= Scanner(FileRead(child))
             scan.useDelimiter("[,\n]")
             while(scan.hasNextLine()&&scan.hasNext()){
                 val FILE_X:String=scan.next().substring(2)
@@ -97,6 +105,55 @@ class MyApp: Application(){
             }
         }catch(e: FileNotFoundException){
         }
+    }
+
+    fun FileRead(child:String):String{
+        var buf:String=""
+        val GLOBAL=getInstance()
+
+        if(GLOBAL.DIRECTORY==null)return ""
+
+        val file=File(GLOBAL.DIRECTORY+"/",child)
+        val scan=Scanner(file)
+
+        while(scan.hasNext()){
+            buf+=scan.next()
+            if(scan.hasNext())buf+="\n"
+        }
+        return buf
+    }
+
+    //マップを配列に保存する関数
+    fun setMap(data: String) {
+        val GLOBAL=getInstance()
+
+        val scan = Scanner(data)
+        scan.useDelimiter(",|\r\n")
+
+        GLOBAL.Current.MAP_X = 130.4088f
+        GLOBAL.Current.MAP_Y = 33.5841f
+
+        for (fy in 0 until 500) {
+            for (fx in 0 until 500) {
+                if (scan.hasNextInt()) GLOBAL.Current.MAP[fy][fx] = scan.nextInt()
+            }
+        }
+
+        val str="X="+GLOBAL.Current.MAP_X+",Y="+GLOBAL.Current.MAP_Y+"\n"+data
+
+        MyApp().FileWrite(str,"MAPLOG.txt")
+    }
+
+    //フォルダ内マップデータをセットマップに流せる形式に変換
+    fun convertMapFileData(data:String):String{
+        val scan = Scanner(data)
+        var str=""
+        scan.next()
+        while(scan.hasNext()){
+            str+=scan.next()
+            if(scan.hasNext())str+="\n"
+        }
+        return str
     }
 
 }

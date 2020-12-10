@@ -219,6 +219,11 @@ class MapFragment : Fragment() {
     //フラグメント破棄時処理
     override fun onDetach() {
         super.onDetach()
+
+    }
+
+    override fun onPause(){
+        super.onPause()
         //GPS情報を次回も使いまわせるように上書き
         //しかし動かぬ
         GLOBAL.GPS_BUF.GPS_X = Location.GPS_X
@@ -226,6 +231,7 @@ class MapFragment : Fragment() {
         GLOBAL.GPS_BUF.GPS_A = Location.GPS_A
         GLOBAL.GPS_BUF.GPS_S = Location.GPS_S
     }
+
 
 
     //マップ情報リセット関数
@@ -342,28 +348,13 @@ class MapFragment : Fragment() {
             .response { _, response, result ->
                 when (result) {
                     is Result.Success -> {
-                        setMap(String(response.data))
+                        MyApp().setMap(String(response.data))
                     }
                     is Result.Failure -> {
                         getMapData()
                     }
                 }
             }
-    }
-
-    //マップを配列に保存する関数
-    fun setMap(data: String) {
-        val scan = Scanner(data)
-        scan.useDelimiter(",|\r\n")
-
-        GLOBAL.Current.MAP_X = 130.4088f
-        GLOBAL.Current.MAP_Y = 33.5841f
-
-        for (fy in 0 until 500) {
-            for (fx in 0 until 500) {
-                if (scan.hasNextInt()) GLOBAL.Current.MAP[fy][fx] = scan.nextInt()
-            }
-        }
     }
 
 

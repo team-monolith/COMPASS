@@ -18,6 +18,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.map.MapFragment
 import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import kotlin.math.floor
@@ -41,7 +42,10 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
 
         //カレントディレクトリを設定しデータを読み込む
         GLOBAL.DIRECTORY = "$filesDir"
-        MyApp().FileRead("GPSLOG.txt")
+
+        //データを読み込みプレロードする処理を書きたい（書きたいだけ）
+        //MyApp().GPSFileRead("GPSLOG.txt")
+        //MyApp().setMap(MyApp().convertMapFileData(MyApp().FileRead("MAPLOG.txt")))
 
         //アイテムIDを設定する
         itemselectedlog =
@@ -135,7 +139,7 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         super.onResume()
         stopBackgroundLocationService()
         startLocationService()
-        MyApp().FileRead("GPSLOG.txt")
+        MyApp().GPSFileRead("GPSLOG.txt")
     }
 
     //戻るボタン無効化、そのうちもどす
@@ -304,7 +308,7 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         ) {
             MyApp().FileWriteAdd(filestr, "GPSLOG.txt")
         }
-        MyApp().FileRead("GPSLOG.txt")
+        MyApp().GPSFileRead("GPSLOG.txt")
 
     }
 
