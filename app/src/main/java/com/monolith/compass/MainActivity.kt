@@ -39,9 +39,11 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //カレントディレクトリを設定しデータを読み込む
         GLOBAL.DIRECTORY = "$filesDir"
         MyApp().FileRead("GPSLOG.txt")
 
+        //アイテムIDを設定する
         itemselectedlog =
             findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_profile).itemId
 
@@ -58,10 +60,12 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_profile -> {
+                    //選択したアイテムIDを保持
                     itemselectedlog = it.itemId
+                    //NavChoiceフラグメントが起動している場合は削除
                     NavChoiceDelete()
+                    //画面を遷移する
                     findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_profile)
-                    itemselectedlog = it.itemId
                 }
                 R.id.navigation_fitness -> {
                     itemselectedlog = it.itemId
@@ -209,7 +213,7 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
 
         locationManager.requestLocationUpdates(
             LocationManager.GPS_PROVIDER,
-            500,
+            100,
             1f,
             this
         )
@@ -281,6 +285,9 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         GLOBAL.GPS_BUF.GPS_X = (floor(location.longitude * 10000.0) / 10000.0).toFloat()
         GLOBAL.GPS_BUF.GPS_A = (floor(location.accuracy * 10000.0) / 10000.0).toFloat()
         GLOBAL.GPS_BUF.GPS_S = (floor(location.speed * 10000.0) / 10000.0).toFloat()
+
+        //誤差が大きい場合はそもそも記録しない
+        if(GLOBAL.GPS_BUF.GPS_A!! >15f)return
 
         val last = GLOBAL.GPS_LOG.lastIndex
 
