@@ -59,10 +59,10 @@ class UsrinfoFragment : Fragment() {
                 val selectLineColor=parent?.selectedItem as String
                 //Toast.makeText(context,selectLineColor,Toast.LENGTH_SHORT).show()
                 //spinner.setBackgroundColor(Color.WHITE)
-                val imgAlert=view.findViewById<ImageView>(R.id.imgAlert)
+                /*val imgAlert=view.findViewById<ImageView>(R.id.imgAlert)
                 if (imgAlert.visibility.toString()!="INVISIBLE") {
                     imgAlert.visibility = View.INVISIBLE
-                }
+                }*/
 
             }
             //　アイテムが選択されなかった
@@ -87,8 +87,8 @@ class UsrinfoFragment : Fragment() {
                 toastView?.setBackgroundColor(Color.YELLOW)
                 //toast.show()
                 //spinner.setBackgroundColor(Color.RED)*/
-                val imgAlert=view.findViewById<ImageView>(R.id.imgAlert)
-                imgAlert.visibility=View.VISIBLE
+                //val imgAlert=view.findViewById<ImageView>(R.id.imgAlert)
+                //imgAlert.visibility=View.VISIBLE
             }else  {
                 //身長・体重・線の色をサーバーに送信
                 Toast.makeText(context,weight+"Kg:"+height+"cm:"+lineColor+"保存しました",Toast.LENGTH_SHORT).show()
