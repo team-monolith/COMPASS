@@ -42,25 +42,25 @@
                         android:id="@+id/textWeight"
                         android:layout_width="51dp"
                         android:layout_height="31dp"
-                        android:layout_marginTop="84dp"
+                        android:layout_marginTop="88dp"
                         android:text="体重"
                         android:textAlignment="center"
                         android:textSize="24sp"
                         app:layout_constraintEnd_toStartOf="@+id/editWeight"
-                        app:layout_constraintHorizontal_bias="0.38"
+                        app:layout_constraintHorizontal_bias="0.714"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="HardcodedText,MissingConstraints" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/textHeight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="68dp"
+                        android:layout_marginTop="60dp"
                         android:hint="身長"
                         android:textSize="24sp"
                         app:layout_constraintEnd_toStartOf="@+id/editHeight"
-                        app:layout_constraintHorizontal_bias="0.521"
+                        app:layout_constraintHorizontal_bias="0.717"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textWeight"
                         tools:ignore="HardcodedText" />
@@ -112,14 +112,31 @@
                         tools:ignore="HardcodedText" />
 
                     <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@android:drawable/ic_delete"
+                        android:id="@+id/imgAlert"
+                        android:layout_width="34dp"
+                        android:layout_height="28dp"
+                        android:src="?android:attr/alertDialogIcon"
+                        android:visibility="invisible"
+                        android:background="#fff100"
                         app:layout_constraintBottom_toBottomOf="@+id/spinnerLineColor"
                         app:layout_constraintEnd_toStartOf="@+id/spinnerLineColor"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/spinnerLineColor" />
+                        app:layout_constraintTop_toTopOf="@+id/spinnerLineColor"
+                        tools:ignore="ContentDescription,MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/view"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="411dp"
+                        android:layout_marginBottom="701dp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
