@@ -2,10 +2,9 @@ package com.monolith.compass.ui.fitness
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.util.AttributeSet
@@ -16,7 +15,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
-import com.monolith.compass.ui.map.MapFragment
 
 class DayFragment : Fragment() {
 
@@ -30,6 +28,8 @@ class DayFragment : Fragment() {
     var width: Int = 0
 
     var moveview: DayFragment.MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
+
+    var walker: Array<Bitmap?> = arrayOfNulls(3)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,14 +58,24 @@ class DayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        HandlerDraw(MoveView(this.activity))
+        HandlerDraw(moveview!!)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        walker = arrayOf(
+            BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk1),
+            BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk2),
+            BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk3)
+        )
+
     }
 
     //描画関数　再描画用
     fun HandlerDraw(mv: DayFragment.MoveView) {
         handler.post(object : Runnable {
             override fun run() {
-                //変数類再設定
                 //再描画
                 mv.invalidate()
                 handler.postDelayed(this, 25)
@@ -85,8 +95,8 @@ class DayFragment : Fragment() {
         @SuppressLint("DrawAllocation")
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
-            Draw.meter(height,width,5000,10000,canvas)
-            //これがループで呼ばれない問題を解決すること
+            Draw.meter(height,width,7000,10000,canvas)
+            Draw.human(walker,height,width,canvas)
         }
     }
 }
