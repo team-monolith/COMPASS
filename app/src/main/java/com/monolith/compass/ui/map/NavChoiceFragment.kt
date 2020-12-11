@@ -37,11 +37,15 @@ class NavChoiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val iv_Back=view.findViewById<ImageView>(R.id.ivBack)
         val iv_Map=view.findViewById<ImageView>(R.id.ivMap)
         val iv_Event=view.findViewById<ImageView>(R.id.ivEvent)
 
         startAnimation(iv_Map,iv_Event)
 
+        iv_Back.setOnClickListener{
+            _clickListener?.onClick_Back()
+        }
         iv_Map.setOnClickListener{
             _clickListener?.onClick_Map()
         }
@@ -66,6 +70,7 @@ class NavChoiceFragment : Fragment() {
     }
 
     interface OnClickListener{
+        fun onClick_Back()
         fun onClick_Map()
         fun onClick_Event()
     }

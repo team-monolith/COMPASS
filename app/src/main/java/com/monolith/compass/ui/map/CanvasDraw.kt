@@ -14,6 +14,10 @@ class CanvasDraw : Fragment() {
 
     private var anim_ringR: Float = 0f
 
+    private var anim_GPSringR:Float=0f
+
+    private var anim_GPSringFlg:Boolean=false
+
     fun Map(posX: Int, posY: Int, scale: Float, CurrentMAP: Array<Array<Int?>>, canvas: Canvas?) {
 
         val paint: Array<Paint> = Array<Paint>(5) { Paint() }
@@ -39,6 +43,7 @@ class CanvasDraw : Fragment() {
         posX: Int,
         posY: Int,
         scale: Float,
+        size:Rect,
         Location: MyApp.GPSDATA,
         Current: MyApp.MAPDATA,
         canvas: Canvas?
@@ -48,37 +53,66 @@ class CanvasDraw : Fragment() {
         Circle.color = Color.parseColor("#FF0000")
         Circle.isAntiAlias = true
 
-        //GPS誤差が70m以上ある場合は赤表示
-        if (Location.GPS_A!! < 50f) Circle.color = Color.parseColor("#00FF00")
-        else Circle.color = Color.parseColor("#FF0000")
+        //GPS誤差が15m以下の場合
+        if (Location.GPS_A!! < 15f){
+            Circle.color = Color.parseColor("#00FF00")
+            //座標中心円
+            canvas!!.drawCircle(
+                (250 * scale + posX) + (((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2,
+                (250 * scale + posY) + (((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt()) * scale - scale / 2,
+                20f,
+                Circle
+            )
+            Circle.style = Paint.Style.STROKE
+            Circle.strokeWidth = 3f
+            Circle.alpha= 255-((anim_GPSringR/(size.width()*0.25))*255).toInt()
+            //座標円周円
+            canvas.drawCircle(
+                (250 * scale + posX) + (((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2,
+                (250 * scale + posY) + (((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt()) * scale - scale / 2,
+                anim_GPSringR,
+                Circle
+            )
+            //リングサイズが小さい場合は大きくする
+            if(anim_GPSringR+((size.width()*0.25)/35).toFloat()<=size.width()*0.25)anim_GPSringR+=((size.width()*0.25)/40).toFloat()
+            //GPSが更新されており、リングが大きくなりきった場合は小さくする
+            else if(anim_GPSringFlg){
+                anim_GPSringR=0f
+                anim_GPSringFlg=false
+            }
+        }
+        //GPS誤差が15m以上の場合
+        else{
+            Circle.color = Color.parseColor("#FF0000")
+            //座標中心円
+            canvas!!.drawCircle(
+                (250 * scale + posX) + (((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2,
+                (250 * scale + posY) + (((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt()) * scale - scale / 2,
+                20f,
+                Circle
+            )
+            Circle.style = Paint.Style.STROKE
+            Circle.strokeWidth = 5f
+            //座標外周円
+            canvas.drawCircle(
+                (250 * scale + posX) + (((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2,
+                (250 * scale + posY) + (((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt()) * scale - scale / 2,
+                Location.GPS_A!! / 10 * scale,
+                Circle
+            )
+            Circle.strokeWidth = 2f
+            //座標円周円
+            canvas.drawCircle(
+                (250 * scale + posX) + (((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2,
+                (250 * scale + posY) + (((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt()) * scale - scale / 2,
+                anim_ringR,
+                Circle
+            )
+            if (anim_ringR + (Location.GPS_A!! / 10 * scale) / 20 <= Location.GPS_A!! / 10 * scale) anim_ringR += (Location.GPS_A!! / 10 * scale) / 20
+            else  anim_ringR = -50f
+        }
 
-        Circle.isAntiAlias = true
-        //座標中心円
-        canvas!!.drawCircle(
-            (250 * scale + posX) + (((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2,
-            (250 * scale + posY) + (((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt()) * scale - scale / 2,
-            20f,
-            Circle
-        )
-        Circle.style = Paint.Style.STROKE
-        Circle.strokeWidth = 5f
-        //座標外周円
-        canvas.drawCircle(
-            (250 * scale + posX) + (((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2,
-            (250 * scale + posY) + (((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt()) * scale - scale / 2,
-            Location.GPS_A!! / 10 * scale,
-            Circle
-        )
-        Circle.strokeWidth = 2f
-        //座標円周円
-        canvas.drawCircle(
-            (250 * scale + posX) + (((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2,
-            (250 * scale + posY) + (((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt()) * scale - scale / 2,
-            anim_ringR,
-            Circle
-        )
-        if (anim_ringR + (Location.GPS_A!! / 10 * scale) / 20 <= Location.GPS_A!! / 10 * scale) anim_ringR += (Location.GPS_A!! / 10 * scale) / 20
-        else anim_ringR = -50f
+
     }
 
     fun Loading(canvas: Canvas?, size: Rect?) {
@@ -135,9 +169,9 @@ class CanvasDraw : Fragment() {
         for (i in 0..GLOBAL.GPS_LOG.size - 2) {
 
             //点と点の差が30m（3ブロック）未満の場合は線を表示
-            if (abs(GLOBAL.GPS_LOG[i].GPS_X!! - GLOBAL.GPS_LOG[i + 1].GPS_X!!) <= 0.0003 && abs(
+            if (abs(GLOBAL.GPS_LOG[i].GPS_X!! - GLOBAL.GPS_LOG[i + 1].GPS_X!!) < 0.0005 && abs(
                     GLOBAL.GPS_LOG[i].GPS_Y!! - GLOBAL.GPS_LOG[i + 1].GPS_Y!!
-                ) <= 0.0003
+                ) < 0.0005
             ) {
                 val startX =
                     (250 * scale + posX) + (((GLOBAL.GPS_LOG[i].GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale - scale / 2
@@ -160,5 +194,9 @@ class CanvasDraw : Fragment() {
 
         }
 
+    }
+
+    fun updateGPSFlg(){
+        anim_GPSringFlg=true
     }
 }

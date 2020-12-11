@@ -33,6 +33,7 @@ class MapFragment : Fragment() {
     var moveview: MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
 
     var centerFlg = true    //センターボタン押下認識フラッグ
+    var layerFlg=true   //レイヤーボタン押下フラッグ、trueでマップ表示
 
     var scale: Float = 30F   //地図表示のスケール
     var posX: Int = 0    //地図表示の相対X座標
@@ -44,6 +45,8 @@ class MapFragment : Fragment() {
 
     var centerX: Int = 0 //地図の中心点（現在地）の計算用
     var centerY: Int = 0 //地図の中心点（現在地）の計算用
+
+    var lastGPSTime:Long=0
 
 
 
@@ -84,6 +87,7 @@ class MapFragment : Fragment() {
 
         //FABボタンID取得
         val fab_current = view.findViewById<FloatingActionButton>(R.id.fab_current)
+        val fab_layer=view.findViewById<FloatingActionButton>(R.id.fab_layer)
 
         //画面サイズ取得
         size = Rect()
@@ -120,6 +124,9 @@ class MapFragment : Fragment() {
             }
             centerFlg = true
             fab_current.setColorFilter(Color.parseColor("#00AAFF"))
+        }
+        fab_layer.setOnClickListener{
+            layerFlg=!layerFlg
         }
 
     }
@@ -209,9 +216,22 @@ class MapFragment : Fragment() {
         )
     }
 
+    //フラグメント破棄時処理
     override fun onDetach() {
         super.onDetach()
+
     }
+
+    override fun onPause(){
+        super.onPause()
+        //GPS情報を次回も使いまわせるように上書き
+        //しかし動かぬ
+        GLOBAL.GPS_BUF.GPS_X = Location.GPS_X
+        GLOBAL.GPS_BUF.GPS_Y = Location.GPS_Y
+        GLOBAL.GPS_BUF.GPS_A = Location.GPS_A
+        GLOBAL.GPS_BUF.GPS_S = Location.GPS_S
+    }
+
 
 
     //マップ情報リセット関数
@@ -272,6 +292,10 @@ class MapFragment : Fragment() {
             GLOBAL.GPS_BUF.GPS_Y = null
             GLOBAL.GPS_BUF.GPS_A = null
             GLOBAL.GPS_BUF.GPS_S = null
+            //アニメーションのループフラッグを上書き
+            Draw.updateGPSFlg()
+            //最終取得時刻を上書き
+            lastGPSTime=System.currentTimeMillis()
         }
     }
 
@@ -289,10 +313,10 @@ class MapFragment : Fragment() {
             super.onDraw(canvas)
 
             //マップの表示処理
-            Draw.Map(posX, posY, scale, GLOBAL.Current.MAP, canvas)
+            if(layerFlg)Draw.Map(posX, posY, scale, GLOBAL.Current.MAP, canvas)
 
-            //現在地等わかっている場合
-            if (Location.GPS_X != null && GLOBAL.Current.MAP_X != null && GLOBAL.Current.MAP[499][499] != -1) {
+            //現在地等わかっている場合（前回更新から30秒以下の場合）
+            if (Location.GPS_X != null && GLOBAL.Current.MAP_X != null && GLOBAL.Current.MAP[499][499] != -1&&System.currentTimeMillis()-lastGPSTime<30000) {
 
                 //移動履歴を表示
                 Draw.Log(posX,posY,scale,Location,GLOBAL.Current,canvas)
@@ -302,6 +326,7 @@ class MapFragment : Fragment() {
                     posX,
                     posY,
                     scale,
+                    size!!,
                     Location,
                     GLOBAL.Current,
                     canvas
@@ -323,28 +348,13 @@ class MapFragment : Fragment() {
             .response { _, response, result ->
                 when (result) {
                     is Result.Success -> {
-                        setMap(String(response.data))
+                        MyApp().setMap(String(response.data))
                     }
                     is Result.Failure -> {
                         getMapData()
                     }
                 }
             }
-    }
-
-    //マップを配列に保存する関数
-    fun setMap(data: String) {
-        val scan = Scanner(data)
-        scan.useDelimiter(",|\r\n")
-
-        GLOBAL.Current.MAP_X = 130.4088f
-        GLOBAL.Current.MAP_Y = 33.5841f
-
-        for (fy in 0 until 500) {
-            for (fx in 0 until 500) {
-                if (scan.hasNextInt()) GLOBAL.Current.MAP[fy][fx] = scan.nextInt()
-            }
-        }
     }
 
 
