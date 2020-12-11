@@ -121,17 +121,17 @@ class CanvasDraw : Fragment() {
         Circle.isAntiAlias = true
         Circle.strokeWidth = 3f
         //中心円
-        canvas!!.drawCircle(size!!.width() / 2f, size.height() / 4 * 3f, 25f, Circle)
+        canvas!!.drawCircle(size!!.width() / 2f, size.height() / 4 * 3f, 20f, Circle)
         //外周円
         canvas.drawCircle(
             size.width() / 2f + cos(anim_ringR) * 150f,
             size.height() / 4 * 3f + sin(anim_ringR) * 150f,
-            20f, Circle
+            15f, Circle
         )
         canvas.drawCircle(
             size.width() / 2f + cos(anim_ringR / -2) * 150f,
             size.height() / 4 * 3f + sin(anim_ringR / -2) * 150f,
-            20f, Circle
+            15f, Circle
         )
         Circle.style = Paint.Style.STROKE
         //円周円
@@ -144,7 +144,6 @@ class CanvasDraw : Fragment() {
         posX: Int,
         posY: Int,
         scale: Float,
-        Location: MyApp.GPSDATA,
         Current: MyApp.MAPDATA,
         canvas: Canvas?
     ) {
@@ -152,7 +151,8 @@ class CanvasDraw : Fragment() {
         val GLOBAL = MyApp.getInstance()
         var paint = Paint()
         paint.strokeWidth = 10f
-        paint.color = Color.parseColor("#FF0000")
+        //色はユーザ選択ができるようにする、いずれ引数で指定する
+        paint.color = Color.parseColor("#00AAFF")
 
         //レコードが0件の場合は終了
         if (GLOBAL.GPS_LOG.size <= 0) return
@@ -163,7 +163,6 @@ class CanvasDraw : Fragment() {
         val sY =
             (250 * scale + posY) + (((Current.MAP_Y!! - GLOBAL.GPS_LOG[0].GPS_Y!!) * 10000).toInt()) * scale
         val rect = Rect((sX - scale).toInt(), (sY - scale).toInt(), sX.toInt(), sY.toInt())
-        canvas!!.drawRect(rect, paint)
 
         //GPSレコードの件数分繰り返す
         for (i in 0..GLOBAL.GPS_LOG.size - 2) {

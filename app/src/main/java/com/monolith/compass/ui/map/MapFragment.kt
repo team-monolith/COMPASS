@@ -252,7 +252,7 @@ class MapFragment : Fragment() {
                 SystemReflesh()
                 //再描画
                 mv.invalidate()
-                handler.postDelayed(this, 1)
+                handler.postDelayed(this, 25)
             }
         })
     }
@@ -315,11 +315,11 @@ class MapFragment : Fragment() {
             //マップの表示処理
             if(layerFlg)Draw.Map(posX, posY, scale, GLOBAL.Current.MAP, canvas)
 
+            //移動履歴を表示
+            if(GLOBAL.Current.MAP_X!=null)Draw.Log(posX,posY,scale,GLOBAL.Current,canvas)
+
             //現在地等わかっている場合（前回更新から30秒以下の場合）
             if (Location.GPS_X != null && GLOBAL.Current.MAP_X != null && GLOBAL.Current.MAP[499][499] != -1&&System.currentTimeMillis()-lastGPSTime<30000) {
-
-                //移動履歴を表示
-                Draw.Log(posX,posY,scale,Location,GLOBAL.Current,canvas)
 
                 //現在地を表示
                 Draw.Current(

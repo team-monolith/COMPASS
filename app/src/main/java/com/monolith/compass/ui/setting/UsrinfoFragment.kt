@@ -73,8 +73,8 @@ class UsrinfoFragment : Fragment() {
 
 
         view.findViewById<Button>(R.id.buttonUsrinfoSave).setOnClickListener {
-            //保存ボタン
 
+            //保存ボタン
             val height=view.findViewById<EditText>(R.id.editHeight).text.toString()
             val weight=view.findViewById<EditText>(R.id.editWeight).text.toString()
 

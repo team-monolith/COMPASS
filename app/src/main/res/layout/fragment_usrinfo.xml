@@ -112,15 +112,14 @@
                         tools:ignore="HardcodedText" />
 
                     <ImageView
-                        android:id="@+id/imgAlert"
-                        android:layout_width="34dp"
-                        android:layout_height="28dp"
-                        android:src="?android:attr/alertDialogIcon"
-                        android:visibility="invisible"
-                        app:layout_constraintEnd_toStartOf="@+id/spinner"
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/ic_delete"
+                        app:layout_constraintBottom_toBottomOf="@+id/spinnerLineColor"
+                        app:layout_constraintEnd_toStartOf="@+id/spinnerLineColor"
                         app:layout_constraintStart_toStartOf="parent"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="276dp" />
+                        app:layout_constraintTop_toTopOf="@+id/spinnerLineColor" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

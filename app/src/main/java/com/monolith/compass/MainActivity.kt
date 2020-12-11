@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         //カレントディレクトリを設定しデータを読み込む
         GLOBAL.DIRECTORY = "$filesDir"
 
-        //データを読み込みプレロードする処理を書きたい（書きたいだけ）
+        //データを読み込みプリロードする処理を書きたい（書きたいだけ）
         //MyApp().GPSFileRead("GPSLOG.txt")
         //MyApp().setMap(MyApp().convertMapFileData(MyApp().FileRead("MAPLOG.txt")))
 
