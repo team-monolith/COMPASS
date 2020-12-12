@@ -129,7 +129,7 @@ class DayFragment : Fragment() {
             if (posX < 0) {
                 //画面の1/3以上スワイプ時
                 if (posX < width / -3) {
-                    accelerator += 2
+                    accelerator += 10
                     posX -= accelerator
                     //画面遷移完了時
                     if (posX <= -width) {
@@ -139,7 +139,7 @@ class DayFragment : Fragment() {
                 }
                 //1/3未満のスワイプの場合は元に戻す
                 else {
-                    accelerator += 2
+                    accelerator += 10
                     posX += accelerator
                     if (posX >= 0) posX = 0
                 }
@@ -148,7 +148,7 @@ class DayFragment : Fragment() {
             if (posX > 0) {
                 //画面の1/3以上スワイプ時
                 if (posX > width / 3) {
-                    accelerator += 3
+                    accelerator += 10
                     posX += accelerator
                     //画面遷移完了時
                     if (posX >= width) {
@@ -158,7 +158,7 @@ class DayFragment : Fragment() {
                 }
                 //1/3未満のスワイプの場合は元に戻す
                 else {
-                    accelerator += 3
+                    accelerator += 10
                     posX -= accelerator
                     if (posX <= 0) posX = 0
                 }

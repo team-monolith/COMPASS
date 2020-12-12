@@ -28,7 +28,8 @@ class CanvasDraw : Fragment() {
         paint.isAntiAlias = true
         //メーター内の表示
         paint.color = Color.parseColor("#00FF00")
-        val rect = Rect(pos + 0, height / 6 * 5, pos + anim_meter, height)
+
+        val rect = Rect( 0, (height / 6 * 5)+((abs(pos)*1f/width*1f)*(height/6f)).toInt(),  anim_meter, height)
         canvas!!.drawRect(rect, paint)
 
         if (anim_meter < (Current.toFloat() / Target.toFloat()) * width) anim_meter += 10
@@ -52,9 +53,10 @@ class CanvasDraw : Fragment() {
         //相対表現が足りてない（X,Y軸）。余裕があったら再設計
         //文字サイズが50なので25のはずがずれるため20
         //x軸を200引いているのは7桁表示時にtextSize/2*7で余裕がある値
+        paint.alpha=(255*(1-abs(pos)*1f/width*1f)).toInt()
         canvas.drawText(
             Target.toString(),
-            pos + width - 200f,
+             width - 200f,
             (height + (height / 6 * 5)) / 2f + 20f,
             paint
         )
