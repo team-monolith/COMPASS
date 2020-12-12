@@ -17,9 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
 
-class DayFragment : Fragment() {
-
-    private lateinit var dayViewModel: FitnessViewModel
+class MonthFragment : Fragment() {
 
     val Draw = CanvasDraw()
 
@@ -28,7 +26,7 @@ class DayFragment : Fragment() {
     var height: Int = 0
     var width: Int = 0
 
-    var moveview: DayFragment.MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
+    var moveview: MonthFragment.MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
 
     var walker: Array<Bitmap?> = arrayOfNulls(3)
 
@@ -44,8 +42,6 @@ class DayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dayViewModel =
-            ViewModelProvider(this).get(FitnessViewModel::class.java)
 
         val view = inflater.inflate(R.layout.fragment_blank, container, false)
         val layout = view.findViewById<ConstraintLayout>(R.id.blanklayout)
@@ -109,7 +105,7 @@ class DayFragment : Fragment() {
     }
 
     //描画関数　再描画用
-    fun HandlerDraw(mv: DayFragment.MoveView) {
+    fun HandlerDraw(mv: MonthFragment.MoveView) {
         handler.post(object : Runnable {
             override fun run() {
                 //変数類再設定

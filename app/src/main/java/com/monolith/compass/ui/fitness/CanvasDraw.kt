@@ -15,6 +15,7 @@ class CanvasDraw : Fragment() {
 
     var anim_arrow: Int = -900
 
+    //アニメーション変数リセット関数
     fun anim_reset() {
         anim_meter = -50
         anim_walk = 0
@@ -22,16 +23,20 @@ class CanvasDraw : Fragment() {
     }
 
 
+    //歩行量メーター表示関数
     fun meter(height: Int, width: Int, Current: Int, Target: Int, pos: Int, canvas: Canvas?) {
 
         val paint = Paint()
         paint.isAntiAlias = true
-        //メーター内の表示
         paint.color = Color.parseColor("#00FF00")
 
+
+        //メーター内ゲージの表示
+        //スワイプによって高さが変動する
         val rect = Rect( 0, (height / 6 * 5)+((abs(pos)*1f/width*1f)*(height/6f)).toInt(),  anim_meter, height)
         canvas!!.drawRect(rect, paint)
 
+        //メーターを増加させる処理。最大値を超えた場合は最大値で固定する
         if (anim_meter < (Current.toFloat() / Target.toFloat()) * width) anim_meter += 10
         if (anim_meter > (Current.toFloat() / Target.toFloat()) * width) anim_meter =
             ((Current.toFloat() / Target.toFloat()) * width).toInt()
@@ -63,11 +68,13 @@ class CanvasDraw : Fragment() {
 
     }
 
+    //人間のアニメーションを表示する関数
     fun human(walker: Array<Bitmap?>, height: Int, width: Int, pos: Int, canvas: Canvas?) {
+
+        //atache後であることを念のため確認。リソース抜け時クラッシュを回避するため要記載
         if (walker[0] != null) {
             val paint = Paint()
             paint.isAntiAlias = true
-
             canvas!!.drawBitmap(
                 walker[anim_walk % 3]!!,
                 pos + anim_meter.toFloat() - (walker[anim_walk % 3]!!.width / 2),
@@ -77,6 +84,7 @@ class CanvasDraw : Fragment() {
 
         }
 
+        //フレームごとに加算し8で割り切れる数だった場合は次のデザインに変える
         anim_walk_count += 1
         if (anim_walk_count % 8 == 0) {
             anim_walk_count = 0
@@ -84,6 +92,7 @@ class CanvasDraw : Fragment() {
         }
     }
 
+    //人間の上に出る歩数表示用関数
     fun steps(
         height: Int,
         width: Int,
@@ -97,12 +106,15 @@ class CanvasDraw : Fragment() {
         paint.isAntiAlias = true
         paint.textSize = 50f
         paint.color = Color.parseColor("#000000")
+
+        //表示上の歩数を管理する変数
         var steps =
             (anim_meter / ((Current.toFloat() / Target.toFloat()) * width) * Current).toInt()
 
         //小数点以下の誤差を修正
         if (abs(steps - Current) <= 100) steps = Current
 
+        //文字を実際に描画
         canvas!!.drawText(
             steps.toString(),
             pos + anim_meter.toFloat() - 50,
@@ -111,6 +123,7 @@ class CanvasDraw : Fragment() {
         )
     }
 
+    //スワイプ用の左右矢印表示関数
     fun arrow(height: Int, width: Int, tapFlg: Boolean, canvas: Canvas?) {
 
         //桁落ち対策のためにフロートへ変換
@@ -128,6 +141,7 @@ class CanvasDraw : Fragment() {
             paint.alpha = 0
             anim_arrow = -900
         }
+
         //非操作時は矢印をフェードさせる（透過度を遷移させている）
         else {
             if (anim_arrow < 636) {
@@ -141,8 +155,7 @@ class CanvasDraw : Fragment() {
             }
         }
 
-
-        // /32*32は同じのはずなのに*1fでは動かない、要検証
+        //矢印に必要な座標を指定し描画
         val fb: FloatBuffer = FloatBuffer.allocate(8)
 
         fb.put(w / 64 * 61f)
