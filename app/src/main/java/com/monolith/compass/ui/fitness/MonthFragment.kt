@@ -176,11 +176,13 @@ class MonthFragment : Fragment() {
         @SuppressLint("DrawAllocation")
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
-            Draw.arrow(height, width, tapFlg, canvas)
-            Draw.meter(height, width, 10000, 12000, posX, canvas)
-            Draw.steps(height, width, 10000, 12000, walker, posX, canvas)
-            Draw.human(walker, height, width, posX, canvas)
-
+            //Draw.arrow(height, width, tapFlg, canvas)
+            //Draw.meter(height, width, 10000, 12000, posX, canvas)
+            //Draw.steps(height, width, 10000, 12000, walker, posX, canvas)
+            //Draw.human(walker, height, width, posX, canvas)
+            var step=arrayOf(100,400,200,600,200,100,600,800,800,900,
+                100,400,412,679,987,634,234,346,786,124,
+            912,256,345,685,356,372,234,562,211,356,938)
         }
     }
 }

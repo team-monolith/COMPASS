@@ -15,6 +15,8 @@ class CanvasDraw : Fragment() {
 
     var anim_arrow: Int = -900
 
+    var anim_graph:Int=0
+
     //アニメーション変数リセット関数
     fun anim_reset() {
         anim_meter = -50
@@ -207,6 +209,51 @@ class CanvasDraw : Fragment() {
         canvas.drawPoint(w / 64 * 62f, (height / 6 * 5) / 2f, paint)
         canvas.drawPoint(w / 64 * 1f, (height / 6 * 5) / 2f, paint)
         canvas.drawPoint(w / 64 * 2f, (height / 6 * 5) / 2f, paint)
+    }
+
+    fun graph(step:Array<Int>,target:Int,height:Int,width:Int,canvas:Canvas?){
+        val day=step.size
+        val paint=Paint()
+        val line=Paint()
+        paint.isAntiAlias=true
+        paint.color=Color.parseColor("#00FF00")
+        line.color=Color.parseColor("#000000")
+        line.strokeWidth=3f
+        //5本目から描画するため+5する
+        //月の日数が何日であれ動的に対応できるようにday+10で左右5本マージンで作成
+        for(i in 0 until day){
+
+            var top:Float=0f
+            if(anim_graph-(i*30)<=((height/3f*2)*(step[i]*1f/target*1f))){
+                top= height-anim_graph+(i*30).toFloat()
+            }
+            else{
+                top=height-((height/3f*2)*(step[i]*1f/target*1f))
+            }
+
+            val rect=RectF((width*1f/(day+10)*(i+5)),top,(width*1f/(day+10)*(i+6)),height.toFloat())
+            canvas!!.drawRect(rect,paint)
+            //左
+            canvas.drawLine((width*1f/(day+10)*(i+5)),top,(width*1f/(day+10)*(i+5)),width*1f,line)
+            //上
+            canvas.drawLine((width*1f/(day+10)*(i+5)),top,(width*1f/(day+10)*(i+6)),top,line)
+            //右
+            canvas.drawLine((width*1f/(day+10)*(i+6)),top,(width*1f/(day+10)*(i+6)),height*1f,line)
+        }
+
+        if(anim_graph<target*2)anim_graph+=30
+
+
+        //下線の表示
+        canvas!!.drawLine((width*1f/(day+10)*5),height*1f,(width*1f/(day+10)*(day+5)),height*1f,line)
+
+        paint.color=Color.parseColor("#000000")
+        paint.textSize = 30f
+        paint.strokeWidth=3f
+        //目標値の表示
+        canvas!!.drawText(target.toString(),15f,(height/3f)-6f,paint)
+        //目標ラインの表示
+        canvas!!.drawLine(15f, (height/3).toFloat(), width.toFloat()-15, (height/3).toFloat(),paint)
     }
 
 }
