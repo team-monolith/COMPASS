@@ -17,11 +17,15 @@ class CanvasDraw : Fragment() {
 
     var anim_graph:Int=0
 
+    var anim_graphline:Int=-300
+
     //アニメーション変数リセット関数
     fun anim_reset() {
         anim_meter = -50
         anim_walk = 0
         anim_walk_count = 0
+        anim_graph=0
+        anim_graphline=-300
     }
 
 
@@ -211,7 +215,7 @@ class CanvasDraw : Fragment() {
         canvas.drawPoint(w / 64 * 2f, (height / 6 * 5) / 2f, paint)
     }
 
-    fun graph(step:Array<Int>,target:Int,height:Int,width:Int,canvas:Canvas?){
+    fun monthgraph(step:Array<Int>,target:Int,height:Int,width:Int,pos:Int,canvas:Canvas?){
         val day=step.size
         val paint=Paint()
         val line=Paint()
@@ -231,29 +235,33 @@ class CanvasDraw : Fragment() {
                 top=height-((height/3f*2)*(step[i]*1f/target*1f))
             }
 
-            val rect=RectF((width*1f/(day+10)*(i+5)),top,(width*1f/(day+10)*(i+6)),height.toFloat())
+            val rect=RectF(pos+(width*1f/(day+10)*(i+5)),top,pos+(width*1f/(day+10)*(i+6)),height.toFloat())
             canvas!!.drawRect(rect,paint)
             //左
-            canvas.drawLine((width*1f/(day+10)*(i+5)),top,(width*1f/(day+10)*(i+5)),width*1f,line)
+            canvas.drawLine(pos+(width*1f/(day+10)*(i+5)),top,pos+(width*1f/(day+10)*(i+5)),width*1f,line)
             //上
-            canvas.drawLine((width*1f/(day+10)*(i+5)),top,(width*1f/(day+10)*(i+6)),top,line)
+            canvas.drawLine(pos+(width*1f/(day+10)*(i+5)),top,pos+(width*1f/(day+10)*(i+6)),top,line)
             //右
-            canvas.drawLine((width*1f/(day+10)*(i+6)),top,(width*1f/(day+10)*(i+6)),height*1f,line)
+            canvas.drawLine(pos+(width*1f/(day+10)*(i+6)),top,pos+(width*1f/(day+10)*(i+6)),height*1f,line)
         }
 
         if(anim_graph<target*2)anim_graph+=30
 
 
         //下線の表示
-        canvas!!.drawLine((width*1f/(day+10)*5),height*1f,(width*1f/(day+10)*(day+5)),height*1f,line)
+        canvas!!.drawLine(pos+(width*1f/(day+10)*5),height*1f,pos+(width*1f/(day+10)*(day+5)),height*1f,line)
 
         paint.color=Color.parseColor("#000000")
         paint.textSize = 30f
         paint.strokeWidth=3f
+        paint.alpha=(255*(1-abs(pos)*1f/width*1f)).toInt()
         //目標値の表示
+        //ここをフェード表示するように修正
         canvas!!.drawText(target.toString(),15f,(height/3f)-6f,paint)
         //目標ラインの表示
-        canvas!!.drawLine(15f, (height/3).toFloat(), width.toFloat()-15, (height/3).toFloat(),paint)
+        if(anim_graphline>0)canvas.drawLine(15f, (height/3).toFloat(), anim_graphline*1f, (height/3).toFloat(),paint)
+        if(anim_graphline+30<=width-15)anim_graphline+=30
+        else anim_graphline=width-15
     }
 
 }

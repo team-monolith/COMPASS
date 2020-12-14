@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
 
-class DayFragment : Fragment() {
+class DayFragment : Fragment(){
 
     private lateinit var dayViewModel: FitnessViewModel
 
@@ -38,6 +38,7 @@ class DayFragment : Fragment() {
     var tapFlg: Boolean = false
 
     var accelerator: Int = 0
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -180,14 +181,13 @@ class DayFragment : Fragment() {
         @SuppressLint("DrawAllocation")
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
-            //Draw.arrow(height, width, tapFlg, canvas)
-            //Draw.meter(height, width, 10000, 12000, posX, canvas)
-            //Draw.steps(height, width, 10000, 12000, walker, posX, canvas)
-            //Draw.human(walker, height, width, posX, canvas)
-            var step=arrayOf(1000,400,200,600,1200,100,600,800,800,900,
-                100,400,412,679,987,634,234,1256,786,124,
-                912,1256,345,685,356,1372,234,562,211,356,938)
-            Draw.graph(step,1000,height,width,canvas)
+
+            Draw.arrow(height, width, tapFlg, canvas)
+            Draw.meter(height, width, 10000, 12000, posX, canvas)
+            Draw.steps(height, width, 10000, 12000, walker, posX, canvas)
+            Draw.human(walker, height, width, posX, canvas)
+
         }
     }
+
 }

@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
 
-class MonthFragment : Fragment(){
+class WeekFragment : Fragment(){
 
     private lateinit var dayViewModel: FitnessViewModel
 
@@ -28,7 +28,7 @@ class MonthFragment : Fragment(){
     var height: Int = 0
     var width: Int = 0
 
-    var moveview: MonthFragment.MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
+    var moveview: WeekFragment.MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
 
     var walker: Array<Bitmap?> = arrayOfNulls(3)
 
@@ -38,12 +38,6 @@ class MonthFragment : Fragment(){
     var tapFlg: Boolean = false
 
     var accelerator: Int = 0
-
-    enum class Period{
-        DAY,WEEK,MONTH
-    }
-
-    var DispPeriod:Period=Period.DAY
 
 
     override fun onCreateView(
@@ -116,7 +110,7 @@ class MonthFragment : Fragment(){
     }
 
     //描画関数　再描画用
-    fun HandlerDraw(mv: MonthFragment.MoveView) {
+    fun HandlerDraw(mv: WeekFragment.MoveView) {
         handler.post(object : Runnable {
             override fun run() {
                 //変数類再設定
@@ -190,10 +184,6 @@ class MonthFragment : Fragment(){
 
             Draw.arrow(height, width, tapFlg, canvas)
 
-            var step=arrayOf(1000,400,200,600,1200,100,600,800,800,900,
-                100,400,412,679,987,634,234,1256,786,124,
-                912,1256,345,685,356,1372,234,562,211,356,938)
-            Draw.monthgraph(step,1000,height,width,posX,canvas)
 
         }
     }

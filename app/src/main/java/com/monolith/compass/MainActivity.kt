@@ -19,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.fitness.FitnessFragment
 import com.monolith.compass.ui.map.MapFragment
 import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
@@ -26,7 +27,7 @@ import kotlin.math.floor
 
 
 class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.OnClickListener,
-    SettingFragment.OnClickListener {
+    SettingFragment.OnClickListener{
 
     private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
@@ -119,9 +120,6 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
             return@setOnNavigationItemSelectedListener false
         }
 
-        navView.setOnClickListener {
-
-        }
 
     }
 
@@ -294,7 +292,7 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         GLOBAL.GPS_BUF.GPS_S = (floor(location.speed * 10000.0) / 10000.0).toFloat()
 
         //誤差が大きい場合はそもそも記録しない
-        if(GLOBAL.GPS_BUF.GPS_A!! >15f)return
+        if (GLOBAL.GPS_BUF.GPS_A!! > 15f) return
 
         val last = GLOBAL.GPS_LOG.lastIndex
 
@@ -314,6 +312,5 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         MyApp().GPSFileRead("GPSLOG.txt")
 
     }
-
 
 }
