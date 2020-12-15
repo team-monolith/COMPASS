@@ -184,6 +184,9 @@ class WeekFragment : Fragment(){
 
             Draw.arrow(height, width, tapFlg, canvas)
 
+            var step=arrayOf(523,574,1193,980,360,700,100)
+            Draw.weekgraph(step,1000,height,width,posX,canvas)
+
 
         }
     }

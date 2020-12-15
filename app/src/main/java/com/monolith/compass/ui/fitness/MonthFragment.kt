@@ -39,13 +39,6 @@ class MonthFragment : Fragment(){
 
     var accelerator: Int = 0
 
-    enum class Period{
-        DAY,WEEK,MONTH
-    }
-
-    var DispPeriod:Period=Period.DAY
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -190,10 +183,10 @@ class MonthFragment : Fragment(){
 
             Draw.arrow(height, width, tapFlg, canvas)
 
-            var step=arrayOf(1000,400,200,600,1200,100,600,800,800,900,
-                100,400,412,679,987,634,234,1256,786,124,
-                912,1256,345,685,356,1372,234,562,211,356,938)
-            Draw.monthgraph(step,1000,height,width,posX,canvas)
+            var step=arrayOf(1000,5400,3200,9600,1200,6100,3600,5800,1800,5900,
+                9100,5400,412,1679,6987,7634,12234,1256,6786,9124,
+                16912,12256,5345,9685,3356,21372,7234,6562,4211,3356,2938)
+            Draw.monthgraph(step,10000,height,width,posX,canvas)
 
         }
     }

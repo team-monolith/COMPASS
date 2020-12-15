@@ -15,7 +15,8 @@ class CanvasDraw : Fragment() {
 
     var anim_arrow: Int = -900
 
-    var anim_graph:Int=0
+    var anim_graph_month:Int=0
+    var anim_graph_week:Int=-120
 
     var anim_graphline:Int=-300
 
@@ -24,7 +25,8 @@ class CanvasDraw : Fragment() {
         anim_meter = -50
         anim_walk = 0
         anim_walk_count = 0
-        anim_graph=0
+        anim_graph_month=0
+        anim_graph_week=-120
         anim_graphline=-300
     }
 
@@ -228,8 +230,8 @@ class CanvasDraw : Fragment() {
         for(i in 0 until day){
 
             var top:Float=0f
-            if(anim_graph-(i*30)<=((height/3f*2)*(step[i]*1f/target*1f))){
-                top= height-anim_graph+(i*30).toFloat()
+            if(anim_graph_month-(i*30)<=((height/3f*2)*(step[i]*1f/target*1f))){
+                top= height-anim_graph_month+(i*30).toFloat()
             }
             else{
                 top=height-((height/3f*2)*(step[i]*1f/target*1f))
@@ -245,7 +247,7 @@ class CanvasDraw : Fragment() {
             canvas.drawLine(pos+(width*1f/(day+10)*(i+6)),top,pos+(width*1f/(day+10)*(i+6)),height*1f,line)
         }
 
-        if(anim_graph<target*2)anim_graph+=30
+        if(anim_graph_month<target*2)anim_graph_month+=30
 
 
         //下線の表示
@@ -257,10 +259,59 @@ class CanvasDraw : Fragment() {
         paint.alpha=(255*(1-abs(pos)*1f/width*1f)).toInt()
         //目標値の表示
         //ここをフェード表示するように修正
-        canvas!!.drawText(target.toString(),15f,(height/3f)-6f,paint)
+        canvas.drawText(target.toString(),15f,(height/3f)-6f,paint)
         //目標ラインの表示
         if(anim_graphline>0)canvas.drawLine(15f, (height/3).toFloat(), anim_graphline*1f, (height/3).toFloat(),paint)
         if(anim_graphline+30<=width-15)anim_graphline+=30
+        else anim_graphline=width-15
+    }
+
+    fun weekgraph(step:Array<Int>,target:Int,height:Int,width:Int,pos:Int,canvas:Canvas?){
+        val day=step.size
+        val paint=Paint()
+        val line=Paint()
+        paint.isAntiAlias=true
+        paint.color=Color.parseColor("#00FF00")
+        line.color=Color.parseColor("#000000")
+        line.strokeWidth=3f
+        //5本目から描画するため+5する
+        //一週間は7日のため7回ループ
+        for(i in 0 until 7){
+
+            var top:Float=0f
+            if(anim_graph_week-(i*30)<=((height/3f*2)*(step[i]*1f/target*1f))){
+                top= height-anim_graph_week+(i*30).toFloat()
+            }
+            else{
+                top=height-((height/3f*2)*(step[i]*1f/target*1f))
+            }
+
+            val rect=RectF(pos+(width*1f/19*(i*2+3)),top,pos+(width*1f/19*(i*2+4)),height.toFloat())
+            canvas!!.drawRect(rect,paint)
+            //左
+            canvas.drawLine(pos+(width*1f/19*(i*2+3)),top,pos+(width*1f/19*(i*2+3)),width*1f,line)
+            //上
+            canvas.drawLine(pos+(width*1f/19*(i*2+3)),top,pos+(width*1f/19*(i*2+4)),top,line)
+            //右
+            canvas.drawLine(pos+(width*1f/19*(i*2+4)),top,pos+(width*1f/19*(i*2+4)),height*1f,line)
+        }
+
+        if(anim_graph_week<target*2)anim_graph_week+=30
+
+
+        //下線の表示
+        canvas!!.drawLine(pos+(width*1f/19*(0*2+3)),height*1f,pos+(width*1f/19*(6*2+4)),height*1f,line)
+
+        paint.color=Color.parseColor("#000000")
+        paint.textSize = 30f
+        paint.strokeWidth=3f
+        paint.alpha=(255*(1-abs(pos)*1f/width*1f)).toInt()
+        //目標値の表示
+        //ここをフェード表示するように修正
+        canvas.drawText(target.toString(),15f,(height/3f)-6f,paint)
+        //目標ラインの表示
+        if(anim_graphline>0)canvas.drawLine(15f, (height/3).toFloat(), anim_graphline*1f, (height/3).toFloat(),paint)
+        if(anim_graphline+30<=width-15)anim_graphline+=60
         else anim_graphline=width-15
     }
 

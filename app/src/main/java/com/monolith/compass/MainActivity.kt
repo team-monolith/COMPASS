@@ -9,9 +9,11 @@ import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -23,11 +25,12 @@ import com.monolith.compass.ui.fitness.FitnessFragment
 import com.monolith.compass.ui.map.MapFragment
 import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
+import pub.devrel.easypermissions.EasyPermissions
 import kotlin.math.floor
 
 
 class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.OnClickListener,
-    SettingFragment.OnClickListener{
+    SettingFragment.OnClickListener,EasyPermissions.PermissionCallbacks{
 
     private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
@@ -37,7 +40,12 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
 
     var itemselectedlog: Int? = null    //直近アイテム選択ログ保管用
 
+    companion object{
+        private val REQUEST_CODE = 0
+    }
 
+
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,11 +61,8 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         itemselectedlog =
             findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_profile).itemId
 
-        if (RequestGPSPermission()) {
-            startLocationService()
-        }
+        RequestPermission()
 
-        val bmp1 = BitmapFactory.decodeResource(resources, R.drawable.walk1)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
@@ -136,8 +141,10 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         //startBackgroundLocationService()
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onResume() {
         super.onResume()
+        RequestPermission()
         stopBackgroundLocationService()
         startLocationService()
         MyApp().GPSFileRead("GPSLOG.txt")
@@ -146,43 +153,34 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
     //戻るボタン無効化、そのうちもどす
     override fun onBackPressed() {}
 
-    //GPSパーミッションを取得、trueが返されれば実行OK
-    private fun RequestGPSPermission(): Boolean {
+    //必要なパーミッションの許可を一括で取得
+    //一つでも欠けている場合はfalseを返却
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun RequestPermission(){
 
-        // Android 6, API 23以上でパーミッションの確認
-        // 既に許可している
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
+        //取得するべきパーミッションを配列で保存
+        val permissions=arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACTIVITY_RECOGNITION,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+
+        //パーミッションが許可されているか確認
+        //if文の中は「パーミッションが許可されていない」際の処理
+        if(!EasyPermissions.hasPermissions(this,*permissions)){
+            //パーミッションを取得する
+            EasyPermissions.requestPermissions(this,"許可されていない権限があります。\nアプリ利用の為許可をお願いします。", REQUEST_CODE,*permissions)
         }
-        //許可していない場合
-        else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                1000
-            )
-        }
-        return false
     }
 
-    // 結果の受け取り
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String?>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == 1000) {
-            // 使用が許可された
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                MyApp().toastMake(this, "位置情報が取得できないため終了します")
-                finish()
-            }
-        }
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        //ユーザの許可が得られた際に呼出
+        recreate()//とりあえず再起動
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        //ユーザの許可が得られなかった際に呼出
+        finish()//とりあえず終了処理
     }
 
     private fun startLocationService() {
