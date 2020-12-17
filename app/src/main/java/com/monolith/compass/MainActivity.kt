@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         itemselectedlog =
             findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_profile).itemId
 
-        RequestPermission()
+        RequestPermission() 
 
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
