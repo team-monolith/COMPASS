@@ -15,9 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 import com.monolith.compass.ui.profile.ProfileViewModel
 
-class Prof_Badge_Fragment : Fragment() {
+class Prof_Frame_Fragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
-
 
 
     override fun onCreateView(
@@ -27,12 +26,11 @@ class Prof_Badge_Fragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_profile_badge, container, false)
+        val root = inflater.inflate(R.layout.fragment_profile_card, container, false)
         val framebtn: Button = root.findViewById(R.id.frame_btn)
         val backgbtn: Button = root.findViewById(R.id.background_btn)
 
-
+        
         return root
     }
-
 }
