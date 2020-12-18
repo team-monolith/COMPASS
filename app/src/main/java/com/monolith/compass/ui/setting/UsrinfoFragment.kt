@@ -43,12 +43,15 @@ class UsrinfoFragment : Fragment() {
 
         //コンボボックス生成処理・所持している線の色の読み込み処理が必要
         //現在設定中の色を取得ー＞nowSelectLine
-        val spinner= view.findViewById<Spinner>(R.id.spinner)
+        val spinner= view.findViewById<Spinner>(R.id.spinnerLineColor)
         val nowSelectLine="金色"
         val spinnerItems= arrayOf("色を選択してください","赤","青","緑","黄","黒")
         val adapter= context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,spinnerItems) }
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter=adapter
+
+        //色を選択していない時の警告ボタンのID取得
+        val imageAlertView=view.findViewById<ImageView>(R.id.imgAlert)
 
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -57,11 +60,8 @@ class UsrinfoFragment : Fragment() {
                                         view: View, position: Int, id: Long) {
                 //選択項目をselectLineColorで保持
                 val selectLineColor=parent?.selectedItem as String
-                //Toast.makeText(context,selectLineColor,Toast.LENGTH_SHORT).show()
-                //spinner.setBackgroundColor(Color.WHITE)
-                val imgAlert=view.findViewById<ImageView>(R.id.imgAlert)
-                if (imgAlert.visibility.toString()!="INVISIBLE") {
-                    imgAlert.visibility = View.INVISIBLE
+                if (imageAlertView.visibility!=View.INVISIBLE){
+                    imageAlertView.visibility=View.INVISIBLE
                 }
 
             }
@@ -73,26 +73,42 @@ class UsrinfoFragment : Fragment() {
 
 
         view.findViewById<Button>(R.id.buttonUsrinfoSave).setOnClickListener {
-            //保存ボタン
 
+            //保存ボタン
             val height=view.findViewById<EditText>(R.id.editHeight).text.toString()
             val weight=view.findViewById<EditText>(R.id.editWeight).text.toString()
+            val imgAlertView=view.findViewById<ImageView>(R.id.imgAlert)
+            val textHeight=view.findViewById<TextView>(R.id.textHeight)
+            val textWeight=view.findViewById<TextView>(R.id.textWeight)
+            var CHW=0
 
 
-            //色を選択してくださいの時の例外処理
+            //入力、選択がない時の例外処理
             val lineColor=spinner.selectedItem as String
             if (lineColor=="色を選択してください"){
-                val toast=Toast.makeText(context,"色が選択されていません",Toast.LENGTH_LONG)
-                val toastView=toast.view
-                toastView?.setBackgroundColor(Color.YELLOW)
-                //toast.show()
-                //spinner.setBackgroundColor(Color.RED)
-                val imgAlert=view.findViewById<ImageView>(R.id.imgAlert)
-                imgAlert.visibility=View.VISIBLE
-            }else  {
+                imgAlertView.visibility=View.VISIBLE
+                CHW+=1
+            }
+            if(height==""){
+                textHeight.setBackgroundColor(Color.YELLOW)
+                CHW+=3
+            }
+            if (weight==""){
+                textWeight.setBackgroundColor(Color.YELLOW)
+                CHW+=5
+            }
+            when(CHW) {
+                1->{Toast.makeText(context,"色を選択してください",Toast.LENGTH_SHORT).show()}
+                3->{Toast.makeText(context,"身長を入力してください",Toast.LENGTH_SHORT).show()}
+                4->{Toast.makeText(context,"色の選択と身長を入力してください",Toast.LENGTH_SHORT).show()}
+                5->{Toast.makeText(context,"体重を入力してください",Toast.LENGTH_SHORT).show()}
+                6->{Toast.makeText(context,"色の選択と体重の入力してください",Toast.LENGTH_SHORT).show()}
+                8->{Toast.makeText(context,"身長と体重を入力してください",Toast.LENGTH_SHORT).show()}
+                9->{Toast.makeText(context,"全項目入力をしてください",Toast.LENGTH_SHORT).show()}
+                else->{
                 //身長・体重・線の色をサーバーに送信
                 Toast.makeText(context,weight+"Kg:"+height+"cm:"+lineColor+"保存しました",Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)
+                findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)}
             }
 
 
@@ -103,6 +119,8 @@ class UsrinfoFragment : Fragment() {
             Toast.makeText(context,"キャンセルしました"+nowSelectLine,Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)
         }
+
+
 
 
     }

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -27,5 +29,16 @@ class FriendFragment : Fragment() {
         friendViewModel.text.observe(viewLifecycleOwner, Observer {
         })
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //コンボボックス生成処理
+        val spinner=view.findViewById<Spinner>(R.id.spinnerSortFriend)
+        val spinnerSort= arrayOf("新しい順","古い順","お気に入り順","名前順","ID順")
+        val adapter=context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,spinnerSort) }
+        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter=adapter
     }
 }
