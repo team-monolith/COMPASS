@@ -197,7 +197,7 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
                 fitnessOptions
             )
         } else {
-            readData()
+            //readData()
         }
     }
 
