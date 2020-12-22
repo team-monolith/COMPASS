@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         itemselectedlog =
             findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_profile).itemId
 
-        RequestPermission() 
+        RequestPermission()
 
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -191,15 +191,6 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
 
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Log.d("debug", "location manager Enabled")
-        } else {
-            // to prompt setting up GPS
-            val settingsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(settingsIntent)
-            Log.d("debug", "not gpsEnable, startActivity")
-        }
-
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -271,7 +262,6 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
     //位置情報取得を開始
     private fun startBackgroundLocationService() {
         val intent = Intent(application, LocationService::class.java)
-        val test: Application = application
         startForegroundService(intent)
     }
 

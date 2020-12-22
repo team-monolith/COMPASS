@@ -58,7 +58,7 @@ class SettingFragment : Fragment() {
         })
 
         view.findViewById<Button>(R.id.btnPOST).setOnClickListener(View.OnClickListener {
-            datapost()
+            MyApp().FileWrite("2020/12/20,1255\n2020/12/21,2351","STEPLOG.txt")
         })
         view.findViewById<Button>(R.id.btnUSRINFO).setOnClickListener (View.OnClickListener {
             //Toast.makeText(context,"テストメッセージ",Toast.LENGTH_LONG).show()

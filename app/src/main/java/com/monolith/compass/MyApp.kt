@@ -1,5 +1,6 @@
 package com.monolith.compass.com.monolith.compass
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.widget.Toast
@@ -7,6 +8,7 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import java.io.File
 import java.io.FileNotFoundException
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
 
@@ -24,7 +26,11 @@ class MyApp: Application(){
 
     data class MAPDATA(var MAP :Array<Array<Int?>>,var MAP_X:Float?,var MAP_Y:Float?)
 
+    data class STEPDATA(var DATE:Date, var STEPS:Int)
+
     var GPS_LOG=mutableListOf<GPSDATA>()
+
+    var STEP_LOG=mutableListOf<STEPDATA>()
 
     var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
 
@@ -54,6 +60,25 @@ class MyApp: Application(){
     fun toastMake(context: Context,message: String) {
         val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
         toast.show()
+    }
+
+    fun FileRead(child:String):String{
+        var buf:String=""
+        val GLOBAL=getInstance()
+
+        if(GLOBAL.DIRECTORY==null)return ""
+
+        val file=File(GLOBAL.DIRECTORY+"/",child)
+
+        if(!file.isFile)return ""
+
+        val scan=Scanner(file)
+
+        while(scan.hasNext()){
+            buf+=scan.next()
+            if(scan.hasNext())buf+="\n"
+        }
+        return buf
     }
 
     fun FileWrite(str:String,child:String){
@@ -107,21 +132,55 @@ class MyApp: Application(){
         }
     }
 
-    fun FileRead(child:String):String{
-        var buf:String=""
-        val GLOBAL=getInstance()
+    @SuppressLint("SimpleDateFormat")
+    fun STEPFileRead(child:String){
+        val GLOBAL= getInstance()
 
-        if(GLOBAL.DIRECTORY==null)return ""
+        GLOBAL.STEP_LOG.clear()
 
-        val file=File(GLOBAL.DIRECTORY+"/",child)
-        val scan=Scanner(file)
+        val pattern= SimpleDateFormat("yyyy/MM/dd")
 
-        while(scan.hasNext()){
-            buf+=scan.next()
-            if(scan.hasNext())buf+="\n"
+        try{
+            val scan= Scanner(FileRead(child))
+            scan.useDelimiter("[,\n]")
+
+            if(!scan.hasNextLine()){
+                FileWrite(pattern.format(Date()).toString()+",0\n","STEPLOG.txt")
+                STEPFileRead(child)
+            }
+
+            while(scan.hasNextLine()&&scan.hasNext()){
+                val DATE:Date?=pattern.parse(scan.next())
+                val STEPS:Int=scan.nextInt()
+                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(DATE!!,STEPS))
+            }
+
+            if(pattern.format(GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].DATE)!=pattern.format(Date())){
+                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(Date(),0))
+            }
+
+        }catch(e: FileNotFoundException){
         }
-        return buf
     }
+
+    fun StepFileWrite(child:String){
+        val GLOBAL=getInstance()
+        var buf=""
+        val pattern= SimpleDateFormat("yyyy/MM/dd")
+        try{
+            val file=File(GLOBAL.DIRECTORY+"/",child)
+            for(i in GLOBAL.STEP_LOG.indices){
+                buf+=pattern.format(GLOBAL.STEP_LOG[i].DATE)+","+GLOBAL.STEP_LOG[i].STEPS
+                if(i!=GLOBAL.STEP_LOG.lastIndex)buf+="\n"
+            }
+            file.writeText(buf)
+        } catch(e:FileNotFoundException){
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            file.writeText("")
+        }
+    }
+
+
 
     //マップを配列に保存する関数
     fun setMap(data: String) {
