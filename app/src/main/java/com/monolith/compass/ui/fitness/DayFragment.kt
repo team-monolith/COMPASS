@@ -16,11 +16,16 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
+import com.monolith.compass.com.monolith.compass.MyApp
+import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 
-class DayFragment : Fragment(){
+class DayFragment : Fragment() {
 
     private lateinit var dayViewModel: FitnessViewModel
+
+    private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
     val Draw = CanvasDraw()
 
@@ -40,7 +45,8 @@ class DayFragment : Fragment(){
 
     var accelerator: Int = 0
 
-    var prevDate:Date= Date()
+    var prevDate: Date = Date()
+    var prevCount: Int? = null
 
 
     override fun onCreateView(
@@ -78,10 +84,32 @@ class DayFragment : Fragment(){
         view.setOnTouchListener { _, event ->
             onTouch(view, event)
         }
+
+        prevCount = GLOBAL.STEP_LOG.lastIndex
+
     }
 
-    fun setDate(){
+    fun setDate(Direction: Int) {
 
+        val cl = Calendar.getInstance()
+        cl.time = prevDate
+        cl.add(Calendar.DATE, Direction)
+
+        cl.clear(Calendar.MINUTE)
+        cl.clear(Calendar.SECOND)
+        cl.clear(Calendar.MILLISECOND)
+        cl.set(Calendar.HOUR_OF_DAY,0)
+
+        prevDate=cl.time
+
+        for(i in GLOBAL.STEP_LOG.indices){
+            if(prevDate==GLOBAL.STEP_LOG[i].DATE){
+                prevCount=i
+                return
+            }
+        }
+        prevCount=null
+        return
     }
 
     override fun onAttach(context: Context) {
@@ -141,6 +169,7 @@ class DayFragment : Fragment(){
                     posX -= accelerator
                     //画面遷移完了時
                     if (posX <= -width) {
+                        setDate(1)
                         posX = 0
                         Draw.anim_reset()
                     }
@@ -160,6 +189,7 @@ class DayFragment : Fragment(){
                     posX += accelerator
                     //画面遷移完了時
                     if (posX >= width) {
+                        setDate(-1)
                         posX = 0
                         Draw.anim_reset()
                     }
@@ -189,9 +219,17 @@ class DayFragment : Fragment(){
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
 
+            var STEP = 0
+            var TARGET = 33333
+            //存在しない場合は0を表示する
+            if (prevCount != null) {
+                STEP = GLOBAL.STEP_LOG[prevCount!!].STEP
+                TARGET = GLOBAL.STEP_LOG[prevCount!!].TARGET
+            }
+
             Draw.arrow(height, width, tapFlg, canvas)
-            Draw.meter(height, width, 10000, 12000, posX, canvas)
-            Draw.steps(height, width, 10000, 12000, walker, posX, canvas)
+            Draw.meter(height, width, STEP, TARGET, posX, canvas)
+            Draw.steps(height, width, STEP, TARGET, walker, posX, canvas)
             Draw.human(walker, height, width, posX, canvas)
 
         }
