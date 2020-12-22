@@ -58,7 +58,7 @@ class SettingFragment : Fragment() {
         })
 
         view.findViewById<Button>(R.id.btnPOST).setOnClickListener(View.OnClickListener {
-            MyApp().FileWrite("2020/12/20,10000,4321,100\n2020/12/21,10000,2351,100","STEPLOG.txt")
+            MyApp().FileWrite("2020/12/18,10000,15321,100\n2020/12/20,10000,4321,100\n2020/12/21,10000,2351,100\n2020/12/22,10000,9343,100","STEPLOG.txt")
         })
         view.findViewById<Button>(R.id.btnUSRINFO).setOnClickListener (View.OnClickListener {
             //Toast.makeText(context,"テストメッセージ",Toast.LENGTH_LONG).show()
@@ -103,7 +103,7 @@ class SettingFragment : Fragment() {
         val POSTDATA = HashMap<String, String>()
         POSTDATA.put("data", "monolith")
 
-        "https://ky-server.net/~monolith/system/send.php".httpPost(POSTDATA.toList()).response { _, response, result ->
+        "https://ky-server.net/~monolith/system/send.php".httpPost(POSTDATA.toList()).response { _, _, result ->
             when (result) {
                 is Result.Success -> {
                 }

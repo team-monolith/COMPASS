@@ -17,8 +17,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
-import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 class DayFragment : Fragment() {
@@ -47,7 +45,6 @@ class DayFragment : Fragment() {
 
     var prevDate: Date = Date()
     var prevCount: Int? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,7 +83,8 @@ class DayFragment : Fragment() {
         }
 
         prevCount = GLOBAL.STEP_LOG.lastIndex
-
+        setDate(0)
+        (parentFragment as FitnessFragment).DataSet(prevDate)
     }
 
     fun setDate(Direction: Int) {
@@ -98,7 +96,7 @@ class DayFragment : Fragment() {
         cl.clear(Calendar.MINUTE)
         cl.clear(Calendar.SECOND)
         cl.clear(Calendar.MILLISECOND)
-        cl.set(Calendar.HOUR_OF_DAY,0)
+        cl.set(Calendar.HOUR_OF_DAY, 0)
 
         prevDate=cl.time
 
@@ -126,17 +124,17 @@ class DayFragment : Fragment() {
     //タッチイベント実行時処理
     fun onTouch(view: View, event: MotionEvent): Boolean {
 
-        when {
-            event.action == MotionEvent.ACTION_DOWN -> {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
                 logX = event.x.toInt()
                 tapFlg = true
             }
-            event.action == MotionEvent.ACTION_MOVE -> {
+            MotionEvent.ACTION_MOVE -> {
                 posX += event.x.toInt() - logX!!
                 logX = event.x.toInt()
                 tapFlg = true
             }
-            event.action == MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_UP -> {
                 tapFlg = false
             }
         }
@@ -172,6 +170,7 @@ class DayFragment : Fragment() {
                         setDate(1)
                         posX = 0
                         Draw.anim_reset()
+                        (parentFragment as FitnessFragment).DataSet(prevDate)
                     }
                 }
                 //1/3未満のスワイプの場合は元に戻す
@@ -192,6 +191,7 @@ class DayFragment : Fragment() {
                         setDate(-1)
                         posX = 0
                         Draw.anim_reset()
+                        (parentFragment as FitnessFragment).DataSet(prevDate)
                     }
                 }
                 //1/3未満のスワイプの場合は元に戻す
