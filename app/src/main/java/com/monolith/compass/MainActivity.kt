@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -19,13 +18,20 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.fitness.Fitness
+import com.google.android.gms.fitness.FitnessOptions
+import com.google.android.gms.fitness.data.DataType
+import com.google.android.gms.fitness.data.Field
+import com.google.android.gms.fitness.data.Value
+import com.google.android.gms.fitness.request.DataReadRequest
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
-import com.monolith.compass.ui.fitness.FitnessFragment
-import com.monolith.compass.ui.map.MapFragment
 import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.math.floor
 
 
@@ -53,9 +59,6 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
         //カレントディレクトリを設定しデータを読み込む
         GLOBAL.DIRECTORY = "$filesDir"
 
-        //データを読み込みプリロードする処理を書きたい（書きたいだけ）
-        //MyApp().GPSFileRead("GPSLOG.txt")
-        //MyApp().setMap(MyApp().convertMapFileData(MyApp().FileRead("MAPLOG.txt")))
 
         //アイテムIDを設定する
         itemselectedlog =
@@ -171,7 +174,58 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
             //パーミッションを取得する
             EasyPermissions.requestPermissions(this,"許可されていない権限があります。\nアプリ利用の為許可をお願いします。", REQUEST_CODE,*permissions)
         }
+
+        RequestFitnessPermission()
     }
+
+    private fun RequestFitnessPermission(){
+        val fitnessOptions = FitnessOptions.builder()
+            .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
+            .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+            .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA)
+            .build()
+
+        if (!GoogleSignIn.hasPermissions(
+                GoogleSignIn.getLastSignedInAccount(this),
+                fitnessOptions
+            )
+        ) {
+            GoogleSignIn.requestPermissions(
+                this,
+                100,//REQUEST_OAUTH_REQUEST_CODE,
+                GoogleSignIn.getLastSignedInAccount(this),
+                fitnessOptions
+            )
+        } else {
+            //readData()
+        }
+    }
+
+    fun readData(){
+        val start = 1544540400000 // 2018-12-12 00:00:00
+        val end = Date().time // 現在時刻
+
+        val request = DataReadRequest.Builder()
+            .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
+            .setTimeRange(start, end, TimeUnit.MILLISECONDS)
+            .bucketByTime(1, TimeUnit.DAYS) // 集計間隔を1日毎に指定
+            .build()
+
+        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+            .readData(request)
+            .addOnSuccessListener {
+                val buckets = it.buckets // 集計データはbucketsというところに入ってくる
+                buckets.forEach { bucket ->
+                    val start = bucket.getStartTime(TimeUnit.MILLISECONDS)
+                    val end = bucket.getEndTime(TimeUnit.MILLISECONDS)
+                    val dataSet = bucket.getDataSet(DataType.AGGREGATE_STEP_COUNT_DELTA)
+                    val value: Value? = dataSet.dataPoints.first().getValue(Field.FIELD_STEPS)
+                    Log.d("Aggregate", "$start $end $value")
+                }
+            }
+    }
+
+
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         //ユーザの許可が得られた際に呼出
