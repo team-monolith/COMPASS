@@ -1,6 +1,7 @@
 package com.monolith.compass
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -35,7 +36,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.floor
 
 
-class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.OnClickListener,
+class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     SettingFragment.OnClickListener,EasyPermissions.PermissionCallbacks{
 
     private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
     }
 
 
+    @SuppressLint("CutPasteId")
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,8 +150,7 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
     override fun onResume() {
         super.onResume()
         RequestPermission()
-        stopBackgroundLocationService()
-        startLocationService()
+        startBackgroundLocationService()
         MyApp().GPSFileRead("GPSLOG.txt")
     }
 
@@ -175,54 +176,6 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
             EasyPermissions.requestPermissions(this,"許可されていない権限があります。\nアプリ利用の為許可をお願いします。", REQUEST_CODE,*permissions)
         }
 
-        RequestFitnessPermission()
-    }
-
-    private fun RequestFitnessPermission(){
-        val fitnessOptions = FitnessOptions.builder()
-            .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
-            .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
-            .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA)
-            .build()
-
-        if (!GoogleSignIn.hasPermissions(
-                GoogleSignIn.getLastSignedInAccount(this),
-                fitnessOptions
-            )
-        ) {
-            GoogleSignIn.requestPermissions(
-                this,
-                100,//REQUEST_OAUTH_REQUEST_CODE,
-                GoogleSignIn.getLastSignedInAccount(this),
-                fitnessOptions
-            )
-        } else {
-            //readData()
-        }
-    }
-
-    fun readData(){
-        val start = 1544540400000 // 2018-12-12 00:00:00
-        val end = Date().time // 現在時刻
-
-        val request = DataReadRequest.Builder()
-            .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
-            .setTimeRange(start, end, TimeUnit.MILLISECONDS)
-            .bucketByTime(1, TimeUnit.DAYS) // 集計間隔を1日毎に指定
-            .build()
-
-        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
-            .readData(request)
-            .addOnSuccessListener {
-                val buckets = it.buckets // 集計データはbucketsというところに入ってくる
-                buckets.forEach { bucket ->
-                    val start = bucket.getStartTime(TimeUnit.MILLISECONDS)
-                    val end = bucket.getEndTime(TimeUnit.MILLISECONDS)
-                    val dataSet = bucket.getDataSet(DataType.AGGREGATE_STEP_COUNT_DELTA)
-                    val value: Value? = dataSet.dataPoints.first().getValue(Field.FIELD_STEPS)
-                    Log.d("Aggregate", "$start $end $value")
-                }
-            }
     }
 
 
@@ -235,36 +188,6 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
         //ユーザの許可が得られなかった際に呼出
         finish()//とりあえず終了処理
-    }
-
-    private fun startLocationService() {
-        Log.d("debug", "locationStart()")
-
-        // Instances of LocationManager class must be obtained using Context.getSystemService(Class)
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1000
-            )
-
-            Log.d("debug", "checkSelfPermission false")
-            return
-        }
-
-        locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            100,
-            1f,
-            this
-        )
     }
 
     //SettingFragmentからのコール
@@ -323,36 +246,6 @@ class MainActivity : AppCompatActivity(), LocationListener, NavChoiceFragment.On
     private fun stopBackgroundLocationService() {
         val intent = Intent(application, LocationService::class.java)
         stopService(intent)
-    }
-
-    override fun onLocationChanged(location: Location) {
-
-        //GPS取得時にデータを一時保持
-        GLOBAL.GPS_BUF.GPS_Y = (floor(location.latitude * 10000.0) / 10000.0).toFloat()
-        GLOBAL.GPS_BUF.GPS_X = (floor(location.longitude * 10000.0) / 10000.0).toFloat()
-        GLOBAL.GPS_BUF.GPS_A = (floor(location.accuracy * 10000.0) / 10000.0).toFloat()
-        GLOBAL.GPS_BUF.GPS_S = (floor(location.speed * 10000.0) / 10000.0).toFloat()
-
-        //誤差が大きい場合はそもそも記録しない
-        if (GLOBAL.GPS_BUF.GPS_A!! > 15f) return
-
-        val last = GLOBAL.GPS_LOG.lastIndex
-
-        val filestr: String =
-            "X=" + GLOBAL.GPS_BUF.GPS_X + "," + "Y=" + GLOBAL.GPS_BUF.GPS_Y + "," + "A=" + GLOBAL.GPS_BUF.GPS_A + "," + "S=" + GLOBAL.GPS_BUF.GPS_S + "\n"
-
-        //ファイル内がカラの場合は新規追加
-        if (last == -1) {
-            MyApp().FileWriteAdd(filestr, "GPSLOG.txt")
-        }
-        //ファイル内に存在する場合は座標に変化があった場合のみ追加
-        else if (GLOBAL.GPS_LOG[last].GPS_X != GLOBAL.GPS_BUF.GPS_X
-            || GLOBAL.GPS_LOG[last].GPS_Y != GLOBAL.GPS_BUF.GPS_Y
-        ) {
-            MyApp().FileWriteAdd(filestr, "GPSLOG.txt")
-        }
-        MyApp().GPSFileRead("GPSLOG.txt")
-
     }
 
 }

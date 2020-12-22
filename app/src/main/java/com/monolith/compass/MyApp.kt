@@ -26,7 +26,7 @@ class MyApp: Application(){
 
     data class MAPDATA(var MAP :Array<Array<Int?>>,var MAP_X:Float?,var MAP_Y:Float?)
 
-    data class STEPDATA(var DATE:Date, var STEPS:Int)
+    data class STEPDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var CAL:Int)
 
     var GPS_LOG=mutableListOf<GPSDATA>()
 
@@ -144,19 +144,22 @@ class MyApp: Application(){
             val scan= Scanner(FileRead(child))
             scan.useDelimiter("[,\n]")
 
+            //ファイルが存在しない場合は新規で作る。目標値は仮置き
             if(!scan.hasNextLine()){
-                FileWrite(pattern.format(Date()).toString()+",0\n","STEPLOG.txt")
+                FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","STEPLOG.txt")
                 STEPFileRead(child)
             }
 
             while(scan.hasNextLine()&&scan.hasNext()){
                 val DATE:Date?=pattern.parse(scan.next())
-                val STEPS:Int=scan.nextInt()
-                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(DATE!!,STEPS))
+                val TARGET:Int=scan.nextInt()
+                val STEP:Int=scan.nextInt()
+                val CAL:Int=scan.nextInt()
+                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(DATE!!,TARGET,STEP,CAL))
             }
 
             if(pattern.format(GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].DATE)!=pattern.format(Date())){
-                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(Date(),0))
+                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(Date(),10000,0,0))
             }
 
         }catch(e: FileNotFoundException){
@@ -170,7 +173,7 @@ class MyApp: Application(){
         try{
             val file=File(GLOBAL.DIRECTORY+"/",child)
             for(i in GLOBAL.STEP_LOG.indices){
-                buf+=pattern.format(GLOBAL.STEP_LOG[i].DATE)+","+GLOBAL.STEP_LOG[i].STEPS
+                buf+=pattern.format(GLOBAL.STEP_LOG[i].DATE)+","+GLOBAL.STEP_LOG[i].TARGET+","+GLOBAL.STEP_LOG[i].STEP+","+GLOBAL.STEP_LOG[i].CAL
                 if(i!=GLOBAL.STEP_LOG.lastIndex)buf+="\n"
             }
             file.writeText(buf)

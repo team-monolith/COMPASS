@@ -43,7 +43,6 @@ class LocationService: Service(), LocationListener,SensorEventListener {
     protected var mSensorManager: SensorManager? = null
 
     private var mPrevCount = 0f
-    private var mCount = 0f
 
     override fun onCreate() {
         super.onCreate()
@@ -229,7 +228,7 @@ class LocationService: Service(), LocationListener,SensorEventListener {
             if(mPrevCount == 0f)mPrevCount=event.values[0]
 
             if(event.sensor.type == Sensor.TYPE_STEP_COUNTER){
-                GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].STEPS+=(event.values[0]-mPrevCount).toInt()
+                GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].STEP+=(event.values[0]-mPrevCount).toInt()
                 MyApp().StepFileWrite("STEPLOG.txt")
                 mPrevCount=event.values[0]
             }

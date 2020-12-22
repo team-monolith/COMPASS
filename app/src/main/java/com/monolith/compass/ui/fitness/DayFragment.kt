@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
+import java.util.*
 
 class DayFragment : Fragment(){
 
@@ -38,6 +39,8 @@ class DayFragment : Fragment(){
     var tapFlg: Boolean = false
 
     var accelerator: Int = 0
+
+    var prevDate:Date= Date()
 
 
     override fun onCreateView(
@@ -75,6 +78,10 @@ class DayFragment : Fragment(){
         view.setOnTouchListener { _, event ->
             onTouch(view, event)
         }
+    }
+
+    fun setDate(){
+
     }
 
     override fun onAttach(context: Context) {
