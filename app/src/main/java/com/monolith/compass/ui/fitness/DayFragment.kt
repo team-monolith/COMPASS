@@ -44,7 +44,8 @@ class DayFragment : Fragment() {
     var accelerator: Int = 0
 
     var prevDate: Date = Date()
-    var prevCount: Int? = null
+
+    var step: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -82,32 +83,43 @@ class DayFragment : Fragment() {
             onTouch(view, event)
         }
 
-        prevCount = GLOBAL.STEP_LOG.lastIndex
         setDate(0)
         (parentFragment as FitnessFragment).DataSet(prevDate)
     }
 
+
+    //引数に指定された日付を変動させる関数
+
     fun setDate(Direction: Int) {
 
+        step = 0
+
+        //calendarのインスタンスを生成し引数ヶ月動かす
         val cl = Calendar.getInstance()
         cl.time = prevDate
-        cl.add(Calendar.DATE, Direction)
+        cl.add(Calendar.MONTH, Direction)
 
+        //時刻データを破棄
         cl.clear(Calendar.MINUTE)
         cl.clear(Calendar.SECOND)
         cl.clear(Calendar.MILLISECOND)
         cl.set(Calendar.HOUR_OF_DAY, 0)
 
-        prevDate=cl.time
+        //calendar型からdate型に変換
+        prevDate = cl.time
 
-        for(i in GLOBAL.STEP_LOG.indices){
-            if(prevDate==GLOBAL.STEP_LOG[i].DATE){
-                prevCount=i
-                return
+        for (i in GLOBAL.STEP_LOG.indices) {
+            //データとして存在する場合は値を取得
+            if (prevDate == GLOBAL.STEP_LOG[i].DATE) {
+                step = GLOBAL.STEP_LOG[i].STEP
+                break
+            }
+            //最後までフォルダを参照しても存在しない場合は0をセットする
+            else if (i == GLOBAL.STEP_LOG.lastIndex) {
+                step = 0
             }
         }
-        prevCount=null
-        return
+
     }
 
     override fun onAttach(context: Context) {
@@ -219,17 +231,11 @@ class DayFragment : Fragment() {
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
 
-            var STEP = 0
             var TARGET = 33333
-            //存在しない場合は0を表示する
-            if (prevCount != null) {
-                STEP = GLOBAL.STEP_LOG[prevCount!!].STEP
-                TARGET = GLOBAL.STEP_LOG[prevCount!!].TARGET
-            }
 
             Draw.arrow(height, width, tapFlg, canvas)
-            Draw.meter(height, width, STEP, TARGET, posX, canvas)
-            Draw.steps(height, width, STEP, TARGET, walker, posX, canvas)
+            Draw.meter(height, width, step, TARGET, posX, canvas)
+            Draw.steps(height, width, step, TARGET, walker, posX, canvas)
             Draw.human(walker, height, width, posX, canvas)
 
         }

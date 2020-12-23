@@ -16,10 +16,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
+import com.monolith.compass.com.monolith.compass.MyApp
+import java.util.*
 
-class MonthFragment : Fragment(){
+open class MonthFragment : Fragment(){
 
     private lateinit var dayViewModel: FitnessViewModel
+
+    private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
     val Draw = CanvasDraw()
 
@@ -30,14 +34,16 @@ class MonthFragment : Fragment(){
 
     var moveview: MonthFragment.MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
 
-    var walker: Array<Bitmap?> = arrayOfNulls(3)
-
     var posX: Int = 0  //表示座標管理用
     var logX: Int = 0  //タップ追従用
 
-    var tapFlg: Boolean = false
+    var tapFlg: Boolean = false//矢印表示管理用
 
-    var accelerator: Int = 0
+    var accelerator: Int = 0//アニメーション加速度用
+
+    var prevDate: Date = Date()//日付保持用
+
+    var steplist=mutableListOf<Int>()//歩数データ保持用
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,17 +80,12 @@ class MonthFragment : Fragment(){
         view.setOnTouchListener { _, event ->
             onTouch(view, event)
         }
+
+        setDate(0)
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        walker = arrayOf(
-            BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk1),
-            BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk2),
-            BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk3)
-        )
-
     }
 
     //タッチイベント実行時処理
@@ -106,6 +107,48 @@ class MonthFragment : Fragment(){
         }
 
         return true
+    }
+
+    fun setDate(Direction: Int) {
+
+        //リストを破棄
+        steplist.clear()
+
+        //calendarのインスタンスを生成し引数ヶ月動かす
+        val cl = Calendar.getInstance()
+        cl.time = prevDate
+        cl.add(Calendar.MONTH, Direction)
+
+        //時刻データを破棄
+        cl.clear(Calendar.MINUTE)
+        cl.clear(Calendar.SECOND)
+        cl.clear(Calendar.MILLISECOND)
+        cl.set(Calendar.HOUR_OF_DAY, 0)
+
+        //calendar型からdate型に変換
+
+        val lastday=cl.getActualMaximum(Calendar.DAY_OF_MONTH)//その月の最終日を取得
+
+        for(i in 1..lastday){
+
+            //日付をセットしDate型に変換
+            cl.set(Calendar.DAY_OF_MONTH,i)
+            prevDate=cl.time
+
+            //STEPLOGを全件ループ
+            for(x in GLOBAL.STEP_LOG.indices){
+                //もしi日がデータとして存在する場合は値を取得
+                if(prevDate==GLOBAL.STEP_LOG[x].DATE){
+                    steplist.add(GLOBAL.STEP_LOG[x].STEP)
+                    break
+                }
+                //最後までフォルダを参照しても存在しない場合は0をセットする
+                else if(x == GLOBAL.STEP_LOG.lastIndex){
+                    steplist.add(0)
+                }
+            }
+        }
+        return
     }
 
     //描画関数　再描画用
@@ -183,10 +226,7 @@ class MonthFragment : Fragment(){
 
             Draw.arrow(height, width, tapFlg, canvas)
 
-            var step=arrayOf(1000,5400,3200,9600,1200,6100,3600,5800,1800,5900,
-                9100,5400,412,1679,6987,7634,12234,1256,6786,9124,
-                16912,12256,5345,9685,3356,21372,7234,6562,4211,3356,2938)
-            Draw.monthgraph(step,10000,height,width,posX,canvas)
+            Draw.monthgraph(steplist,10000,height,width,posX,canvas)
 
         }
     }
