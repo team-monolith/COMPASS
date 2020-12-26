@@ -46,6 +46,7 @@ class DayFragment : Fragment() {
     var prevDate: Date = Date()
 
     var step: Int = 0
+    var target:Int=0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -94,10 +95,10 @@ class DayFragment : Fragment() {
 
         step = 0
 
-        //calendarのインスタンスを生成し引数ヶ月動かす
+        //calendarのインスタンスを生成し引数日動かす
         val cl = Calendar.getInstance()
         cl.time = prevDate
-        cl.add(Calendar.MONTH, Direction)
+        cl.add(Calendar.DAY_OF_YEAR, Direction)
 
         //時刻データを破棄
         cl.clear(Calendar.MINUTE)
@@ -112,11 +113,13 @@ class DayFragment : Fragment() {
             //データとして存在する場合は値を取得
             if (prevDate == GLOBAL.STEP_LOG[i].DATE) {
                 step = GLOBAL.STEP_LOG[i].STEP
+                target=GLOBAL.STEP_LOG[i].TARGET
                 break
             }
             //最後までフォルダを参照しても存在しない場合は0をセットする
             else if (i == GLOBAL.STEP_LOG.lastIndex) {
                 step = 0
+                target=99999//仮
             }
         }
 
@@ -231,11 +234,9 @@ class DayFragment : Fragment() {
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
 
-            var TARGET = 33333
-
             Draw.arrow(height, width, tapFlg, canvas)
-            Draw.meter(height, width, step, TARGET, posX, canvas)
-            Draw.steps(height, width, step, TARGET, walker, posX, canvas)
+            Draw.meter(height, width, step, target, posX, canvas)
+            Draw.steps(height, width, step, target, walker, posX, canvas)
             Draw.human(walker, height, width, posX, canvas)
 
         }

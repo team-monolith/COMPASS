@@ -2,8 +2,6 @@ package com.monolith.compass.ui.fitness
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.os.Bundle
 import android.os.Handler
@@ -19,7 +17,7 @@ import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 import java.util.*
 
-open class MonthFragment : Fragment(){
+open class MonthFragment : Fragment() {
 
     private lateinit var dayViewModel: FitnessViewModel
 
@@ -82,6 +80,7 @@ open class MonthFragment : Fragment(){
         }
 
         setDate(0)
+        (parentFragment as FitnessFragment).DataSet(getFirstDay(prevDate),getLastDay(prevDate))
     }
 
     override fun onAttach(context: Context) {
@@ -151,6 +150,20 @@ open class MonthFragment : Fragment(){
         return
     }
 
+    fun getFirstDay(date:Date):Date{
+        val cal=Calendar.getInstance()
+        cal.time=date
+        cal.set(Calendar.DAY_OF_MONTH,1)
+        return cal.time
+    }
+
+    fun getLastDay(date:Date):Date{
+        val cal=Calendar.getInstance()
+        cal.time=date
+        cal.set(Calendar.DAY_OF_MONTH,cal.getActualMaximum(Calendar.DAY_OF_MONTH))
+        return cal.time
+    }
+
     //描画関数　再描画用
     fun HandlerDraw(mv: MonthFragment.MoveView) {
         handler.post(object : Runnable {
@@ -176,8 +189,10 @@ open class MonthFragment : Fragment(){
                     posX -= accelerator
                     //画面遷移完了時
                     if (posX <= -width) {
+                        setDate(1)
                         posX = 0
                         Draw.anim_reset()
+                        (parentFragment as FitnessFragment).DataSet(getFirstDay(prevDate),getLastDay(prevDate))
                     }
                 }
                 //1/3未満のスワイプの場合は元に戻す
@@ -195,8 +210,10 @@ open class MonthFragment : Fragment(){
                     posX += accelerator
                     //画面遷移完了時
                     if (posX >= width) {
+                        setDate(-1)
                         posX = 0
                         Draw.anim_reset()
+                        (parentFragment as FitnessFragment).DataSet(getFirstDay(prevDate),getLastDay(prevDate))
                     }
                 }
                 //1/3未満のスワイプの場合は元に戻す

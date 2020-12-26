@@ -141,13 +141,13 @@ class MyApp: Application(){
         val pattern= SimpleDateFormat("yyyy/MM/dd")
 
         try{
-            val scan= Scanner(FileRead(child))
+            var scan= Scanner(FileRead(child))
             scan.useDelimiter("[,\n]")
 
             //ファイルが存在しない場合は新規で作る。目標値は仮置き
             if(!scan.hasNextLine()){
                 FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","STEPLOG.txt")
-                STEPFileRead(child)
+                scan=Scanner(FileRead(child))
             }
 
             while(scan.hasNextLine()&&scan.hasNext()){

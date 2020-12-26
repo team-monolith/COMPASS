@@ -80,6 +80,7 @@ class WeekFragment : Fragment(){
         }
 
         setDate(0)
+        (parentFragment as FitnessFragment).DataSet(getFirstDay(prevDate),getLastDay(prevDate))
     }
 
     override fun onAttach(context: Context) {
@@ -95,7 +96,7 @@ class WeekFragment : Fragment(){
                 tapFlg = true
             }
             event.action == MotionEvent.ACTION_MOVE -> {
-                posX += event.x.toInt() - logX!!
+                posX += event.x.toInt() - logX
                 logX = event.x.toInt()
                 tapFlg = true
             }
@@ -112,10 +113,10 @@ class WeekFragment : Fragment(){
         //リストを破棄
         steplist.clear()
 
-        //calendarのインスタンスを生成し引数ヶ月動かす
+        //calendarのインスタンスを生成し引数ヶ日動かす
         val cl = Calendar.getInstance()
         cl.time = prevDate
-        cl.add(Calendar.MONTH, Direction)
+        cl.add(Calendar.DAY_OF_YEAR, Direction)
 
         //時刻データを破棄
         cl.clear(Calendar.MINUTE)
@@ -125,12 +126,11 @@ class WeekFragment : Fragment(){
 
         //calendar型からdate型に変換
 
-        val lastday=cl.getActualMaximum(Calendar.DAY_OF_MONTH)//その月の最終日を取得
+        cl.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY)//その週の日曜日を取得
 
-        for(i in 1..lastday){
+        for(i in 0..6){
 
             //日付をセットしDate型に変換
-            cl.set(Calendar.DAY_OF_MONTH,i)
             prevDate=cl.time
 
             //STEPLOGを全件ループ
@@ -145,8 +145,25 @@ class WeekFragment : Fragment(){
                     steplist.add(0)
                 }
             }
+
+            cl.add(Calendar.DAY_OF_YEAR,1)
         }
         return
+    }
+
+    fun getFirstDay(date:Date):Date{
+        val cal=Calendar.getInstance()
+        cal.time=date
+        cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY)
+        return cal.time
+    }
+
+    fun getLastDay(date:Date):Date{
+        val cal=Calendar.getInstance()
+        cal.time=date
+        cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY)
+        cal.add(Calendar.DAY_OF_YEAR,6)
+        return cal.time
     }
 
     //描画関数　再描画用
@@ -174,8 +191,10 @@ class WeekFragment : Fragment(){
                     posX -= accelerator
                     //画面遷移完了時
                     if (posX <= -width) {
+                        setDate(7)
                         posX = 0
                         Draw.anim_reset()
+                        (parentFragment as FitnessFragment).DataSet(getFirstDay(prevDate),getLastDay(prevDate))
                     }
                 }
                 //1/3未満のスワイプの場合は元に戻す
@@ -193,8 +212,10 @@ class WeekFragment : Fragment(){
                     posX += accelerator
                     //画面遷移完了時
                     if (posX >= width) {
+                        setDate(-7)
                         posX = 0
                         Draw.anim_reset()
+                        (parentFragment as FitnessFragment).DataSet(getFirstDay(prevDate),getLastDay(prevDate))
                     }
                 }
                 //1/3未満のスワイプの場合は元に戻す
