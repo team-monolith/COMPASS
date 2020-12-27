@@ -107,11 +107,34 @@ class FitnessFragment : Fragment() {
 
     //週・月の場合のセット
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
-    fun DataSet(startDay: Date, endDay: Date) {
-        val pattern = SimpleDateFormat("yyyy年MM月dd日")
-        view?.findViewById<TextView>(R.id.txtDate)?.text =
-            pattern.format(startDay) + "  ～  " + pattern.format(endDay)
+    fun DataSet(startDay: Date, endDay: Date,length:Int) {
 
+        val pattern = SimpleDateFormat("yyyy年MM月dd日")
+
+        var STEPS=0
+        var DISTANCE=0
+        var CALORIES=0
+
+        var day=startDay
+
+        val cl=Calendar.getInstance()
+        cl.time=day
+
+        for(i in 1..length){
+            day=cl.time
+            val n = SearchDayNumber(day)
+            if(n!=-1){
+                STEPS+=GLOBAL.STEP_LOG[n].STEP
+                DISTANCE+=0//仮置き
+                CALORIES+=GLOBAL.STEP_LOG[n].CAL
+            }
+            cl.add(Calendar.DAY_OF_YEAR,1)
+        }
+
+        view?.findViewById<TextView>(R.id.txtDate)?.text = pattern.format(startDay) + "  ～  " + pattern.format(endDay)
+        view?.findViewById<TextView>(R.id.txtSteps)?.text=STEPS.toString()+"歩"
+        view?.findViewById<TextView>(R.id.txtDistance)?.text=DISTANCE.toString()+"km(仮)"
+        view?.findViewById<TextView>(R.id.txtCalories)?.text=CALORIES.toString()+"kcal"
     }
 
     fun SearchDayNumber(day:Date):Int{

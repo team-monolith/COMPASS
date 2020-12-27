@@ -80,7 +80,6 @@ class WeekFragment : Fragment(){
         }
 
         setDate(0)
-        (parentFragment as FitnessFragment).DataSet(getFirstDay(prevDate),getLastDay(prevDate))
     }
 
     override fun onAttach(context: Context) {
@@ -148,7 +147,12 @@ class WeekFragment : Fragment(){
 
             cl.add(Calendar.DAY_OF_YEAR,1)
         }
-        return
+
+        //FitnessFragment管轄のレイアウトに変更の命令を出す
+        if(parentFragment!=null){
+            (parentFragment as FitnessFragment).DataSet(getFirstDay(prevDate),getLastDay(prevDate),7)
+        }
+
     }
 
     fun getFirstDay(date:Date):Date{
@@ -194,7 +198,6 @@ class WeekFragment : Fragment(){
                         setDate(7)
                         posX = 0
                         Draw.anim_reset()
-                        (parentFragment as FitnessFragment).DataSet(getFirstDay(prevDate),getLastDay(prevDate))
                     }
                 }
                 //1/3未満のスワイプの場合は元に戻す
@@ -215,7 +218,6 @@ class WeekFragment : Fragment(){
                         setDate(-7)
                         posX = 0
                         Draw.anim_reset()
-                        (parentFragment as FitnessFragment).DataSet(getFirstDay(prevDate),getLastDay(prevDate))
                     }
                 }
                 //1/3未満のスワイプの場合は元に戻す
@@ -227,6 +229,8 @@ class WeekFragment : Fragment(){
             }
             if (posX == 0) accelerator = 0
         }
+
+        setDate(0)
 
     }
 

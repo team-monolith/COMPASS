@@ -34,7 +34,7 @@ class MyApp: Application(){
 
     var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
 
-    var Current:MAPDATA=MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
+    var Current:MAPDATA=MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null)//ユーザ現在地周辺の地図データ
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
@@ -159,7 +159,19 @@ class MyApp: Application(){
             }
 
             if(pattern.format(GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].DATE)!=pattern.format(Date())){
-                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(Date(),10000,0,0))
+                FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","STEPLOG.txt")
+                val cl = Calendar.getInstance()
+                cl.time = Date()
+
+                //時刻データを破棄
+                cl.clear(Calendar.MINUTE)
+                cl.clear(Calendar.SECOND)
+                cl.clear(Calendar.MILLISECOND)
+                cl.set(Calendar.HOUR_OF_DAY, 0)
+
+                //calendar型からdate型に変換
+                val date = cl.time
+                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(date,10000,0,0))
             }
 
         }catch(e: FileNotFoundException){

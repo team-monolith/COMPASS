@@ -123,6 +123,11 @@ class DayFragment : Fragment() {
             }
         }
 
+        //FitnessFragment管轄のレイアウトに変更の命令を出す
+        if(parentFragment!=null){
+            (parentFragment as FitnessFragment).DataSet(prevDate)
+        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -185,7 +190,6 @@ class DayFragment : Fragment() {
                         setDate(1)
                         posX = 0
                         Draw.anim_reset()
-                        (parentFragment as FitnessFragment).DataSet(prevDate)
                     }
                 }
                 //1/3未満のスワイプの場合は元に戻す
@@ -206,7 +210,6 @@ class DayFragment : Fragment() {
                         setDate(-1)
                         posX = 0
                         Draw.anim_reset()
-                        (parentFragment as FitnessFragment).DataSet(prevDate)
                     }
                 }
                 //1/3未満のスワイプの場合は元に戻す
@@ -218,6 +221,8 @@ class DayFragment : Fragment() {
             }
             if (posX == 0) accelerator = 0
         }
+
+        setDate(0)
 
     }
 
