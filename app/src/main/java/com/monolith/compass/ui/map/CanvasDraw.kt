@@ -157,6 +157,8 @@ class CanvasDraw : Fragment() {
         //レコードが0件の場合は終了
         if (GLOBAL.GPS_LOG.size <= 0) return
 
+        if(Current.MAP_X==null||Current.MAP_Y==null)return
+
         //GPS情報を取得したブロックを表示
         val sX =
             (250 * scale + posX) + (((GLOBAL.GPS_LOG[0].GPS_X!! - Current.MAP_X!!) * 10000).toInt()) * scale

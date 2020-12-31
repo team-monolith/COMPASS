@@ -358,8 +358,7 @@ class MapFragment : Fragment() {
     }
 
     //マップを配列に保存する関数
-    fun setMap(data: String) {
-        val GLOBAL= MyApp.getInstance()
+    fun subsetMap(data: String) {
 
         val scan = Scanner(data)
         scan.useDelimiter(",|\r\n")
@@ -370,6 +369,26 @@ class MapFragment : Fragment() {
         for (fy in 0 until 500) {
             for (fx in 0 until 500) {
                 Current.MAP[fy][fx] = scan.nextInt()
+            }
+        }
+
+        val str="X="+Current.MAP_X+",Y="+Current.MAP_Y+"\n"+data
+
+        MyApp().FileWrite(str,"MAPLOG.txt")
+    }
+
+    //マップを配列に保存する関数
+    fun setMap(data: String) {
+
+        var origindata:String=data.replace(",","")
+        origindata=origindata.replace("\r\n","")
+
+        Current.MAP_X = 130.4088f
+        Current.MAP_Y = 33.5841f
+
+        for (fy in 0 until 500) {
+            for (fx in 0 until 500) {
+                Current.MAP[fy][fx]=origindata.get(fy*500+fx).toString().toInt()
             }
         }
 
