@@ -9,6 +9,7 @@ import com.monolith.compass.com.monolith.compass.MyApp
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.random.Random
 
 class CanvasDraw : Fragment() {
 
@@ -26,6 +27,7 @@ class CanvasDraw : Fragment() {
         paint[2].color = Color.parseColor("#666666")
         paint[3].color = Color.parseColor("#000000")
 
+
         for (y in 0 until 500) {
             for (x in 0 until 500) {
                 val rect = Rect(
@@ -34,9 +36,10 @@ class CanvasDraw : Fragment() {
                     (x * scale + scale + posX).toInt(),
                     (y * scale + scale + posY).toInt()
                 )
-                if (CurrentMAP[y][x]!! > 0) canvas!!.drawRect(rect, paint[CurrentMAP[y][x]!!])
+                if(CurrentMAP[y][x]!! >0)canvas!!.drawRect(rect, paint[CurrentMAP[y][x]!!])
             }
         }
+
     }
 
     fun Current(

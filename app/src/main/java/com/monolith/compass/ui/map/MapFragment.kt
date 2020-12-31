@@ -35,7 +35,7 @@ class MapFragment : Fragment() {
     var centerFlg = true    //センターボタン押下認識フラッグ
     var layerFlg=true   //レイヤーボタン押下フラッグ、trueでマップ表示
 
-    var scale: Float = 30F   //地図表示のスケール
+    var scale: Float = 1F   //地図表示のスケール
     var posX: Int = 0    //地図表示の相対X座標
     var posY: Int = 0    //地図表示の絶対Y座標
     var logX: Int? = null  //タップ追従用X座標
