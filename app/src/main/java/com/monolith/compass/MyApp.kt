@@ -34,8 +34,6 @@ class MyApp: Application(){
 
     var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
 
-    var Current:MAPDATA=MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null)//ユーザ現在地周辺の地図データ
-
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
     //500x500でバッファリングする
@@ -197,26 +195,7 @@ class MyApp: Application(){
 
 
 
-    //マップを配列に保存する関数
-    fun setMap(data: String) {
-        val GLOBAL=getInstance()
 
-        val scan = Scanner(data)
-        scan.useDelimiter(",|\r\n")
-
-        GLOBAL.Current.MAP_X = 130.4088f
-        GLOBAL.Current.MAP_Y = 33.5841f
-
-        for (fy in 0 until 500) {
-            for (fx in 0 until 500) {
-                if (scan.hasNextInt()) GLOBAL.Current.MAP[fy][fx] = scan.nextInt()
-            }
-        }
-
-        val str="X="+GLOBAL.Current.MAP_X+",Y="+GLOBAL.Current.MAP_Y+"\n"+data
-
-        MyApp().FileWrite(str,"MAPLOG.txt")
-    }
 
     //フォルダ内マップデータをセットマップに流せる形式に変換
     fun convertMapFileData(data:String):String{
