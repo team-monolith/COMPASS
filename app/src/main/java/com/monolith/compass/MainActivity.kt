@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     }
 
 
-    @SuppressLint("CutPasteId")
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

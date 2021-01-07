@@ -28,6 +28,8 @@ class MyApp: Application(){
 
     data class STEPDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var CAL:Int)
 
+    data class CARDDATA(var ID:Int,var NAME:String,var ICON:String,var LV:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
+
     var GPS_LOG=mutableListOf<GPSDATA>()
 
     var STEP_LOG=mutableListOf<STEPDATA>()
