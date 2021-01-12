@@ -7,7 +7,7 @@
     android:background="#FFFFFF">
 
     <TextView
-        android:id="@+id/txt_profile"
+        android:id="@+id/name_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -81,5 +81,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.076" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+<!-- バッジ一覧（並び順変更済み)
+ログイン日数
+レベル
+総移動距離
+総歩数
+新規開拓距離
+消費カロリー
+すれ違い人数
+イベント参加回数-->

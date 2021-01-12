@@ -1,13 +1,11 @@
 package com.monolith.compass.ui.profile
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -27,7 +25,7 @@ class ProfileFragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
-        val textView: TextView = root.findViewById(R.id.txt_profile)
+        val textView: TextView = root.findViewById(R.id.name_txt)
         val imgCard: ImageView = root.findViewById(R.id.card_img)
         val button: Button =root.findViewById(R.id.button)
         val imgBtn: ImageButton = root.findViewById(R.id.imageButton2)

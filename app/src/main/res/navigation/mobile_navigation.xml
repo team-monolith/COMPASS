@@ -87,6 +87,22 @@
         <action
             android:id="@+id/action_navigation_profile_edit_to_navigation_profile"
             app:destination="@id/navigation_profile" />
+        <action
+            android:id="@+id/action_navigation_profile_edit_to_navigation_profile_card"
+            app:destination="@id/navigation_profile_card" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_card"
+        android:name="com.monolith.compass.ui.profile.Prof_Frame_Fragment"
+        android:label ="ProfileCardEdit"
+        tools:layout="@layout/fragment_profile_card"
+        >
+
+
+        <action
+            android:id="@+id/action_navigation_profile_card_to_navigation_profile_edit"
+            app:destination="@id/navigation_profile_edit" />
     </fragment>
     <fragment
         android:id="@+id/systemSettingFragment"

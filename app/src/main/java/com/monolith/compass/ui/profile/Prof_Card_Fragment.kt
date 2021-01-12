@@ -30,8 +30,6 @@ class Prof_Card_Fragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_profile_card, container, false)
-        val framebtn: Button = root.findViewById(R.id.frame_btn)
-        val backgbtn: Button = root.findViewById(R.id.background_btn)
 
         
         return root
