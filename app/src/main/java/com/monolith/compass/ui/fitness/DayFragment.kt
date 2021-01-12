@@ -16,10 +16,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.R
+import com.monolith.compass.com.monolith.compass.MyApp
+import java.util.*
 
-class DayFragment : Fragment(){
+class DayFragment : Fragment() {
 
     private lateinit var dayViewModel: FitnessViewModel
+
+    private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
     val Draw = CanvasDraw()
 
@@ -39,6 +43,10 @@ class DayFragment : Fragment(){
 
     var accelerator: Int = 0
 
+    var prevDate: Date = Date()
+
+    var step: Int = 0
+    var target:Int=0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,6 +83,51 @@ class DayFragment : Fragment(){
         view.setOnTouchListener { _, event ->
             onTouch(view, event)
         }
+
+        setDate(0)
+        (parentFragment as FitnessFragment).DataSet(prevDate)
+    }
+
+
+    //引数に指定された日付を変動させる関数
+
+    fun setDate(Direction: Int) {
+
+        step = 0
+
+        //calendarのインスタンスを生成し引数日動かす
+        val cl = Calendar.getInstance()
+        cl.time = prevDate
+        cl.add(Calendar.DAY_OF_YEAR, Direction)
+
+        //時刻データを破棄
+        cl.clear(Calendar.MINUTE)
+        cl.clear(Calendar.SECOND)
+        cl.clear(Calendar.MILLISECOND)
+        cl.set(Calendar.HOUR_OF_DAY, 0)
+
+        //calendar型からdate型に変換
+        prevDate = cl.time
+
+        for (i in GLOBAL.STEP_LOG.indices) {
+            //データとして存在する場合は値を取得
+            if (prevDate == GLOBAL.STEP_LOG[i].DATE) {
+                step = GLOBAL.STEP_LOG[i].STEP
+                target=GLOBAL.STEP_LOG[i].TARGET
+                break
+            }
+            //最後までフォルダを参照しても存在しない場合は0をセットする
+            else if (i == GLOBAL.STEP_LOG.lastIndex) {
+                step = 0
+                target=99999//仮
+            }
+        }
+
+        //FitnessFragment管轄のレイアウトに変更の命令を出す
+        if(parentFragment!=null){
+            (parentFragment as FitnessFragment).DataSet(prevDate)
+        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -91,17 +144,17 @@ class DayFragment : Fragment(){
     //タッチイベント実行時処理
     fun onTouch(view: View, event: MotionEvent): Boolean {
 
-        when {
-            event.action == MotionEvent.ACTION_DOWN -> {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
                 logX = event.x.toInt()
                 tapFlg = true
             }
-            event.action == MotionEvent.ACTION_MOVE -> {
+            MotionEvent.ACTION_MOVE -> {
                 posX += event.x.toInt() - logX!!
                 logX = event.x.toInt()
                 tapFlg = true
             }
-            event.action == MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_UP -> {
                 tapFlg = false
             }
         }
@@ -134,6 +187,7 @@ class DayFragment : Fragment(){
                     posX -= accelerator
                     //画面遷移完了時
                     if (posX <= -width) {
+                        setDate(1)
                         posX = 0
                         Draw.anim_reset()
                     }
@@ -153,6 +207,7 @@ class DayFragment : Fragment(){
                     posX += accelerator
                     //画面遷移完了時
                     if (posX >= width) {
+                        setDate(-1)
                         posX = 0
                         Draw.anim_reset()
                     }
@@ -166,6 +221,8 @@ class DayFragment : Fragment(){
             }
             if (posX == 0) accelerator = 0
         }
+
+        setDate(0)
 
     }
 
@@ -183,8 +240,8 @@ class DayFragment : Fragment(){
             super.onDraw(canvas)
 
             Draw.arrow(height, width, tapFlg, canvas)
-            Draw.meter(height, width, 10000, 12000, posX, canvas)
-            Draw.steps(height, width, 10000, 12000, walker, posX, canvas)
+            Draw.meter(height, width, step, target, posX, canvas)
+            Draw.steps(height, width, step, target, walker, posX, canvas)
             Draw.human(walker, height, width, posX, canvas)
 
         }

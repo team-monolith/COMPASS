@@ -1,5 +1,6 @@
 package com.monolith.compass.com.monolith.compass
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.widget.Toast
@@ -7,6 +8,7 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import java.io.File
 import java.io.FileNotFoundException
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
 
@@ -24,11 +26,15 @@ class MyApp: Application(){
 
     data class MAPDATA(var MAP :Array<Array<Int?>>,var MAP_X:Float?,var MAP_Y:Float?)
 
+    data class STEPDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var CAL:Int)
+
+    data class CARDDATA(var ID:Int,var NAME:String,var ICON:String,var LV:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
+
     var GPS_LOG=mutableListOf<GPSDATA>()
 
-    var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
+    var STEP_LOG=mutableListOf<STEPDATA>()
 
-    var Current:MAPDATA=MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
+    var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
@@ -54,6 +60,25 @@ class MyApp: Application(){
     fun toastMake(context: Context,message: String) {
         val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
         toast.show()
+    }
+
+    fun FileRead(child:String):String{
+        var buf:String=""
+        val GLOBAL=getInstance()
+
+        if(GLOBAL.DIRECTORY==null)return ""
+
+        val file=File(GLOBAL.DIRECTORY+"/",child)
+
+        if(!file.isFile)return ""
+
+        val scan=Scanner(file)
+
+        while(scan.hasNext()){
+            buf+=scan.next()
+            if(scan.hasNext())buf+="\n"
+        }
+        return buf
     }
 
     fun FileWrite(str:String,child:String){
@@ -107,42 +132,72 @@ class MyApp: Application(){
         }
     }
 
-    fun FileRead(child:String):String{
-        var buf:String=""
-        val GLOBAL=getInstance()
+    @SuppressLint("SimpleDateFormat")
+    fun STEPFileRead(child:String){
+        val GLOBAL= getInstance()
 
-        if(GLOBAL.DIRECTORY==null)return ""
+        GLOBAL.STEP_LOG.clear()
 
-        val file=File(GLOBAL.DIRECTORY+"/",child)
-        val scan=Scanner(file)
+        val pattern= SimpleDateFormat("yyyy/MM/dd")
 
-        while(scan.hasNext()){
-            buf+=scan.next()
-            if(scan.hasNext())buf+="\n"
-        }
-        return buf
-    }
+        try{
+            var scan= Scanner(FileRead(child))
+            scan.useDelimiter("[,\n]")
 
-    //マップを配列に保存する関数
-    fun setMap(data: String) {
-        val GLOBAL=getInstance()
-
-        val scan = Scanner(data)
-        scan.useDelimiter(",|\r\n")
-
-        GLOBAL.Current.MAP_X = 130.4088f
-        GLOBAL.Current.MAP_Y = 33.5841f
-
-        for (fy in 0 until 500) {
-            for (fx in 0 until 500) {
-                if (scan.hasNextInt()) GLOBAL.Current.MAP[fy][fx] = scan.nextInt()
+            //ファイルが存在しない場合は新規で作る。目標値は仮置き
+            if(!scan.hasNextLine()){
+                FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","STEPLOG.txt")
+                scan=Scanner(FileRead(child))
             }
+
+            while(scan.hasNextLine()&&scan.hasNext()){
+                val DATE:Date?=pattern.parse(scan.next())
+                val TARGET:Int=scan.nextInt()
+                val STEP:Int=scan.nextInt()
+                val CAL:Int=scan.nextInt()
+                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(DATE!!,TARGET,STEP,CAL))
+            }
+
+            if(pattern.format(GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].DATE)!=pattern.format(Date())){
+                FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","STEPLOG.txt")
+                val cl = Calendar.getInstance()
+                cl.time = Date()
+
+                //時刻データを破棄
+                cl.clear(Calendar.MINUTE)
+                cl.clear(Calendar.SECOND)
+                cl.clear(Calendar.MILLISECOND)
+                cl.set(Calendar.HOUR_OF_DAY, 0)
+
+                //calendar型からdate型に変換
+                val date = cl.time
+                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(date,10000,0,0))
+            }
+
+        }catch(e: FileNotFoundException){
         }
-
-        val str="X="+GLOBAL.Current.MAP_X+",Y="+GLOBAL.Current.MAP_Y+"\n"+data
-
-        MyApp().FileWrite(str,"MAPLOG.txt")
     }
+
+    fun StepFileWrite(child:String){
+        val GLOBAL=getInstance()
+        var buf=""
+        val pattern= SimpleDateFormat("yyyy/MM/dd")
+        try{
+            val file=File(GLOBAL.DIRECTORY+"/",child)
+            for(i in GLOBAL.STEP_LOG.indices){
+                buf+=pattern.format(GLOBAL.STEP_LOG[i].DATE)+","+GLOBAL.STEP_LOG[i].TARGET+","+GLOBAL.STEP_LOG[i].STEP+","+GLOBAL.STEP_LOG[i].CAL
+                if(i!=GLOBAL.STEP_LOG.lastIndex)buf+="\n"
+            }
+            file.writeText(buf)
+        } catch(e:FileNotFoundException){
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            file.writeText("")
+        }
+    }
+
+
+
+
 
     //フォルダ内マップデータをセットマップに流せる形式に変換
     fun convertMapFileData(data:String):String{

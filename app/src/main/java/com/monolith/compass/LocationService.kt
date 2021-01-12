@@ -6,6 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
 import android.location.Location
@@ -15,13 +19,20 @@ import android.location.LocationProvider
 import android.os.*
 import android.os.VibrationEffect.DEFAULT_AMPLITUDE
 import android.provider.Settings
+import android.widget.ImageButton
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import com.monolith.compass.com.monolith.compass.MyApp
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
+import kotlin.math.floor
 
-class LocationService: Service(), LocationListener {
+class LocationService: Service(), LocationListener,SensorEventListener {
+
+    private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
     private var locationManager: LocationManager? = null
     private var context: Context? = null
@@ -29,16 +40,26 @@ class LocationService: Service(), LocationListener {
     private val MinTime = 1000 //最低更新間隔（ミリ秒）
     private val MinDistance = 1f//最低更新距離（メートル）
 
+    protected var mSensorManager: SensorManager? = null
+
+    private var mPrevCount = 0f
+
     override fun onCreate() {
         super.onCreate()
 
         context=applicationContext
 
-        WriteFileTest(applicationContext.toString())
-
         // LocationManager インスタンス生成
         locationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            getSystemService(LOCATION_SERVICE) as LocationManager
+
+        //歩数センサーインスタンス生成
+        mSensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+
+        val sensor=mSensorManager!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        mSensorManager!!.registerListener(this,sensor,SensorManager.SENSOR_DELAY_UI)
+
+        MyApp().STEPFileRead("STEPLOG.txt")
     }
 
     //メイン処理
@@ -46,7 +67,7 @@ class LocationService: Service(), LocationListener {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val requestCode = 0
         val channelId = "default"
-        val title = "　"//context!!.getString(R.string.app_name)
+        val title = context!!.getString(R.string.app_name)
         val pendingIntent = PendingIntent.getActivity(
             context, requestCode,
             intent, PendingIntent.FLAG_UPDATE_CURRENT
@@ -120,58 +141,34 @@ class LocationService: Service(), LocationListener {
     }
 
     //GPS情報更新時処理
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onLocationChanged(location: Location) {
 
-        //取得時バイブ、動作確認用
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val vibrationEffect = VibrationEffect.createOneShot(300, DEFAULT_AMPLITUDE)
-            vibrator.vibrate(vibrationEffect)
-        } else {
-            vibrator.vibrate(300)
-        }
+        //GPS取得時にデータを一時保持
+        GLOBAL.GPS_BUF.GPS_Y = (floor(location.latitude * 10000.0) / 10000.0).toFloat()
+        GLOBAL.GPS_BUF.GPS_X = (floor(location.longitude * 10000.0) / 10000.0).toFloat()
+        GLOBAL.GPS_BUF.GPS_A = (floor(location.accuracy * 10000.0) / 10000.0).toFloat()
+        GLOBAL.GPS_BUF.GPS_S = (floor(location.speed * 10000.0) / 10000.0).toFloat()
 
-        val strBuf = StringBuilder()
-        strBuf.append("----------\n")
-        var str = """
-            緯度(Y) = ${location.latitude}
-            
-            """.trimIndent()
-        strBuf.append(str)
-        str = """
-            経度(X) = ${location.longitude}
-            
-            """.trimIndent()
-        strBuf.append(str)
-        str = """
-            誤差 = ${location.accuracy}
-            
-            """.trimIndent()
-        strBuf.append(str)
-        str = """
-            高度 = ${location.altitude}
-            
-            """.trimIndent()
-        strBuf.append(str)
-        val sdf =
-            SimpleDateFormat("MM/dd HH:mm:ss")
-        sdf.timeZone = TimeZone.getTimeZone("Asia/Tokyo")
-        val currentTime = sdf.format(location.time)
-        str = "時間 = $currentTime\n"
-        strBuf.append(str)
-        str = """
-            速度 = ${location.speed}
-            
-            """.trimIndent()
-        strBuf.append(str)
-        str = """
-            方角 = ${location.bearing}
-            
-            """.trimIndent()
-        strBuf.append(str)
-        strBuf.append("----------\n")
-        WriteFileTest(strBuf.toString())
+        //誤差が大きい場合はそもそも記録しない
+        if (GLOBAL.GPS_BUF.GPS_A!! > 15f) return
+
+        val last = GLOBAL.GPS_LOG.lastIndex
+
+        val filestr: String =
+            "X=" + GLOBAL.GPS_BUF.GPS_X + "," + "Y=" + GLOBAL.GPS_BUF.GPS_Y + "," + "A=" + GLOBAL.GPS_BUF.GPS_A + "," + "S=" + GLOBAL.GPS_BUF.GPS_S + "\n"
+
+        //ファイル内がカラの場合は新規追加
+        if (last == -1) {
+            MyApp().FileWriteAdd(filestr, "GPSLOG.txt")
+        }
+        //ファイル内に存在する場合は座標に変化があった場合のみ追加
+        else if (GLOBAL.GPS_LOG[last].GPS_X != GLOBAL.GPS_BUF.GPS_X
+            || GLOBAL.GPS_LOG[last].GPS_Y != GLOBAL.GPS_BUF.GPS_Y
+        ) {
+            MyApp().FileWriteAdd(filestr, "GPSLOG.txt")
+        }
+        MyApp().GPSFileRead("GPSLOG.txt")
+
     }
 
     //GPSが利用不可、利用可能になった場合に呼ばれる
@@ -185,7 +182,6 @@ class LocationService: Service(), LocationListener {
                 LocationProvider.OUT_OF_SERVICE -> strBuf.append("LocationProvider.OUT_OF_SERVICE\n")
                 LocationProvider.TEMPORARILY_UNAVAILABLE -> strBuf.append("LocationProvider.TEMPORARILY_UNAVAILABLE\n")
             }
-            WriteFileTest(strBuf.toString())
         }
     }
 
@@ -225,20 +221,25 @@ class LocationService: Service(), LocationListener {
     }
 
 
-    fun WriteFileTest(str:String){
-        var buf:String=""
-        try{
-            val file= File("$filesDir/", "log.txt")
-            val scan= Scanner(file)
-            while(scan.hasNextLine()){
-                buf+=scan.nextLine()+"\n"
+    override fun onSensorChanged(event: SensorEvent?) {
+
+        if (event != null) {
+
+            if(mPrevCount == 0f)mPrevCount=event.values[0]
+
+            if(event.sensor.type == Sensor.TYPE_STEP_COUNTER){
+                GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].STEP+=(event.values[0]-mPrevCount).toInt()
+                MyApp().StepFileWrite("STEPLOG.txt")
+                mPrevCount=event.values[0]
             }
-            buf+="\n"+str
-            file.writeText(buf)
-        }catch(e: FileNotFoundException){
-            val file= File("$filesDir/", "log.txt")
-            file.writeText("NEW CREATE FILE")
+            else{
+
+            }
         }
+
     }
 
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        //nothing to do
+    }
 }

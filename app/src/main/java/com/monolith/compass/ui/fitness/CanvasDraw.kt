@@ -217,7 +217,7 @@ class CanvasDraw : Fragment() {
         canvas.drawPoint(w / 64 * 2f, (height / 6 * 5) / 2f, paint)
     }
 
-    fun monthgraph(step:Array<Int>,target:Int,height:Int,width:Int,pos:Int,canvas:Canvas?){
+    fun monthgraph(step: MutableList<Int>, target:Int, height:Int, width:Int, pos:Int, canvas:Canvas?){
         val day=step.size
         val paint=Paint()
         val line=Paint()
@@ -266,7 +266,7 @@ class CanvasDraw : Fragment() {
         else anim_graphline=width-15
     }
 
-    fun weekgraph(step:Array<Int>,target:Int,height:Int,width:Int,pos:Int,canvas:Canvas?){
+    fun weekgraph(step: MutableList<Int>, target:Int, height:Int, width:Int, pos:Int, canvas:Canvas?){
         val day=step.size
         val paint=Paint()
         val line=Paint()
