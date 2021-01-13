@@ -157,8 +157,6 @@ class MapFragment : Fragment() {
             }
         }
 
-
-
         return true
     }
 

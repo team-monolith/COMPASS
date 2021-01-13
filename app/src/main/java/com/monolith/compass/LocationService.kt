@@ -17,17 +17,10 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.location.LocationProvider
 import android.os.*
-import android.os.VibrationEffect.DEFAULT_AMPLITUDE
 import android.provider.Settings
-import android.widget.ImageButton
-import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.monolith.compass.com.monolith.compass.MyApp
-import java.io.File
-import java.io.FileNotFoundException
-import java.util.*
 import kotlin.math.floor
 
 class LocationService: Service(), LocationListener,SensorEventListener {
@@ -90,21 +83,19 @@ class LocationService: Service(), LocationListener,SensorEventListener {
         channel.lightColor = Color.BLUE
         // 通知バイブレーション無し
         channel.enableVibration(false)
-        if (notificationManager != null) {
-            notificationManager.createNotificationChannel(channel)
-            val notification =
-                Notification.Builder(context, channelId)
-                    .setContentTitle(title) // 本来なら衛星のアイコンですがandroid標準アイコンを設定
-                    .setSmallIcon(android.R.drawable.btn_star)
-                    //.setContentText("　"/*通知メモ入れる、GPS*/)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setWhen(System.currentTimeMillis())
-                    .build()
+        notificationManager.createNotificationChannel(channel)
+        val notification =
+            Notification.Builder(context, channelId)
+                .setContentTitle(title) // 本来なら衛星のアイコンですがandroid標準アイコンを設定
+                .setSmallIcon(android.R.drawable.btn_star)
+                //.setContentText("　"/*通知メモ入れる、GPS*/)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .setWhen(System.currentTimeMillis())
+                .build()
 
-            // startForeground
-            startForeground(1, notification)
-        }
+        // startForeground
+        startForeground(1, notification)
         startGPS()
         return START_NOT_STICKY
     }
