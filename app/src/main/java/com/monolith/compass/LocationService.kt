@@ -229,7 +229,7 @@ class LocationService: Service(), LocationListener,SensorEventListener {
             if(mPrevCount == 0f)mPrevCount=event.values[0]
 
             if(event.sensor.type == Sensor.TYPE_STEP_COUNTER){
-                GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].STEP+=(event.values[0]-mPrevCount).toInt()
+                GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP+=(event.values[0]-mPrevCount).toInt()
                 MyApp().ActivityFileWrite("ACTIVITYLOG.txt")
                 mPrevCount=event.values[0]
             }
