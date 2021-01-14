@@ -3,7 +3,10 @@ package com.monolith.compass.com.monolith.compass
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
@@ -212,10 +215,6 @@ class MyApp: Application(){
         }
     }
 
-
-
-
-
     //フォルダ内マップデータをセットマップに流せる形式に変換
     fun convertMapFileData(data:String):String{
         val scan = Scanner(data)
@@ -226,6 +225,77 @@ class MyApp: Application(){
             if(scan.hasNext())str+="\n"
         }
         return str
+    }
+
+
+    fun CreateCardBitmap(DATA:CARDDATA): Bitmap {
+
+        val img_frame:Bitmap=FrameBitmapSearch(0)
+        val img_icon:Bitmap=""
+        val img_badge_back:String=""
+        val img_badge_icon:String=""
+        val str_id:String=""
+        val str_name:String=""
+        val str_distance:String=""
+        val str_level:String=""
+        val str_comment:String=""
+
+        val width=img_frame.width
+        val height=img_frame.height
+
+        val frameWidth:Float=img_frame.width/12.54f
+
+        val paint= Paint()
+        val output= Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
+        val canvas= Canvas(output)
+
+        paint.isAntiAlias=true
+
+        canvas.drawBitmap(img_frame,0f,0f,paint)
+
+        canvas.drawBitmap(img_icon,((width-frameWidth)/8f)-(img_icon.width/2f)+frameWidth/2,((height-frameWidth)/4f)-(img_icon.height/2f)+frameWidth/2,paint)
+
+        canvas.drawBitmap(img_badge_back,2650f,550f,paint)
+
+        canvas.drawBitmap(img_badge_icon,2650f,550f,paint)
+
+        //※ビューは一度作ったものをリサイズして利用するので、位置は無理やりハードコートしています
+        paint.textSize=150f
+
+        /*
+        canvas.drawText("ID：$str_id",(width/2)-paint.measureText("ID：$str_id")/2,(height-frameWidth)/4+frameWidth-250,paint)
+        canvas.drawText(str_name,(width/2)-paint.measureText(str_name)/2,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
+        canvas.drawText(str_distance,(width/2)-paint.measureText(str_distance)/2,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
+        */
+
+        canvas.drawText("ID：$str_id",(width-frameWidth)/4+frameWidth/2+125,(height-frameWidth)/4+frameWidth-250,paint)
+        canvas.drawText(str_name,(width-frameWidth)/4+frameWidth/2+125,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
+        canvas.drawText(str_distance,(width-frameWidth)/4*3+frameWidth/2-paint.measureText(str_distance),((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
+
+        paint.color= Color.parseColor("#808080")
+        paint.strokeWidth=5f
+        //canvas.drawLine(1000f,280f,2400f,280f,paint)
+        canvas.drawLine(1000f,480f,2450f,480f,paint)
+        canvas.drawLine(1000f,680f,2450f,680f,paint)
+        canvas.drawLine(1000f,880f,2450f,880f,paint)
+
+        return output
+    }
+
+    fun FrameBitmapSearch(ID:Int):Bitmap{
+
+    }
+
+    fun IconBitmapSearch(ID:Int):Bitmap{
+
+    }
+
+    fun BadgeBackBitmapSearch(ID:Int):Bitmap{
+
+    }
+
+    fun BadgeIconBitmapSearch(ID:Int):Bitmap{
+
     }
 
 }
