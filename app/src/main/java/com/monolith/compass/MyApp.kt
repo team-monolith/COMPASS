@@ -282,10 +282,11 @@ class MyApp: Application(){
     }
 
     fun FrameBitmapSearch(ID:Int):Bitmap{
-
-        //これはサンプル
-       val img_frame= BitmapFactory.decodeResource(resources, R.drawable.frame1)
-
+        var img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame1)
+        when(ID){
+            1 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame1)
+            2 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame2)
+        }
         return img_frame
     }
 
@@ -294,11 +295,28 @@ class MyApp: Application(){
     }
 
     fun BadgeBackBitmapSearch(ID:Int):Bitmap{
-
+        var img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_0)
+        when(ID){
+            1 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_1)
+            2 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_2)
+            3 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_3)
+            4 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_4)
+        }
+        return img_back
     }
 
     fun BadgeIconBitmapSearch(ID:Int):Bitmap{
-
+        var img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_0)
+        when(ID){
+            1 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_1)
+            2 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_2)
+            3 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_3)
+            4 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_4)
+            5 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_5)
+            6 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_6)
+            7 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_7)
+        }
+        return img_badge_icon
     }
 
 }
