@@ -113,18 +113,6 @@
                     app:layout_constraintVertical_bias="0.932" />
 
                 <ImageView
-                    android:id="@+id/frame_img"
-                    android:layout_width="342dp"
-                    android:layout_height="193dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.492"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.151"
-                    app:srcCompat="@drawable/frame1" />
-
-                <ImageView
                     android:id="@+id/icon_img"
                     android:layout_width="100dp"
                     android:layout_height="92dp"

@@ -31,16 +31,16 @@ class Prof_Edit_Fragment : Fragment() {
         val textView: TextView = root.findViewById(R.id.name_txt)
         val okbtn : Button = root.findViewById(R.id.combtn)
         val name_text :EditText = root.findViewById(R.id.name_txtedit)
-        val card_img : ImageView = root.findViewById(R.id.frame_img)
+        //val card_img : ImageView = root.findViewById(R.id.frame_img)
 
         val ma = activity as MainActivity?
         var value =ma?.SharedValue
 
         textView.text = value
 
-        card_img.setOnClickListener{
+        /*card_img.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
-        }
+        }*/
 
         okbtn.setOnClickListener{
             ma?.SharedValue = "こんにちは"
@@ -49,3 +49,17 @@ class Prof_Edit_Fragment : Fragment() {
         return root
     }
 }
+
+/*
+バッジ名:B,S,G,P
+ログイン日数 :7,30,180,365
+            :30,100,500,1000
+レベル:10,50,100,150
+      :10,25,50,100
+総移動距離(km):10,100,1000,10000
+総歩数(万):10,100,500,1000
+新規開拓距離:1,10,100,500
+消費カロリー:1000,5000,25000,50000
+すれ違い人数:1,10,50,100
+イベント参加回数:1,3,6,10
+ */

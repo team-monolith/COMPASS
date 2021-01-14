@@ -1,11 +1,17 @@
 package com.monolith.compass.ui.profile
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.add
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -27,6 +33,12 @@ class ProfileFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
         val imgCard: ImageView = root.findViewById(R.id.card_img)
 
+        val day_img:ImageView = root.findViewById(R.id.day_img)
+        val level_img:ImageView = root.findViewById(R.id.level_img)
+        val frame :FrameLayout =root.findViewById(R.id.frame)
+        val edit_btn:Button = root.findViewById(R.id.edit)
+
+
         val ma = activity as MainActivity?
 
         var value =ma?.SharedValue
@@ -34,14 +46,24 @@ class ProfileFragment : Fragment() {
 
         imgCard.setImageResource(R.drawable.ic_launcher_background)
 
-        //imgBtn.setBackgroundResource(R.drawable.ic_launcher_background)
 
+        day_img.setOnClickListener{
+            frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
+            val transaction = childFragmentManager.beginTransaction()
+                transaction.add(R.id.back_fl,ProfileBlackFragment())
+                transaction.add(R.id.frame,Prof_Badge_Fragment())
+                transaction.commit()
+            edit_btn.isEnabled =false
+        }
+
+        level_img.setOnClickListener{
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_badge)
+        }
 
         imgCard.setOnClickListener {
             ma?.SharedValue = "こんばんは"
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
-
 
 
         profileViewModel.test.observe(viewLifecycleOwner, Observer {

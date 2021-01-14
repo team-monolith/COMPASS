@@ -3,12 +3,14 @@ package com.monolith.compass.com.monolith.compass
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import android.util.Base64
 import android.view.View
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.ui.setting.SettingFragment
 import java.io.File
@@ -27,7 +29,7 @@ class MyApp: Application(){
 
     var DIRECTORY:String?=null
 
-    data class USERDATA(var ID:Int,var NAME:String,var ICON:String?,var LENGTH:Int,var FAVORITE:Int,var COMMENT:String,var BACKGROUND:Int,var FRAME:Int,var STATE:Int)
+    data class USERDATA(var ID:Int,var NAME:String,var ICON:Bitmap,var LENGTH:Int,var FAVORITE:Int,var COMMENT:String,var BACKGROUND:Int,var FRAME:Int,var STATE:Int)
 
     data class LOCAL_DC(var height:Float,var weight:Float,var TARGET: Int,var GPSFLG:Boolean,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: Color)
 
@@ -37,7 +39,7 @@ class MyApp: Application(){
 
     data class ACTIVITYDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var DISTANCE:Int,var CAL:Int)
 
-    data class CARDDATA(var ID:Int,var NAME:String,var ICON:String?,var LEVEL:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
+    data class CARDDATA(var ID:Int,var NAME:String,var ICON:Bitmap?,var LEVEL:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
 
 
     var GPS_LOG=mutableListOf<GPSDATA>()
@@ -231,19 +233,27 @@ class MyApp: Application(){
 
     fun CreateCardBitmap(DATA:CARDDATA): Bitmap {
 
+
+        val debugstr=""
+
+        val img_card:Bitmap=BitmapFactory.decodeResource(resources,R.drawable.card)
         val img_frame:Bitmap=FrameBitmapSearch(DATA.FRAME)
-        val img_icon:Bitmap=IconBitmapCreate(DATA.ICON)
-        val img_badge_back:Bitmap=BadgeBackBitmapSearch(DATA.BACKGROUND)
-        val img_badge_icon:Bitmap=BadgeIconBitmapSearch(DATA.BADGE)
-        val img_level:Bitmap=
+
+        val img_icon:Bitmap?
+        if(DATA.ICON!=null)img_icon=Bitmap.createScaledBitmap(DATA.ICON!!,(img_frame.height/3),(img_frame.height/3),true)
+        else img_icon=null
+
+        val img_badge_back=Bitmap.createScaledBitmap(BadgeBackBitmapSearch(DATA.BACKGROUND),(img_frame.height/6),(img_frame.height/6),true)
+        val img_badge_icon=Bitmap.createScaledBitmap(BadgeIconBitmapSearch(DATA.BADGE),(img_frame.height/6),(img_frame.height/6),true)
+        val img_level:Bitmap=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources,R.drawable.levelframe),(img_frame.height/4),(img_frame.height/4),true)
         val str_id:String=DATA.ID.toString()
         val str_name:String=DATA.NAME
         val str_distance:String=DATA.DISTANCE.toString()
         val str_level:String=DATA.LEVEL.toString()
         val str_comment:String=DATA.COMMENT
 
-        val width=img_frame.width
-        val height=img_frame.height
+        val width=img_card.width
+        val height=img_card.height
 
         val frameWidth:Float=img_frame.width/12.54f
 
@@ -255,7 +265,16 @@ class MyApp: Application(){
 
         canvas.drawBitmap(img_frame,0f,0f,paint)
 
-        canvas.drawBitmap(img_icon,((width-frameWidth)/8f)-(img_icon.width/2f)+frameWidth/2,((height-frameWidth)/4f)-(img_icon.height/2f)+frameWidth/2,paint)
+        canvas.drawBitmap(img_card,0f,0f,paint)
+
+        if(img_icon!=null)canvas.drawBitmap(img_icon,((width-frameWidth)/8f)-(img_icon.width/2f)+frameWidth/2,((height-frameWidth)/4f)-(img_icon.height/2f)+frameWidth/2,paint)
+
+        canvas.drawBitmap(img_level,2565f,195f,paint)
+
+
+        paint.textSize=250f
+
+        canvas.drawText("53",2700f,450f,paint)
 
         canvas.drawBitmap(img_badge_back,2650f,550f,paint)
 
@@ -264,15 +283,9 @@ class MyApp: Application(){
         //※ビューは一度作ったものをリサイズして利用するので、位置は無理やりハードコートしています
         paint.textSize=150f
 
-        /*
-        canvas.drawText("ID：$str_id",(width/2)-paint.measureText("ID：$str_id")/2,(height-frameWidth)/4+frameWidth-250,paint)
-        canvas.drawText(str_name,(width/2)-paint.measureText(str_name)/2,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
-        canvas.drawText(str_distance,(width/2)-paint.measureText(str_distance)/2,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
-        */
-
         canvas.drawText("ID：$str_id",(width-frameWidth)/4+frameWidth/2+125,(height-frameWidth)/4+frameWidth-250,paint)
         canvas.drawText(str_name,(width-frameWidth)/4+frameWidth/2+125,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
-        canvas.drawText(str_distance,(width-frameWidth)/4*3+frameWidth/2-paint.measureText(str_distance),((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
+        canvas.drawText(str_distance+"m",(width-frameWidth)/4*3+frameWidth/2-paint.measureText(str_distance+"m"),((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
 
         paint.color= Color.parseColor("#808080")
         paint.strokeWidth=5f
@@ -301,7 +314,8 @@ class MyApp: Application(){
         return img_frame
     }
 
-    fun IconBitmapCreate(data:String?):Bitmap{
+    fun IconBitmapCreate(data:String?):Bitmap?{
+        if(data==null)return null
         val decodedByte: ByteArray = Base64.decode(data, 0)
         val buf= BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.size)
         return buf
@@ -319,8 +333,9 @@ class MyApp: Application(){
     }
 
     fun BadgeIconBitmapSearch(ID:Int):Bitmap{
-        var img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_0)
+        var img_badge_icon:Bitmap=BitmapFactory.decodeResource(resources, R.drawable.badge_icon_0)
         when(ID){
+            0 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_0)
             1 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_1)
             2 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_2)
             3 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_3)
