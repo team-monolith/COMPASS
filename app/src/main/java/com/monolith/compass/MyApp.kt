@@ -235,6 +235,8 @@ class MyApp: Application(){
 
         val debugstr=""
 
+        //ここがなぜか取得できない問題
+
         val img_card:Bitmap=BitmapFactory.decodeResource(resources,R.drawable.card)
         val img_frame:Bitmap=FrameBitmapSearch(DATA.FRAME)
 
