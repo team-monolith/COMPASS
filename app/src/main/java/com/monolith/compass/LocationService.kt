@@ -17,16 +17,11 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.location.LocationProvider
 import android.os.*
-import android.os.VibrationEffect.DEFAULT_AMPLITUDE
 import android.provider.Settings
-import android.widget.ImageButton
-import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.monolith.compass.com.monolith.compass.MyApp
-import java.io.File
-import java.io.FileNotFoundException
+import java.sql.Time
 import java.util.*
 import kotlin.math.floor
 
@@ -59,7 +54,7 @@ class LocationService: Service(), LocationListener,SensorEventListener {
         val sensor=mSensorManager!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
         mSensorManager!!.registerListener(this,sensor,SensorManager.SENSOR_DELAY_UI)
 
-        MyApp().STEPFileRead("STEPLOG.txt")
+        MyApp().ActivityFileRead("ACTIVITYLOG.txt")
     }
 
     //メイン処理
@@ -90,21 +85,19 @@ class LocationService: Service(), LocationListener,SensorEventListener {
         channel.lightColor = Color.BLUE
         // 通知バイブレーション無し
         channel.enableVibration(false)
-        if (notificationManager != null) {
-            notificationManager.createNotificationChannel(channel)
-            val notification =
-                Notification.Builder(context, channelId)
-                    .setContentTitle(title) // 本来なら衛星のアイコンですがandroid標準アイコンを設定
-                    .setSmallIcon(android.R.drawable.btn_star)
-                    //.setContentText("　"/*通知メモ入れる、GPS*/)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setWhen(System.currentTimeMillis())
-                    .build()
+        notificationManager.createNotificationChannel(channel)
+        val notification =
+            Notification.Builder(context, channelId)
+                .setContentTitle(title) // 本来なら衛星のアイコンですがandroid標準アイコンを設定
+                .setSmallIcon(android.R.drawable.btn_star)
+                //.setContentText("　"/*通知メモ入れる、GPS*/)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .setWhen(System.currentTimeMillis())
+                .build()
 
-            // startForeground
-            startForeground(1, notification)
-        }
+        // startForeground
+        startForeground(1, notification)
         startGPS()
         return START_NOT_STICKY
     }
@@ -143,6 +136,10 @@ class LocationService: Service(), LocationListener,SensorEventListener {
     //GPS情報更新時処理
     override fun onLocationChanged(location: Location) {
 
+        //日付取得
+        val date_pattern = java.text.SimpleDateFormat("yyyy/MM/dd/HH-mm-ss")
+        val date = date_pattern.format(Date())
+
         //GPS取得時にデータを一時保持
         GLOBAL.GPS_BUF.GPS_Y = (floor(location.latitude * 10000.0) / 10000.0).toFloat()
         GLOBAL.GPS_BUF.GPS_X = (floor(location.longitude * 10000.0) / 10000.0).toFloat()
@@ -155,17 +152,20 @@ class LocationService: Service(), LocationListener,SensorEventListener {
         val last = GLOBAL.GPS_LOG.lastIndex
 
         val filestr: String =
-            "X=" + GLOBAL.GPS_BUF.GPS_X + "," + "Y=" + GLOBAL.GPS_BUF.GPS_Y + "," + "A=" + GLOBAL.GPS_BUF.GPS_A + "," + "S=" + GLOBAL.GPS_BUF.GPS_S + "\n"
+             "D=" + date + "," + "X=" + GLOBAL.GPS_BUF.GPS_X + "," + "Y=" + GLOBAL.GPS_BUF.GPS_Y + "," + "A=" + GLOBAL.GPS_BUF.GPS_A + "," + "S=" + GLOBAL.GPS_BUF.GPS_S + "\n"
 
         //ファイル内がカラの場合は新規追加
         if (last == -1) {
             MyApp().FileWriteAdd(filestr, "GPSLOG.txt")
+            MyApp().FileWriteAdd(filestr, "GPSBUF.txt")
         }
         //ファイル内に存在する場合は座標に変化があった場合のみ追加
         else if (GLOBAL.GPS_LOG[last].GPS_X != GLOBAL.GPS_BUF.GPS_X
             || GLOBAL.GPS_LOG[last].GPS_Y != GLOBAL.GPS_BUF.GPS_Y
         ) {
             MyApp().FileWriteAdd(filestr, "GPSLOG.txt")
+            MyApp().FileWriteAdd(filestr, "GPSBUF.txt")
+
         }
         MyApp().GPSFileRead("GPSLOG.txt")
 
@@ -221,6 +221,7 @@ class LocationService: Service(), LocationListener,SensorEventListener {
     }
 
 
+    //歩行センサー検出時
     override fun onSensorChanged(event: SensorEvent?) {
 
         if (event != null) {
@@ -228,12 +229,11 @@ class LocationService: Service(), LocationListener,SensorEventListener {
             if(mPrevCount == 0f)mPrevCount=event.values[0]
 
             if(event.sensor.type == Sensor.TYPE_STEP_COUNTER){
-                GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].STEP+=(event.values[0]-mPrevCount).toInt()
-                MyApp().StepFileWrite("STEPLOG.txt")
+                GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP+=(event.values[0]-mPrevCount).toInt()
+                MyApp().ActivityFileWrite("ACTIVITYLOG.txt")
                 mPrevCount=event.values[0]
             }
             else{
-
             }
         }
 

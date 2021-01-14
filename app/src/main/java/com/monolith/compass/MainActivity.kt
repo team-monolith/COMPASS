@@ -208,7 +208,6 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
         fragmentTransaction.remove(supportFragmentManager.findFragmentByTag("NAVCHOICE")!!).commit()
         findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(itemselectedlog!!).isChecked =
             true
-
     }
 
     //NavChoiceFragmentからのコール

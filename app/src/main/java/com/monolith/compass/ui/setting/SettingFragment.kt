@@ -1,11 +1,14 @@
 package com.monolith.compass.ui.setting
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -134,6 +137,18 @@ class SettingFragment : Fragment() {
         }
     }
 
-
-
+    fun SetGoal(savedInstanceState: Bundle?): Int {
+        var step = -1 //歩数をセット
+        val myedit = EditText(activity)
+        val dialog = AlertDialog.Builder(activity)
+        dialog.setTitle("目標歩数の設定")
+            .setMessage("歩数")
+            .setView(myedit)
+            .setPositiveButton("確定") {_, _  ->
+                step = Integer.parseInt(myedit.getText().toString())
+            }
+            .setNegativeButton("キャンセル",null)
+        dialog.show()
+        return step
+    }
 }

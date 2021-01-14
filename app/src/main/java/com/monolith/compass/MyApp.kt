@@ -3,9 +3,13 @@ package com.monolith.compass.com.monolith.compass
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.graphics.*
+import android.util.Base64
+import android.view.View
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import com.monolith.compass.R
 import java.io.File
 import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
@@ -22,19 +26,28 @@ class MyApp: Application(){
 
     var DIRECTORY:String?=null
 
-    data class GPSDATA(var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
+    data class USERDATA(var ID:Int,var NAME:String,var ICON:String?,var LENGTH:Int,var FAVORITE:Int,var COMMENT:String,var BACKGROUND:Int,var FRAME:Int,var STATE:Int)
+
+    data class LOCAL_DC(var height:Float,var weight:Float,var TARGET: Int,var GPSFLG:Boolean,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: Color)
+
+    data class GPSDATA(var GPS_D:Date?,var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
 
     data class MAPDATA(var MAP :Array<Array<Int?>>,var MAP_X:Float?,var MAP_Y:Float?)
 
-    data class STEPDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var CAL:Int)
+    data class ACTIVITYDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var DISTANCE:Int,var CAL:Int)
 
-    data class CARDDATA(var ID:Int,var NAME:String,var ICON:String,var LV:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
+    data class CARDDATA(var ID:Int,var NAME:String,var ICON:String?,var LEVEL:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
+
 
     var GPS_LOG=mutableListOf<GPSDATA>()
 
-    var STEP_LOG=mutableListOf<STEPDATA>()
+    var ACTIVITY_LOG=mutableListOf<ACTIVITYDATA>()
 
-    var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
+    var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null,null)
+
+    var FRIENDLIST=mutableListOf<USERDATA>()
+
+    var FAVORITELIST=mutableListOf<USERDATA>()
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
@@ -113,6 +126,7 @@ class MyApp: Application(){
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun GPSFileRead(child:String){
         val GLOBAL= getInstance()
 
@@ -121,22 +135,26 @@ class MyApp: Application(){
         try{
             val scan= Scanner(FileRead(child))
             scan.useDelimiter("[,\n]")
+            val format=SimpleDateFormat("yyyy/MM/dd/HH-mm-ss")
+
             while(scan.hasNextLine()&&scan.hasNext()){
+                val FILE_D:String=scan.next().substring(2)
                 val FILE_X:String=scan.next().substring(2)
                 val FILE_Y:String=scan.next().substring(2)
                 val FILE_A:String=scan.next().substring(2)
                 val FILE_S:String=scan.next().substring(2)
-                GLOBAL.GPS_LOG.add(MyApp.GPSDATA(FILE_X.toFloat(),FILE_Y.toFloat(),FILE_A.toFloat(),FILE_S.toFloat()))
+
+                GLOBAL.GPS_LOG.add(MyApp.GPSDATA(format.parse(FILE_D),FILE_X.toFloat(),FILE_Y.toFloat(),FILE_A.toFloat(),FILE_S.toFloat()))
             }
         }catch(e: FileNotFoundException){
         }
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun STEPFileRead(child:String){
+    fun ActivityFileRead(child:String){
         val GLOBAL= getInstance()
 
-        GLOBAL.STEP_LOG.clear()
+        GLOBAL.ACTIVITY_LOG.clear()
 
         val pattern= SimpleDateFormat("yyyy/MM/dd")
 
@@ -146,7 +164,7 @@ class MyApp: Application(){
 
             //ファイルが存在しない場合は新規で作る。目標値は仮置き
             if(!scan.hasNextLine()){
-                FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","STEPLOG.txt")
+                FileWrite(pattern.format(Date()).toString()+",10000,0,0,0\n","ACTIVITYLOG.txt")
                 scan=Scanner(FileRead(child))
             }
 
@@ -154,12 +172,13 @@ class MyApp: Application(){
                 val DATE:Date?=pattern.parse(scan.next())
                 val TARGET:Int=scan.nextInt()
                 val STEP:Int=scan.nextInt()
+                val DISTANCE:Int=scan.nextInt()
                 val CAL:Int=scan.nextInt()
-                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(DATE!!,TARGET,STEP,CAL))
+                GLOBAL.ACTIVITY_LOG.add(MyApp.ACTIVITYDATA(DATE!!,TARGET,STEP,DISTANCE,CAL))
             }
 
-            if(pattern.format(GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].DATE)!=pattern.format(Date())){
-                FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","STEPLOG.txt")
+            if(pattern.format(GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].DATE)!=pattern.format(Date())){
+                FileWrite(pattern.format(Date()).toString()+",10000,0,0,0\n","ACTIVITYLOG.txt")
                 val cl = Calendar.getInstance()
                 cl.time = Date()
 
@@ -171,22 +190,23 @@ class MyApp: Application(){
 
                 //calendar型からdate型に変換
                 val date = cl.time
-                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(date,10000,0,0))
+                GLOBAL.ACTIVITY_LOG.add(MyApp.ACTIVITYDATA(date,10000,0,0,0))
             }
 
         }catch(e: FileNotFoundException){
         }
     }
 
-    fun StepFileWrite(child:String){
+    @SuppressLint("SimpleDateFormat")
+    fun ActivityFileWrite(child:String){
         val GLOBAL=getInstance()
         var buf=""
         val pattern= SimpleDateFormat("yyyy/MM/dd")
         try{
             val file=File(GLOBAL.DIRECTORY+"/",child)
-            for(i in GLOBAL.STEP_LOG.indices){
-                buf+=pattern.format(GLOBAL.STEP_LOG[i].DATE)+","+GLOBAL.STEP_LOG[i].TARGET+","+GLOBAL.STEP_LOG[i].STEP+","+GLOBAL.STEP_LOG[i].CAL
-                if(i!=GLOBAL.STEP_LOG.lastIndex)buf+="\n"
+            for(i in GLOBAL.ACTIVITY_LOG.indices){
+                buf+=pattern.format(GLOBAL.ACTIVITY_LOG[i].DATE)+","+GLOBAL.ACTIVITY_LOG[i].TARGET+","+GLOBAL.ACTIVITY_LOG[i].STEP+","+GLOBAL.ACTIVITY_LOG[i].DISTANCE+","+GLOBAL.ACTIVITY_LOG[i].CAL
+                if(i!=GLOBAL.ACTIVITY_LOG.lastIndex)buf+="\n"
             }
             file.writeText(buf)
         } catch(e:FileNotFoundException){
@@ -194,10 +214,6 @@ class MyApp: Application(){
             file.writeText("")
         }
     }
-
-
-
-
 
     //フォルダ内マップデータをセットマップに流せる形式に変換
     fun convertMapFileData(data:String):String{
@@ -211,4 +227,327 @@ class MyApp: Application(){
         return str
     }
 
+
+    fun CreateCardBitmap(DATA:CARDDATA): Bitmap {
+
+        val img_frame:Bitmap=FrameBitmapSearch(DATA.FRAME)
+        val img_icon:Bitmap=IconBitmapCreate(DATA.ICON)
+        val img_badge_back:Bitmap=BadgeBackBitmapSearch(DATA.BACKGROUND)
+        val img_badge_icon:Bitmap=BadgeIconBitmapSearch(DATA.BADGE)
+        val img_level:Bitmap=
+        val str_id:String=DATA.ID.toString()
+        val str_name:String=DATA.NAME
+        val str_distance:String=DATA.DISTANCE.toString()
+        val str_level:String=DATA.LEVEL.toString()
+        val str_comment:String=DATA.COMMENT
+
+        val width=img_frame.width
+        val height=img_frame.height
+
+        val frameWidth:Float=img_frame.width/12.54f
+
+        val paint= Paint()
+        val output= Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
+        val canvas= Canvas(output)
+
+        paint.isAntiAlias=true
+
+        canvas.drawBitmap(img_frame,0f,0f,paint)
+
+        canvas.drawBitmap(img_icon,((width-frameWidth)/8f)-(img_icon.width/2f)+frameWidth/2,((height-frameWidth)/4f)-(img_icon.height/2f)+frameWidth/2,paint)
+
+        canvas.drawBitmap(img_badge_back,2650f,550f,paint)
+
+        canvas.drawBitmap(img_badge_icon,2650f,550f,paint)
+
+        //※ビューは一度作ったものをリサイズして利用するので、位置は無理やりハードコートしています
+        paint.textSize=150f
+
+        /*
+        canvas.drawText("ID：$str_id",(width/2)-paint.measureText("ID：$str_id")/2,(height-frameWidth)/4+frameWidth-250,paint)
+        canvas.drawText(str_name,(width/2)-paint.measureText(str_name)/2,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
+        canvas.drawText(str_distance,(width/2)-paint.measureText(str_distance)/2,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
+        */
+
+        canvas.drawText("ID：$str_id",(width-frameWidth)/4+frameWidth/2+125,(height-frameWidth)/4+frameWidth-250,paint)
+        canvas.drawText(str_name,(width-frameWidth)/4+frameWidth/2+125,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
+        canvas.drawText(str_distance,(width-frameWidth)/4*3+frameWidth/2-paint.measureText(str_distance),((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
+
+        paint.color= Color.parseColor("#808080")
+        paint.strokeWidth=5f
+        //canvas.drawLine(1000f,280f,2400f,280f,paint)
+        canvas.drawLine(1000f,480f,2450f,480f,paint)
+        canvas.drawLine(1000f,680f,2450f,680f,paint)
+        canvas.drawLine(1000f,880f,2450f,880f,paint)
+
+        return output
+    }
+
+    fun FrameBitmapSearch(ID:Int):Bitmap{
+        var img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_1)
+        when(ID){
+            1 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_1)
+            2 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_2)
+            3 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_3)
+            4 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_4)
+            5 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_5)
+            6 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_6)
+            7 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_7)
+            8 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_8)
+            9 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_9)
+            10 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_10)
+        }
+        return img_frame
+    }
+
+    fun IconBitmapCreate(data:String?):Bitmap{
+        val decodedByte: ByteArray = Base64.decode(data, 0)
+        val buf= BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.size)
+        return buf
+    }
+
+    fun BadgeBackBitmapSearch(ID:Int):Bitmap{
+        var img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_0)
+        when(ID){
+            1 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_1)
+            2 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_2)
+            3 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_3)
+            4 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_4)
+        }
+        return img_back
+    }
+
+    fun BadgeIconBitmapSearch(ID:Int):Bitmap{
+        var img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_0)
+        when(ID){
+            1 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_1)
+            2 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_2)
+            3 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_3)
+            4 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_4)
+            5 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_5)
+            6 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_6)
+            7 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_7)
+        }
+        return img_badge_icon
+    }
+
 }
+
+/*
+GLOBALSETTING------------------------------------
+
+->サーバーとの通信に使用するデータ
+
+ID(int)
+名前(string)
+アイコン(string)
+総距離(int)
+お気に入りバッジ(int)
+ひとこと(string)
+名刺背景(int)
+名刺フレーム(int)
+バッジ状態(int)
+-------------------------------------------------
+
+
+
+
+
+LOCALSETTING-------------------------------------
+
+->ユーザ情報等、アプリ内の設定を保存
+
+身長(float)
+体重(float)
+目標歩数(int)
+GPS取得設定(int)
+自宅座標(float,float)
+非取得範囲(int)
+マイカラー(rgb)
+-------------------------------------------------
+
+
+
+
+
+STEPLOG------------------------------------------
+
+->歩数データを保存。Fitnessはこのファイルを参照
+
+日付(date)
+目標歩数(int)
+歩数(int)
+消費カロリー(int)
+-------------------------------------------------
+
+
+
+
+
+GPSLOG-------------------------------------------
+
+->GPSの全履歴を保存。書き込みはBUFと並列
+
+日付(date)
+時間(time)
+経度(float)
+緯度(float)
+範囲(float)
+速度(float)
+-------------------------------------------------
+
+
+
+
+
+GPSBUF-------------------------------------------
+
+->GPSのサーバー未送信分履歴を保存
+
+日付(date)
+時間(time)
+経度(float)
+緯度(float)
+範囲(float)
+速度(float)
+-------------------------------------------------
+
+
+
+
+
+FRIEND-------------------------------------------
+
+->すれ違ったフレンドのIDを保存
+
+ID(int)
+-------------------------------------------------
+
+
+
+
+
+FAVORITE-----------------------------------------
+
+->お気に入りのユーザを保存
+
+ID(int)
+-------------------------------------------------
+
+
+
+
+
+MAPLOG-------------------------------------------
+
+->マップのバッファリングに使用（すると思われる)
+
+-------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+名刺------------------------
+・ID
+・名前
+・ユーザレベル
+・アイコン
+・総距離
+・お気に入りバッジID
+・ひとこと
+・名刺背景色ID
+・名刺フレームID
+・バッジの状態（8桁の整数で管理）
+
+
+
+バッチ処理時に通信する内容ーーーーーーーーーーーーー
+・地図の変更（区間を経度緯度でx分割してフラグ管理、変更分のみアップデート）
+ Lバイナリで管理する
+・自分の現状の名刺データ
+
+日付変更処理に通信する内容ーーーーーーーーーーーーー
+・地図の更新
+
+適宜更新時に取得する内容ーーーーーーーーーーーーーー
+・他のユーザの名刺データ
+
+
+
+
+アプリ終了時に処理
+・地図更新情報
+・すれちがい情報
+
+変更時に処理
+・ユーザ名刺データ
+
+朝５時にバッチ処理
+・地図更新情報
+・ユーザ名刺データ
+・すれちがい情報
+
+起動時に処理
+・
+
+
+サーバで保持するべき情報ーーーーーーーーーーーーーー
+・ID(8桁整数)
+・名前(2バイト10文字）
+・ユーザレベル(3桁整数）
+・アイコン（300000文字)
+・総距離(8桁整数）
+・お気に入りバッジID(2桁整数）
+・ひとこと（2バイト50文字)
+・名刺背景色ID(2桁整数）
+・名刺フレームID（2桁整数）
+・バッジの状態（8桁の整数で管理）
+
+・地図のマスタデータ200000x180000(csv)
+
+各種ID----------------------------------------------
+
+・バッジID
+
+0ログイン日数
+1レベル
+2移動距離
+3歩数
+4開拓
+5カロリー
+6すれ違い
+7イベント
+
+・バッジ背景ID
+0.Null
+1.ブロンズ
+2.シルバー
+3.ゴールド
+4.ダイヤ
+------------------------------------------------------
+
+  白　赤   青
+|0123|456|789|
+
+
+-------------------------------------------------------
+ */
