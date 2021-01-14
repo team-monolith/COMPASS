@@ -3,13 +3,12 @@ package com.monolith.compass.com.monolith.compass
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
+import android.view.View
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import com.monolith.compass.R
 import java.io.File
 import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
@@ -284,6 +283,10 @@ class MyApp: Application(){
 
     fun FrameBitmapSearch(ID:Int):Bitmap{
 
+        //これはサンプル
+       val img_frame= BitmapFactory.decodeResource(resources, R.drawable.frame1)
+
+        return img_frame
     }
 
     fun IconBitmapSearch(ID:Int):Bitmap{
