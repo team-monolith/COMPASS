@@ -234,7 +234,7 @@ class MyApp: Application(){
         val img_icon:Bitmap=IconBitmapCreate(DATA.ICON)
         val img_badge_back:Bitmap=BadgeBackBitmapSearch(DATA.BACKGROUND)
         val img_badge_icon:Bitmap=BadgeIconBitmapSearch(DATA.BADGE)
-        val img_level:Bitmap=
+        val img_level:Bitmap=BitmapFactory.decodeResource(resources,R.id.null)
         val str_id:String=DATA.ID.toString()
         val str_name:String=DATA.NAME
         val str_distance:String=DATA.DISTANCE.toString()
@@ -262,12 +262,6 @@ class MyApp: Application(){
 
         //※ビューは一度作ったものをリサイズして利用するので、位置は無理やりハードコートしています
         paint.textSize=150f
-
-        /*
-        canvas.drawText("ID：$str_id",(width/2)-paint.measureText("ID：$str_id")/2,(height-frameWidth)/4+frameWidth-250,paint)
-        canvas.drawText(str_name,(width/2)-paint.measureText(str_name)/2,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
-        canvas.drawText(str_distance,(width/2)-paint.measureText(str_distance)/2,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
-        */
 
         canvas.drawText("ID：$str_id",(width-frameWidth)/4+frameWidth/2+125,(height-frameWidth)/4+frameWidth-250,paint)
         canvas.drawText(str_name,(width-frameWidth)/4+frameWidth/2+125,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
@@ -310,8 +304,9 @@ class MyApp: Application(){
     }
 
     fun BadgeIconBitmapSearch(ID:Int):Bitmap{
-        var img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_0)
+        var img_badge_icon:Bitmap=BitmapFactory.decodeResource(resources, R.drawable.badge_icon_0)
         when(ID){
+            0 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_0)
             1 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_1)
             2 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_2)
             3 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_3)
