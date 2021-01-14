@@ -157,7 +157,7 @@ class MyApp: Application(){
 
             //ファイルが存在しない場合は新規で作る。目標値は仮置き
             if(!scan.hasNextLine()){
-                FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","STEPLOG.txt")
+                FileWrite(pattern.format(Date()).toString()+",10000,0,0,0\n","ACTIVITYLOG.txt")
                 scan=Scanner(FileRead(child))
             }
 
@@ -170,7 +170,7 @@ class MyApp: Application(){
             }
 
             if(pattern.format(GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].DATE)!=pattern.format(Date())){
-                FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","STEPLOG.txt")
+                FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","ACTIVITYLOG.txt")
                 val cl = Calendar.getInstance()
                 cl.time = Date()
 
