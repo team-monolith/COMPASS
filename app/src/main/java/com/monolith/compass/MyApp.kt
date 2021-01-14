@@ -3,12 +3,14 @@ package com.monolith.compass.com.monolith.compass
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import android.util.Base64
 import android.view.View
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import java.io.File
 import java.io.FileNotFoundException
@@ -58,7 +60,6 @@ class MyApp: Application(){
     //開始時処理
     override fun onCreate(){
         super.onCreate()
-        CreateCardBitmap(CARDDATA(12345,"うっちー",null,30,5000,3,2,3,"コメントテスト",0))
     }
 
     companion object{
@@ -233,7 +234,6 @@ class MyApp: Application(){
 
 
         val debugstr=""
-
 
         val img_card:Bitmap=BitmapFactory.decodeResource(resources,R.drawable.card)
         val img_frame:Bitmap=FrameBitmapSearch(DATA.FRAME)
