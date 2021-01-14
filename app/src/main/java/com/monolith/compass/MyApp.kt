@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.graphics.*
+import android.util.Base64
 import android.view.View
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
@@ -35,7 +36,7 @@ class MyApp: Application(){
 
     data class ACTIVITYDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var DISTANCE:Int,var CAL:Int)
 
-    data class CARDDATA(var ID:Int,var NAME:String,var ICON:String?,var LV:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
+    data class CARDDATA(var ID:Int,var NAME:String,var ICON:String?,var LEVEL:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
 
 
     var GPS_LOG=mutableListOf<GPSDATA>()
@@ -229,15 +230,16 @@ class MyApp: Application(){
 
     fun CreateCardBitmap(DATA:CARDDATA): Bitmap {
 
-        val img_frame:Bitmap=FrameBitmapSearch(0)
-        val img_icon:Bitmap=""
-        val img_badge_back:String=""
-        val img_badge_icon:String=""
-        val str_id:String=""
-        val str_name:String=""
-        val str_distance:String=""
-        val str_level:String=""
-        val str_comment:String=""
+        val img_frame:Bitmap=FrameBitmapSearch(DATA.FRAME)
+        val img_icon:Bitmap=IconBitmapCreate(DATA.ICON)
+        val img_badge_back:Bitmap=BadgeBackBitmapSearch(DATA.BACKGROUND)
+        val img_badge_icon:Bitmap=BadgeIconBitmapSearch(DATA.BADGE)
+        val img_level:Bitmap=
+        val str_id:String=DATA.ID.toString()
+        val str_name:String=DATA.NAME
+        val str_distance:String=DATA.DISTANCE.toString()
+        val str_level:String=DATA.LEVEL.toString()
+        val str_comment:String=DATA.COMMENT
 
         val width=img_frame.width
         val height=img_frame.height
@@ -290,8 +292,10 @@ class MyApp: Application(){
         return img_frame
     }
 
-    fun IconBitmapSearch(ID:Int):Bitmap{
-
+    fun IconBitmapCreate(data:String?):Bitmap{
+        val decodedByte: ByteArray = Base64.decode(data, 0)
+        val buf= BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.size)
+        return buf
     }
 
     fun BadgeBackBitmapSearch(ID:Int):Bitmap{
