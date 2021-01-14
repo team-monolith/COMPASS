@@ -12,6 +12,7 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
+import com.monolith.compass.ui.setting.SettingFragment
 import java.io.File
 import java.io.FileNotFoundException
 import java.text.SimpleDateFormat

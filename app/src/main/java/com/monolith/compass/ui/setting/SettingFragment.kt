@@ -137,18 +137,17 @@ class SettingFragment : Fragment() {
         }
     }
 
-    fun SetGoal(savedInstanceState: Bundle?): Int {
-        var step = -1 //歩数をセット
+    fun SettingGoal(DATA:MyApp.LOCAL_DC){
+        var target = -1 //歩数をセット
         val myedit = EditText(activity)
         val dialog = AlertDialog.Builder(activity)
         dialog.setTitle("目標歩数の設定")
             .setMessage("歩数")
             .setView(myedit)
             .setPositiveButton("確定") {_, _  ->
-                step = Integer.parseInt(myedit.getText().toString())
+                DATA.TARGET = Integer.parseInt(myedit.getText().toString())
             }
             .setNegativeButton("キャンセル",null)
         dialog.show()
-        return step
     }
 }
