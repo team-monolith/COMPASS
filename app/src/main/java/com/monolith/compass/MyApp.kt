@@ -278,10 +278,18 @@ class MyApp: Application(){
     }
 
     fun FrameBitmapSearch(ID:Int):Bitmap{
-        var img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame1)
+        var img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_1)
         when(ID){
-            1 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame1)
-            2 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame2)
+            1 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_1)
+            2 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_2)
+            3 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_3)
+            4 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_4)
+            5 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_5)
+            6 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_6)
+            7 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_7)
+            8 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_8)
+            9 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_9)
+            10 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_10)
         }
         return img_frame
     }
