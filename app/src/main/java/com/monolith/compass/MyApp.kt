@@ -190,6 +190,7 @@ class MyApp: Application(){
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun ActivityFileWrite(child:String){
         val GLOBAL=getInstance()
         var buf=""
