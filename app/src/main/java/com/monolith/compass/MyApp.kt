@@ -165,12 +165,13 @@ class MyApp: Application(){
                 val DATE:Date?=pattern.parse(scan.next())
                 val TARGET:Int=scan.nextInt()
                 val STEP:Int=scan.nextInt()
+                val DISTANCE:Int=scan.nextInt()
                 val CAL:Int=scan.nextInt()
-                GLOBAL.ACTIVITY_LOG.add(MyApp.ACTIVITYDATA(DATE!!,TARGET,STEP,0,CAL))
+                GLOBAL.ACTIVITY_LOG.add(MyApp.ACTIVITYDATA(DATE!!,TARGET,STEP,DISTANCE,CAL))
             }
 
             if(pattern.format(GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].DATE)!=pattern.format(Date())){
-                FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","ACTIVITYLOG.txt")
+                FileWrite(pattern.format(Date()).toString()+",10000,0,0,0\n","ACTIVITYLOG.txt")
                 val cl = Calendar.getInstance()
                 cl.time = Date()
 
