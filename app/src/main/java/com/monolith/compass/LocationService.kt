@@ -54,7 +54,7 @@ class LocationService: Service(), LocationListener,SensorEventListener {
         val sensor=mSensorManager!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
         mSensorManager!!.registerListener(this,sensor,SensorManager.SENSOR_DELAY_UI)
 
-        MyApp().STEPFileRead("STEPLOG.txt")
+        MyApp().ActivityFileRead("ACTIVITYLOG.txt")
     }
 
     //メイン処理
@@ -221,6 +221,7 @@ class LocationService: Service(), LocationListener,SensorEventListener {
     }
 
 
+    //歩行センサー検出時
     override fun onSensorChanged(event: SensorEvent?) {
 
         if (event != null) {
@@ -229,11 +230,10 @@ class LocationService: Service(), LocationListener,SensorEventListener {
 
             if(event.sensor.type == Sensor.TYPE_STEP_COUNTER){
                 GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].STEP+=(event.values[0]-mPrevCount).toInt()
-                MyApp().StepFileWrite("STEPLOG.txt")
+                MyApp().ActivityFileWrite("ACTIVITYLOG.txt")
                 mPrevCount=event.values[0]
             }
             else{
-
             }
         }
 

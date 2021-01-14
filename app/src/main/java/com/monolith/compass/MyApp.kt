@@ -3,6 +3,7 @@ package com.monolith.compass.com.monolith.compass
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.graphics.Color
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
@@ -22,19 +23,24 @@ class MyApp: Application(){
 
     var DIRECTORY:String?=null
 
-    data class GPSDATA(var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
+    data class GLOBAL_DC(var ID:Int,var NAME:String,var ICON:String?,var LENGTH:Int,var FAVORITE:Int,var COMMENT:String,var BACKGROUND:Int,var FRAME:Int,var STATE:Int)
+
+    data class LOCAL_DC(var height:Float,var weight:Float,var TARGET: Int,var GPSFLG:Boolean,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: Color)
+
+    data class GPSDATA(var GPS_D:Date?,var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
 
     data class MAPDATA(var MAP :Array<Array<Int?>>,var MAP_X:Float?,var MAP_Y:Float?)
 
-    data class STEPDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var CAL:Int)
+    data class ACTIVITYDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var DISTANCE:Int,var CAL:Int)
 
     data class CARDDATA(var ID:Int,var NAME:String,var ICON:String?,var LV:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
 
+
     var GPS_LOG=mutableListOf<GPSDATA>()
 
-    var STEP_LOG=mutableListOf<STEPDATA>()
+    var ACTIVITY_LOG=mutableListOf<ACTIVITYDATA>()
 
-    var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null)
+    var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null,null)
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
@@ -113,6 +119,7 @@ class MyApp: Application(){
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun GPSFileRead(child:String){
         val GLOBAL= getInstance()
 
@@ -121,22 +128,26 @@ class MyApp: Application(){
         try{
             val scan= Scanner(FileRead(child))
             scan.useDelimiter("[,\n]")
+            val format=SimpleDateFormat("yyyy/MM/dd/HH-mm-ss")
+
             while(scan.hasNextLine()&&scan.hasNext()){
+                val FILE_D:String=scan.next().substring(2)
                 val FILE_X:String=scan.next().substring(2)
                 val FILE_Y:String=scan.next().substring(2)
                 val FILE_A:String=scan.next().substring(2)
                 val FILE_S:String=scan.next().substring(2)
-                GLOBAL.GPS_LOG.add(MyApp.GPSDATA(FILE_X.toFloat(),FILE_Y.toFloat(),FILE_A.toFloat(),FILE_S.toFloat()))
+
+                GLOBAL.GPS_LOG.add(MyApp.GPSDATA(format.parse(FILE_D),FILE_X.toFloat(),FILE_Y.toFloat(),FILE_A.toFloat(),FILE_S.toFloat()))
             }
         }catch(e: FileNotFoundException){
         }
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun STEPFileRead(child:String){
+    fun ActivityFileRead(child:String){
         val GLOBAL= getInstance()
 
-        GLOBAL.STEP_LOG.clear()
+        GLOBAL.ACTIVITY_LOG.clear()
 
         val pattern= SimpleDateFormat("yyyy/MM/dd")
 
@@ -155,10 +166,10 @@ class MyApp: Application(){
                 val TARGET:Int=scan.nextInt()
                 val STEP:Int=scan.nextInt()
                 val CAL:Int=scan.nextInt()
-                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(DATE!!,TARGET,STEP,CAL))
+                GLOBAL.ACTIVITY_LOG.add(MyApp.ACTIVITYDATA(DATE!!,TARGET,STEP,0,CAL))
             }
 
-            if(pattern.format(GLOBAL.STEP_LOG[GLOBAL.STEP_LOG.lastIndex].DATE)!=pattern.format(Date())){
+            if(pattern.format(GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].DATE)!=pattern.format(Date())){
                 FileWrite(pattern.format(Date()).toString()+",10000,0,0\n","STEPLOG.txt")
                 val cl = Calendar.getInstance()
                 cl.time = Date()
@@ -171,22 +182,22 @@ class MyApp: Application(){
 
                 //calendar型からdate型に変換
                 val date = cl.time
-                GLOBAL.STEP_LOG.add(MyApp.STEPDATA(date,10000,0,0))
+                GLOBAL.ACTIVITY_LOG.add(MyApp.ACTIVITYDATA(date,10000,0,0,0))
             }
 
         }catch(e: FileNotFoundException){
         }
     }
 
-    fun StepFileWrite(child:String){
+    fun ActivityFileWrite(child:String){
         val GLOBAL=getInstance()
         var buf=""
         val pattern= SimpleDateFormat("yyyy/MM/dd")
         try{
             val file=File(GLOBAL.DIRECTORY+"/",child)
-            for(i in GLOBAL.STEP_LOG.indices){
-                buf+=pattern.format(GLOBAL.STEP_LOG[i].DATE)+","+GLOBAL.STEP_LOG[i].TARGET+","+GLOBAL.STEP_LOG[i].STEP+","+GLOBAL.STEP_LOG[i].CAL
-                if(i!=GLOBAL.STEP_LOG.lastIndex)buf+="\n"
+            for(i in GLOBAL.ACTIVITY_LOG.indices){
+                buf+=pattern.format(GLOBAL.ACTIVITY_LOG[i].DATE)+","+GLOBAL.ACTIVITY_LOG[i].TARGET+","+GLOBAL.ACTIVITY_LOG[i].STEP+","+GLOBAL.ACTIVITY_LOG[i].DISTANCE+","+GLOBAL.ACTIVITY_LOG[i].CAL
+                if(i!=GLOBAL.ACTIVITY_LOG.lastIndex)buf+="\n"
             }
             file.writeText(buf)
         } catch(e:FileNotFoundException){
