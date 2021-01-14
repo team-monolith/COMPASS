@@ -94,9 +94,9 @@ class FitnessFragment : Fragment() {
         var CALORIES=0
 
         if(dayNum!=-1){
-            STEPS=GLOBAL.STEP_LOG[dayNum].STEP
-            DISTANCE=GLOBAL.STEP_LOG[dayNum].STEP
-            CALORIES=GLOBAL.STEP_LOG[dayNum].CAL
+            STEPS=GLOBAL.ACTIVITY_LOG[dayNum].STEP
+            DISTANCE=GLOBAL.ACTIVITY_LOG[dayNum].STEP
+            CALORIES=GLOBAL.ACTIVITY_LOG[dayNum].CAL
         }
 
         view?.findViewById<TextView>(R.id.txtDate)?.text = pattern.format(startDay)
@@ -124,9 +124,9 @@ class FitnessFragment : Fragment() {
             day=cl.time
             val n = SearchDayNumber(day)
             if(n!=-1){
-                STEPS+=GLOBAL.STEP_LOG[n].STEP
+                STEPS+=GLOBAL.ACTIVITY_LOG[n].STEP
                 DISTANCE+=0//仮置き
-                CALORIES+=GLOBAL.STEP_LOG[n].CAL
+                CALORIES+=GLOBAL.ACTIVITY_LOG[n].CAL
             }
             cl.add(Calendar.DAY_OF_YEAR,1)
         }
@@ -138,8 +138,8 @@ class FitnessFragment : Fragment() {
     }
 
     fun SearchDayNumber(day:Date):Int{
-        for(i in GLOBAL.STEP_LOG.indices){
-            if(day==GLOBAL.STEP_LOG[i].DATE){
+        for(i in GLOBAL.ACTIVITY_LOG.indices){
+            if(day==GLOBAL.ACTIVITY_LOG[i].DATE){
                 return i
             }
         }
