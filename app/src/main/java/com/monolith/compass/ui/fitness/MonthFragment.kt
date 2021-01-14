@@ -134,14 +134,14 @@ open class MonthFragment : Fragment() {
             prevDate=cl.time
 
             //STEPLOGを全件ループ
-            for(x in GLOBAL.STEP_LOG.indices){
+            for(x in GLOBAL.ACTIVITY_LOG.indices){
                 //もしi日がデータとして存在する場合は値を取得
-                if(prevDate==GLOBAL.STEP_LOG[x].DATE){
-                    steplist.add(GLOBAL.STEP_LOG[x].STEP)
+                if(prevDate==GLOBAL.ACTIVITY_LOG[x].DATE){
+                    steplist.add(GLOBAL.ACTIVITY_LOG[x].STEP)
                     break
                 }
                 //最後までフォルダを参照しても存在しない場合は0をセットする
-                else if(x == GLOBAL.STEP_LOG.lastIndex){
+                else if(x == GLOBAL.ACTIVITY_LOG.lastIndex){
                     steplist.add(0)
                 }
             }

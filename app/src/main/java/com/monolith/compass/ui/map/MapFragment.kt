@@ -52,7 +52,7 @@ class MapFragment : Fragment() {
 
     var Other:MyApp.MAPDATA=MyApp.MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
 
-    var Location:MyApp.GPSDATA=MyApp.GPSDATA(null,null,null,null) //ユーザの現在地
+    var Location:MyApp.GPSDATA=MyApp.GPSDATA(null,null,null,null,null) //ユーザの現在地
 
     val Draw = CanvasDraw()//描画処理関係
 

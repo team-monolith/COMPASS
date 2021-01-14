@@ -109,15 +109,15 @@ class DayFragment : Fragment() {
         //calendar型からdate型に変換
         prevDate = cl.time
 
-        for (i in GLOBAL.STEP_LOG.indices) {
+        for (i in GLOBAL.ACTIVITY_LOG.indices) {
             //データとして存在する場合は値を取得
-            if (prevDate == GLOBAL.STEP_LOG[i].DATE) {
-                step = GLOBAL.STEP_LOG[i].STEP
-                target=GLOBAL.STEP_LOG[i].TARGET
+            if (prevDate == GLOBAL.ACTIVITY_LOG[i].DATE) {
+                step = GLOBAL.ACTIVITY_LOG[i].STEP
+                target=GLOBAL.ACTIVITY_LOG[i].TARGET
                 break
             }
             //最後までフォルダを参照しても存在しない場合は0をセットする
-            else if (i == GLOBAL.STEP_LOG.lastIndex) {
+            else if (i == GLOBAL.ACTIVITY_LOG.lastIndex) {
                 step = 0
                 target=99999//仮
             }
