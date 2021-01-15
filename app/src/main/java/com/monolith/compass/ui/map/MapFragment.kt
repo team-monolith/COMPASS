@@ -49,13 +49,15 @@ class MapFragment : Fragment() {
 
     var lastGPSTime:Long=0
 
-    var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null)//ユーザ現在地周辺の地図データ
+    var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null,null)//ユーザ現在地周辺の地図データ
 
-    var Other:MyApp.MAPDATA=MyApp.MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null)//ユーザ現在地周辺の地図データ
+    var Other:MyApp.MAPDATA=MyApp.MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null,null)//ユーザ現在地周辺の地図データ
 
     var Location:MyApp.GPSDATA=MyApp.GPSDATA(null,null,null,null,null) //ユーザの現在地
 
     val Draw = CanvasDraw()//描画処理関係
+
+    var MAPBITMAP:Bitmap?=null
 
 
     override fun onCreateView(
@@ -174,10 +176,12 @@ class MapFragment : Fragment() {
                 override fun onScale(detector: ScaleGestureDetector): Boolean {
 
 
-                    val LogScale = scale * 500 + scale
+                    //val LogScale = scale * 500 + scale
 
                     //スケールが15未満及び45以上にならないように設定
                     scale *= detector.scaleFactor
+
+                    /*
                     if (scale <= 10f) {
                         scale = 10f
                         //ここで地図の再ロード処理を記述
@@ -185,10 +189,10 @@ class MapFragment : Fragment() {
                     if (scale >= 50f) {
                         scale = 50f
                         //ここで地図の再ロード処理を記述
-                    }
+                    }*/
 
-                    posX += ((LogScale - (scale * 500 + scale)) / 2).toInt()
-                    posY += ((LogScale - (scale * 500 + scale)) / 2).toInt()
+                    //posX += ((LogScale - (scale * 500 + scale)) / 2).toInt()
+                    //posY += ((LogScale - (scale * 500 + scale)) / 2).toInt()
 
                     posX += detector.focusX.toInt() - logX!!
                     posY += detector.focusY.toInt() - logY!!
@@ -241,6 +245,30 @@ class MapFragment : Fragment() {
                 Other.MAP[y][x] = -1
             }
         }
+    }
+
+    fun CreateMapBitmap(CurrentMAP: Array<Array<Int?>>): Bitmap {
+
+        val output= Bitmap.createBitmap(5000,5000, Bitmap.Config.ARGB_8888)
+        val canvas= Canvas(output)
+
+        val blockpaint: Array<Paint> = Array<Paint>(5) { Paint() }
+        blockpaint[0].color = Color.parseColor("#FFFFFF")
+        blockpaint[1].color = Color.parseColor("#CCCCCC")
+        blockpaint[2].color = Color.parseColor("#666666")
+        blockpaint[3].color = Color.parseColor("#000000")
+
+
+        for (y in 0 until 500) {
+            for (x in 0 until 500) {
+                val rect = Rect(
+                    x*10,y*10,x*10+10,y*10+10
+                )
+                if(CurrentMAP[y][x]!! >0)canvas.drawRect(rect, blockpaint[CurrentMAP[y][x]!!])
+            }
+        }
+
+        return output
     }
 
     //描画関数　再描画用
@@ -311,29 +339,38 @@ class MapFragment : Fragment() {
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
 
+            canvas!!.save()
+
+            canvas.translate(posX*1f,posY*1f)
+
+            canvas.scale(scale,scale)
+
             //マップの表示処理
-            if(layerFlg)Draw.Map(posX, posY, scale, Current.MAP, canvas)
+            if(layerFlg&&Current.BITMAP!=null)canvas.drawBitmap(Current.BITMAP!!,0f,0f,Paint())
 
             //移動履歴を表示
-            if(Current.MAP_X!=null)Draw.Log(posX,posY,scale,Current,canvas)
+            if(Current.MAP_X!=null)Draw.Log(Current,canvas)
+
+
 
             //現在地等わかっている場合（前回更新から30秒以下の場合）
             if (Location.GPS_X != null && Current.MAP_X != null && Current.MAP[499][499] != -1&&System.currentTimeMillis()-lastGPSTime<30000) {
 
                 //現在地を表示
                 Draw.Current(
-                    posX,
-                    posY,
-                    scale,
-                    size!!,
                     Location,
                     Current,
                     canvas
                 )
 
+                canvas.restore()
             }
+
             //わかっていない場合はローディング表示をする
-            else Draw.Loading(canvas, size)
+            else {
+                canvas.restore()
+                Draw.Loading(canvas, size)
+            }
 
         }
     }
@@ -355,6 +392,7 @@ class MapFragment : Fragment() {
                 }
             }
     }
+
 
     //マップを配列に保存する関数
     fun subsetMap(data: String) {
@@ -390,6 +428,8 @@ class MapFragment : Fragment() {
                 Current.MAP[fy][fx]=origindata.get(fy*500+fx).toString().toInt()
             }
         }
+
+        Current.BITMAP=Draw.Map(Current.MAP)
 
         val str="X="+Current.MAP_X+",Y="+Current.MAP_Y+"\n"+data
 

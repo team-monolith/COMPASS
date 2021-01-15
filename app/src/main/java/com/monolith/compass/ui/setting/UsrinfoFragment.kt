@@ -83,6 +83,7 @@ class UsrinfoFragment : Fragment() {
             var CHW=0
 
 
+
             //入力、選択がない時の例外処理
             val lineColor=spinner.selectedItem as String
             if (lineColor=="色を選択してください"){
@@ -108,7 +109,11 @@ class UsrinfoFragment : Fragment() {
                 else->{
                 //身長・体重・線の色をサーバーに送信
                 Toast.makeText(context,weight+"Kg:"+height+"cm:"+lineColor+"保存しました",Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)}
+                    //LOCALSETTINGにデータを保存(身長,体重,目標歩数 ※未実装,GPS取得設定 ※未実装,自宅座標 ※未実装,非取得範囲 ※未実装,マイカラー) val test = height.toString() + "," + weight.toString() + "," + "0" + "," + "0" + "," + "0.0" + "," + "0.0" + "," + "0" + lineColor.toString()
+                    val str = height.toString() + "," + weight.toString() + "," + "0" + "," + "0" + "," + "0.0" + "," + "0.0" + "," + "0" + "," +lineColor.toString()
+                    GLOBAL.FileWrite(str,"LOCALSETTING.txt")
+
+                    findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)}
             }
 
 
