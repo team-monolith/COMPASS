@@ -1,13 +1,11 @@
 package com.monolith.compass.ui.profile
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -31,7 +29,8 @@ class Prof_Edit_Fragment : Fragment() {
         val textView: TextView = root.findViewById(R.id.name_txt)
         val okbtn : Button = root.findViewById(R.id.combtn)
         val name_text :EditText = root.findViewById(R.id.name_txtedit)
-        //val card_img : ImageView = root.findViewById(R.id.frame_img)
+        val badge_img : ImageView = root.findViewById(R.id.badge_img)
+        val frame :FrameLayout = root.findViewById(R.id.frame)
 
         val ma = activity as MainActivity?
         var value =ma?.SharedValue
@@ -41,6 +40,14 @@ class Prof_Edit_Fragment : Fragment() {
         /*card_img.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
         }*/
+
+        badge_img.setOnClickListener{
+            frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfileBlackFragment())
+            transaction.add(R.id.frame,Prof_Badge_List_Fragment())
+            transaction.commit()
+        }
 
         okbtn.setOnClickListener{
             ma?.SharedValue = "こんにちは"
@@ -62,4 +69,7 @@ class Prof_Edit_Fragment : Fragment() {
 消費カロリー:1000,5000,25000,50000
 すれ違い人数:1,10,50,100
 イベント参加回数:1,3,6,10
+
+ いつか
+ https://qiita.com/takahirom/items/97818748e2c2059a2536
  */

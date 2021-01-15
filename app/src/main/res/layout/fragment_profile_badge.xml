@@ -20,7 +20,7 @@
             <ImageView
                 android:id="@+id/copper_img"
                 android:layout_width="112dp"
-                android:layout_height="126dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -90,7 +90,7 @@
             <ImageView
                 android:id="@+id/silver_img"
                 android:layout_width="112dp"
-                android:layout_height="126dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -132,7 +132,7 @@
             <ImageView
                 android:id="@+id/gold_img"
                 android:layout_width="112dp"
-                android:layout_height="126dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -174,7 +174,7 @@
             <ImageView
                 android:id="@+id/platinum_img"
                 android:layout_width="112dp"
-                android:layout_height="126dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

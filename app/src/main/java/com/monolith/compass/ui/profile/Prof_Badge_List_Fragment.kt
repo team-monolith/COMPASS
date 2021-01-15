@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,13 +15,9 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 import com.monolith.compass.ui.profile.ProfileViewModel
-import org.w3c.dom.Text
 
-class Prof_Card_Fragment : Fragment() {
+class Prof_Badge_List_Fragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
-
-
-    
 
 
     override fun onCreateView(
@@ -30,12 +27,7 @@ class Prof_Card_Fragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_profile_card, container, false)
-        val frame_btn :Button = root.findViewById(R.id.frame_btn)
-        val background_btn: Button = root.findViewById(R.id.background_btn)
-
-
-
+        val root = inflater.inflate(R.layout.fragment_profile_badge_list, container, false)
 
 
         return root
