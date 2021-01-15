@@ -355,6 +355,7 @@ class MapFragment : Fragment() {
             }
     }
 
+
     //マップを配列に保存する関数
     fun subsetMap(data: String) {
 
