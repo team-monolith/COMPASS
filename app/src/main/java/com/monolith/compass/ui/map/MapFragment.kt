@@ -44,9 +44,6 @@ class MapFragment : Fragment() {
 
     var size: Rect? = null  //画面サイズ取得用
 
-    var centerX: Int = 0 //地図の中心点（現在地）の計算用
-    var centerY: Int = 0 //地図の中心点（現在地）の計算用
-
     var lastGPSTime:Long=0
 
     var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null,null)//ユーザ現在地周辺の地図データ
@@ -56,8 +53,6 @@ class MapFragment : Fragment() {
     var Location:MyApp.GPSDATA=MyApp.GPSDATA(null,null,null,null,null) //ユーザの現在地
 
     val Draw = CanvasDraw()//描画処理関係
-
-    var MAPBITMAP:Bitmap?=null
 
 
     override fun onCreateView(
@@ -96,14 +91,6 @@ class MapFragment : Fragment() {
         size = Rect()
         activity?.window?.decorView?.getWindowVisibleDisplayFrame(size)
 
-        //画面の中心座標を取得
-        centerX = (-250 * scale + (size!!.width() + scale) / 2).toInt()
-        centerY = (-250 * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
-
-        //表示座標を中心に設定
-        posX = centerX
-        posY = centerY
-
         //FABボタンを水色に変更
         view.findViewById<FloatingActionButton>(R.id.fab_current)
             .setColorFilter(Color.parseColor("#00AAFF"))
@@ -118,13 +105,6 @@ class MapFragment : Fragment() {
 
         //FABボタンリスナー
         fab_current.setOnClickListener {
-            //表示座標を中心に設定
-            if (Location.GPS_X != null && Current.MAP_X != null) {
-                posX =
-                    (-250 * scale - ((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
-                posY =
-                    (-250 * scale - ((Location.GPS_Y!! - Current.MAP_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
-            }
             centerFlg = true
             fab_current.setColorFilter(Color.parseColor("#00AAFF"))
         }
@@ -175,33 +155,14 @@ class MapFragment : Fragment() {
                 //スケール変更処理
                 override fun onScale(detector: ScaleGestureDetector): Boolean {
 
-
-                    //val LogScale = scale * 500 + scale
-
-                    //スケールが15未満及び45以上にならないように設定
                     scale *= detector.scaleFactor
 
-                    /*
-                    if (scale <= 10f) {
-                        scale = 10f
-                        //ここで地図の再ロード処理を記述
-                    }
-                    if (scale >= 50f) {
-                        scale = 50f
-                        //ここで地図の再ロード処理を記述
-                    }*/
-
-                    //posX += ((LogScale - (scale * 500 + scale)) / 2).toInt()
-                    //posY += ((LogScale - (scale * 500 + scale)) / 2).toInt()
 
                     posX += detector.focusX.toInt() - logX!!
                     posY += detector.focusY.toInt() - logY!!
                     logX = detector.focusX.toInt()
                     logY = detector.focusY.toInt()
 
-                    //画面中心に戻すための位置を再計算
-                    centerX = (-250 * scale + (size!!.width() + scale) / 2).toInt()
-                    centerY = (-250 * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
                     return true
                 }
 
@@ -247,30 +208,6 @@ class MapFragment : Fragment() {
         }
     }
 
-    fun CreateMapBitmap(CurrentMAP: Array<Array<Int?>>): Bitmap {
-
-        val output= Bitmap.createBitmap(5000,5000, Bitmap.Config.ARGB_8888)
-        val canvas= Canvas(output)
-
-        val blockpaint: Array<Paint> = Array<Paint>(5) { Paint() }
-        blockpaint[0].color = Color.parseColor("#FFFFFF")
-        blockpaint[1].color = Color.parseColor("#CCCCCC")
-        blockpaint[2].color = Color.parseColor("#666666")
-        blockpaint[3].color = Color.parseColor("#000000")
-
-
-        for (y in 0 until 500) {
-            for (x in 0 until 500) {
-                val rect = Rect(
-                    x*10,y*10,x*10+10,y*10+10
-                )
-                if(CurrentMAP[y][x]!! >0)canvas.drawRect(rect, blockpaint[CurrentMAP[y][x]!!])
-            }
-        }
-
-        return output
-    }
-
     //描画関数　再描画用
     fun HandlerDraw(mv: MoveView) {
         handler.post(object : Runnable {
@@ -287,22 +224,24 @@ class MapFragment : Fragment() {
     //変数類をリアルタイムで変更
     fun SystemReflesh() {
 
-        if (Location.GPS_X != null && Current.MAP_X != null) {
-            centerX =
-                (-250 * scale - ((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
-            centerY =
-                (-250 * scale - ((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
-        }
         //FABセンターを押下した場合は位置がずれても中心に追従する
         if (centerFlg) {
             view?.findViewById<FloatingActionButton>(R.id.fab_current)
                 ?.setColorFilter(Color.parseColor("#0000FF"))
-            //地図の中心に自分を置く
+            //自分を中心に画面配置
             if (Location.GPS_X != null && Current.MAP_X != null) {
+
+
+                //画面の中心に移動する処理を作成したら完成
+
+                //座標の中心からのずれを計算
+                val sX=((Location.GPS_X!! - Current.MAP_X!!)*10000).toInt()
+                val sY=((Current.MAP_Y!! - Location.GPS_Y!!)*10000).toInt()
+
                 posX =
-                    (-250 * scale - ((Location.GPS_X!! - Current.MAP_X!!) * 10000).toInt() * scale + (size!!.width() + scale) / 2).toInt()
+                    (250+sX)*-10+size!!.width()/2
                 posY =
-                    (-250 * scale - ((Current.MAP_Y!! - Location.GPS_Y!!) * 10000).toInt() * scale + (size!!.height()) / 4 * 3 + (scale / 2)).toInt()
+                    (250+sY)*-10+size!!.height()/4*3
             }
         } else {
             view?.findViewById<FloatingActionButton>(R.id.fab_current)
