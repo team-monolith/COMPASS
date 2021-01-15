@@ -137,6 +137,7 @@ class SettingFragment : Fragment() {
         }
     }
 
+    /*ゴールの値を設定するダイアログを出力*/
     fun SettingGoal(DATA:MyApp.LOCAL_DC){
         var target = -1 //歩数をセット
         val myedit = EditText(activity)
