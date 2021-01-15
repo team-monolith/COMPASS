@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.*
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.*
 import android.view.ScaleGestureDetector.OnScaleGestureListener
@@ -48,9 +49,9 @@ class MapFragment : Fragment() {
 
     var lastGPSTime:Long=0
 
-    var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
+    var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null)//ユーザ現在地周辺の地図データ
 
-    var Other:MyApp.MAPDATA=MyApp.MAPDATA(Array(500, { arrayOfNulls<Int>(500) }),null,null)//ユーザ現在地周辺の地図データ
+    var Other:MyApp.MAPDATA=MyApp.MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null)//ユーザ現在地周辺の地図データ
 
     var Location:MyApp.GPSDATA=MyApp.GPSDATA(null,null,null,null,null) //ユーザの現在地
 
@@ -246,10 +247,10 @@ class MapFragment : Fragment() {
     fun HandlerDraw(mv: MoveView) {
         handler.post(object : Runnable {
             override fun run() {
-                //変数類再設定
-                SystemReflesh()
-                //再描画
-                mv.invalidate()
+            //変数類再設定
+            SystemReflesh()
+            //再描画
+            mv.invalidate()
                 handler.postDelayed(this, 25)
             }
         })

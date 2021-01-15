@@ -231,23 +231,22 @@ class MyApp: Application(){
     }
 
 
-    fun CreateCardBitmap(DATA:CARDDATA): Bitmap {
+    //名刺のBitmap画像を
+    //CARDDATA型データを渡し、第二引数でresourcesを投げる
+    fun CreateCardBitmap(DATA:CARDDATA,res:Resources): Bitmap {
 
 
-        val debugstr=""
-
-        //ここがなぜか取得できない問題
-
-        val img_card:Bitmap=BitmapFactory.decodeResource(resources,R.drawable.card)
-        val img_frame:Bitmap=FrameBitmapSearch(DATA.FRAME)
+        val img_card:Bitmap=BitmapFactory.decodeResource(res,R.drawable.card)
+        val img_frame:Bitmap=FrameBitmapSearch(DATA.FRAME,res)
+        val img_back:Bitmap=CardBackBitmapSearch(DATA.BACKGROUND,res)
 
         val img_icon:Bitmap?
-        if(DATA.ICON!=null)img_icon=Bitmap.createScaledBitmap(DATA.ICON!!,(img_frame.height/3),(img_frame.height/3),true)
+        if(DATA.ICON!=null)img_icon=Bitmap.createScaledBitmap(DATA.ICON!!,(img_frame.height/13*5),(img_frame.height/13*5),true)
         else img_icon=null
 
-        val img_badge_back=Bitmap.createScaledBitmap(BadgeBackBitmapSearch(DATA.BACKGROUND),(img_frame.height/6),(img_frame.height/6),true)
-        val img_badge_icon=Bitmap.createScaledBitmap(BadgeIconBitmapSearch(DATA.BADGE),(img_frame.height/6),(img_frame.height/6),true)
-        val img_level:Bitmap=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources,R.drawable.levelframe),(img_frame.height/4),(img_frame.height/4),true)
+        val img_badge_back=Bitmap.createScaledBitmap(BadgeBackBitmapSearch(DATA.BACKGROUND,res),(img_frame.height/5),(img_frame.height/5),true)
+        val img_badge_icon=Bitmap.createScaledBitmap(BadgeIconBitmapSearch(DATA.BADGE,res),(img_frame.height/5),(img_frame.height/5),true)
+        val img_level:Bitmap=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res,R.drawable.levelframe),(img_frame.height/10*3),(img_frame.height/10*3),true)
         val str_id:String=DATA.ID.toString()
         val str_name:String=DATA.NAME
         val str_distance:String=DATA.DISTANCE.toString()
@@ -265,22 +264,24 @@ class MyApp: Application(){
 
         paint.isAntiAlias=true
 
+        canvas.drawBitmap(img_back,0f,0f,paint)
+
         canvas.drawBitmap(img_frame,0f,0f,paint)
 
         canvas.drawBitmap(img_card,0f,0f,paint)
 
-        if(img_icon!=null)canvas.drawBitmap(img_icon,((width-frameWidth)/8f)-(img_icon.width/2f)+frameWidth/2,((height-frameWidth)/4f)-(img_icon.height/2f)+frameWidth/2,paint)
+        if(img_icon!=null)canvas.drawBitmap(img_icon,((width-frameWidth)/8f)-(img_icon.width/2f)+frameWidth/2+60,((height-frameWidth)/4f)-(img_icon.height/2f)+frameWidth/2+20,paint)
 
-        canvas.drawBitmap(img_level,2565f,195f,paint)
+        canvas.drawBitmap(img_level,2510f,135f,paint)
+
+        canvas.drawBitmap(img_badge_back,2610f,575f,paint)
+
+        canvas.drawBitmap(img_badge_icon,2610f,575f,paint)
 
 
         paint.textSize=250f
 
-        canvas.drawText("53",2700f,450f,paint)
-
-        canvas.drawBitmap(img_badge_back,2650f,550f,paint)
-
-        canvas.drawBitmap(img_badge_icon,2650f,550f,paint)
+        canvas.drawText(str_level,2805f-paint.measureText(str_level)/2,410f,paint)
 
         //※ビューは一度作ったものをリサイズして利用するので、位置は無理やりハードコートしています
         paint.textSize=150f
@@ -288,6 +289,16 @@ class MyApp: Application(){
         canvas.drawText("ID：$str_id",(width-frameWidth)/4+frameWidth/2+125,(height-frameWidth)/4+frameWidth-250,paint)
         canvas.drawText(str_name,(width-frameWidth)/4+frameWidth/2+125,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
         canvas.drawText(str_distance+"m",(width-frameWidth)/4*3+frameWidth/2-paint.measureText(str_distance+"m"),((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
+
+        if(str_comment.length<=20){
+            canvas.drawText(str_comment,width/2f-paint.measureText(str_comment)/2f,1475f,paint)
+        }
+        else if(str_comment.length<=40){
+            canvas.drawText(str_comment.substring(0..19),width/2f-paint.measureText(str_comment.substring(0..19))/2f,1380f,paint)
+            canvas.drawText(str_comment.substring(20),215f,1570f,paint)
+        }
+
+
 
         paint.color= Color.parseColor("#808080")
         paint.strokeWidth=5f
@@ -299,23 +310,6 @@ class MyApp: Application(){
         return output
     }
 
-    fun FrameBitmapSearch(ID:Int):Bitmap{
-        var img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_1)
-        when(ID){
-            1 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_1)
-            2 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_2)
-            3 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_3)
-            4 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_4)
-            5 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_5)
-            6 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_6)
-            7 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_7)
-            8 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_8)
-            9 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_9)
-            10 -> img_frame = BitmapFactory.decodeResource(resources, R.drawable.frame_10)
-        }
-        return img_frame
-    }
-
     fun IconBitmapCreate(data:String?):Bitmap?{
         if(data==null)return null
         val decodedByte: ByteArray = Base64.decode(data, 0)
@@ -323,30 +317,57 @@ class MyApp: Application(){
         return buf
     }
 
-    fun BadgeBackBitmapSearch(ID:Int):Bitmap{
-        var img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_0)
+    fun FrameBitmapSearch(ID:Int,res:Resources):Bitmap{
+        var img = BitmapFactory.decodeResource(res, R.drawable.frame_1)
         when(ID){
-            1 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_1)
-            2 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_2)
-            3 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_3)
-            4 -> img_back = BitmapFactory.decodeResource(resources, R.drawable.badge_background_4)
+            2 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_2)
+            3 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_3)
+            4 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_4)
+            5 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_5)
+            6 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_6)
+            7 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_7)
+            8 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_8)
+            9 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_9)
+            10 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_10)
         }
-        return img_back
+        return img
     }
 
-    fun BadgeIconBitmapSearch(ID:Int):Bitmap{
-        var img_badge_icon:Bitmap=BitmapFactory.decodeResource(resources, R.drawable.badge_icon_0)
+    fun CardBackBitmapSearch(ID: Int,res: Resources):Bitmap{
+        var img = BitmapFactory.decodeResource(res,R.drawable.card_background_1)
         when(ID){
-            0 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_0)
-            1 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_1)
-            2 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_2)
-            3 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_3)
-            4 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_4)
-            5 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_5)
-            6 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_6)
-            7 -> img_badge_icon = BitmapFactory.decodeResource(resources, R.drawable.badge_icon_7)
+            2 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_2)
+            3 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_3)
+            4 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_4)
+            5 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_5)
         }
-        return img_badge_icon
+        return img
+    }
+
+
+    fun BadgeBackBitmapSearch(ID:Int,res:Resources):Bitmap{
+        var img = BitmapFactory.decodeResource(res, R.drawable.badge_background_0)
+        when(ID){
+            1 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_background_1)
+            2 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_background_2)
+            3 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_background_3)
+            4 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_background_4)
+        }
+        return img
+    }
+
+    fun BadgeIconBitmapSearch(ID:Int,res:Resources):Bitmap{
+        var img:Bitmap=BitmapFactory.decodeResource(res, R.drawable.badge_icon_0)
+        when(ID){
+            1 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_icon_1)
+            2 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_icon_2)
+            3 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_icon_3)
+            4 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_icon_4)
+            5 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_icon_5)
+            6 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_icon_6)
+            7 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_icon_7)
+        }
+        return img
     }
 
 }
