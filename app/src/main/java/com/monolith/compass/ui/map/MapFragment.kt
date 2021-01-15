@@ -339,9 +339,9 @@ class MapFragment : Fragment() {
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
 
-            canvas!!.translate(posX*1f,posY*1f)
+            canvas!!.save()
 
-            canvas.save()
+            canvas.translate(posX*1f,posY*1f)
 
             canvas.scale(scale,scale)
 

@@ -188,6 +188,7 @@ class CanvasDraw : Fragment() {
         canvas.drawCircle(size.width() / 2f, size.height() / 4 * 3f, 150f, Circle)
         anim_ringR += 0.2f
         if (anim_ringR >= 640) anim_ringR = 0f
+
     }
 
 
