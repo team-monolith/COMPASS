@@ -2,66 +2,47 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/friend_constraint"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFFFFF">
+    android:layout_height="match_parent">
 
     <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
         android:layout_width="0dp"
-        android:layout_height="861dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="504dp"
-                    android:layout_height="813dp"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="482dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-        </LinearLayout>
+            android:id="@+id/sv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
     </HorizontalScrollView>
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="89dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_search_category_default"
-        tools:ignore="ContentDescription"
-        tools:layout_editor_absoluteX="672dp"
-        tools:layout_editor_absoluteY="594dp" />
+        tools:ignore="ContentDescription" />
 
     <Spinner
         android:id="@+id/spinnerSortFriend"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="642dp"
-        tools:layout_editor_absoluteY="444dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
