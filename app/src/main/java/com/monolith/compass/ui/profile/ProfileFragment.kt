@@ -35,8 +35,10 @@ class ProfileFragment : Fragment() {
 
         val day_img:ImageView = root.findViewById(R.id.day_img)
         val level_img:ImageView = root.findViewById(R.id.level_img)
+        val dist_img:ImageView = root.findViewById(R.id.distance_img)
         val frame :FrameLayout =root.findViewById(R.id.frame)
         val edit_btn:Button = root.findViewById(R.id.edit)
+        val back_fl:FrameLayout =root.findViewById(R.id.back_fl)
 
 
         val ma = activity as MainActivity?
@@ -50,14 +52,27 @@ class ProfileFragment : Fragment() {
         day_img.setOnClickListener{
             frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
-                transaction.add(R.id.back_fl,ProfileBlackFragment())
-                transaction.add(R.id.frame,Prof_Badge_Fragment())
-                transaction.commit()
+            transaction.add(R.id.back_fl,ProfileBlackFragment())
+            transaction.add(R.id.frame,Prof_Badge_Fragment())
+            transaction.commit()
             edit_btn.isEnabled =false
         }
 
         level_img.setOnClickListener{
-            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_badge)
+            frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfileBlackFragment())
+            transaction.add(R.id.frame,Prof_Badge_List_Fragment())
+            transaction.commit()
+            edit_btn.isEnabled =false
+        }
+
+        dist_img.setOnClickListener{
+            back_fl.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,Prof_Card_Fragment())
+            transaction.commit()
+            edit_btn.isEnabled =false
         }
 
         imgCard.setOnClickListener {
