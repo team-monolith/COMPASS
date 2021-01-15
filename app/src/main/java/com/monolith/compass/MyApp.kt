@@ -370,6 +370,12 @@ class MyApp: Application(){
         return img
     }
 
+    /*ユーザ情報等、アプリ内の設定を保存(LOCALSETTING)*/
+
+
+
+
+
 }
 
 /*
