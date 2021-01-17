@@ -33,6 +33,7 @@ import com.monolith.compass.ui.setting.SettingFragment
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 import kotlin.math.floor
 
 
@@ -43,7 +44,9 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
     private lateinit var locationManager: LocationManager   //ロケーションマネージャーインスタンス保管用
 
-    var SharedValue = "こんにちは"
+    //この２つは吉田のテスト用
+    var profString = arrayOfNulls<String>(2)
+    var profInt = arrayOfNulls<Int>(5)
 
     var itemselectedlog: Int? = null    //直近アイテム選択ログ保管用
 
