@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.add
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -20,8 +18,6 @@ import com.monolith.compass.R
 
 
 class ProfileFragment : Fragment() {
-
-
     private lateinit var profileViewModel: ProfileViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,11 +35,13 @@ class ProfileFragment : Fragment() {
         val frame :FrameLayout =root.findViewById(R.id.frame)
         val edit_btn:Button = root.findViewById(R.id.edit)
         val back_fl:FrameLayout =root.findViewById(R.id.back_fl)
+        val day_txt:TextView = root.findViewById(R.id.day_txt)
+        val level_txt :TextView =root.findViewById(R.id.level_txt)
 
 
         val ma = activity as MainActivity?
 
-        var value =ma?.SharedValue
+        //var value =ma?.profileValues
 
 
         imgCard.setImageResource(R.drawable.ic_launcher_background)
@@ -76,7 +74,7 @@ class ProfileFragment : Fragment() {
         }
 
         imgCard.setOnClickListener {
-            ma?.SharedValue = "こんばんは"
+            //ma?.profileValues = "こんばんは"
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
 
@@ -151,4 +149,9 @@ https://stackoverflow.com/questions/20550016/savedinstancestate-is-always-null-i
 開拓ポイント（新旧２種類）
 各バッジの獲得に必要なポイント
 名刺の背景・フレーム
+
+今日やること
+arrayをつかったデータの受け渡し？
+どこでどんなデータを必要とするかの正確な洗い出し
+
  */

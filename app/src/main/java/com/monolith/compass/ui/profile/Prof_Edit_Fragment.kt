@@ -33,7 +33,7 @@ class Prof_Edit_Fragment : Fragment() {
         val frame :FrameLayout = root.findViewById(R.id.frame)
 
         val ma = activity as MainActivity?
-        var value =ma?.SharedValue
+        var value =ma?.profileValues
 
         textView.text = value
 
@@ -50,7 +50,6 @@ class Prof_Edit_Fragment : Fragment() {
         }
 
         okbtn.setOnClickListener{
-            ma?.SharedValue = "こんにちは"
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile)
         }
         return root
