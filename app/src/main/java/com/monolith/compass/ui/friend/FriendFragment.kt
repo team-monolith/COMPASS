@@ -1,5 +1,6 @@
 package com.monolith.compass.ui.friend
 
+import android.app.AlertDialog
 import android.graphics.Bitmap
 import com.monolith.compass.ui.friend.FriendViewModel
 
@@ -14,6 +15,7 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 
@@ -38,9 +40,12 @@ class FriendFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<ImageButton>(R.id.imageButton).setOnClickListener{
-            layout_add(view,getFriendData())
-        }
+
+
+        //名刺の追加する関数の呼び出し
+            //layout_add(view,getFriendData())
+
+
 
         //コンボボックス生成処理
         val spinner=view.findViewById<Spinner>(R.id.spinnerSortFriend)
@@ -49,45 +54,65 @@ class FriendFragment : Fragment() {
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter=adapter
 
+        var list=getFriendData()
+        //後程定義するためlateinit属性をつけています(nullableにするとnullチェックなど面倒なので）
+        lateinit var layout:ConstraintLayout
 
-    }
-
-    fun layout_add(view: View,list:List<MyApp.CARDDATA>) {
-
-        /*
         //スクロールビューのifを取得しビューグループに変換
         val SV: ViewGroup = view.findViewById<View>(R.id.sv) as ViewGroup
 
-        //削除の場合はコメントを消す（後で調べなくていいように敢えて書き残します）
-        //SV.removeAllViews()
+        //リストを削除する
+        SV.removeAllViews()
 
-        //レイアウトデータを読み込み追加する
-        layoutInflater.inflate(R.layout.fragment_friendcard, SV)
+        //カウントをリセット
+        count=0
 
-        //今回追加したレイアウトのデータを取得
-        val layout: ConstraintLayout = SV.getChildAt(count) as ConstraintLayout
 
-        //レイアウトにタグをつけて後で扱いやすくする
-        layout.setTag(count)
+        //リストの件数分ループさせる
+        for(i in list.indices){
 
-        val c=90
+            //ページ追加処理
+            //3件追加したら新しいページを追加する必要があるため(i%3)で計算をする
+            if(i%3==0){
+                //レイアウトデータを読み込み追加する
+                getLayoutInflater().inflate(R.layout.fragment_friendcard, SV)
 
-        (layout.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(1)as ImageView).setOnClickListener{
-            Toast.makeText(context,"1", Toast.LENGTH_SHORT).show()
-            //画面の回転(Float型)
-            //view.setRotation(c.toFloat());
+                //今回追加したレイアウトのデータを取得
+                layout = SV.getChildAt(count) as ConstraintLayout
+
+                count++
+            }
+
+            //1,3,5番目のidを取得したいため、iを3で割った値を2倍して1を足す（1,3,5,1,3,5...となる）
+            val card=(layout.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(i%3*2+1)as ImageView)
+            card.tag=i
+            card.visibility=View.VISIBLE
+            card.setImageBitmap(MyApp().CreateCardBitmap(list[i],resources))
+            card.setOnClickListener{
+                var test=it.getTag().toString().toInt()
+                val cardData=card
+                val bundle=Bundle()
+
+                //画面遷移　名刺のみ画像　タップで一覧に戻る ImageView渡す
+                //makeDialog(test,list,card)
+                val cardDialog= AlertDialog.Builder(activity)
+                cardDialog.setPositiveButton("OK"){
+                        dialog, which -> findNavController().navigate(R.id.action_navigation_friend_to_friendCardFragment)
+                            }
+                    .setNegativeButton("Cancel",null)
+                    .show()
+            }
         }
-        (layout.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(3)as ImageView).setOnClickListener{
-            Toast.makeText(context,"2", Toast.LENGTH_SHORT).show()
-        }
-        (layout.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(5)as ImageView).setOnClickListener{
-            Toast.makeText(context,"3", Toast.LENGTH_SHORT).show()
-        }
 
-        //カウントを追加する
-        count++
 
-         */
+
+
+    }
+
+
+    /*
+    fun layout_add(view: View,list:List<MyApp.CARDDATA>) {
+
 
         //後程定義するためlateinit属性をつけています(nullableにするとnullチェックなど面倒なので）
         lateinit var layout:ConstraintLayout
@@ -114,74 +139,39 @@ class FriendFragment : Fragment() {
                 //今回追加したレイアウトのデータを取得
                 layout = SV.getChildAt(count) as ConstraintLayout
 
-                //レイアウトにタグをつけて後で扱いやすくする
-                layout.tag = count
-
                 count++
             }
 
             //1,3,5番目のidを取得したいため、iを3で割った値を2倍して1を足す（1,3,5,1,3,5...となる）
             val card=(layout.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(i%3*2+1)as ImageView)
+            card.tag=i
             card.visibility=View.VISIBLE
             card.setImageBitmap(MyApp().CreateCardBitmap(list[i],resources))
             card.setOnClickListener{
+                var test=it.getTag().toString().toInt()
+                //画面遷移　名刺のみ画像　タップで一覧に戻る
+                makeDialog(test,list,card)
             }
         }
-
-
-
-        val c=90
-
-        (view.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(1)as ImageView).setOnClickListener {
-            Toast.makeText(context,"test",Toast.LENGTH_SHORT).show()
-        }
-
-
-
-
-        /*
-        view.findViewById<LinearLayout>(R.id.sv).setOnClickListener {
-            for (svCount in 0..10){
-                (view.findViewById<LinearLayout>(R.id.sv).getChildAt(svCount)as LinearLayout).setOnClickListener {
-                    for (ivCount in 1..5){
-                        (view.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(ivCount)as ImageView).setOnClickListener {
-                            Toast.makeText(context,"test"+ivCount,Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-
-            }
-
-
-            var AAA=1
-
-
-        }
-
-         */
-
-
-
-
-        /*
-
-        (layout.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(1)as ImageView).setOnClickListener{
-            Toast.makeText(context,"1", Toast.LENGTH_SHORT).show()
-            //画面の回転(Float型)
-            //view.setRotation(c.toFloat());
-        }
-        (layout.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(3)as ImageView).setOnClickListener{
-            Toast.makeText(context,"2", Toast.LENGTH_SHORT).show()
-        }
-        (layout.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(5)as ImageView).setOnClickListener{
-            Toast.makeText(context,"3", Toast.LENGTH_SHORT).show()
-        }
-
-         */
 
 
     }
+
+    fun makeDialog(tag:Int,list:List<MyApp.CARDDATA>,card:ImageView){
+        val cardDialog= AlertDialog.Builder(activity)
+        cardDialog.setPositiveButton("OK"){dialog, which ->
+            findNavController().navigate(R.id.action_navigation_friend_to_friendCardFragment)
+        }
+            .setNegativeButton("Cancel",null)
+            .show()
+
+    }
+
+     */
+
+
+
+
 
 
     //通信してフレンドのユーザーデータを取得する関数（だと思ってください）
@@ -218,6 +208,7 @@ class FriendFragment : Fragment() {
             2,
             "植田がんばって",
             0))
+
         list.add(MyApp.CARDDATA(23553,
             "ゆーざーねーむ",
             testBitmapData(),
@@ -238,6 +229,8 @@ class FriendFragment : Fragment() {
             2,
             "ものりす",
             0))
+
+
 
 
         return list

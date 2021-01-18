@@ -62,7 +62,11 @@
         android:id="@+id/navigation_friend"
         android:name="com.monolith.compass.ui.friend.FriendFragment"
         android:label="@string/title_friend"
-        tools:layout="@layout/fragment_friend" />
+        tools:layout="@layout/fragment_friend" >
+        <action
+            android:id="@+id/action_navigation_friend_to_friendCardFragment"
+            app:destination="@id/friendCardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_setting"
         android:name="com.monolith.compass.ui.setting.SettingFragment"
@@ -148,5 +152,14 @@
         <action
             android:id="@+id/action_termsFragment_to_navigation_setting"
             app:destination="@id/navigation_setting" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendCardFragment"
+        android:name="com.monolith.compass.ui.friend.FriendCardFragment"
+        android:label="fragment_friend_card"
+        tools:layout="@layout/fragment_friend_card" >
+        <action
+            android:id="@+id/action_friendCardFragment_to_navigation_friend"
+            app:destination="@id/navigation_friend" />
     </fragment>
 </navigation>
