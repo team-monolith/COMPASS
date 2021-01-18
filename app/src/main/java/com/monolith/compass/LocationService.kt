@@ -22,6 +22,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.monolith.compass.com.monolith.compass.MyApp
 import java.sql.Time
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.floor
 
@@ -38,6 +40,8 @@ class LocationService: Service(), LocationListener,SensorEventListener {
     protected var mSensorManager: SensorManager? = null
 
     private var mPrevCount = 0f
+
+    private var today= LocalDate.now()
 
     override fun onCreate() {
         super.onCreate()
@@ -232,6 +236,10 @@ class LocationService: Service(), LocationListener,SensorEventListener {
                 GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP+=(event.values[0]-mPrevCount).toInt()
                 MyApp().ActivityFileWrite("ACTIVITYLOG.txt")
                 mPrevCount=event.values[0]
+                if(today!=LocalDate.now()){
+                    MyApp().ActivityFileRead("ACTIVITYLOG.txt")
+                    today=LocalDate.now()
+                }
             }
             else{
             }
