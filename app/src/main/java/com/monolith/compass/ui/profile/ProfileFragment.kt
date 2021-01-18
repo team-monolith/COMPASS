@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -27,19 +24,61 @@ class ProfileFragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
+        setAppearance(root)
+        return root
+    }
+
+    fun getResouceId(accid:Int): Int {
+        val background ="badge_background_$accid"
+        val back = resources.getIdentifier(background,"drawable","com.monolith.compass")
+        return back
+    }
+    fun setAppearance(root:View){
         val imgCard: ImageView = root.findViewById(R.id.card_img)
 
-        val day_img:ImageView = root.findViewById(R.id.day_img)
-        val level_img:ImageView = root.findViewById(R.id.level_img)
-        val dist_img:ImageView = root.findViewById(R.id.distance_img)
         val frame :FrameLayout =root.findViewById(R.id.frame)
         val edit_btn:Button = root.findViewById(R.id.edit)
         val back_fl:FrameLayout =root.findViewById(R.id.back_fl)
+        //txt
         val day_txt:TextView = root.findViewById(R.id.day_txt)
-        val level_txt :TextView =root.findViewById(R.id.level_txt)
+        val distance_txt :TextView =root.findViewById(R.id.distance_txt)
+        val step_txt :TextView =root.findViewById(R.id.step_txt)
+        val dev_txt :TextView =root.findViewById(R.id.development_txt)
+        val calo_txt :TextView =root.findViewById(R.id.calorie_txt)
+        val friend_txt :TextView =root.findViewById(R.id.friend_txt)
+        val event_txt :TextView =root.findViewById(R.id.event_txt)
+        //img
+        val day_img:ImageView = root.findViewById(R.id.day_img)
+        val level_img:ImageView = root.findViewById(R.id.level_img)
+        val distance_img:ImageView = root.findViewById(R.id.distance_img)
+        val step_img:ImageView = root.findViewById(R.id.step_img)
+        val dev_img:ImageView = root.findViewById(R.id.development_img)
+        val calo_img:ImageView = root.findViewById(R.id.calorie_img)
+        val friend_img:ImageView = root.findViewById(R.id.friend_img)
+        val event_img:ImageView = root.findViewById(R.id.event_img)
+        //progress bar
+        val day_pb:ProgressBar = root.findViewById(R.id.day_pb)
+        val level_pb:ProgressBar = root.findViewById(R.id.level_pb)
+        val dis_pb:ProgressBar = root.findViewById(R.id.distance_pb)
+        val step_pb:ProgressBar = root.findViewById(R.id.step_pb)
+        val dev_pb:ProgressBar = root.findViewById(R.id.development_pb)
+        val calo_pb:ProgressBar = root.findViewById(R.id.calorie_pb)
+        val friend_pb:ProgressBar = root.findViewById(R.id.friend_pb)
+        val event_pb:ProgressBar = root.findViewById(R.id.event_pb)
 
 
         val ma = activity as MainActivity?
+        day_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/10000000))
+        level_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/1000000%10))
+        distance_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/100000%10))
+        step_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/10000%10))
+        dev_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/1000%10))
+        calo_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/100%10))
+        friend_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/10%10))
+        event_img.setBackgroundResource(getResouceId(ma!!.profInt[5]%10))
+
+
+
 
         //var value =ma?.profileValues
 
@@ -65,7 +104,7 @@ class ProfileFragment : Fragment() {
             edit_btn.isEnabled =false
         }
 
-        dist_img.setOnClickListener{
+        distance_img.setOnClickListener{
             back_fl.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,Prof_Card_Fragment())
@@ -74,11 +113,8 @@ class ProfileFragment : Fragment() {
         }
 
         imgCard.setOnClickListener {
-            //ma?.profileValues = "こんばんは"
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
-
-        return root
     }
 }
 

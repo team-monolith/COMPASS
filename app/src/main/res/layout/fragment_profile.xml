@@ -34,7 +34,7 @@
                         android:id="@+id/day_img"
                         android:layout_width="88dp"
                         android:layout_height="88dp"
-                        app:srcCompat="@drawable/event" />
+                        app:srcCompat="@drawable/badge_icon_0" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                         android:id="@+id/level_img"
                         android:layout_width="88dp"
                         android:layout_height="88dp"
-                        app:srcCompat="@drawable/event" />
+                        app:srcCompat="@drawable/badge_icon_1" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -102,7 +102,7 @@
                         android:id="@+id/distance_img"
                         android:layout_width="88dp"
                         android:layout_height="88dp"
-                        app:srcCompat="@drawable/event" />
+                        app:srcCompat="@drawable/badge_icon_2" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -133,10 +133,10 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/step"
+                        android:id="@+id/step_img"
                         android:layout_width="88dp"
                         android:layout_height="88dp"
-                        app:srcCompat="@drawable/event" />
+                        app:srcCompat="@drawable/badge_icon_3" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -170,7 +170,7 @@
                         android:id="@+id/development_img"
                         android:layout_width="88dp"
                         android:layout_height="88dp"
-                        app:srcCompat="@drawable/event" />
+                        app:srcCompat="@drawable/badge_icon_4" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -204,7 +204,7 @@
                         android:id="@+id/calorie_img"
                         android:layout_width="88dp"
                         android:layout_height="88dp"
-                        app:srcCompat="@drawable/event" />
+                        app:srcCompat="@drawable/badge_icon_5" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -238,7 +238,7 @@
                         android:id="@+id/friend_img"
                         android:layout_width="88dp"
                         android:layout_height="88dp"
-                        app:srcCompat="@drawable/event" />
+                        app:srcCompat="@drawable/badge_icon_6" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -272,7 +272,7 @@
                         android:id="@+id/event_img"
                         android:layout_width="88dp"
                         android:layout_height="88dp"
-                        app:srcCompat="@drawable/event" />
+                        app:srcCompat="@drawable/badge_icon_7" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
