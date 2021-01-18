@@ -54,6 +54,7 @@ class FriendFragment : Fragment() {
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter=adapter
 
+
         var list=getFriendData()
         //後程定義するためlateinit属性をつけています(nullableにするとnullチェックなど面倒なので）
         lateinit var layout:ConstraintLayout
@@ -92,6 +93,9 @@ class FriendFragment : Fragment() {
                 var test=it.getTag().toString().toInt()
                 val cardData=card
                 val bundle=Bundle()
+                bundle.putInt("ImageViewTag",test)
+
+
 
                 //画面遷移　名刺のみ画像　タップで一覧に戻る ImageView渡す
                 //makeDialog(test,list,card)
@@ -108,6 +112,7 @@ class FriendFragment : Fragment() {
 
 
     }
+
 
 
     /*
