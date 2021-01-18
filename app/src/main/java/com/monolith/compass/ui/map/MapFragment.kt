@@ -319,7 +319,7 @@ class MapFragment : Fragment() {
                 canvas.restore()
 
                 val DLflg=(Current.MAP[499][499]!=-1)
-                val GPSflg=(Location.GPS_X!=null)
+                val GPSflg=(Location.GPS_X!=null&&System.currentTimeMillis()-lastGPSTime<30000)
                 Draw.Loading(canvas,DLflg,GPSflg, size)
             }
 
