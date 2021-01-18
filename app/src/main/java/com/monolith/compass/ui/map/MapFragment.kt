@@ -36,7 +36,7 @@ class MapFragment : Fragment() {
     var centerFlg = true    //センターボタン押下認識フラッグ
     var layerFlg=true   //レイヤーボタン押下フラッグ、trueでマップ表示
 
-    var scale: Float = 3F   //地図表示のスケール
+    var scale: Float = 3F   //地図表示のスケール,1.5-3.0-4.5
     var posX: Int = 0    //地図表示の相対X座標
     var posY: Int = 0    //地図表示の絶対Y座標
     var logX: Int? = null  //タップ追従用X座標
@@ -206,6 +206,19 @@ class MapFragment : Fragment() {
         }
     }
 
+    fun mapDifference(){
+
+        val sX=((Location.GPS_X!! - Current.MAP_X!!)*10000).toInt()
+        val sY=((Current.MAP_Y!! - Location.GPS_Y!!)*10000).toInt()
+
+        val centerX=
+            (((-(5000/2+(sX*10)+5)*scale)+size!!.width()/2)).toInt()
+        val centerY=
+            (((-(5000/2+(sY*10)+5)*scale)+size!!.height()/4*3)).toInt()
+
+
+    }
+
     //描画関数　再描画用
     fun HandlerDraw(mv: MoveView) {
         handler.post(object : Runnable {
@@ -288,7 +301,6 @@ class MapFragment : Fragment() {
             if(Current.MAP_X!=null)Draw.Log(Current,canvas)
 
 
-
             //現在地等わかっている場合（前回更新から30秒以下の場合）
             if (Location.GPS_X != null && Current.MAP_X != null && Current.MAP[499][499] != -1&&System.currentTimeMillis()-lastGPSTime<30000) {
 
@@ -305,7 +317,10 @@ class MapFragment : Fragment() {
             //わかっていない場合はローディング表示をする
             else {
                 canvas.restore()
-                Draw.Loading(canvas, size)
+
+                val DLflg=(Current.MAP[499][499]!=-1)
+                val GPSflg=(Location.GPS_X!=null)
+                Draw.Loading(canvas,DLflg,GPSflg, size)
             }
 
         }
@@ -320,6 +335,7 @@ class MapFragment : Fragment() {
         POSTDATA.put("load_y",POS_Y.toString())
         POSTDATA.put("load_mags",SCALE.toString())
 
+
         "https://a.compass-user.work/system/map/show_csv.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
                 when (result) {
@@ -327,7 +343,6 @@ class MapFragment : Fragment() {
                         setMap(String(response.data))
                     }
                     is Result.Failure -> {
-                        getMapData(130.4088f,33.5841f,1)
                     }
                 }
             }
@@ -337,6 +352,7 @@ class MapFragment : Fragment() {
     fun setMap(data: String) {
 
         var origindata:String=data.replace(",","")
+        origindata=origindata.replace("<br>","")
         origindata=origindata.replace("\r\n","")
 
         Current.MAP_X = 130.4088f
@@ -355,6 +371,8 @@ class MapFragment : Fragment() {
         val str="X="+Current.MAP_X+",Y="+Current.MAP_Y+"\n"+data
 
         MyApp().FileWrite(str,"MAPLOG.txt")
+
+        scale=3f
     }
 
 

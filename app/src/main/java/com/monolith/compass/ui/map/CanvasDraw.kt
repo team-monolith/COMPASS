@@ -165,7 +165,7 @@ class CanvasDraw : Fragment() {
 
     }
 
-    fun Loading(canvas: Canvas?, size: Rect?) {
+    fun Loading(canvas: Canvas?,DLflg:Boolean,GPSflg:Boolean, size: Rect?) {
         val Circle = Paint()
         Circle.color = Color.parseColor("#FF0000")
         Circle.isAntiAlias = true
@@ -173,16 +173,20 @@ class CanvasDraw : Fragment() {
         //中心円
         canvas!!.drawCircle(size!!.width() / 2f, size.height() / 4 * 3f, 20f, Circle)
         //外周円
-        canvas.drawCircle(
-            size.width() / 2f + cos(anim_ringR) * 150f,
-            size.height() / 4 * 3f + sin(anim_ringR) * 150f,
-            15f, Circle
-        )
-        canvas.drawCircle(
-            size.width() / 2f + cos(anim_ringR / -2) * 150f,
-            size.height() / 4 * 3f + sin(anim_ringR / -2) * 150f,
-            15f, Circle
-        )
+        if(!DLflg){
+            canvas.drawCircle(
+                size.width() / 2f + cos(anim_ringR) * 150f,
+                size.height() / 4 * 3f + sin(anim_ringR) * 150f,
+                15f, Circle
+            )
+        }
+        if(!GPSflg){
+            canvas.drawCircle(
+                size.width() / 2f + cos(anim_ringR / -2) * 150f,
+                size.height() / 4 * 3f + sin(anim_ringR / -2) * 150f,
+                15f, Circle
+            )
+        }
         Circle.style = Paint.Style.STROKE
         //円周円
         canvas.drawCircle(size.width() / 2f, size.height() / 4 * 3f, 150f, Circle)
