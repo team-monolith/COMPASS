@@ -33,9 +33,9 @@ class Prof_Edit_Fragment : Fragment() {
         val frame :FrameLayout = root.findViewById(R.id.frame)
 
         val ma = activity as MainActivity?
-        var value =ma?.profileValues
+        //var value =ma?.profileValues
 
-        textView.text = value
+        //textView.text = value
 
         /*card_img.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
