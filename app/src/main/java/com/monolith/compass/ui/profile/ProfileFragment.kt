@@ -119,54 +119,86 @@ class ProfileFragment : Fragment() {
 }
 
 /*
-プログレスバー(役立)
-https://hirauchi-genta.com/kotlin-progressbarhorizontal/
+GLOBALSETTING------------------------------------
 
-丸ボタン(バッジ用)
-https://kk90info.com/%E3%80%90mac%E3%83%BBandroid-studio%E3%80%91%E3%83%9C%E3%82%BF%E3%83%B3%E3%81%AE%E5%BD%A2%E3%82%92%E5%A4%89%E3%81%88%E3%81%A6%E3%81%BF%E3%82%8B/
+->サーバーとの通信に使用するデータ
 
-BMIについて
-https://ja.wikipedia.org/wiki/%E3%83%9C%E3%83%87%E3%82%A3%E3%83%9E%E3%82%B9%E6%8C%87%E6%95%B0
+ID(int)
+名前(string)
+アイコン(string)
+総距離(int)
+お気に入りバッジ(int)
+ひとこと(string)
+名刺背景(int)
+名刺フレーム(int)
+バッジ状態(int)
+-------------------------------------------------
 
-データについて
-https://akira-watson.com/android/kotlin/internal-storage.html
+LOCALSETTING-------------------------------------
 
-ファイルのダウンロード(mainActivity)
-https://woshidan.hatenablog.com/entry/2016/03/04/083000
+->ユーザ情報等、アプリ内の設定を保存
 
-起動時処理
-https://qiita.com/suke/items/5f443e62810a3d3569b7
+身長(float)
+体重(float)
+目標歩数(int)
+GPS取得設定(int)
+自宅座標(float,float)
+非取得範囲(int)
+マイカラー(rgb)
+-------------------------------------------------
 
-アクセス権
-https://developer.android.com/training/permissions/requesting?hl=ja
-パーミッション1
-https://hiropoppo.hatenablog.com/entry/kotlin-recipe/permission#Permission%E3%81%A8%E3%81%AF
-パーミッション2
-https://symfoware.blog.fc2.com/blog-entry-2033.html
+ACTIVITYLOG------------------------------------------
 
-livedataに関して(developers)
-https://developer.android.com/topic/libraries/architecture/livedata?hl=ja
+->歩数データを保存。Fitnessはこのファイルを参照
 
-livedataに関して(参考文献)
-https://toronavi.com/jetpack-livedata
+日付(date)
+目標歩数(int)
+歩数(int)
+距離(int)
+消費カロリー(int)
+-------------------------------------------------
 
-databinding
-https://toronavi.com/jetpack-databinding
+GPSLOG-------------------------------------------
 
-fragment
-https://qiita.com/m-coder/items/3a8e66d49f2830b09bf4
+->GPSの全履歴を保存。書き込みはBUFと並列
 
+日付(date)
+時間(time)
+経度(float)
+緯度(float)
+範囲(float)
+速度(float)
+-------------------------------------------------
+GPSBUF-------------------------------------------
 
-activityからfragmentへのデータの受け渡し
-https://101010.fun/programming/android-try-fragment.html
+->GPSのサーバー未送信分履歴を保存
 
+日付(date)
+時間(time)
+経度(float)
+緯度(float)
+範囲(float)
+速度(float)
+-------------------------------------------------
+FRIEND-------------------------------------------
 
-データの受け渡し
-https://aresei-note.com/1017
-https://teratail.com/questions/114570
-https://tech.mokelab.com/android/Fragment/argument.html
-https://tkm0on.hatenablog.com/entry/2015/05/26/180655
+->すれ違ったフレンドのIDを保存
 
+ID(int)
+-------------------------------------------------
+
+FAVORITE-----------------------------------------
+
+->お気に入りのユーザを保存
+
+ID(int)
+-------------------------------------------------
+
+MAPLOG-------------------------------------------
+
+->マップのバッファリングに使用（すると思われる)
+
+-------------------------------------------------
 
 
 
@@ -184,5 +216,57 @@ https://stackoverflow.com/questions/20550016/savedinstancestate-is-always-null-i
 今日やること
 arrayをつかったデータの受け渡し？
 どこでどんなデータを必要とするかの正確な洗い出し
+
+
+
+名刺------------------------
+・ID
+・名前
+・ユーザレベル
+・アイコン
+・総距離
+・お気に入りバッジID
+・ひとこと
+・名刺背景色ID
+・名刺フレームID
+・バッジの状態（8桁の整数で管理）
+
+
+
+バッチ処理時に通信する内容ーーーーーーーーーーーーー
+・地図の変更（区間を経度緯度でx分割してフラグ管理、変更分のみアップデート）
+ Lバイナリで管理する
+・自分の現状の名刺データ
+
+日付変更処理に通信する内容ーーーーーーーーーーーーー
+・地図の更新
+
+適宜更新時に取得する内容ーーーーーーーーーーーーーー
+・他のユーザの名刺データ
+
+
+サーバで保持するべき情報ーーーーーーーーーーーーーー
+・ID(8桁整数)
+・名前(2バイト10文字）
+・ユーザレベル(3桁整数）
+・アイコン（512x512,50kB程度)
+・総距離(8桁整数）
+・お気に入りバッジID(2桁整数）
+・ひとこと（2バイト50文字)
+・名刺背景色ID(2桁整数）
+・名刺フレームID（2桁整数）
+・バッジの状態（8桁の整数で管理）
+
+・地図のマスタデータ200000x180000(csv)
+
+バッジID
+0レベル
+1累計歩数
+2消費カロリー
+3累計移動距離
+4新規開拓
+5すれ違い
+6イベント
+7ログイン
 
  */
