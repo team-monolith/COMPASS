@@ -239,9 +239,13 @@ class MapFragment : Fragment() {
                 val sY=((Current.MAP_Y!! - Location.GPS_Y!!)*10000).toInt()
 
                 posX =
-                    (250+sX)*-10+size!!.width()/2
+                    (((-(5000/2+(sX*10)+5)*scale)+size!!.width()/2)).toInt()
                 posY =
-                    (250+sY)*-10+size!!.height()/4*3
+                    (((-(5000/2+(sY*10)+5)*scale)+size!!.height()/4*3)).toInt()
+
+
+                val test:Int=6
+
             }
         } else {
             view?.findViewById<FloatingActionButton>(R.id.fab_current)
@@ -310,6 +314,10 @@ class MapFragment : Fragment() {
                 canvas.restore()
                 Draw.Loading(canvas, size)
             }
+
+
+            canvas.drawLine(0f,size!!.height()/4*3f,size!!.width()*1f,size!!.height()/4*3f,Paint())
+            canvas.drawLine(size!!.width()/2f,0f,size!!.width()/2f,size!!.height()*1f,Paint())
 
         }
     }
