@@ -17,6 +17,15 @@
             android:id="@+id/action_navigation_profile_to_navigation_profile_badge"
             app:destination="@id/navigation_profile_badge" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_profile_badge_list"
+        android:name="com.monolith.compass.ui.profile.Prof_Badge_List_Fragment"
+        android:label="prof_badge_list"
+        tools:layout="@layout/fragment_profile_badge_list" >
+        <action
+            android:id="@+id/action_navigation_profile_badge_list_to_navigation_profile_edit"
+            app:destination="@id/navigation_profile_edit" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_fitness"

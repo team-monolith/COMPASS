@@ -24,6 +24,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="727dp">
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/name_txtedit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.49"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.457"
+                    app:srcCompat="@drawable/frame_1" />
+
+                <ImageView
+                    android:id="@+id/icon_img"
+                    android:layout_width="88dp"
+                    android:layout_height="89dp"
+                    app:layout_constraintBottom_toTopOf="@+id/name_txt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.046"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/imageView"
+                    app:layout_constraintVertical_bias="0.9"
+                    app:srcCompat="@drawable/badge_icon_5" />
+
                 <Button
                     android:id="@+id/combtn"
                     android:layout_width="wrap_content"
@@ -56,11 +80,10 @@
                     android:layout_height="wrap_content"
                     android:text="名前"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.146"
+                    app:layout_constraintEnd_toStartOf="@+id/name_txtedit"
+                    app:layout_constraintHorizontal_bias="0.405"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.467" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/phrase_txtBox"
@@ -69,10 +92,10 @@
                     android:text="一言"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.169"
+                    app:layout_constraintHorizontal_bias="0.18"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.727" />
+                    app:layout_constraintTop_toBottomOf="@+id/favorite_txt"
+                    app:layout_constraintVertical_bias="0.224" />
 
                 <TextView
                     android:id="@+id/favorite_txt"
@@ -90,13 +113,14 @@
                     android:id="@+id/badge_img"
                     android:layout_width="116dp"
                     android:layout_height="123dp"
+                    android:background="@drawable/badge_background_1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.81"
+                    app:layout_constraintHorizontal_bias="0.735"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.647"
-                    app:srcCompat="@drawable/event" />
+                    app:layout_constraintTop_toBottomOf="@+id/name_txtedit"
+                    app:layout_constraintVertical_bias="0.117"
+                    app:srcCompat="@drawable/badge_icon_1" />
 
                 <EditText
                     android:id="@+id/phrase_txtedit"
@@ -111,18 +135,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.932" />
-
-                <ImageView
-                    android:id="@+id/icon_img"
-                    android:layout_width="100dp"
-                    android:layout_height="92dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.056"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.337"
-                    tools:srcCompat="@tools:sample/avatars" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -151,7 +163,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

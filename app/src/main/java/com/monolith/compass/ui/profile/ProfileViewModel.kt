@@ -19,25 +19,4 @@ class ProfileViewModel : ViewModel() {
     val text:MutableLiveData<String> =_text
 
 
-    private val _test = MutableLiveData<String>().apply {
-    }
-
-    val test:MutableLiveData<String> by lazy{
-        MutableLiveData("aaa")
-    }
-
-
-    val livedatatest:MutableLiveData<String> = MutableLiveData()
-
-    fun onButtonClicked(){}
-    /*
-    fun getValue():String{
-        return test.value.toString()
-    }
-
-    fun setValue(value:String){
-        test.value = value
-    }
-*/
-
 }

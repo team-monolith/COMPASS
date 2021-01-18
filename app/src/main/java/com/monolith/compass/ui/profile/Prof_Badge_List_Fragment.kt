@@ -24,11 +24,4 @@ class Prof_Badge_List_Fragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_profile_badge_list, container, false)
         return root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val cop_day =view.findViewById<ImageView>(R.id.imageView11)
-
-    }
 }

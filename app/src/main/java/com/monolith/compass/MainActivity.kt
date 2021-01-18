@@ -45,8 +45,10 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     private lateinit var locationManager: LocationManager   //ロケーションマネージャーインスタンス保管用
 
     //この２つは吉田のテスト用
-    var profString = arrayOfNulls<String>(2)
-    var profInt = arrayOfNulls<Int>(5)
+    //var profString = arrayOfNulls<String>(3)//name,icon,phrase
+    var profString = arrayOf("よしだ","nasideii","よろしくお願いします。")
+    //var profInt = arrayOfNulls<Int>(6)//id,distance,favbadge,background,frame,badge
+    var profInt = arrayOf(12345,130,4,1,2,11002233)
 
     var itemselectedlog: Int? = null    //直近アイテム選択ログ保管用
 
