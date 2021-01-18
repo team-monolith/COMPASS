@@ -191,8 +191,6 @@ class CanvasDraw : Fragment() {
 
     }
 
-
-
     fun updateGPSFlg(){
         anim_GPSringFlg=true
     }

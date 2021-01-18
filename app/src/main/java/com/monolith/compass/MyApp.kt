@@ -35,7 +35,7 @@ class MyApp: Application(){
 
     data class GPSDATA(var GPS_D:Date?,var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
 
-    data class MAPDATA(var MAP :Array<Array<Int?>>,var MAP_X:Float?,var MAP_Y:Float?,var BITMAP:Bitmap?)
+    data class MAPDATA(var MAP :Array<Array<Int?>>,var MAP_X:Float?,var MAP_Y:Float?,var MAP_S:Int?,var BITMAP:Bitmap?)
 
     data class ACTIVITYDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var DISTANCE:Int,var CAL:Int)
 
@@ -229,7 +229,6 @@ class MyApp: Application(){
         }
         return str
     }
-
 
     //名刺のBitmap画像を
     //CARDDATA型データを渡し、第二引数でresourcesを投げる

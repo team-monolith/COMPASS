@@ -36,7 +36,7 @@ class MapFragment : Fragment() {
     var centerFlg = true    //センターボタン押下認識フラッグ
     var layerFlg=true   //レイヤーボタン押下フラッグ、trueでマップ表示
 
-    var scale: Float = 1F   //地図表示のスケール
+    var scale: Float = 3F   //地図表示のスケール
     var posX: Int = 0    //地図表示の相対X座標
     var posY: Int = 0    //地図表示の絶対Y座標
     var logX: Int? = null  //タップ追従用X座標
@@ -44,15 +44,17 @@ class MapFragment : Fragment() {
 
     var size: Rect? = null  //画面サイズ取得用
 
+    var magnification:Int=1 //マップの倍率保管用
+
     var lastGPSTime:Long=0
 
-    var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null,null)//ユーザ現在地周辺の地図データ
-
-    var Other:MyApp.MAPDATA=MyApp.MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null,null)//ユーザ現在地周辺の地図データ
+    var Current:MyApp.MAPDATA=MyApp.MAPDATA(Array(500) { arrayOfNulls<Int>(500) },null,null,null,null)//ユーザ現在地周辺の地図データ
 
     var Location:MyApp.GPSDATA=MyApp.GPSDATA(null,null,null,null,null) //ユーザの現在地
 
     val Draw = CanvasDraw()//描画処理関係
+
+
 
 
     override fun onCreateView(
@@ -81,7 +83,7 @@ class MapFragment : Fragment() {
 
         //最優先でデータをダウンロード
         mapReset()
-        getMapData()
+        getMapData(130.4088f,33.5841f,1)
 
         //FABボタンID取得
         val fab_current = view.findViewById<FloatingActionButton>(R.id.fab_current)
@@ -146,8 +148,6 @@ class MapFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        //GPS取得用インターフェース
-
         //ピンチ処理関係
         mScaleDetector = ScaleGestureDetector(context,
             object : OnScaleGestureListener {
@@ -157,25 +157,25 @@ class MapFragment : Fragment() {
 
                     scale *= detector.scaleFactor
 
-
-                    posX += detector.focusX.toInt() - logX!!
-                    posY += detector.focusY.toInt() - logY!!
-                    logX = detector.focusX.toInt()
-                    logY = detector.focusY.toInt()
+                    if(scale<=1.5){
+                        scale=1.5f
+                    }
+                    if(scale>=4.5){
+                        scale=4.5f
+                    }
 
                     return true
                 }
 
                 //ピンチ開始時処理
                 override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
-                    logX = detector.focusX.toInt()
-                    logY = detector.focusY.toInt()
                     return true
                 }
 
                 //ピンチ終了時処理
                 override fun onScaleEnd(detector: ScaleGestureDetector) {
                 }
+
             }
         )
     }
@@ -183,11 +183,10 @@ class MapFragment : Fragment() {
     //フラグメント破棄時処理
     override fun onDetach() {
         super.onDetach()
-
     }
 
-    override fun onPause(){
-        super.onPause()
+    override fun onStop(){
+        super.onStop()
         //GPS情報を次回も使いまわせるように上書き
         //しかし動かぬ
         GLOBAL.GPS_BUF.GPS_X = Location.GPS_X
@@ -203,7 +202,6 @@ class MapFragment : Fragment() {
         for (y in 0 until 500) {
             for (x in 0 until 500) {
                 Current.MAP[y][x] = -1
-                Other.MAP[y][x] = -1
             }
         }
     }
@@ -231,9 +229,6 @@ class MapFragment : Fragment() {
             //自分を中心に画面配置
             if (Location.GPS_X != null && Current.MAP_X != null) {
 
-
-                //画面の中心に移動する処理を作成したら完成
-
                 //座標の中心からのずれを計算
                 val sX=((Location.GPS_X!! - Current.MAP_X!!)*10000).toInt()
                 val sY=((Current.MAP_Y!! - Location.GPS_Y!!)*10000).toInt()
@@ -242,9 +237,6 @@ class MapFragment : Fragment() {
                     (((-(5000/2+(sX*10)+5)*scale)+size!!.width()/2)).toInt()
                 posY =
                     (((-(5000/2+(sY*10)+5)*scale)+size!!.height()/4*3)).toInt()
-
-
-                val test:Int=6
 
             }
         } else {
@@ -267,6 +259,7 @@ class MapFragment : Fragment() {
             //最終取得時刻を上書き
             lastGPSTime=System.currentTimeMillis()
         }
+
     }
 
     inner class MoveView : View {
@@ -315,50 +308,29 @@ class MapFragment : Fragment() {
                 Draw.Loading(canvas, size)
             }
 
-
-            canvas.drawLine(0f,size!!.height()/4*3f,size!!.width()*1f,size!!.height()/4*3f,Paint())
-            canvas.drawLine(size!!.width()/2f,0f,size!!.width()/2f,size!!.height()*1f,Paint())
-
         }
     }
 
     //マップ情報ダウンロード関数
-    fun getMapData() {
-        val POSTDATA = HashMap<String, String>()
-        POSTDATA.put("data", "monolith")
+    fun getMapData(POS_X:Float,POS_Y:Float,SCALE:Int) {
 
-        "https://ky-server.net/~monolith/system/dev/test.php".httpPost(POSTDATA.toList())
+        val POSTDATA = HashMap<String, String>()
+
+        POSTDATA.put("load_x",POS_X.toString())
+        POSTDATA.put("load_y",POS_Y.toString())
+        POSTDATA.put("load_mags",SCALE.toString())
+
+        "https://a.compass-user.work/system/map/show_csv.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
                 when (result) {
                     is Result.Success -> {
                         setMap(String(response.data))
                     }
                     is Result.Failure -> {
-                        getMapData()
+                        getMapData(130.4088f,33.5841f,1)
                     }
                 }
             }
-    }
-
-
-    //マップを配列に保存する関数
-    fun subsetMap(data: String) {
-
-        val scan = Scanner(data)
-        scan.useDelimiter(",|\r\n")
-
-        Current.MAP_X = 130.4088f
-        Current.MAP_Y = 33.5841f
-
-        for (fy in 0 until 500) {
-            for (fx in 0 until 500) {
-                Current.MAP[fy][fx] = scan.nextInt()
-            }
-        }
-
-        val str="X="+Current.MAP_X+",Y="+Current.MAP_Y+"\n"+data
-
-        MyApp().FileWrite(str,"MAPLOG.txt")
     }
 
     //マップを配列に保存する関数
@@ -376,6 +348,8 @@ class MapFragment : Fragment() {
             }
         }
 
+        //ここら辺修正
+        Current.MAP_S=1
         Current.BITMAP=Draw.Map(Current.MAP)
 
         val str="X="+Current.MAP_X+",Y="+Current.MAP_Y+"\n"+data
