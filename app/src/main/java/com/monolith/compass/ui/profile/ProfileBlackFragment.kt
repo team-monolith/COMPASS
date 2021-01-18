@@ -30,11 +30,7 @@ class ProfileBlackFragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_profile_black, container, false)
-        val black_img :ImageView = root.findViewById(R.id.black_img)
 
-        black_img.setOnClickListener(){
-            findNavController().navigate(R.id.navigation_profile)
-        }
         return root
     }
 }

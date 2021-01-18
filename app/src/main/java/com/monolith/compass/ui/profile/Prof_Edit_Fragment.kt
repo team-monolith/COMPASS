@@ -31,15 +31,14 @@ class Prof_Edit_Fragment : Fragment() {
         val name_text :EditText = root.findViewById(R.id.name_txtedit)
         val badge_img : ImageView = root.findViewById(R.id.badge_img)
         val frame :FrameLayout = root.findViewById(R.id.frame)
+        val phrase :EditText = root.findViewById(R.id.phrase_txtedit)
 
         val ma = activity as MainActivity?
-        //var value =ma?.profileValues
 
-        //textView.text = value
+        name_text.setText(ma!!.profString[0])
+        phrase.setText(ma!!.profString[2])
 
-        /*card_img.setOnClickListener{
-            findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
-        }*/
+
 
         badge_img.setOnClickListener{
             frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))

@@ -78,11 +78,6 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
 
-
-        profileViewModel.test.observe(viewLifecycleOwner, Observer {
-            //textView.text = profileViewModel.getValue()
-        })
-
         return root
     }
 }
