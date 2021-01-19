@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_profile_badge_list"
-        android:name="com.monolith.compass.ui.profile.Prof_Badge_List_Fragment"
+        android:name="com.monolith.compass.ui.profile.ProfBadgeListFragment"
         android:label="prof_badge_list"
         tools:layout="@layout/fragment_profile_badge_list" >
         <action
@@ -97,7 +97,7 @@
 
     <fragment
         android:id ="@+id/navigation_profile_edit"
-        android:name="com.monolith.compass.ui.profile.Prof_Edit_Fragment"
+        android:name="com.monolith.compass.ui.profile.ProfEditFragment"
         android:label="ProfileEdit"
         tools:layout="@layout/fragment_profile_edit">
         <action
@@ -110,19 +110,18 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_profile_card"
-        android:name="com.monolith.compass.ui.profile.Prof_Frame_Fragment"
+        android:name="com.monolith.compass.ui.profile.ProfFrameFragment"
         android:label ="ProfileCardEdit"
         tools:layout="@layout/fragment_profile_card"
         >
-
-
         <action
             android:id="@+id/action_navigation_profile_card_to_navigation_profile_edit"
             app:destination="@id/navigation_profile_edit" />
     </fragment>
+
     <fragment
         android:id="@+id/navigation_profile_badge"
-        android:name="com.monolith.compass.ui.profile.Prof_Badge_Fragment"
+        android:name="com.monolith.compass.ui.profile.ProfBadgeFragment"
         android:label="ProfBadge"
         tools:layout="@layout/fragment_profile_badge"
         >
