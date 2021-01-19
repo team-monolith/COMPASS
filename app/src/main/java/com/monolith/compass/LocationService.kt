@@ -141,7 +141,7 @@ class LocationService: Service(), LocationListener,SensorEventListener {
     override fun onLocationChanged(location: Location) {
 
         //日付取得
-        val date_pattern = java.text.SimpleDateFormat("yyyy/MM/dd/HH-mm-ss")
+        val date_pattern = java.text.SimpleDateFormat("yyyyMMddHHmmss")
         val date = date_pattern.format(Date())
 
         //GPS取得時にデータを一時保持
