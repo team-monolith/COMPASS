@@ -19,6 +19,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
@@ -149,6 +151,24 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
         //バックグラウンド処理を完成させたらコメントアウトを外す
         //startBackgroundLocationService()
     }
+
+    override fun onStop(){
+        super.onStop()
+        val POSTDATA = HashMap<String, String>()
+        val data = GLOBAL.FileRead("GPSBUF.txt")
+        POSTDATA.put("json",data)
+        "https://a.compass-user.work/system/map/receive_csv.php".httpPost(POSTDATA.toList())
+            .response { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
+
+                    }
+                    is Result.Failure -> {
+                    }
+                }
+            }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onResume() {
