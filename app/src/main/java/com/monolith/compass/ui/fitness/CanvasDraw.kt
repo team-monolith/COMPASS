@@ -84,7 +84,7 @@ class CanvasDraw : Fragment() {
             val paint = Paint()
             paint.isAntiAlias = true
             canvas!!.drawBitmap(
-                walker[anim_walk % 3]!!,
+                walker[anim_walk % 7]!!,
                 pos + anim_meter.toFloat() - (walker[anim_walk % 3]!!.width / 2),
                 ((height / 6 * 5) - walker[anim_walk % 3]!!.height).toFloat(),
                 null
@@ -94,7 +94,7 @@ class CanvasDraw : Fragment() {
 
         //フレームごとに加算し8で割り切れる数だった場合は次のデザインに変える
         anim_walk_count += 1
-        if (anim_walk_count % 8 == 0) {
+        if (anim_walk_count % 4 == 0) {
             anim_walk_count = 0
             anim_walk += 1
         }
