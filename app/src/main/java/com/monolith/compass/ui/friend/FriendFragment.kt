@@ -1,27 +1,31 @@
 package com.monolith.compass.ui.friend
 
-import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.CookieSyncManager.createInstance
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class FriendFragment : Fragment() {
 
     private lateinit var friendViewModel: FriendViewModel
     var count=0
+
+    val GLOBAL=MyApp.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,10 +43,9 @@ class FriendFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as MainActivity).LoadStart()
 
-
-
-
+        getFriendData(view)
 
         //コンボボックス生成処理
         val spinner=view.findViewById<Spinner>(R.id.spinnerSortFriend)
@@ -51,24 +54,22 @@ class FriendFragment : Fragment() {
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter=adapter
 
-        friend_add(view)
-
-
-
     }
 
 
 
-    fun friend_add(view: View){
-        var list=getFriendData()
+    fun friend_add(view: View,list:List<MyApp.CARDDATA>){
         //後程定義するためlateinit属性をつけています(nullableにするとnullチェックなど面倒なので）
         lateinit var layout:ConstraintLayout
 
-        //スクロールビューのifを取得しビューグループに変換
+        val test=view.findViewById<View>(R.id.sv)
+
+        //スクロールビューのidを取得しビューグループに変換
         val SV: ViewGroup = view.findViewById<View>(R.id.sv) as ViewGroup
 
         //リストを削除する
         SV.removeAllViews()
+
 
         //カウントをリセット
         count=0
@@ -81,7 +82,7 @@ class FriendFragment : Fragment() {
             //3件追加したら新しいページを追加する必要があるため(i%3)で計算をする
             if(i%3==0){
                 //レイアウトデータを読み込み追加する
-                getLayoutInflater().inflate(R.layout.fragment_friendcard, SV)
+                layoutInflater.inflate(R.layout.fragment_friendcard, SV)
 
                 //今回追加したレイアウトのデータを取得
                 layout = SV.getChildAt(count) as ConstraintLayout
@@ -93,102 +94,79 @@ class FriendFragment : Fragment() {
             val card=(layout.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(i%3*2+1)as ImageView)
             card.tag=i
             card.visibility=View.VISIBLE
+
             card.setImageBitmap(MyApp().CreateCardBitmap(list[i],resources))
+
             card.setOnClickListener{
-                //タップされた名刺タグの取得
                 var test=it.getTag().toString().toInt()
-                //メインアクティビティのcardDataList内に名刺データを保存
+                Toast.makeText(context,test.toString(),Toast.LENGTH_SHORT).show()
                 val ma = activity as MainActivity
-                ma.cardDataList=list[test]
-
-                //拡大名刺画面を上に乗せる
-                ma.FriendCardLoardStart()
-            }
-
-            //名刺を長押しした時の処理(削除処理)
-            card.setOnLongClickListener {
-                //確認ダイアログの表示
-                val deleteDialog=AlertDialog.Builder(activity)
-                deleteDialog.setTitle("削除しますか？")
-                    .setPositiveButton("OK") { dialog, which ->
-
-                        //削除処理を書く
-                        Toast.makeText(context,"削除しました",Toast.LENGTH_SHORT).show()
-                        friend_add(view)
-                    }
-                    .setNegativeButton("キャンセル",null)
-                    .show()
-                true
+                ma.cardTag=test
+                findNavController().navigate(R.id.action_navigation_friend_to_friendCardFragment)
             }
         }
+
+        (activity as MainActivity).LoadStop()
     }
 
+    fun getFriendData(view:View) {
 
+        val POSTDATA = HashMap<String, String>()
 
+        POSTDATA.put("id","1,2,3,2,1,2,1")
 
+        "https://a.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
+            .response { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val list=setFriendData(String(response.data))
+                        activity?.runOnUiThread {
+                            friend_add(view,list)
+                        }
+                    }
+                    is Result.Failure -> {
+                    }
+                }
+            }
+    }
 
+    fun setFriendData(data:String):List<MyApp.CARDDATA>{
 
-    //通信してフレンドのユーザーデータを取得する関数（だと思ってください）
-    //戻り値:USERDATA型リスト
-    fun getFriendData():List<MyApp.CARDDATA> {
         var list=mutableListOf<MyApp.CARDDATA>()
-        list.add(MyApp.CARDDATA(12345,
-            "あいうえお",
-            testBitmapData(),
-            30,
-            503500,
-            3,
-            1,
-            1,
-            "あいうえおかきくけこさしす",
-            0))
-        list.add(MyApp.CARDDATA(45624,
-            "なまえ",
-            testBitmapData(),
-            18,
-            25000,
-            2,
-            2,
-            3,
-            "コメント",
-            0))
-        list.add(MyApp.CARDDATA(78454,
-            "どなたか",
-            testBitmapData(),
-            24,
-            471140,
-            1,
-            4,
-            2,
-            "植田がんばって",
-            0))
 
-        list.add(MyApp.CARDDATA(23553,
-            "ゆーざーねーむ",
-            testBitmapData(),
-            26,
-            327471140,
-            0,
-            5,
-            0,
-            "ゆーざーこめんと",
-            0))
-        list.add(MyApp.CARDDATA(78454,
-            "こんぱす",
-            testBitmapData(),
-            1,
-            471140,
-            1,
-            4,
-            2,
-            "ものりす",
-            0))
+        val scan=Scanner(data.replace("<br>",""))
+        scan.useDelimiter(",|\n")
 
-
-
+        while(scan.hasNext()){
+            val ID:Int=scan.nextInt()
+            val NAME:String=scan.next()
+            val ICON:String=scan.next()
+            val LEVEL:Int=scan.nextInt()
+            val DISTANCE:Int=scan.nextInt()
+            val BADGE:Int=scan.nextInt()
+            val BACKGROUND:Int=scan.nextInt()
+            val FRAME:Int=scan.nextInt()
+            val COMMENT:String=scan.next()
+            val STATE:Int=scan.nextInt()
+            list.add(
+                MyApp.CARDDATA(
+                    ID,
+                    NAME,
+                    GLOBAL.IconBitmapCreate(ICON),
+                    LEVEL,
+                    DISTANCE,
+                    BADGE,
+                    BACKGROUND,
+                    FRAME,
+                    COMMENT,
+                    STATE
+                )
+            )
+        }
 
         return list
     }
+
 
 
     //※仮で読み込むデータを作ってるだけです

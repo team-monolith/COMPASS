@@ -101,7 +101,7 @@ class ProfileFragment : Fragment() {
         distance_img.setOnClickListener{
             back_fl.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
-            transaction.add(R.id.back_fl,ProfCardFragment())
+            transaction.add(R.id.back_fl,ProfCardBackgroundFragment())
             transaction.commit()
             edit_btn.isEnabled =false
         }
