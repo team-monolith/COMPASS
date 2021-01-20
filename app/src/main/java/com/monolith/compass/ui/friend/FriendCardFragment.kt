@@ -44,16 +44,9 @@ class FriendCardFragment : Fragment() {
 
         var list=getFriendData()
 
-
-
         val ma = activity as MainActivity
         val test=ma.cardTag
         Toast.makeText(context,test.toString()+"番を受け取りました",Toast.LENGTH_SHORT).show()
-
-        val size = Rect()
-        (activity as MainActivity).window.decorView.getWindowVisibleDisplayFrame(size)
-        val height: Float =size.height().toFloat()
-        val width: Float =size.width().toFloat()
 
         val card=view.findViewById<ImageView>(R.id.cardImage)
         card.setImageBitmap(MyApp().CreateCardBitmap(list[test],resources))
@@ -66,7 +59,8 @@ class FriendCardFragment : Fragment() {
 
 
         view.findViewById<ImageView>(R.id.cardImage).setOnClickListener {
-            findNavController().navigate(R.id.action_friendCardFragment_to_navigation_friend)
+            ma.FriendCardLoadStop()
+            //findNavController().navigate(R.id.action_friendCardFragment_to_navigation_friend)
         }
 
     }

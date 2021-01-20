@@ -33,6 +33,7 @@ import com.google.android.gms.fitness.data.Value
 import com.google.android.gms.fitness.request.DataReadRequest
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.friend.FriendCardFragment
 import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import pub.devrel.easypermissions.EasyPermissions
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
     //植田テスト用
     var cardTag: Int =-1
+    var cardDataList:
 
 
 
@@ -305,6 +307,29 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
         if (supportFragmentManager.findFragmentByTag("LOADING") != null) {
             fragmentTransaction.remove(supportFragmentManager.findFragmentByTag("LOADING")!!)
+                .commit()
+        }
+    }
+
+
+    //拡大名刺画面の表示
+    fun FriendCardLoardStart(){
+        val friendFragmentTransaction=supportFragmentManager.beginTransaction()
+
+        if(supportFragmentManager.findFragmentByTag("FRIENDCARD")==null){
+            friendFragmentTransaction.add(
+                R.id.nav_host_fragment,
+                FriendCardFragment(),
+                "FRIENDCARD"
+            ).commit()
+        }
+    }
+
+    fun FriendCardLoadStop(){
+        val friendFragmentTransaction=supportFragmentManager.beginTransaction()
+
+        if(supportFragmentManager.findFragmentByTag("FRIENDCARD")!=null){
+            friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag("FRIENDCARD")!!)
                 .commit()
         }
     }
