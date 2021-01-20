@@ -41,7 +41,7 @@
                 android:scaleType="fitCenter"
                 android:scaleX="1.65"
                 android:scaleY="1.65"
-                app:srcCompat="@drawable/example" />
+                app:srcCompat="@drawable/card" />
 
             <Space
                 android:id="@+id/space4"

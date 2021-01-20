@@ -35,7 +35,7 @@
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/example" />
+                app:srcCompat="@drawable/card" />
 
             <Space
                 android:id="@+id/space2"
@@ -51,7 +51,7 @@
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/example" />
+                app:srcCompat="@drawable/card" />
 
             <Space
                 android:id="@+id/space3"
@@ -67,7 +67,7 @@
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/example" />
+                app:srcCompat="@drawable/card" />
 
             <Space
                 android:id="@+id/space4"

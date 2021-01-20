@@ -18,11 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.05" />
 
-        <Space
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.05" />
-
         <LinearLayout
             android:id="@+id/innnerlayout"
             android:layout_width="0dip"
@@ -44,9 +39,9 @@
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/example"
+                android:src="@drawable/card"
                 android:visibility="invisible"
-                app:srcCompat="@drawable/example" />
+                app:srcCompat="@drawable/card" />
 
             <Space
                 android:id="@+id/space2"
@@ -62,9 +57,9 @@
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/example"
+                android:src="@drawable/card"
                 android:visibility="invisible"
-                app:srcCompat="@drawable/example" />
+                app:srcCompat="@drawable/card" />
 
             <Space
                 android:id="@+id/space3"
@@ -80,9 +75,9 @@
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/example"
+                android:src="@drawable/card"
                 android:visibility="invisible"
-                app:srcCompat="@drawable/example" />
+                app:srcCompat="@drawable/card" />
 
             <Space
                 android:id="@+id/space4"
@@ -91,6 +86,11 @@
                 android:layout_weight="0.1" />
 
         </LinearLayout>
+
+        <Space
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
