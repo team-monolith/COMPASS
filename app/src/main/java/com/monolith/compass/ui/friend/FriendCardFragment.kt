@@ -55,7 +55,8 @@ class FriendCardFragment : Fragment() {
         val height: Float =size.height().toFloat()
         val width: Float =size.width().toFloat()
 
-
+        val card=view.findViewById<ImageView>(R.id.cardImage)
+        card.setImageBitmap(MyApp().CreateCardBitmap(list[test],resources))
 
 
 

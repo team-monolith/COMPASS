@@ -37,7 +37,10 @@
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
-                android:scaleType="centerInside"
+                android:rotation="90"
+                android:scaleType="fitCenter"
+                android:scaleX="1.65"
+                android:scaleY="1.65"
                 app:srcCompat="@drawable/example" />
 
             <Space
