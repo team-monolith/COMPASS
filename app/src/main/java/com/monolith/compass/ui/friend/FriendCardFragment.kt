@@ -42,11 +42,7 @@ class FriendCardFragment : Fragment() {
 
         var list=getFriendData()
 
-        (R.id.cardImage).setImageBitmap(MyApp().CreateCardBitmap(list[i],resources))
-
-
-
-
+        //(R.id.cardImage).setImageBitmap(MyApp().CreateCardBitmap(list[i],resources))
 
 
 

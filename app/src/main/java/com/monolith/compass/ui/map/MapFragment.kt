@@ -37,14 +37,11 @@ class MapFragment : Fragment() {
     var layerFlg=true   //レイヤーボタン押下フラッグ、trueでマップ表示
 
     var scale: Float = 3F   //地図表示のスケール,1.5-3.0-4.5
-    var posX: Int = 0    //地図表示の相対X座標
-    var posY: Int = 0    //地図表示の絶対Y座標
-    var logX: Int? = null  //タップ追従用X座標
-    var logY: Int? = null  //タップ追従用Y座標
+
+    var pos: MyApp.COORDINATE = MyApp.COORDINATE(0f, 0f)//地図表示の絶対座標
+    var log: MyApp.COORDINATE = MyApp.COORDINATE(0f, 0f)//タップ追従用座標
 
     var size: Rect? = null  //画面サイズ取得用
-
-    var magnification:Int=1 //マップの倍率保管用
 
     var lastGPSTime:Long=0
 
@@ -130,18 +127,17 @@ class MapFragment : Fragment() {
         else {
             when {
                 event.action == MotionEvent.ACTION_DOWN -> {
-                    logX = event.x.toInt()
-                    logY = event.y.toInt()
+                    log.X = event.x
+                    log.Y = event.y
                 }
                 event.action == MotionEvent.ACTION_MOVE -> {
-                    posX += event.x.toInt() - logX!!
-                    posY += event.y.toInt() - logY!!
-                    logX = event.x.toInt()
-                    logY = event.y.toInt()
+                    pos.X = pos.X!!+event.x - log.X!!
+                    pos.Y = pos.Y!!+event.y - log.Y!!
+                    log.X = event.x
+                    log.Y = event.y
                 }
             }
         }
-
         return true
     }
 
@@ -195,8 +191,6 @@ class MapFragment : Fragment() {
         GLOBAL.GPS_BUF.GPS_S = Location.GPS_S
     }
 
-
-
     //マップ情報リセット関数
     fun mapReset() {
         for (y in 0 until 500) {
@@ -204,19 +198,6 @@ class MapFragment : Fragment() {
                 Current.MAP[y][x] = -1
             }
         }
-    }
-
-    fun mapDifference(){
-
-        val sX=((Location.GPS_X!! - Current.MAP_X!!)*10000).toInt()
-        val sY=((Current.MAP_Y!! - Location.GPS_Y!!)*10000).toInt()
-
-        val centerX=
-            (((-(5000/2+(sX*10)+5)*scale)+size!!.width()/2)).toInt()
-        val centerY=
-            (((-(5000/2+(sY*10)+5)*scale)+size!!.height()/4*3)).toInt()
-
-
     }
 
     //描画関数　再描画用
@@ -246,10 +227,10 @@ class MapFragment : Fragment() {
                 val sX=((Location.GPS_X!! - Current.MAP_X!!)*10000).toInt()
                 val sY=((Current.MAP_Y!! - Location.GPS_Y!!)*10000).toInt()
 
-                posX =
-                    (((-(5000/2+(sX*10)+5)*scale)+size!!.width()/2)).toInt()
-                posY =
-                    (((-(5000/2+(sY*10)+5)*scale)+size!!.height()/4*3)).toInt()
+                pos.X =
+                    (((-(5000/2+(sX*10)+5)*scale)+size!!.width()/2))
+                pos.Y =
+                    (((-(5000/2+(sY*10)+5)*scale)+size!!.height()/4*3))
 
             }
         } else {
@@ -290,7 +271,7 @@ class MapFragment : Fragment() {
 
             canvas!!.save()
 
-            canvas.translate(posX*1f,posY*1f)
+            canvas.translate(pos.X!!,pos.Y!!)
 
             canvas.scale(scale,scale)
 
@@ -360,7 +341,7 @@ class MapFragment : Fragment() {
 
         for (fy in 0 until 500) {
             for (fx in 0 until 500) {
-                Current.MAP[fy][fx]=origindata.get(fy*500+fx).toString().toInt()
+                Current.MAP[fy][fx]= origindata[fy*500+fx].toString().toInt()
             }
         }
 

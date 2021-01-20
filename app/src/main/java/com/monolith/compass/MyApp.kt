@@ -10,8 +10,10 @@ import android.view.View
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
+import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import java.io.File
 import java.io.FileNotFoundException
@@ -40,6 +42,8 @@ class MyApp: Application(){
     data class ACTIVITYDATA(var DATE:Date, var TARGET:Int,var STEP:Int,var DISTANCE:Int,var CAL:Int)
 
     data class CARDDATA(var ID:Int,var NAME:String,var ICON:Bitmap?,var LEVEL:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
+
+    data class COORDINATE(var X: Float?, var Y: Float?)
 
 
     var GPS_LOG=mutableListOf<GPSDATA>()
@@ -138,7 +142,7 @@ class MyApp: Application(){
         try{
             val scan= Scanner(FileRead(child))
             scan.useDelimiter("[,\n]")
-            val format=SimpleDateFormat("yyyy/MM/dd/HH-mm-ss")
+            val format=SimpleDateFormat("yyyyMMddHHmmss")
 
             while(scan.hasNextLine()&&scan.hasNext()){
                 val FILE_D:String=scan.next().substring(2)
@@ -216,18 +220,6 @@ class MyApp: Application(){
             val file= File(GLOBAL.DIRECTORY+"/", child)
             file.writeText("")
         }
-    }
-
-    //フォルダ内マップデータをセットマップに流せる形式に変換
-    fun convertMapFileData(data:String):String{
-        val scan = Scanner(data)
-        var str=""
-        scan.next()
-        while(scan.hasNext()){
-            str+=scan.next()
-            if(scan.hasNext())str+="\n"
-        }
-        return str
     }
 
     //名刺のBitmap画像を
@@ -368,10 +360,6 @@ class MyApp: Application(){
         }
         return img
     }
-
-    /*ユーザ情報等、アプリ内の設定を保存(LOCALSETTING)*/
-
-
 
 
 
