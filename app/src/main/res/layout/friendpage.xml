@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <LinearLayout
@@ -19,7 +16,6 @@
             android:layout_weight="0.05" />
 
         <LinearLayout
-            android:id="@+id/innnerlayout"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="0.9"
@@ -39,8 +35,6 @@
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/card"
-                android:visibility="invisible"
                 app:srcCompat="@drawable/card" />
 
             <Space
@@ -57,8 +51,6 @@
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/card"
-                android:visibility="invisible"
                 app:srcCompat="@drawable/card" />
 
             <Space
@@ -75,8 +67,6 @@
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/card"
-                android:visibility="invisible"
                 app:srcCompat="@drawable/card" />
 
             <Space
@@ -92,5 +82,4 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.05" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

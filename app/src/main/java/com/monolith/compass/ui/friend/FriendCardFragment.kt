@@ -1,6 +1,7 @@
 package com.monolith.compass.ui.friend
 
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 
@@ -42,8 +44,19 @@ class FriendCardFragment : Fragment() {
 
         var list=getFriendData()
 
-        //(R.id.cardImage).setImageBitmap(MyApp().CreateCardBitmap(list[i],resources))
 
+
+        val ma = activity as MainActivity
+        val test=ma.cardTag
+        Toast.makeText(context,test.toString()+"番を受け取りました",Toast.LENGTH_SHORT).show()
+
+        val size = Rect()
+        (activity as MainActivity).window.decorView.getWindowVisibleDisplayFrame(size)
+        val height: Float =size.height().toFloat()
+        val width: Float =size.width().toFloat()
+
+        val card=view.findViewById<ImageView>(R.id.cardImage)
+        card.setImageBitmap(MyApp().CreateCardBitmap(list[test],resources))
 
 
 

@@ -10,8 +10,10 @@ import android.view.View
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
+import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import java.io.File
 import java.io.FileNotFoundException
@@ -29,8 +31,6 @@ class MyApp: Application(){
 
     var DIRECTORY:String?=null
 
-    data class USERDATA(var ID:Int,var NAME:String,var ICON:Bitmap,var LENGTH:Int,var FAVORITE:Int,var COMMENT:String,var BACKGROUND:Int,var FRAME:Int,var STATE:Int)
-
     data class LOCAL_DC(var height:Float,var weight:Float,var TARGET: Int,var GPSFLG:Boolean,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: Color)
 
     data class GPSDATA(var GPS_D:Date?,var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
@@ -41,6 +41,8 @@ class MyApp: Application(){
 
     data class CARDDATA(var ID:Int,var NAME:String,var ICON:Bitmap?,var LEVEL:Int,var DISTANCE:Int,var BADGE:Int,var BACKGROUND:Int,var FRAME:Int,var COMMENT:String,var STATE:Int)
 
+    data class COORDINATE(var X: Float?, var Y: Float?)
+
 
     var GPS_LOG=mutableListOf<GPSDATA>()
 
@@ -48,9 +50,9 @@ class MyApp: Application(){
 
     var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null,null)
 
-    var FRIENDLIST=mutableListOf<USERDATA>()
+    var FRIENDLIST=mutableListOf<CARDDATA>()
 
-    var FAVORITELIST=mutableListOf<USERDATA>()
+    var FAVORITELIST=mutableListOf<CARDDATA>()
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
@@ -138,7 +140,7 @@ class MyApp: Application(){
         try{
             val scan= Scanner(FileRead(child))
             scan.useDelimiter("[,\n]")
-            val format=SimpleDateFormat("yyyy/MM/dd/HH-mm-ss")
+            val format=SimpleDateFormat("yyyyMMddHHmmss")
 
             while(scan.hasNextLine()&&scan.hasNext()){
                 val FILE_D:String=scan.next().substring(2)
@@ -216,18 +218,6 @@ class MyApp: Application(){
             val file= File(GLOBAL.DIRECTORY+"/", child)
             file.writeText("")
         }
-    }
-
-    //フォルダ内マップデータをセットマップに流せる形式に変換
-    fun convertMapFileData(data:String):String{
-        val scan = Scanner(data)
-        var str=""
-        scan.next()
-        while(scan.hasNext()){
-            str+=scan.next()
-            if(scan.hasNext())str+="\n"
-        }
-        return str
     }
 
     //名刺のBitmap画像を
@@ -368,10 +358,6 @@ class MyApp: Application(){
         }
         return img
     }
-
-    /*ユーザ情報等、アプリ内の設定を保存(LOCALSETTING)*/
-
-
 
 
 

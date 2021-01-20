@@ -6,13 +6,16 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Point
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.DisplayMetrics
 import android.util.Log
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -46,6 +49,13 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
     private lateinit var locationManager: LocationManager   //ロケーションマネージャーインスタンス保管用
 
+    //植田テスト用
+    var cardTag: Int =-1
+
+
+
+
+
     //この２つは吉田のテスト用
     //var profString = arrayOfNulls<String>(3)//name,icon,phrase
     var profString = arrayOf("よしだ","nasideii","よろしくお願いします。")
@@ -67,7 +77,6 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
         //カレントディレクトリを設定しデータを読み込む
         GLOBAL.DIRECTORY = "$filesDir"
-
 
         //アイテムIDを設定する
         itemselectedlog =
@@ -269,6 +278,35 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     private fun stopBackgroundLocationService() {
         val intent = Intent(application, LocationService::class.java)
         stopService(intent)
+    }
+
+    //(activity as MainActivity).LoadStart()で呼出ができる
+
+    //ロード表示を開始
+    fun LoadStart(){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        if (supportFragmentManager.findFragmentByTag("LOADING") == null) {
+            fragmentTransaction.add(
+                R.id.nav_host_fragment,
+                LoadingFragment(),
+                "LOADING"
+            ).commit()
+        }
+        else{
+            LoadStop()
+            LoadStart()
+        }
+    }
+
+    //ロード表示を終了
+    fun LoadStop(){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        if (supportFragmentManager.findFragmentByTag("LOADING") != null) {
+            fragmentTransaction.remove(supportFragmentManager.findFragmentByTag("LOADING")!!)
+                .commit()
+        }
     }
 
 }

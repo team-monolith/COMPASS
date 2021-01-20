@@ -2,22 +2,21 @@ package com.monolith.compass.ui.friend
 
 import android.app.AlertDialog
 import android.graphics.Bitmap
-import com.monolith.compass.ui.friend.FriendViewModel
-
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.CookieSyncManager.createInstance
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
+
 
 class FriendFragment : Fragment() {
 
@@ -42,19 +41,25 @@ class FriendFragment : Fragment() {
 
 
 
-        //名刺の追加する関数の呼び出し
-            //layout_add(view,getFriendData())
 
 
 
         //コンボボックス生成処理
         val spinner=view.findViewById<Spinner>(R.id.spinnerSortFriend)
-        val spinnerSort= arrayOf("新しい順","古い順","お気に入り順","名前順","ID順")
+        val spinnerSort= arrayOf("新しい順","新しい順","新しい順","新しい順")//"古い順","お気に入り順","名前順","ID順")
         val adapter=context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,spinnerSort) }
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter=adapter
 
+        friend_add(view)
 
+
+
+    }
+
+
+
+    fun friend_add(view: View){
         var list=getFriendData()
         //後程定義するためlateinit属性をつけています(nullableにするとnullチェックなど面倒なので）
         lateinit var layout:ConstraintLayout
@@ -91,90 +96,18 @@ class FriendFragment : Fragment() {
             card.setImageBitmap(MyApp().CreateCardBitmap(list[i],resources))
             card.setOnClickListener{
                 var test=it.getTag().toString().toInt()
-                val cardData=card
-                val bundle=Bundle()
-                bundle.putInt("ImageViewTag",test)
+                Toast.makeText(context,test.toString(),Toast.LENGTH_SHORT).show()
+                val ma = activity as MainActivity
+                ma.cardTag=test
+                findNavController().navigate(R.id.action_navigation_friend_to_friendCardFragment)
 
 
 
-                //画面遷移　名刺のみ画像　タップで一覧に戻る ImageView渡す
-                //makeDialog(test,list,card)
-                val cardDialog= AlertDialog.Builder(activity)
-                cardDialog.setPositiveButton("OK"){
-                        dialog, which -> findNavController().navigate(R.id.action_navigation_friend_to_friendCardFragment)
-                            }
-                    .setNegativeButton("Cancel",null)
-                    .show()
+
+
             }
         }
-
-
-
-
     }
-
-
-
-    /*
-    fun layout_add(view: View,list:List<MyApp.CARDDATA>) {
-
-
-        //後程定義するためlateinit属性をつけています(nullableにするとnullチェックなど面倒なので）
-        lateinit var layout:ConstraintLayout
-
-        //スクロールビューのifを取得しビューグループに変換
-        val SV: ViewGroup = view.findViewById<View>(R.id.sv) as ViewGroup
-
-        //リストを削除する
-        SV.removeAllViews()
-
-        //カウントをリセット
-        count=0
-
-
-        //リストの件数分ループさせる
-        for(i in list.indices){
-
-            //ページ追加処理
-            //3件追加したら新しいページを追加する必要があるため(i%3)で計算をする
-            if(i%3==0){
-                //レイアウトデータを読み込み追加する
-                getLayoutInflater().inflate(R.layout.fragment_friendcard, SV)
-
-                //今回追加したレイアウトのデータを取得
-                layout = SV.getChildAt(count) as ConstraintLayout
-
-                count++
-            }
-
-            //1,3,5番目のidを取得したいため、iを3で割った値を2倍して1を足す（1,3,5,1,3,5...となる）
-            val card=(layout.findViewById<LinearLayout>(R.id.innnerlayout).getChildAt(i%3*2+1)as ImageView)
-            card.tag=i
-            card.visibility=View.VISIBLE
-            card.setImageBitmap(MyApp().CreateCardBitmap(list[i],resources))
-            card.setOnClickListener{
-                var test=it.getTag().toString().toInt()
-                //画面遷移　名刺のみ画像　タップで一覧に戻る
-                makeDialog(test,list,card)
-            }
-        }
-
-
-    }
-
-    fun makeDialog(tag:Int,list:List<MyApp.CARDDATA>,card:ImageView){
-        val cardDialog= AlertDialog.Builder(activity)
-        cardDialog.setPositiveButton("OK"){dialog, which ->
-            findNavController().navigate(R.id.action_navigation_friend_to_friendCardFragment)
-        }
-            .setNegativeButton("Cancel",null)
-            .show()
-
-    }
-
-     */
-
-
 
 
 
