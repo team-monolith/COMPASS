@@ -129,7 +129,7 @@
                     android:ems="10"
                     android:gravity="start|top"
                     android:inputType="textMultiLine"
-                    android:maxLength="50"
+                    android:maxLength="40"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +137,7 @@
                     app:layout_constraintVertical_bias="0.932" />
 
                 <Button
-                    android:id="@+id/back_btn"
+                    android:id="@+id/back_bt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="戻る"

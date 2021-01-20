@@ -32,7 +32,7 @@ class ProfEditFragment : Fragment() {
         val card_img :ImageView = root.findViewById(R.id.card_img)
         val frame :FrameLayout = root.findViewById(R.id.frame)
         val phrase :EditText = root.findViewById(R.id.phrase_txtedit)
-        val back_btn :Button = root.findViewById(R.id.back_btn)
+        val back_btn :Button = root.findViewById(R.id.back_bt)
         val name_txt :TextView = root.findViewById(R.id.name_txt)
 
         val ma = activity as MainActivity?
@@ -71,6 +71,11 @@ class ProfEditFragment : Fragment() {
         badge_img.setBackgroundResource(back)
         badge_img.setImageResource(badge)
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.findViewById<TextView>(R.id.name_txt)
     }
 }
 

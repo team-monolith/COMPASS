@@ -105,20 +105,39 @@
             app:destination="@id/navigation_profile" />
         <action
             android:id="@+id/action_navigation_profile_edit_to_navigation_profile_card"
-            app:destination="@id/navigation_profile_card" />
+            app:destination="@id/navigation_profile_card_background" />
+        <action
+            android:id="@+id/action_navigation_profile_edit_to_navigation_profile_card_frame"
+            app:destination="@id/navigation_profile_card_frame" />
 
     </fragment>
     <fragment
-        android:id="@+id/navigation_profile_card"
-        android:name="com.monolith.compass.ui.profile.ProfFrameFragment"
-        android:label ="ProfileCardEdit"
-        tools:layout="@layout/fragment_profile_card"
+        android:id="@+id/navigation_profile_card_background"
+        android:name="com.monolith.compass.ui.profile.ProfCardBackgroundFragment"
+        android:label ="ProfileCardBackground"
+        tools:layout="@layout/fragment_profile_card_background"
         >
         <action
             android:id="@+id/action_navigation_profile_card_to_navigation_profile_edit"
             app:destination="@id/navigation_profile_edit" />
+        <action
+            android:id="@+id/action_navigation_profile_card_background_to_navigation_profile_card_frame"
+            app:destination="@id/navigation_profile_card_frame" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_profile_card_frame"
+        android:name="com.monolith.compass.ui.profile.ProfCardFrameFragment"
+        android:label ="ProfileCardFrame"
+        tools:layout="@layout/fragment_profile_card_frame"
+        >
+        <action
+            android:id="@+id/action_navigation_profile_card_frame_to_navigation_profile_card_background"
+            app:destination="@id/navigation_profile_card_background" />
+        <action
+            android:id="@+id/action_navigation_profile_card_frame_to_navigation_profile_edit"
+            app:destination="@id/navigation_profile_edit" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_profile_badge"
         android:name="com.monolith.compass.ui.profile.ProfBadgeFragment"

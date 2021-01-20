@@ -51,13 +51,14 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     var profString = arrayOf("よしだ","nasideii","よろしくお願いします。")
     //var profInt = arrayOfNulls<Int>(6)//id,distance,favbadge,background,frame,badge
     var profInt = arrayOf(12345,130,47,1,2,11002233)
+    // profsave = backgound,frame
+    var profsave = arrayOf(0,0)
 
     var itemselectedlog: Int? = null    //直近アイテム選択ログ保管用
 
     companion object{
         private val REQUEST_CODE = 0
     }
-
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +72,6 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
         //アイテムIDを設定する
         itemselectedlog =
             findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_profile).itemId
-
         RequestPermission()
 
 
