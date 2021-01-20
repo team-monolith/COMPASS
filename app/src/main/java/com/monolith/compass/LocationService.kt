@@ -1,6 +1,7 @@
 package com.monolith.compass
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
@@ -138,6 +139,7 @@ class LocationService: Service(), LocationListener,SensorEventListener {
     }
 
     //GPS情報更新時処理
+    @SuppressLint("SimpleDateFormat")
     override fun onLocationChanged(location: Location) {
 
         //日付取得

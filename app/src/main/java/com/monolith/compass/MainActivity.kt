@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
         //カレントディレクトリを設定しデータを読み込む
         GLOBAL.DIRECTORY = "$filesDir"
 
-
         //アイテムIDを設定する
         itemselectedlog =
             findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_profile).itemId
@@ -279,6 +278,35 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     private fun stopBackgroundLocationService() {
         val intent = Intent(application, LocationService::class.java)
         stopService(intent)
+    }
+
+    //(activity as MainActivity).LoadStart()で呼出ができる
+
+    //ロード表示を開始
+    fun LoadStart(){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        if (supportFragmentManager.findFragmentByTag("LOADING") == null) {
+            fragmentTransaction.add(
+                R.id.nav_host_fragment,
+                LoadingFragment(),
+                "LOADING"
+            ).commit()
+        }
+        else{
+            LoadStop()
+            LoadStart()
+        }
+    }
+
+    //ロード表示を終了
+    fun LoadStop(){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        if (supportFragmentManager.findFragmentByTag("LOADING") != null) {
+            fragmentTransaction.remove(supportFragmentManager.findFragmentByTag("LOADING")!!)
+                .commit()
+        }
     }
 
 }

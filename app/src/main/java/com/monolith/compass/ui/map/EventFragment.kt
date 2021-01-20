@@ -2,18 +2,15 @@ package com.monolith.compass.ui.map
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.media.Image
-import com.monolith.compass.ui.map.MapViewModel
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 
@@ -38,6 +35,9 @@ class EventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        (activity as MainActivity).LoadStart()
 
         view.findViewById<ImageView>(R.id.iv).setImageBitmap(
             (MyApp().CreateCardBitmap(
