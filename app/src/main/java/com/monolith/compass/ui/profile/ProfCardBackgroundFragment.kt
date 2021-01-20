@@ -35,6 +35,26 @@ class ProfCardBackgroundFragment : Fragment() {
             ma.profsave[0] = 1
         }
 
+        view.findViewById<ImageView>(R.id.back_img2).setOnClickListener{
+            ma.profsave[0] = 2
+        }
+
+        view.findViewById<ImageView>(R.id.back_img3).setOnClickListener{
+            ma.profsave[0] = 3
+        }
+
+        view.findViewById<ImageView>(R.id.back_img4).setOnClickListener{
+            ma.profsave[0] = 4
+        }
+
+        view.findViewById<ImageView>(R.id.back_img5).setOnClickListener{
+            ma.profsave[0] = 5
+        }
+
+        view.findViewById<ImageView>(R.id.back_img6).setOnClickListener{//これはbackground_0
+            ma.profsave[0] = 6
+        }
+
         view.findViewById<Button>(R.id.background_btn).setOnClickListener{
             findNavController().navigate(R.id.action_navigation_profile_card_background_to_navigation_profile_card_frame)
         }
