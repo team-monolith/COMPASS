@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 import com.monolith.compass.ui.profile.ProfileViewModel
 
-class Prof_Badge_Fragment : Fragment() {
+class ProfBadgeFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
 
 

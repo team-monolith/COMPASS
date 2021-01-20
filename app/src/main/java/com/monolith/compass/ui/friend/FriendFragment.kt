@@ -19,6 +19,7 @@ import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 
+
 class FriendFragment : Fragment() {
 
     private lateinit var friendViewModel: FriendViewModel
@@ -90,9 +91,13 @@ class FriendFragment : Fragment() {
             card.setImageBitmap(MyApp().CreateCardBitmap(list[i],resources))
             card.setOnClickListener{
                 var test=it.getTag().toString().toInt()
-                val cardData=card
+                var cardData=card
                 val bundle=Bundle()
-                bundle.putInt("ImageViewTag",test)
+                Toast.makeText(context,test.toString(),Toast.LENGTH_SHORT).show()
+
+
+                val ma = activity as MainActivity
+                ma.cardTag=test
 
 
 
@@ -100,7 +105,9 @@ class FriendFragment : Fragment() {
                 //makeDialog(test,list,card)
                 val cardDialog= AlertDialog.Builder(activity)
                 cardDialog.setPositiveButton("OK"){
-                        dialog, which -> findNavController().navigate(R.id.action_navigation_friend_to_friendCardFragment)
+                        dialog, which ->
+                                bundle.putInt("ImageViewTag",test)
+                                findNavController().navigate(R.id.action_navigation_friend_to_friendCardFragment)
                             }
                     .setNegativeButton("Cancel",null)
                     .show()

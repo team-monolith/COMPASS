@@ -6,13 +6,16 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Point
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.DisplayMetrics
 import android.util.Log
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -45,6 +48,13 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
     private lateinit var locationManager: LocationManager   //ロケーションマネージャーインスタンス保管用
+
+    //植田テスト用
+    var cardTag: Int =-1
+
+
+
+
 
     //この２つは吉田のテスト用
     //var profString = arrayOfNulls<String>(3)//name,icon,phrase

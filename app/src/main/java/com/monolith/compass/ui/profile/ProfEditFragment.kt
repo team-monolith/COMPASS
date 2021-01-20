@@ -13,7 +13,7 @@ import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 
 
-class Prof_Edit_Fragment : Fragment() {
+class ProfEditFragment : Fragment() {
 
 
     private lateinit var profileViewModel: ProfileViewModel
@@ -29,17 +29,21 @@ class Prof_Edit_Fragment : Fragment() {
         val okbtn : Button = root.findViewById(R.id.combtn)
         val name_edittext :EditText = root.findViewById(R.id.name_txtedit)
         val badge_img : ImageView = root.findViewById(R.id.badge_img)
+        val card_img :ImageView = root.findViewById(R.id.card_img)
         val frame :FrameLayout = root.findViewById(R.id.frame)
         val phrase :EditText = root.findViewById(R.id.phrase_txtedit)
         val back_btn :Button = root.findViewById(R.id.back_btn)
         val name_txt :TextView = root.findViewById(R.id.name_txt)
 
-
-
         val ma = activity as MainActivity?
 
         name_edittext.setText(ma!!.profString[0])
         phrase.setText(ma!!.profString[2])
+
+
+        card_img.setOnClickListener{
+            findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
+        }
 
         back_btn.setOnClickListener{
             findNavController().navigate(R.id.navigation_profile)
@@ -50,7 +54,7 @@ class Prof_Edit_Fragment : Fragment() {
             frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,ProfileBlackFragment())
-            transaction.add(R.id.frame,Prof_Badge_List_Fragment())
+            transaction.add(R.id.frame,ProfBadgeListFragment())
             transaction.commit()
         }
 

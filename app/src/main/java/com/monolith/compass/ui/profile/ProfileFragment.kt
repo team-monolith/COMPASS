@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.monolith.compass.MainActivity
@@ -66,7 +65,6 @@ class ProfileFragment : Fragment() {
         val friend_pb:ProgressBar = root.findViewById(R.id.friend_pb)
         val event_pb:ProgressBar = root.findViewById(R.id.event_pb)
 
-
         val ma = activity as MainActivity?
         day_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/10000000))
         level_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/1000000%10))
@@ -77,20 +75,16 @@ class ProfileFragment : Fragment() {
         friend_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/10%10))
         event_img.setBackgroundResource(getResouceId(ma!!.profInt[5]%10))
 
-
-
-
-        //var value =ma?.profileValues
-
-
         imgCard.setImageResource(R.drawable.ic_launcher_background)
+
+
 
 
         day_img.setOnClickListener{
             frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,ProfileBlackFragment())
-            transaction.add(R.id.frame,Prof_Badge_Fragment())
+            transaction.add(R.id.frame,ProfBadgeFragment())
             transaction.commit()
             edit_btn.isEnabled =false
         }
@@ -99,7 +93,7 @@ class ProfileFragment : Fragment() {
             frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,ProfileBlackFragment())
-            transaction.add(R.id.frame,Prof_Badge_List_Fragment())
+            transaction.add(R.id.frame,ProfBadgeListFragment())
             transaction.commit()
             edit_btn.isEnabled =false
         }
@@ -107,7 +101,7 @@ class ProfileFragment : Fragment() {
         distance_img.setOnClickListener{
             back_fl.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
-            transaction.add(R.id.back_fl,Prof_Card_Fragment())
+            transaction.add(R.id.back_fl,ProfCardFragment())
             transaction.commit()
             edit_btn.isEnabled =false
         }

@@ -14,13 +14,9 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 import com.monolith.compass.ui.profile.ProfileViewModel
-import org.w3c.dom.Text
 
-class Prof_Card_Fragment : Fragment() {
+class ProfFrameFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
-
-
-    
 
 
     override fun onCreateView(
@@ -31,14 +27,6 @@ class Prof_Card_Fragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_profile_card, container, false)
-        val frame_btn :Button = root.findViewById(R.id.frame_btn)
-        val background_btn: Button = root.findViewById(R.id.background_btn)
-
-
-
-
-
         return root
     }
-
 }
