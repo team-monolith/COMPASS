@@ -51,8 +51,7 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     private lateinit var locationManager: LocationManager   //ロケーションマネージャーインスタンス保管用
 
     //植田テスト用
-    var cardTag: Int =-1
-    var cardDataList:
+    var cardDataList=MyApp.CARDDATA(0,"",null,0,0,0,0,0,"",0)
 
 
 

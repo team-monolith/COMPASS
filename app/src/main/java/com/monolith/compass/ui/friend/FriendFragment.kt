@@ -95,22 +95,35 @@ class FriendFragment : Fragment() {
             card.visibility=View.VISIBLE
             card.setImageBitmap(MyApp().CreateCardBitmap(list[i],resources))
             card.setOnClickListener{
+                //タップされた名刺タグの取得
                 var test=it.getTag().toString().toInt()
-                Toast.makeText(context,test.toString(),Toast.LENGTH_SHORT).show()
+                //メインアクティビティのcardDataList内に名刺データを保存
                 val ma = activity as MainActivity
-                ma.cardTag=test
-                //findNavController().navigate(R.id.action_navigation_friend_to_friendCardFragment)
+                ma.cardDataList=list[test]
 
-
-                //Fragmentを上に乗せる
+                //拡大名刺画面を上に乗せる
                 ma.FriendCardLoardStart()
+            }
 
+            //名刺を長押しした時の処理(削除処理)
+            card.setOnLongClickListener {
+                //確認ダイアログの表示
+                val deleteDialog=AlertDialog.Builder(activity)
+                deleteDialog.setTitle("削除しますか？")
+                    .setPositiveButton("OK") { dialog, which ->
 
-
-
+                        //削除処理を書く
+                        Toast.makeText(context,"削除しました",Toast.LENGTH_SHORT).show()
+                        friend_add(view)
+                    }
+                    .setNegativeButton("キャンセル",null)
+                    .show()
+                true
             }
         }
     }
+
+
 
 
 

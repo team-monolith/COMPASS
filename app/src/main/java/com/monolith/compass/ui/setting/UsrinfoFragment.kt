@@ -80,6 +80,7 @@ class UsrinfoFragment : Fragment() {
             val imgAlertView=view.findViewById<ImageView>(R.id.imgAlert)
             val textHeight=view.findViewById<TextView>(R.id.textHeight)
             val textWeight=view.findViewById<TextView>(R.id.textWeight)
+            val textWalk=view.findViewById<EditText>(R.id.editWalk).toString()
             var CHW=0
 
 
@@ -124,14 +125,18 @@ class UsrinfoFragment : Fragment() {
             Toast.makeText(context,"キャンセルしました"+nowSelectLine,Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)
         }
-
-
-
-
     }
-
-
-
-
-
 }
+
+
+//メモ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・
+/*
+URL一覧
+https://blog.misatowater.com/entry/tech/kotlin/osmdroid-04
+https://seesaawiki.jp/w/moonlight_aska/d/%C3%E6%BF%B4%B0%CC%C3%D6%A4%CE%B0%DE%C5%D9%A1%A6%B7%D0%C5%D9%A4%F2%C0%DF%C4%EA/%BC%E8%C6%C0%A4%B9%A4%EB
+https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial?hl=ja
+https://qiita.com/outerlet/items/36a9152c1cce46a9cfa6
+https://qiita.com/outerlet/items/0d74061fa5d625a33dfb
+検索候補：Kotlin Fragment マップ-Kotlin 緯度経度　選択
+自宅座標、非取得範囲の設定画面の作成
+ */
