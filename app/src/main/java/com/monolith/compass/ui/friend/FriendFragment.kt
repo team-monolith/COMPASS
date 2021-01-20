@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
@@ -93,7 +95,7 @@ class FriendFragment : Fragment() {
                 var test=it.getTag().toString().toInt()
                 var cardData=card
                 val bundle=Bundle()
-                Toast.makeText(context,test.toString(),Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context,test.toString(),Toast.LENGTH_SHORT).show()
 
 
                 val ma = activity as MainActivity
@@ -245,6 +247,33 @@ class FriendFragment : Fragment() {
 
 
         return list
+    }
+
+    fun getFriendData(overload:Int):List<MyApp.CARDDATA>{
+        var list=mutableListOf<MyApp.CARDDATA>()
+
+        val POSTDATA = HashMap<String, String>()
+
+        POSTDATA.put("load_x",POS_X.toString())
+        POSTDATA.put("load_y",POS_Y.toString())
+        POSTDATA.put("load_mags",SCALE.toString())
+
+        "https://a.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
+            .response { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
+                        setFriendData(String(response.data))
+                    }
+                    is Result.Failure -> {
+                    }
+                }
+            }
+
+        return list
+    }
+
+    fun setFriendData(data:String){
+
     }
 
 

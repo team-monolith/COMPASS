@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 import java.util.*
@@ -68,6 +69,8 @@ class MapFragment : Fragment() {
 
         layout.addView(moveview)
         layout.setWillNotDraw(false)
+
+        (activity as MainActivity).LoadStart()
 
         return view
     }
@@ -316,8 +319,9 @@ class MapFragment : Fragment() {
         POSTDATA.put("load_y",POS_Y.toString())
         POSTDATA.put("load_mags",SCALE.toString())
 
-
-        "https://a.compass-user.work/system/map/show_csv.php".httpPost(POSTDATA.toList())
+        //https://ky-server.net/~monolith/system/dev/test.php
+        //https://a.compass-user.work/system/map/show_csv.php
+        "https://ky-server.net/~monolith/system/dev/test.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
                 when (result) {
                     is Result.Success -> {
@@ -348,6 +352,8 @@ class MapFragment : Fragment() {
         //ここら辺修正
         Current.MAP_S=1
         Current.BITMAP=Draw.Map(Current.MAP)
+
+        (activity as MainActivity).LoadStop()
 
         val str="X="+Current.MAP_X+",Y="+Current.MAP_Y+"\n"+data
 

@@ -280,6 +280,8 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
         stopService(intent)
     }
 
+    //(activity as MainActivity).LoadStart()で呼出ができる
+
     //ロード表示を開始
     fun LoadStart(){
         val fragmentTransaction = supportFragmentManager.beginTransaction()

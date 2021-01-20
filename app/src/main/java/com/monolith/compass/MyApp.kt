@@ -31,8 +31,6 @@ class MyApp: Application(){
 
     var DIRECTORY:String?=null
 
-    data class USERDATA(var ID:Int,var NAME:String,var ICON:Bitmap,var LENGTH:Int,var FAVORITE:Int,var COMMENT:String,var BACKGROUND:Int,var FRAME:Int,var STATE:Int)
-
     data class LOCAL_DC(var height:Float,var weight:Float,var TARGET: Int,var GPSFLG:Boolean,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: Color)
 
     data class GPSDATA(var GPS_D:Date?,var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
@@ -52,9 +50,9 @@ class MyApp: Application(){
 
     var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null,null)
 
-    var FRIENDLIST=mutableListOf<USERDATA>()
+    var FRIENDLIST=mutableListOf<CARDDATA>()
 
-    var FAVORITELIST=mutableListOf<USERDATA>()
+    var FAVORITELIST=mutableListOf<CARDDATA>()
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
