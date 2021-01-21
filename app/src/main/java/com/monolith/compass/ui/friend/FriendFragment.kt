@@ -113,7 +113,7 @@ class FriendFragment : Fragment() {
 
         val POSTDATA = HashMap<String, String>()
 
-        POSTDATA.put("id","1,2,3,2,1,2,1")
+        POSTDATA.put("id","1,2,3,2,1,2,1,3,3,1,2,2,1,2,3,2,3,2,1,1,2,3,2,3,1,1,2,3,3")
 
         "https://a.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
