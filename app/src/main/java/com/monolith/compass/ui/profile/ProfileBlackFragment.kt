@@ -33,4 +33,5 @@ class ProfileBlackFragment : Fragment() {
 
         return root
     }
+
 }

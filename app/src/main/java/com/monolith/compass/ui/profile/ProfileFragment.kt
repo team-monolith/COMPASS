@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.github.kittinunf.fuel.core.Progress
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 
@@ -23,7 +24,6 @@ class ProfileFragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
-        setAppearance(root)
         return root
     }
 
@@ -32,38 +32,41 @@ class ProfileFragment : Fragment() {
         val back = resources.getIdentifier(background,"drawable","com.monolith.compass")
         return back
     }
-    fun setAppearance(root:View){
-        val imgCard: ImageView = root.findViewById(R.id.card_img)
 
-        val frame :FrameLayout =root.findViewById(R.id.frame)
-        val edit_btn:Button = root.findViewById(R.id.edit)
-        val back_fl:FrameLayout =root.findViewById(R.id.back_fl)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val imgCard = view.findViewById<ImageView>(R.id.card_img)
+        val edit_btn =view.findViewById<Button>(R.id.edit)
+        val frame = view.findViewById<FrameLayout>(R.id.frame)
+        val back_fl = view.findViewById<FrameLayout>(R.id.back_fl)
         //txt
-        val day_txt:TextView = root.findViewById(R.id.day_txt)
-        val distance_txt :TextView =root.findViewById(R.id.distance_txt)
-        val step_txt :TextView =root.findViewById(R.id.step_txt)
-        val dev_txt :TextView =root.findViewById(R.id.development_txt)
-        val calo_txt :TextView =root.findViewById(R.id.calorie_txt)
-        val friend_txt :TextView =root.findViewById(R.id.friend_txt)
-        val event_txt :TextView =root.findViewById(R.id.event_txt)
+        view.findViewById<TextView>(R.id.day_txt)
+        view.findViewById<TextView>(R.id.distance_txt)
+        view.findViewById<TextView>(R.id.step_txt)
+        view.findViewById<TextView>(R.id.development_txt)
+        view.findViewById<TextView>(R.id.calorie_txt)
+        view.findViewById<TextView>(R.id.friend_txt)
+        view.findViewById<TextView>(R.id.event_txt)
         //img
-        val day_img:ImageView = root.findViewById(R.id.day_img)
-        val level_img:ImageView = root.findViewById(R.id.level_img)
-        val distance_img:ImageView = root.findViewById(R.id.distance_img)
-        val step_img:ImageView = root.findViewById(R.id.step_img)
-        val dev_img:ImageView = root.findViewById(R.id.development_img)
-        val calo_img:ImageView = root.findViewById(R.id.calorie_img)
-        val friend_img:ImageView = root.findViewById(R.id.friend_img)
-        val event_img:ImageView = root.findViewById(R.id.event_img)
+        val day_img =view.findViewById<ImageView>(R.id.day_img)
+        val level_img = view.findViewById<ImageView>(R.id.level_img)
+        val distance_img =view.findViewById<ImageView>(R.id.distance_img)
+        val step_img =  view.findViewById<ImageView>(R.id.step_img)
+        val dev_img = view.findViewById<ImageView>(R.id.development_img)
+        val calo_img =view.findViewById<ImageView>(R.id.calorie_img)
+        val friend_img =view.findViewById<ImageView>(R.id.friend_img)
+        val event_img =view.findViewById<ImageView>(R.id.event_img)
         //progress bar
-        val day_pb:ProgressBar = root.findViewById(R.id.day_pb)
-        val level_pb:ProgressBar = root.findViewById(R.id.level_pb)
-        val dis_pb:ProgressBar = root.findViewById(R.id.distance_pb)
-        val step_pb:ProgressBar = root.findViewById(R.id.step_pb)
-        val dev_pb:ProgressBar = root.findViewById(R.id.development_pb)
-        val calo_pb:ProgressBar = root.findViewById(R.id.calorie_pb)
-        val friend_pb:ProgressBar = root.findViewById(R.id.friend_pb)
-        val event_pb:ProgressBar = root.findViewById(R.id.event_pb)
+        view.findViewById<ProgressBar>(R.id.day_pb)
+        view.findViewById<ProgressBar>(R.id.level_pb)
+        view.findViewById<ProgressBar>(R.id.distance_pb)
+        view.findViewById<ProgressBar>(R.id.step_pb)
+        view.findViewById<ProgressBar>(R.id.development_pb)
+        view.findViewById<ProgressBar>(R.id.calorie_pb)
+        view.findViewById<ProgressBar>(R.id.friend_pb)
+        view.findViewById<ProgressBar>(R.id.event_pb)
+
 
         val ma = activity as MainActivity?
         day_img.setBackgroundResource(getResouceId(ma!!.profInt[5]/10000000))
@@ -76,8 +79,6 @@ class ProfileFragment : Fragment() {
         event_img.setBackgroundResource(getResouceId(ma!!.profInt[5]%10))
 
         imgCard.setImageResource(R.drawable.ic_launcher_background)
-
-
 
 
         day_img.setOnClickListener{
@@ -105,10 +106,10 @@ class ProfileFragment : Fragment() {
             transaction.commit()
             edit_btn.isEnabled =false
         }
-
         imgCard.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
+
     }
 }
 
