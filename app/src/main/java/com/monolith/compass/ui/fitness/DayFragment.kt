@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.os.Bundle
 import android.os.Handler
 import android.util.AttributeSet
@@ -47,6 +48,7 @@ class DayFragment : Fragment() {
 
     var step: Int = 0
     var target:Int=0
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -246,6 +248,8 @@ class DayFragment : Fragment() {
             Draw.meter(height, width, step, target, posX, canvas)
             Draw.steps(height, width, step, target, walker, posX, canvas)
             Draw.human(walker, height, width, posX, canvas)
+
+            canvas!!.drawBitmap(Draw.CreateBack(height,width,resources),0f,0f, Paint())
 
         }
     }

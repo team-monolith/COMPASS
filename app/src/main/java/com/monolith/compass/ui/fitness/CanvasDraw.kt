@@ -1,7 +1,10 @@
 package com.monolith.compass.ui.fitness
 
+import android.content.res.Resources
 import android.graphics.*
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.load.engine.Resource
+import com.monolith.compass.R
 import java.lang.Math.abs
 import java.nio.FloatBuffer
 
@@ -313,6 +316,27 @@ class CanvasDraw : Fragment() {
         if(anim_graphline>0)canvas.drawLine(15f, (height/3).toFloat(), anim_graphline*1f, (height/3).toFloat(),paint)
         if(anim_graphline+30<=width-15)anim_graphline+=60
         else anim_graphline=width-15
+    }
+
+    fun CreateBack(height:Int,width:Int,res: Resources):Bitmap{
+        val output= Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888)
+        val canvas= Canvas(output)
+        val paint=Paint()
+
+        val nature=arrayOf(
+            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.nature_tree1),100,height/2,true),
+            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.nature_tree2),100,100,true),
+            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.nature_grass),100,100,true),
+            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.nature_flower),100,100,true)
+        )
+
+        //枠の最下部、これより上に物を描画する
+        canvas.drawLine(0f, height / 6 * 5f, width.toFloat(), height / 6 * 5f, paint)
+
+        canvas.drawBitmap(nature[0],100f,height / 6 * 5f-nature[0].height,paint)
+
+
+        return output
     }
 
 }

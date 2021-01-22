@@ -54,9 +54,6 @@ class MyApp: Application(){
 
     var FAVORITELIST=mutableListOf<CARDDATA>()
 
-    var HEIGHT:Int=0
-    var WIDTH:Int=0
-
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
     //500x500でバッファリングする

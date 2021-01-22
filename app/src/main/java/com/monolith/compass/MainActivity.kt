@@ -34,9 +34,6 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     var cardTag: Int =-1
 
 
-
-
-
     //この２つは吉田のテスト用
     //var profString = arrayOfNulls<String>(3)//name,icon,phrase
     var profString = arrayOf("よしだ","nasideii","よろしくお願いします。")
@@ -127,12 +124,6 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
         }
 
 
-    }
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        GLOBAL.HEIGHT= findViewById<View>(R.id.nav_host_fragment).height
-        GLOBAL.WIDTH= findViewById<View>(R.id.nav_host_fragment).width
     }
 
     private fun NavChoiceDelete() {
