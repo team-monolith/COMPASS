@@ -26,30 +26,24 @@ class ProfEditFragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_profile_edit, container, false)
-        val okbtn : Button = root.findViewById(R.id.combtn)
-        val name_edittext :EditText = root.findViewById(R.id.name_txtedit)
-        val badge_img : ImageView = root.findViewById(R.id.badge_img)
-        val card_img :ImageView = root.findViewById(R.id.card_img)
-        val frame :FrameLayout = root.findViewById(R.id.frame)
-        val phrase :EditText = root.findViewById(R.id.phrase_txtedit)
-        val back_btn :Button = root.findViewById(R.id.back_bt)
-        val name_txt :TextView = root.findViewById(R.id.name_txt)
 
-        val ma = activity as MainActivity?
+        return root
+    }
 
-        name_edittext.setText(ma!!.profString[0])
-        phrase.setText(ma!!.profString[2])
-
-
-        card_img.setOnClickListener{
-            findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.findViewById<TextView>(R.id.name_txt)
+        view.findViewById<TextView>(R.id.name_txt)
+        view.findViewById<Button>(R.id.combtn).setOnClickListener{
+            findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile)
         }
-
-        back_btn.setOnClickListener{
+        view.findViewById<Button>(R.id.back_bt).setOnClickListener{
             findNavController().navigate(R.id.navigation_profile)
         }
-
-
+        val name_edittxt = view.findViewById<EditText>(R.id.name_txtedit)
+        val phrase = view.findViewById<EditText>(R.id.phrase_txtedit)
+        val frame = view.findViewById<FrameLayout>(R.id.frame)
+        val badge_img = view.findViewById<ImageView>(R.id.badge_img)
         badge_img.setOnClickListener{
             frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
@@ -57,25 +51,27 @@ class ProfEditFragment : Fragment() {
             transaction.add(R.id.frame,ProfBadgeListFragment())
             transaction.commit()
         }
-
-        okbtn.setOnClickListener{
-            findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile)
+        val card_img = view.findViewById<ImageView>(R.id.card_img)
+        card_img.setOnClickListener{
+            findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
         }
+        val ma = activity as MainActivity?
 
-        val back_id =ma!!.profInt[2]/10
-        val badge_id = ma!!.profInt[2] %10
-        val background ="badge_background_$back_id"
-        val favbadge ="badge_icon_$badge_id"
-        val back = resources.getIdentifier(background,"drawable","com.monolith.compass")
-        val badge = resources.getIdentifier(favbadge,"drawable","com.monolith.compass")
+        name_edittxt.setText(ma!!.profString[0])
+        phrase.setText(ma.profString[2])
+        val back_id =ma.profInt[2]/10
+        val badge_id = ma.profInt[2] %10
+        val back = resources.getIdentifier("badge_background_$back_id","drawable","com.monolith.compass")
+        val badge = resources.getIdentifier("badge_icon_$badge_id","drawable","com.monolith.compass")
         badge_img.setBackgroundResource(back)
         badge_img.setImageResource(badge)
-        return root
-    }
+        val card_back_id = ma.profInt[3]
+        val card_frame_id = ma.profInt[4]
+        val card_back_res =resources.getIdentifier("card_background_$card_back_id","drawable","com.monolith.compass")
+        val card_frame_res =resources.getIdentifier("frame_$card_frame_id","drawable","com.monolith.compass")
+        card_img.setImageResource(card_frame_res)
+        card_img.setBackgroundResource(card_back_res)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.name_txt)
     }
 }
 

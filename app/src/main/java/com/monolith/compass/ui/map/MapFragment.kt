@@ -36,6 +36,7 @@ class MapFragment : Fragment() {
 
     var centerFlg = true    //センターボタン押下認識フラッグ
     var layerFlg=true   //レイヤーボタン押下フラッグ、trueでマップ表示
+    var multiFlg=false //マルチタッチ検出用フラグ
 
     var scale: Float = 3F   //地図表示のスケール,1.5-3.0-4.5
 
@@ -123,6 +124,7 @@ class MapFragment : Fragment() {
 
         //複数本タッチの場合はピンチ処理
         if (event.pointerCount > 1) {
+            multiFlg=true
             mScaleDetector.onTouchEvent(event)
         }
 
@@ -130,10 +132,11 @@ class MapFragment : Fragment() {
         else {
             when {
                 event.action == MotionEvent.ACTION_DOWN -> {
+                    multiFlg=false
                     log.X = event.x
                     log.Y = event.y
                 }
-                event.action == MotionEvent.ACTION_MOVE -> {
+                event.action == MotionEvent.ACTION_MOVE && !multiFlg -> {
                     pos.X = pos.X!!+event.x - log.X!!
                     pos.Y = pos.Y!!+event.y - log.Y!!
                     log.X = event.x
@@ -184,14 +187,23 @@ class MapFragment : Fragment() {
         super.onDetach()
     }
 
-    override fun onStop(){
-        super.onStop()
+    override fun onPause(){
+        super.onPause()
         //GPS情報を次回も使いまわせるように上書き
         //しかし動かぬ
         GLOBAL.GPS_BUF.GPS_X = Location.GPS_X
         GLOBAL.GPS_BUF.GPS_Y = Location.GPS_Y
         GLOBAL.GPS_BUF.GPS_A = Location.GPS_A
         GLOBAL.GPS_BUF.GPS_S = Location.GPS_S
+
+        (activity as MainActivity).LoadStop()
+    }
+
+    //タッチしている場所の座標が、canvas上のどこの座標なのかを返す
+    fun TouchCoordinate(touch: MyApp.COORDINATE): MyApp.COORDINATE {
+        val x = -pos.X!! + touch.X!!
+        val y = -pos.Y!! + touch.Y!!
+        return MyApp.COORDINATE(x, y)
     }
 
     //マップ情報リセット関数
@@ -272,11 +284,20 @@ class MapFragment : Fragment() {
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
 
+            //画面中心の座標を取得（仮置き）
+            val Center: MyApp.COORDINATE = TouchCoordinate(
+                MyApp.COORDINATE(
+                    size!!.width() / 2f,
+                    size!!.height() / 2f
+                )
+            )
+
             canvas!!.save()
 
             canvas.translate(pos.X!!,pos.Y!!)
 
-            canvas.scale(scale,scale)
+            //地図の拡大縮小
+            canvas.scale(scale, scale, Center.X!!,Center.Y!!)
 
             //マップの表示処理
             if(layerFlg&&Current.BITMAP!=null)canvas.drawBitmap(Current.BITMAP!!,0f,0f,Paint())
@@ -321,7 +342,7 @@ class MapFragment : Fragment() {
 
         //https://ky-server.net/~monolith/system/dev/test.php
         //https://a.compass-user.work/system/map/show_csv.php
-        "https://ky-server.net/~monolith/system/dev/test.php".httpPost(POSTDATA.toList())
+        "https://a.compass-user.work/system/map/show_csv.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
                 when (result) {
                     is Result.Success -> {

@@ -34,7 +34,7 @@ class DayFragment : Fragment() {
 
     var moveview: DayFragment.MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
 
-    var walker: Array<Bitmap?> = arrayOfNulls(7)
+    var walker: Array<Bitmap?> = arrayOfNulls(6)
 
     var posX: Int = 0  //表示座標管理用
     var logX: Int = 0  //タップ追従用
@@ -134,7 +134,6 @@ class DayFragment : Fragment() {
         super.onAttach(context)
 
         walker = arrayOf(
-            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk_0),256,256,false),
             Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk_1),256,256,false),
             Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk_2),256,256,false),
             Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk_3),256,256,false),

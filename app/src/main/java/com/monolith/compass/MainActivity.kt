@@ -1,36 +1,20 @@
 package com.monolith.compass
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Application
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Point
-import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.util.DisplayMetrics
 import android.util.Log
-import android.widget.ImageView
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.fitness.Fitness
-import com.google.android.gms.fitness.FitnessOptions
-import com.google.android.gms.fitness.data.DataType
-import com.google.android.gms.fitness.data.Field
-import com.google.android.gms.fitness.data.Value
-import com.google.android.gms.fitness.request.DataReadRequest
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
 import com.monolith.compass.ui.friend.FriendCardFragment
@@ -38,9 +22,6 @@ import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
-import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
-import kotlin.math.floor
 
 
 class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
@@ -57,13 +38,15 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
 
 
-    //この２つは吉田のテスト用
+    //この3つは吉田のテスト用
     //var profString = arrayOfNulls<String>(3)//name,icon,phrase
     var profString = arrayOf("よしだ","nasideii","よろしくお願いします。")
     //var profInt = arrayOfNulls<Int>(6)//id,distance,favbadge,background,frame,badge
     var profInt = arrayOf(12345,130,47,1,2,11002233)
-    // profsave = backgound,frame
-    var profsave = arrayOf(0,0)
+    // profsave = backgound,frame,save
+    var profsave = arrayOf(-1,-1)
+    //ここまで吉田
+
 
     var itemselectedlog: Int? = null    //直近アイテム選択ログ保管用
 
@@ -147,6 +130,12 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
         }
 
 
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        GLOBAL.HEIGHT= findViewById<View>(R.id.nav_host_fragment).height
+        GLOBAL.WIDTH= findViewById<View>(R.id.nav_host_fragment).width
     }
 
     private fun NavChoiceDelete() {
@@ -285,6 +274,9 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
     //ロード表示を開始
     fun LoadStart(){
+
+        LoadStop()
+
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         if (supportFragmentManager.findFragmentByTag("LOADING") == null) {
@@ -294,10 +286,7 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
                 "LOADING"
             ).commit()
         }
-        else{
-            LoadStop()
-            LoadStart()
-        }
+
     }
 
     //ロード表示を終了

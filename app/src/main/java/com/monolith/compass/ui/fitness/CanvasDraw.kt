@@ -84,7 +84,7 @@ class CanvasDraw : Fragment() {
             val paint = Paint()
             paint.isAntiAlias = true
             canvas!!.drawBitmap(
-                walker[anim_walk % 7]!!,
+                walker[anim_walk % 6]!!,
                 pos + anim_meter.toFloat() - (walker[anim_walk % 3]!!.width / 2),
                 ((height / 6 * 5) - walker[anim_walk % 3]!!.height).toFloat(),
                 null

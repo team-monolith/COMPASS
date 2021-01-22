@@ -23,13 +23,14 @@ class ProfBadgeFragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_profile_badge, container, false)
-        val back_btn: Button = root.findViewById(R.id.back_bt)
-
-        back_btn.setOnClickListener{
-            findNavController().navigate(R.id.navigation_profile)
-        }
-
         return root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<Button>(R.id.back_bt).setOnClickListener{
+            findNavController().navigate(R.id.navigation_profile)
+        }
+    }
 }

@@ -61,40 +61,40 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/back_img0"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@drawable/card_background_0" />
+
+            <ImageView
                 android:id="@+id/back_img1"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                app:srcCompat="@drawable/card_background_1" />
+                android:background="@drawable/card_background_1" />
 
             <ImageView
                 android:id="@+id/back_img2"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                app:srcCompat="@drawable/card_background_2" />
+                android:background="@drawable/card_background_2" />
 
             <ImageView
                 android:id="@+id/back_img3"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                app:srcCompat="@drawable/card_background_3" />
+                android:background="@drawable/card_background_3" />
 
             <ImageView
                 android:id="@+id/back_img4"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                app:srcCompat="@drawable/card_background_4" />
+                android:background="@drawable/card_background_4" />
 
             <ImageView
                 android:id="@+id/back_img5"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                app:srcCompat="@drawable/card_background_5" />
-
-            <ImageView
-                android:id="@+id/back_img6"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                app:srcCompat="@drawable/card_background_0" />
+                android:background="@drawable/card_background_5" />
 
         </LinearLayout>
     </ScrollView>
