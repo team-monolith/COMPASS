@@ -45,29 +45,36 @@ class ProfEditFragment : Fragment() {
         val frame = view.findViewById<FrameLayout>(R.id.frame)
         val badge_img = view.findViewById<ImageView>(R.id.badge_img)
         badge_img.setOnClickListener{
-            frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
+            /*frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,ProfileBlackFragment())
             transaction.add(R.id.frame,ProfBadgeListFragment())
+            transaction.commit()*/
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeListFragment())
             transaction.commit()
+
         }
-        view.findViewById<ImageView>(R.id.card_img).setOnClickListener{
+        val card_img = view.findViewById<ImageView>(R.id.card_img)
+        card_img.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
         }
-
         val ma = activity as MainActivity?
 
         name_edittxt.setText(ma!!.profString[0])
-        phrase.setText(ma!!.profString[2])
-
-        val back_id =ma!!.profInt[2]/10
-        val badge_id = ma!!.profInt[2] %10
-        val background ="badge_background_$back_id"
-        val favbadge ="badge_icon_$badge_id"
-        val back = resources.getIdentifier(background,"drawable","com.monolith.compass")
-        val badge = resources.getIdentifier(favbadge,"drawable","com.monolith.compass")
+        phrase.setText(ma.profString[2])
+        val back_id =ma.profInt[2]/10
+        val badge_id = ma.profInt[2] %10
+        val back = resources.getIdentifier("badge_background_$back_id","drawable","com.monolith.compass")
+        val badge = resources.getIdentifier("badge_icon_$badge_id","drawable","com.monolith.compass")
         badge_img.setBackgroundResource(back)
         badge_img.setImageResource(badge)
+        val card_back_id = ma.profInt[3]
+        val card_frame_id = ma.profInt[4]
+        val card_back_res =resources.getIdentifier("card_background_$card_back_id","drawable","com.monolith.compass")
+        val card_frame_res =resources.getIdentifier("frame_$card_frame_id","drawable","com.monolith.compass")
+        card_img.setImageResource(card_frame_res)
+        card_img.setBackgroundResource(card_back_res)
 
     }
 }

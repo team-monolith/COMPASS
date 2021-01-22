@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=F7:C6:39:07:AB:60:C0:3E:68:39:D6:12:FA:2A:5F:43:BC:39:E0:78%3Bcom.monolith.compass.ui.setting
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    com.monolith.compass.ui.setting
+
+    SHA-1 certificate fingerprint:
+    F7:C6:39:07:AB:60:C0:3E:68:39:D6:12:FA:2A:5F:43:BC:39:E0:78
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAa5QCHXc38oF7Q0g2PAssJx232am-geE8</string>
+</resources>
