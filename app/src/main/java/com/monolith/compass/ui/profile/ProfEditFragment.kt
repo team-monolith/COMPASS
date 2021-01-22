@@ -45,11 +45,15 @@ class ProfEditFragment : Fragment() {
         val frame = view.findViewById<FrameLayout>(R.id.frame)
         val badge_img = view.findViewById<ImageView>(R.id.badge_img)
         badge_img.setOnClickListener{
-            frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
+            /*frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,ProfileBlackFragment())
             transaction.add(R.id.frame,ProfBadgeListFragment())
+            transaction.commit()*/
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeListFragment())
             transaction.commit()
+
         }
         val card_img = view.findViewById<ImageView>(R.id.card_img)
         card_img.setOnClickListener{

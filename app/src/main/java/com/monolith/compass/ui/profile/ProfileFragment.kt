@@ -91,25 +91,14 @@ class ProfileFragment : Fragment() {
         }
 
         level_img.setOnClickListener{
-            frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
-            val transaction = childFragmentManager.beginTransaction()
-            transaction.add(R.id.back_fl,ProfileBlackFragment())
-            transaction.add(R.id.frame,ProfBadgeListFragment())
-            transaction.commit()
-            edit_btn.isEnabled =false
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
 
         distance_img.setOnClickListener{
-            back_fl.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
-            val transaction = childFragmentManager.beginTransaction()
-            transaction.add(R.id.back_fl,ProfCardBackgroundFragment())
-            transaction.commit()
-            edit_btn.isEnabled =false
         }
         imgCard.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
-
     }
 }
 
@@ -117,7 +106,6 @@ class ProfileFragment : Fragment() {
 GLOBALSETTING------------------------------------
 
 ->サーバーとの通信に使用するデータ
-
 ID(int)
 名前(string)
 アイコン(string)
