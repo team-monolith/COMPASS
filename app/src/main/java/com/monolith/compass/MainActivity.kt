@@ -17,6 +17,7 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.friend.FriendCardFragment
 import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import pub.devrel.easypermissions.EasyPermissions
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     private lateinit var locationManager: LocationManager   //ロケーションマネージャーインスタンス保管用
 
     //植田テスト用
-    var cardTag: Int =-1
+    var cardDataList=MyApp.CARDDATA(0,"",null,0,0,0,0,0,"",0)
 
 
 
@@ -294,6 +295,29 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
         if (supportFragmentManager.findFragmentByTag("LOADING") != null) {
             fragmentTransaction.remove(supportFragmentManager.findFragmentByTag("LOADING")!!)
+                .commit()
+        }
+    }
+
+
+    //拡大名刺画面の表示
+    fun FriendCardLoardStart(){
+        val friendFragmentTransaction=supportFragmentManager.beginTransaction()
+
+        if(supportFragmentManager.findFragmentByTag("FRIENDCARD")==null){
+            friendFragmentTransaction.add(
+                R.id.nav_host_fragment,
+                FriendCardFragment(),
+                "FRIENDCARD"
+            ).commit()
+        }
+    }
+
+    fun FriendCardLoadStop(){
+        val friendFragmentTransaction=supportFragmentManager.beginTransaction()
+
+        if(supportFragmentManager.findFragmentByTag("FRIENDCARD")!=null){
+            friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag("FRIENDCARD")!!)
                 .commit()
         }
     }

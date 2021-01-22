@@ -101,7 +101,6 @@ class FriendFragment : Fragment() {
                 var test=it.getTag().toString().toInt()
                 Toast.makeText(context,test.toString(),Toast.LENGTH_SHORT).show()
                 val ma = activity as MainActivity
-                ma.cardTag=test
                 findNavController().navigate(R.id.action_navigation_friend_to_friendCardFragment)
             }
         }
