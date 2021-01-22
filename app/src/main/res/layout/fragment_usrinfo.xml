@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.setting.UsrinfoFragment">
+    tools:context=".ui.setting.UsrinfoFragment"
+    android:background="@color/white">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,31 +23,18 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/editWalk"
-                    android:layout_width="218dp"
-                    android:layout_height="64dp"
-                    android:layout_marginTop="28dp"
-                    android:layout_marginEnd="32dp"
-                    android:ems="10"
-                    android:hint="目標歩数/日"
-                    android:inputType="number"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editHeight"
-                    tools:ignore="Autofill,HardcodedText,MissingConstraints" />
+                android:layout_height="120dp">
 
                 <EditText
                     android:id="@+id/editWeight"
-                    android:layout_width="285dp"
-                    android:layout_height="63dp"
-                    android:layout_marginTop="72dp"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginEnd="20dp"
                     android:hint="体重/Kg"
                     android:inputType="number"
+                    android:maxLength="3"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.738"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="Autofill,HardcodedText,MissingConstraints" />
 
@@ -54,61 +42,195 @@
                     android:id="@+id/textWeight"
                     android:layout_width="51dp"
                     android:layout_height="31dp"
-                    android:layout_marginTop="88dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
                     android:text="体重"
                     android:textAlignment="center"
                     android:textSize="24sp"
-                    app:layout_constraintEnd_toStartOf="@+id/editWeight"
-                    app:layout_constraintHorizontal_bias="0.714"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/editWeight"
                     tools:ignore="HardcodedText,MissingConstraints" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
 
                 <TextView
                     android:id="@+id/textHeight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
-                    android:hint="身長"
+                    android:layout_width="51dp"
+                    android:layout_height="31dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
+                    android:text="身長"
+                    android:textAlignment="center"
                     android:textSize="24sp"
-                    app:layout_constraintEnd_toStartOf="@+id/editHeight"
-                    app:layout_constraintHorizontal_bias="0.717"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textWeight"
-                    tools:ignore="HardcodedText" />
+                    app:layout_constraintTop_toTopOf="@+id/editHeight"
+                    tools:ignore="HardcodedText,MissingConstraints" />
 
                 <EditText
                     android:id="@+id/editHeight"
-                    android:layout_width="285dp"
-                    android:layout_height="63dp"
-                    android:layout_marginTop="28dp"
-                    android:layout_marginEnd="32dp"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="20dp"
                     android:ems="10"
                     android:hint="身長/cm"
                     android:inputType="number"
+                    android:maxLength="3"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editWeight"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="Autofill,HardcodedText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <EditText
+                    android:id="@+id/editWalk"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="20dp"
+                    android:ems="10"
+                    android:hint="目標歩数/日"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="Autofill,HardcodedText,MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/textWalk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
+                    android:text="目標歩数"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/editWalk"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+
+                <TextView
+                    android:id="@+id/textHomeGPSPosition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="80dp"
+                    android:text="自宅座標"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText" />
+
+                <EditText
+                    android:id="@+id/editHomeGPSPositionN"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="20dp"
+                    android:ems="10"
+                    android:hint="緯度/○○.○○"
+                    android:inputType="numberDecimal"
+                    android:maxLength="7"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="Autofill,HardcodedText,MissingConstraints" />
+
+                <EditText
+                    android:id="@+id/editHomeGPSPositionE"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginEnd="20dp"
+                    android:ems="10"
+                    android:hint="経度/○○○.○○"
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="Autofill,HardcodedText,MissingConstraints" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
 
                 <Spinner
                     android:id="@+id/spinnerLineColor"
                     android:layout_width="285dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="28dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.738"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editWalk"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
 
-                <Button
-                    android:id="@+id/buttonUsrinfoSave"
+                <ImageView
+                    android:id="@+id/imgAlert"
+                    android:layout_width="34dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="30dp"
+                    android:background="#fff100"
+                    android:src="?android:attr/alertDialogIcon"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/spinnerLineColor"
+                    tools:ignore="ContentDescription,MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <TextView
+                    android:id="@+id/GPSNotRangeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="568dp"
-                    android:layout_marginEnd="76dp"
-                    android:text="保存"
+                    android:layout_marginStart="30dp"
+                    android:text="GPS非取得範囲"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/GPSNotRangeSpinner"
+                    tools:ignore="HardcodedText" />
+
+                <Spinner
+                    android:id="@+id/GPSNotRangeSpinner"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <Button
+                    android:id="@+id/buttonToGPS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="マップ画面に遷移するゾ☆"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="HardcodedText" />
 
@@ -116,63 +238,24 @@
                     android:id="@+id/buttonUsrinfoCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="80dp"
-                    android:layout_marginTop="568dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="20dp"
                     android:text="キャンセル"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonToGPS"
                     tools:ignore="HardcodedText" />
 
-                <ImageView
-                    android:id="@+id/imgAlert"
-                    android:layout_width="34dp"
-                    android:layout_height="28dp"
-                    android:background="#fff100"
-                    android:src="?android:attr/alertDialogIcon"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="@+id/spinnerLineColor"
-                    app:layout_constraintEnd_toStartOf="@+id/spinnerLineColor"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/spinnerLineColor"
-                    tools:ignore="ContentDescription,MissingConstraints" />
-
-                <TextView
-                    android:id="@+id/view"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="411dp"
-                    android:layout_marginBottom="701dp"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:id="@+id/textWalk"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
-                    android:text="目標歩数"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toStartOf="@+id/editWalk"
-                    app:layout_constraintHorizontal_bias="0.242"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textHeight"
-                    tools:ignore="HardcodedText,MissingConstraints" />
-
                 <Button
-                    android:id="@+id/buttonToGPS"
+                    android:id="@+id/buttonUsrinfoSave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
-                    android:text="自宅設定"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="50dp"
+                    android:text="保存"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.501"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerLineColor" />
+                    app:layout_constraintTop_toBottomOf="@+id/buttonToGPS"
+                    tools:ignore="HardcodedText" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

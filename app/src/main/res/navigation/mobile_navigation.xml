@@ -93,6 +93,9 @@
         <action
             android:id="@+id/action_usrinfoFragment_to_navigation_setting"
             app:destination="@id/navigation_setting" />
+        <action
+            android:id="@+id/action_usrinfoFragment_to_mapSettingFragment"
+            app:destination="@id/mapSettingFragment" />
     </fragment>
 
     <fragment
@@ -180,4 +183,9 @@
             android:id="@+id/action_friendCardFragment_to_navigation_friend"
             app:destination="@id/navigation_friend" />
     </fragment>
+    <fragment
+        android:id="@+id/mapSettingFragment"
+        android:name="com.monolith.compass.ui.setting.MapSettingFragment"
+        android:label="fragment_map_setting"
+        tools:layout="@layout/fragment_map_setting" />
 </navigation>
