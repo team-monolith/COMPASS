@@ -37,13 +37,15 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
 
 
-    //この２つは吉田のテスト用
+    //この3つは吉田のテスト用
     //var profString = arrayOfNulls<String>(3)//name,icon,phrase
     var profString = arrayOf("よしだ","nasideii","よろしくお願いします。")
     //var profInt = arrayOfNulls<Int>(6)//id,distance,favbadge,background,frame,badge
     var profInt = arrayOf(12345,130,47,1,2,11002233)
     // profsave = backgound,frame,save
     var profsave = arrayOf(-1,-1)
+    //ここまで吉田
+
 
     var itemselectedlog: Int? = null    //直近アイテム選択ログ保管用
 
