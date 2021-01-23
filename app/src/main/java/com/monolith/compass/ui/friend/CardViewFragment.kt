@@ -1,4 +1,4 @@
-package com.monolith.compass.ui.map
+package com.monolith.compass.ui.friend
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,7 +13,6 @@ import android.widget.Scroller
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.monolith.compass.MainActivity
@@ -24,9 +23,7 @@ import kotlin.collections.HashMap
 import kotlin.math.abs
 
 
-class EventFragment : Fragment() {
-
-    private lateinit var eventViewModel: EventViewModel
+class CardViewFragment: Fragment() {
 
     private var gestureDetector: GestureDetector? = null
 
@@ -36,12 +33,12 @@ class EventFragment : Fragment() {
 
     val handler = Handler()//メインスレッド処理用ハンドラ
 
-    var moveview: EventFragment.MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
+    var moveview: CardViewFragment.MoveView? = null //キャンバスリフレッシュ用インスタンス保持変数
 
     var pos: MyApp.COORDINATE = MyApp.COORDINATE(0f, 0f)//地図表示の絶対座標
     var log: MyApp.COORDINATE = MyApp.COORDINATE(0f, 0f)//タップ追従用座標
 
-    var cardbitmap:Bitmap?=null
+    var cardbitmap: Bitmap?=null
 
     var height:Int=0
     var width:Int=0
@@ -59,11 +56,10 @@ class EventFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        eventViewModel =
-            ViewModelProvider(this).get(EventViewModel::class.java)
-        val view = inflater.inflate(R.layout.fragment_event, container, false)
-        val layout = view.findViewById<ConstraintLayout>(R.id.constlayout)
+        val view = inflater.inflate(R.layout.fragment_blank, container, false)
+        val layout = view.findViewById<ConstraintLayout>(R.id.blanklayout)
         moveview = MoveView(this.activity)
+
         layout.addView(moveview)
         layout.setWillNotDraw(false)
 
@@ -153,7 +149,7 @@ class EventFragment : Fragment() {
         tapFlg=true
         gestureDetector!!.onTouchEvent(event)
 
-        if(event.action==MotionEvent.ACTION_UP&&event.pointerCount==1){
+        if(event.action== MotionEvent.ACTION_UP&&event.pointerCount==1){
             tapFlg=false
         }
 
@@ -161,7 +157,7 @@ class EventFragment : Fragment() {
     }
 
     //描画関数　再描画用
-    fun HandlerDraw(mv:EventFragment.MoveView) {
+    fun HandlerDraw(mv: CardViewFragment.MoveView) {
         handler.post(object : Runnable {
             override fun run() {
 
@@ -174,6 +170,8 @@ class EventFragment : Fragment() {
     }
 
     fun SystemReflesh(){
+
+        if(width==0)return
 
         //velocityの値を動かして慣性を作る
         if(velocity>0){
@@ -200,8 +198,8 @@ class EventFragment : Fragment() {
         if(velocity==0&&!tapFlg){
             if(pos.X!!.toInt()%width!=0){
 
-                if(abs(pos.X!!.toInt()%width)>0){
-                    if(abs(pos.X!!.toInt()%width)<width/2&&pos.X!!<0){
+                if(abs(pos.X!!.toInt()%width) >0){
+                    if(abs(pos.X!!.toInt()%width) <width/2&&pos.X!!<0){
                         pos.X= pos.X!! +accelerator
                     }
                     else{
@@ -210,7 +208,7 @@ class EventFragment : Fragment() {
                     accelerator+=2
                 }
 
-                if(abs(pos.X!!.toInt()%width)<=accelerator){
+                if(abs(pos.X!!.toInt()%width) <=accelerator){
                     pos.X=pos.X!!-(pos.X!!.toInt()%width)
                     accelerator=0
                 }
@@ -225,13 +223,13 @@ class EventFragment : Fragment() {
     fun onTouchCardNumber(x:Int,y:Int):Int{
 
         if(y<height/3){
-            return (abs(pos.X!!.toInt())/width)*3
+            return (abs(pos.X!!.toInt()) /width)*3
         }
         else if(y<height/3*2){
-            return (abs(pos.X!!.toInt())/width)*3+1
+            return (abs(pos.X!!.toInt()) /width)*3+1
         }
         else{
-            return (abs(pos.X!!.toInt())/width)*3+2
+            return (abs(pos.X!!.toInt()) /width)*3+2
         }
 
     }
@@ -253,13 +251,11 @@ class EventFragment : Fragment() {
 
             canvas.translate(pos.X!!,0f)
 
-            if(cardbitmap!=null)canvas.drawBitmap(cardbitmap!!,0f,0f,Paint())
+            if(cardbitmap!=null)canvas.drawBitmap(cardbitmap!!,0f,0f, Paint())
 
             canvas.restore()
 
-            val paint=Paint()
-            paint.textSize=50f
-            canvas.drawText(pos.X!!.toInt().toString().toString(),10f,80f,paint)
+            val paint= Paint()
         }
     }
 
@@ -317,18 +313,19 @@ class EventFragment : Fragment() {
 
 
 
-    fun view_create():Bitmap{
+    fun view_create(): Bitmap {
 
         val page=(list.size-(list.size%3))/3+1
 
         val paint= Paint()
-        val output= Bitmap.createBitmap(width*page,height,Bitmap.Config.ARGB_8888)
+        val output= Bitmap.createBitmap(width*page,height, Bitmap.Config.ARGB_8888)
         val canvas= Canvas(output)
 
 
         for(i in list.indices){
             //比率で近似値の0.6を入れています
-            val image=Bitmap.createScaledBitmap(MyApp().CreateCardBitmap(list[i],resources),width/24*22,
+            val image= Bitmap.createScaledBitmap(
+                MyApp().CreateCardBitmap(list[i],resources),width/24*22,
                 (width/24*22*0.6).toInt(),true)
 
             when(i%3){
