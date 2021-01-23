@@ -102,8 +102,11 @@ class EventFragment : Fragment() {
         gestureDetector = GestureDetector(context, object : GestureDetector.OnGestureListener {
 
             override fun onSingleTapUp(e: MotionEvent): Boolean {
-                // TODO Auto-generated method stub
-                Toast.makeText(getContext(), "トーストメッセージ", Toast.LENGTH_SHORT).show()
+                //止まっているときのみ判定
+                if(pos.X!!.toInt()%width==0){
+                    val n=onTouchCardNumber(e.x.toInt(),e.y.toInt())
+                    Toast.makeText(getContext(), "n=$n", Toast.LENGTH_SHORT).show()
+                }
                 return false
             }
 
@@ -219,6 +222,21 @@ class EventFragment : Fragment() {
         }
     }
 
+    //タッチしたカードが何番目かを返す関数
+    fun onTouchCardNumber(x:Int,y:Int):Int{
+
+        if(y<height/3){
+            return (abs(pos.X!!.toInt())/width)*3
+        }
+        else if(y<height/3*2){
+            return (abs(pos.X!!.toInt())/width)*3+1
+        }
+        else{
+            return (abs(pos.X!!.toInt())/width)*3+2
+        }
+
+    }
+
     inner class MoveView : View {
         constructor(context: Context?) : super(context)
         constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -242,7 +260,7 @@ class EventFragment : Fragment() {
 
             val paint=Paint()
             paint.textSize=50f
-            canvas.drawText(pos.X.toString().toString(),10f,80f,paint)
+            canvas.drawText(pos.X!!.toInt().toString().toString(),10f,80f,paint)
         }
     }
 
