@@ -145,6 +145,11 @@ class CardViewFragment: Fragment() {
         })
     }
 
+    override fun onStop() {
+        super.onStop()
+        (activity as MainActivity).LoadStop()
+    }
+
 
     //タッチイベント実行時処理
     fun onTouch(view: View, event: MotionEvent): Boolean {

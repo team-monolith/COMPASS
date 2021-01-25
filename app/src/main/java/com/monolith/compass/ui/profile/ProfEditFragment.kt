@@ -1,7 +1,10 @@
 package com.monolith.compass.ui.profile
 
-import android.graphics.Color
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64.NO_WRAP
+import android.util.Base64.encodeToString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +12,26 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
-
+import com.monolith.compass.com.monolith.compass.MyApp
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.lang.Exception
+import kotlin.collections.HashMap
+import android.util.Base64
+import android.widget.Button
+import android.widget.ImageView
 
 class ProfEditFragment : Fragment() {
 
 
     private lateinit var profileViewModel: ProfileViewModel
+
+    val GLOBAL= MyApp.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,16 +49,28 @@ class ProfEditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<TextView>(R.id.name_txt)
         view.findViewById<TextView>(R.id.name_txt)
+
+
+        val name = view.findViewById<EditText>(R.id.name_txtedit)
+        val phrase = view.findViewById<EditText>(R.id.phrase_txtedit)
+        val frame = view.findViewById<FrameLayout>(R.id.frame)
+        val badge_img = view.findViewById<ImageView>(R.id.badge_img)
+        val icon_img=view.findViewById<ImageView>(R.id.icon_img)
+
+        if(LoadIconImage()!=null)icon_img.setImageBitmap(LoadIconImage())
+
+        //保存ボタン処理
         view.findViewById<Button>(R.id.combtn).setOnClickListener{
+            UploadData(name.text.toString(),phrase.text.toString())
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile)
         }
         view.findViewById<Button>(R.id.back_bt).setOnClickListener{
             findNavController().navigate(R.id.navigation_profile)
         }
-        val name_edittxt = view.findViewById<EditText>(R.id.name_txtedit)
-        val phrase = view.findViewById<EditText>(R.id.phrase_txtedit)
-        val frame = view.findViewById<FrameLayout>(R.id.frame)
-        val badge_img = view.findViewById<ImageView>(R.id.badge_img)
+        icon_img.setOnClickListener{
+            findNavController().navigate(R.id.navigation_iconedit)
+        }
+
         badge_img.setOnClickListener{
             /*frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
@@ -61,7 +88,7 @@ class ProfEditFragment : Fragment() {
         }
         val ma = activity as MainActivity?
 
-        name_edittxt.setText(ma!!.profString[0])
+        name.setText(ma!!.profString[0])
         phrase.setText(ma.profString[2])
         val back_id =ma.profInt[2]/10
         val badge_id = ma.profInt[2] %10
@@ -75,6 +102,50 @@ class ProfEditFragment : Fragment() {
         val card_frame_res =resources.getIdentifier("frame_$card_frame_id","drawable","com.monolith.compass")
         card_img.setImageResource(card_frame_res)
         card_img.setBackgroundResource(card_back_res)
+
+    }
+
+    fun LoadIconImage(): Bitmap? {
+        try{
+            val srcFile = File(GLOBAL.DIRECTORY+"/icon.png")
+            val fis = FileInputStream(srcFile)
+            return BitmapFactory.decodeStream(fis)
+        }
+        catch(e:Exception){
+            return null
+        }
+    }
+
+    fun UploadData(name:String,comment:String){
+
+        val POSTDATA = HashMap<String, String>()
+
+        val baos = ByteArrayOutputStream()
+        LoadIconImage()!!.compress(Bitmap.CompressFormat.PNG, 50, baos)
+        val iconstr=Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP)
+
+        POSTDATA.put("id","1")
+        POSTDATA.put("name",name)
+        POSTDATA.put("icon",iconstr)
+        POSTDATA.put("comment",comment)
+        POSTDATA.put("level","12")
+        POSTDATA.put("distance","213131")
+        POSTDATA.put("frame","0")
+        POSTDATA.put("badge","1")
+        POSTDATA.put("background","2")
+        POSTDATA.put("state","12345678")
+
+        "https://b.compass-user.work/system/user/change_user.php".httpPost(POSTDATA.toList())
+            .response { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val test=2
+                    }
+                    is Result.Failure -> {
+                        val test=2
+                    }
+                }
+            }
 
     }
 }

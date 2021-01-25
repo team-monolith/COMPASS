@@ -23,14 +23,14 @@ class ProfCardBackgroundFragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_profile_card_background, container, false)
+        val root = inflater.inflate(R.layout.fragment_selectcard, container, false)
         return root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val ma = activity as MainActivity
+        /*val ma = activity as MainActivity
         if(ma.profsave[0]==-1){
             ma.profsave[0] = ma.profInt[3]
             ma.profsave[1] = ma.profInt[4]
@@ -66,7 +66,7 @@ class ProfCardBackgroundFragment : Fragment() {
             ma.profInt[3] = ma.profsave[0]
             ma.profInt[4] = ma.profsave[1]
             findNavController().navigate(R.id.action_navigation_profile_card_to_navigation_profile_edit)
-        }
+        }*/
 
 
     }
