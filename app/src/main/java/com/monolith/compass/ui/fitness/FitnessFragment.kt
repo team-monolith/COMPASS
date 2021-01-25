@@ -62,6 +62,7 @@ class FitnessFragment : Fragment() {
                     btnPeriod.text = "WEEK"
                 }
                 Period.WEEK -> {
+
                     transaction.replace(R.id.frame, MonthFragment())
                     GraphPeriod = Period.MONTH
                     btnPeriod.text = "MONTH"
@@ -76,7 +77,28 @@ class FitnessFragment : Fragment() {
             transaction.commit()
         }
         view.findViewById<Button>(R.id.btnToday).setOnClickListener {
-            //_clickListener?.onClick_today()
+            val transaction = childFragmentManager.beginTransaction()
+
+            //現在のモードに合わせて画面を入れ変える
+            when (GraphPeriod) {
+                Period.DAY -> {
+                    transaction.replace(R.id.frame, DayFragment())
+                    GraphPeriod = Period.DAY
+                    btnPeriod.text = "DAY"
+                }
+                Period.WEEK -> {
+                    transaction.replace(R.id.frame, WeekFragment())
+                    GraphPeriod = Period.WEEK
+                    btnPeriod.text = "WEEK"
+                }
+                Period.MONTH -> {
+                    transaction.replace(R.id.frame, MonthFragment())
+                    GraphPeriod = Period.MONTH
+                    btnPeriod.text = "MONTH"
+                }
+            }
+
+            transaction.commit()
         }
     }
 
