@@ -33,6 +33,17 @@
         android:label="@string/title_fitness"
         tools:layout="@layout/fragment_fitness" />
 
+
+    <fragment
+        android:id="@+id/navigation_iconedit"
+        android:name="com.monolith.compass.ui.profile.IconEditFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_iconedit" >
+        <action
+            android:id="@+id/action_navigation_iconedit_to_navigation_profile_edit"
+            app:destination="@id/navigation_profile_edit" />
+    </fragment>
+
     <fragment
         android:id="@+id/navigation_navchoice"
         android:name="com.monolith.compass.ui.map.NavChoiceFragment"
@@ -112,6 +123,9 @@
         <action
             android:id="@+id/action_navigation_profile_edit_to_navigation_profile_card_frame"
             app:destination="@id/navigation_profile_card_frame" />
+        <action
+            android:id="@+id/action_navigation_profile_edit_to_navigation_iconedit"
+            app:destination="@id/navigation_iconedit" />
 
     </fragment>
     <fragment

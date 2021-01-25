@@ -41,9 +41,6 @@ class FriendCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-
         val ma = activity as MainActivity
         //メインアクティビティのcardDataListから名刺データを受け取り生成
         val card=view.findViewById<ImageView>(R.id.cardImage)

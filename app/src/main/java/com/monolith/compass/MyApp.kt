@@ -42,6 +42,8 @@ class MyApp: Application(){
 
     var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null,null)
 
+    var ImageBuffer: Bitmap?=null
+
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ
     //500x500でバッファリングする

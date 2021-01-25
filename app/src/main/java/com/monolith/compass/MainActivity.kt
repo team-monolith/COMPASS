@@ -2,11 +2,13 @@ package com.monolith.compass
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
     companion object{
         private val REQUEST_CODE = 0
+        private const val READ_REQUEST_CODE: Int = 42
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -290,6 +293,37 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
         if (supportFragmentManager.findFragmentByTag("LOADING") != null) {
             fragmentTransaction.remove(supportFragmentManager.findFragmentByTag("LOADING")!!)
                 .commit()
+        }
+    }
+
+    //ギャラリーを展開、Profile->IconEditFragmentより参照
+    fun open_gallery() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
+        }
+        startActivityForResult(intent, READ_REQUEST_CODE)
+    }
+
+    //写真が選択された後の動き
+    //IconEditFragmentにつながる（非結合
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, resultData)
+        if (resultCode != RESULT_OK) {
+            return
+        }
+        when (requestCode) {
+            READ_REQUEST_CODE -> {
+                try {
+                    resultData?.data?.also { uri ->
+                        val inputStream = contentResolver?.openInputStream(uri)
+                        val image = BitmapFactory.decodeStream(inputStream)
+                        GLOBAL.ImageBuffer=image
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
