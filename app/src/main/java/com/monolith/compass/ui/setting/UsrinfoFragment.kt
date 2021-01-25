@@ -108,7 +108,8 @@ class UsrinfoFragment : Fragment() {
             val longitude=view.findViewById<EditText>(R.id.editHomeGPSPositionE).text.toString()
             val lineColor=colorSpinner.selectedItem as String
             val gpsNotRange=GPSNotRangeSpinner.selectedItem as String
-
+            val gpsSetting=GPSSettingSpinner.selectedItem as String
+            var gpsSettingNum=""
 
             //色をRGBに変換
             val colorToRGB= arrayOf("#ff0000","#0090ff","#00ff00","#ffff00","#000000","#ffffff")
@@ -120,18 +121,29 @@ class UsrinfoFragment : Fragment() {
                 }
             }
 
+            if(gpsSetting=="取得しない"){
+                fragItem=2
+                gpsSettingNum="2"
+            }else if (gpsSetting=="常時取得"){
+                gpsSettingNum="0"
+            }else if (gpsSetting=="アプリ使用中のみ取得"){
+                gpsSettingNum="1"
+            }
+
 
 
                 if (fragItem == 1) {
                     //保存した旨の通知
-                    Toast.makeText(context, "保存しました",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "保存しました", Toast.LENGTH_SHORT).show()
                     //LOCALSETTINGにデータを保存(身長,体重,目標歩数 ※未実装,GPS取得設定 ※未実装,自宅座標 ※未実装,非取得範囲 ※未実装,マイカラー) val test = height.toString() + "," + weight.toString() + "," + "0" + "," + "0" + "," + "0.0" + "," + "0.0" + "," + "0" + lineColor.toString()
                     val str =
-                        height.toString() + "," + weight.toString() + "," + Walk.toString() + "," + "0" + "," + latitude.toString()+ "," + longitude.toString() + "," + gpsNotRange.toString() + "," + colorRGB.toString()
+                        height.toString() + "," + weight.toString() + "," + Walk.toString() + "," + gpsSettingNum.toString()+ "," + latitude.toString() + "," + longitude.toString() + "," + gpsNotRange.toString() + "," + colorRGB.toString()
                     GLOBAL.FileWrite(str, "LOCALSETTING.txt")
 
                     findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)
-                }else  {
+                }else if (fragItem==2){
+                    Toast.makeText(context,"'取得しない'は選択できません",Toast.LENGTH_SHORT).show()
+                }else  if(fragItem==0){
                     Toast.makeText(context,"空白は認められません",Toast.LENGTH_SHORT).show()
                 }
 
