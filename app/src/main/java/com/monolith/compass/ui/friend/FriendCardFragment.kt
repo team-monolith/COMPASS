@@ -50,7 +50,7 @@ class FriendCardFragment : Fragment() {
         card.setImageBitmap(MyApp().CreateCardBitmap(ma.cardDataList,resources))
         view.findViewById<ImageView>(R.id.cardImage).setOnClickListener {
             //名刺拡大画面を閉じる
-            //ma.FriendCardLoadStop()
+            ma.FriendCardLoadStop()
         }
     }
 }
