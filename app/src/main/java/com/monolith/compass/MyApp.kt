@@ -6,20 +6,12 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import android.util.Base64
-import android.view.View
 import android.widget.Toast
-import com.github.kittinunf.fuel.httpPost
-import com.github.kittinunf.result.Result
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.monolith.compass.MainActivity
 import com.monolith.compass.R
-import com.monolith.compass.ui.map.NavChoiceFragment
-import com.monolith.compass.ui.setting.SettingFragment
 import java.io.File
 import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.random.Random
 
 
 class MyApp: Application(){
@@ -49,13 +41,6 @@ class MyApp: Application(){
     var ACTIVITY_LOG=mutableListOf<ACTIVITYDATA>()
 
     var GPS_BUF:GPSDATA=GPSDATA(null,null,null,null,null)
-
-    var FRIENDLIST=mutableListOf<CARDDATA>()
-
-    var FAVORITELIST=mutableListOf<CARDDATA>()
-
-    var HEIGHT:Int=0
-    var WIDTH:Int=0
 
     //日本は経度122-154,緯度20-46に存在する
     //y320000,x260000のデータで成り立つ

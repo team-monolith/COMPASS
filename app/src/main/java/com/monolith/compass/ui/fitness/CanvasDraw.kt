@@ -1,9 +1,14 @@
 package com.monolith.compass.ui.fitness
 
+import android.content.res.Resources
 import android.graphics.*
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.load.engine.Resource
+import com.monolith.compass.R
 import java.lang.Math.abs
 import java.nio.FloatBuffer
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 
 class CanvasDraw : Fragment() {
@@ -126,9 +131,10 @@ class CanvasDraw : Fragment() {
         canvas!!.drawText(
             steps.toString(),
             pos + anim_meter.toFloat() - 50,
-            height / 6 * 5 - walker[0]!!.height - paint.textSize,
+            (height / 6 * 5f)-walker[0]!!.height,
             paint
         )
+
     }
 
     //スワイプ用の左右矢印表示関数
@@ -313,6 +319,38 @@ class CanvasDraw : Fragment() {
         if(anim_graphline>0)canvas.drawLine(15f, (height/3).toFloat(), anim_graphline*1f, (height/3).toFloat(),paint)
         if(anim_graphline+30<=width-15)anim_graphline+=60
         else anim_graphline=width-15
+    }
+
+    fun CreateBack(height:Int,width:Int,res: Resources):Bitmap{
+        val output= Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888)
+        val canvas= Canvas(output)
+        val paint=Paint()
+
+        val nature=arrayOf(
+            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.nature_tree1),height/2,height/2,true),
+            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.nature_tree2),height/2,height/2,true),
+            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.nature_grass),height/8,height/8,true),
+            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, R.drawable.nature_flower),height/8,height/8,true)
+        )
+
+        //枠の最下部、これより上に物を描画する
+        canvas.drawLine(0f, height / 6 * 5f, width.toFloat(), height / 6 * 5f, paint)
+
+
+
+        if(Random.nextInt(3)==0)canvas.drawBitmap(nature[0],Random.nextInt(0..(width-nature[0].height))*1f,height / 6 * 5f-nature[0].height,paint)
+
+        if(Random.nextInt(3)==0)canvas.drawBitmap(nature[1],Random.nextInt(0..(width-nature[1].height))*1f,height / 6 * 5f-nature[1].height,paint)
+
+        for(i in 0..Random.nextInt(4)){
+            canvas.drawBitmap(nature[2],Random.nextInt(0..(width-nature[2].height))*1f,height / 6 * 5f-nature[2].height,paint)
+        }
+
+        for(i in 0..Random.nextInt(3)){
+            canvas.drawBitmap(nature[3],Random.nextInt(0..(width-nature[3].height))*1f,height / 6 * 5f-nature[3].height,paint)
+        }
+
+        return output
     }
 
 }

@@ -36,10 +36,7 @@ class FitnessFragment : Fragment() {
     ): View? {
         fitnessViewModel =
             ViewModelProvider(this).get(FitnessViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_fitness, container, false)
-        fitnessViewModel.text.observe(viewLifecycleOwner, Observer {
-        })
-        return root
+        return inflater.inflate(R.layout.fragment_fitness, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

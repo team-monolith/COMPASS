@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.os.Bundle
 import android.os.Handler
 import android.util.AttributeSet
@@ -36,6 +37,10 @@ class DayFragment : Fragment() {
 
     var walker: Array<Bitmap?> = arrayOfNulls(6)
 
+    var scene: Array<Bitmap?> = arrayOfNulls(3)
+
+    var sky: Bitmap?=null
+
     var posX: Int = 0  //表示座標管理用
     var logX: Int = 0  //タップ追従用
 
@@ -46,7 +51,10 @@ class DayFragment : Fragment() {
     var prevDate: Date = Date()
 
     var step: Int = 0
-    var target:Int=0
+    var target: Int = 0
+
+    var scene_sun:Bitmap?=null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +75,16 @@ class DayFragment : Fragment() {
         view.post(Runnable { // for instance
             height = view.measuredHeight
             width = view.measuredWidth
+
+            scene = arrayOf(
+                Draw.CreateBack(height, width, resources),
+                Draw.CreateBack(height, width, resources),
+                Draw.CreateBack(height, width, resources)
+            )
+
+            sky = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.nature_back),(height / 6 * 5)/6*16,height / 6 * 5,true)
+
+            scene_sun=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.nature_sun),height/4,height/4,true)
         })
         return view
     }
@@ -75,6 +93,7 @@ class DayFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         //アニメーションの実行
         HandlerDraw(moveview!!)
@@ -113,18 +132,18 @@ class DayFragment : Fragment() {
             //データとして存在する場合は値を取得
             if (prevDate == GLOBAL.ACTIVITY_LOG[i].DATE) {
                 step = GLOBAL.ACTIVITY_LOG[i].STEP
-                target=GLOBAL.ACTIVITY_LOG[i].TARGET
+                target = GLOBAL.ACTIVITY_LOG[i].TARGET
                 break
             }
             //最後までフォルダを参照しても存在しない場合は0をセットする
             else if (i == GLOBAL.ACTIVITY_LOG.lastIndex) {
                 step = 0
-                target=99999//仮
+                target = 99999//仮
             }
         }
 
         //FitnessFragment管轄のレイアウトに変更の命令を出す
-        if(parentFragment!=null){
+        if (parentFragment != null) {
             (parentFragment as FitnessFragment).DataSet(prevDate)
         }
 
@@ -134,12 +153,42 @@ class DayFragment : Fragment() {
         super.onAttach(context)
 
         walker = arrayOf(
-            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk_1),256,256,false),
-            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk_2),256,256,false),
-            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk_3),256,256,false),
-            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk_4),256,256,false),
-            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk_5),256,256,false),
-            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, com.monolith.compass.R.drawable.walk_6),256,256,false)
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.walk_1
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.walk_2
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.walk_3
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.walk_4
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.walk_5
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.walk_6
+                ), 256, 256, false
+            )
         )
 
     }
@@ -153,7 +202,7 @@ class DayFragment : Fragment() {
                 tapFlg = true
             }
             MotionEvent.ACTION_MOVE -> {
-                posX += event.x.toInt() - logX!!
+                posX += event.x.toInt() - logX
                 logX = event.x.toInt()
                 tapFlg = true
             }
@@ -192,6 +241,8 @@ class DayFragment : Fragment() {
                     if (posX <= -width) {
                         setDate(1)
                         posX = 0
+                        scene[1]=scene[2]
+                        scene[2]=Draw.CreateBack(height,width,resources)
                         Draw.anim_reset()
                     }
                 }
@@ -212,6 +263,8 @@ class DayFragment : Fragment() {
                     if (posX >= width) {
                         setDate(-1)
                         posX = 0
+                        scene[1]=scene[0]
+                        scene[0]=Draw.CreateBack(height,width,resources)
                         Draw.anim_reset()
                     }
                 }
@@ -241,6 +294,22 @@ class DayFragment : Fragment() {
         @SuppressLint("DrawAllocation")
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
+
+            val paint=Paint()
+
+            canvas!!.save()
+
+            if (sky != null) {
+                canvas.drawBitmap(sky!!,0f,0f,paint)
+            }
+
+            if(scene_sun!=null)canvas.drawBitmap(scene_sun!!,width/5*4-scene_sun!!.width/2f,scene_sun!!.height/5f,paint)
+
+            if (scene[2] != null) {
+                canvas.drawBitmap(scene[0]!!, posX * 1f - width, 0f, Paint())
+                canvas.drawBitmap(scene[1]!!, posX * 1f, 0f, Paint())
+                canvas.drawBitmap(scene[2]!!, posX * 1f + width, 0f, Paint())
+            }
 
             Draw.arrow(height, width, tapFlg, canvas)
             Draw.meter(height, width, step, target, posX, canvas)
