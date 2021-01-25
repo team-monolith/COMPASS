@@ -30,13 +30,17 @@ class ProfBadgeListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.findViewById<ImageView>(R.id.ivBlack).setOnClickListener{
+            parentFragmentManager.beginTransaction().remove(this).commit()
+        }
+
         view.findViewById<ImageView>(R.id.imageView11).setOnClickListener {
             val back = resources.getIdentifier("badge_background_1", "drawable", "com.monolith.compass")
             val badge = resources.getIdentifier("badge_icon_0", "drawable", "com.monolith.compass")
             val fg = parentFragment as ProfEditFragment
-            val test = fg.view?.findViewById<ImageView>(R.id.badge_img)
-            test?.setBackgroundResource(back)
-            test?.setImageResource(badge)
+            val badge_img = fg.view?.findViewById<ImageView>(R.id.badge_img)
+            badge_img?.setBackgroundResource(back)
+            badge_img?.setImageResource(badge)
             parentFragmentManager.beginTransaction().remove(this).commit()
         }
     }
