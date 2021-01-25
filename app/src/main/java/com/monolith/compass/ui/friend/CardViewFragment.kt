@@ -104,6 +104,9 @@ class CardViewFragment: Fragment() {
                     //onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     val n=onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     Toast.makeText(getContext(), "n=$n", Toast.LENGTH_SHORT).show()
+                    val ma=activity as MainActivity
+                    ma.cardDataList=list[n]
+                    ma.FriendCardLoardStart()
                 }
                 return false
             }

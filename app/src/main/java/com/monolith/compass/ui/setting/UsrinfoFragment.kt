@@ -44,7 +44,7 @@ class UsrinfoFragment : Fragment() {
         //現在設定中の色を取得ー＞nowSelectLine
         val colorSpinner= view.findViewById<Spinner>(R.id.spinnerLineColor)
         val nowSelectLine="金色"
-        val colorSpinnerItems= arrayOf("色を選択してください","赤","青","緑","黄","黒")
+        val colorSpinnerItems= arrayOf("赤","青","緑","黄","黒","白")
         val colorAdapter= context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,colorSpinnerItems) }
         colorAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         colorSpinner.adapter=colorAdapter
@@ -52,15 +52,20 @@ class UsrinfoFragment : Fragment() {
 
         val GPSNotRangeSpinner=view.findViewById<Spinner>(R.id.GPSNotRangeSpinner)
         val defaultGPSNotRange:Int=100
-        val GPSNotRangeItems= arrayOf(100,250,500,1000)
+        val GPSNotRangeItems= arrayOf("100","250","500","1000")
         val GPSNotRagneAdapter=context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,GPSNotRangeItems) }
         GPSNotRagneAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         GPSNotRangeSpinner.adapter=GPSNotRagneAdapter
 
 
+        val GPSSettingSpinner=view.findViewById<Spinner>(R.id.GPSSettingSpinner)
+        val GPSSettingList= arrayOf("常時取得","アプリ使用中のみ取得","取得しない")
+        val GPSSettingAdapter=context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,GPSSettingList) }
+        GPSSettingAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        GPSSettingSpinner.adapter=GPSSettingAdapter
 
-        //色を選択していない時の警告ボタンのID取得
-        val imageAlertView=view.findViewById<ImageView>(R.id.imgAlert)
+
+
 
 
         colorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -69,9 +74,6 @@ class UsrinfoFragment : Fragment() {
                                         view: View, position: Int, id: Long) {
                 //選択項目をselectLineColorで保持
                 val selectLineColor=parent?.selectedItem as String
-                if (imageAlertView.visibility!=View.INVISIBLE){
-                    imageAlertView.visibility=View.INVISIBLE
-                }
 
             }
             //　アイテムが選択されなかった
@@ -81,87 +83,68 @@ class UsrinfoFragment : Fragment() {
         }
 
 
+        //保存ボタン押下処理
         view.findViewById<Button>(R.id.buttonUsrinfoSave).setOnClickListener {
 
             val editItemList= arrayOf(R.id.editHeight,R.id.editWeight,R.id.editWalk,R.id.editHomeGPSPositionN,R.id.editHomeGPSPositionE)
             val textItemList= arrayOf(R.id.textHeight,R.id.textWeight,R.id.textWalk,R.id.textHomeGPSPosition,R.id.textHomeGPSPosition)
-            var toastText=""
             var fragItem=1
 
+
+            //空白のところがないか判定
             for (i in 0..4){
                 if(view.findViewById<EditText>(editItemList[i]).text.toString()==""){
                     view.findViewById<TextView>(textItemList[i]).setBackgroundColor(Color.YELLOW)
-                    Toast.makeText(context,"空だよ",Toast.LENGTH_SHORT).show()
                     fragItem=0
                 }
             }
 
 
-            //保存ボタン
+            //保存用にStringで持ってくる
             val height=view.findViewById<EditText>(R.id.editHeight).text.toString()
             val weight=view.findViewById<EditText>(R.id.editWeight).text.toString()
-            val Walk=view.findViewById<EditText>(R.id.editWalk).toString()
-
-
-
-            val imgAlertView=view.findViewById<ImageView>(R.id.imgAlert)
-            val textHeight=view.findViewById<TextView>(R.id.textHeight)
-            val textWeight=view.findViewById<TextView>(R.id.textWeight)
-
-            var CHW=0
-
-
-
-            //入力、選択がない時の例外処理
+            val Walk=view.findViewById<EditText>(R.id.editWalk).text.toString()
+            val latitude=view.findViewById<EditText>(R.id.editHomeGPSPositionN).text.toString()
+            val longitude=view.findViewById<EditText>(R.id.editHomeGPSPositionE).text.toString()
             val lineColor=colorSpinner.selectedItem as String
-            if (lineColor=="色を選択してください"){
-                imgAlertView.visibility=View.VISIBLE
-                CHW+=1
-            }
-            if(height==""){
-                textHeight.setBackgroundColor(Color.YELLOW)
-                CHW+=3
-            }
-            if (weight==""){
-                textWeight.setBackgroundColor(Color.YELLOW)
-                CHW+=5
-            }
-            when(CHW) {
-                1 -> {
-                    Toast.makeText(context, "色を選択してください", Toast.LENGTH_SHORT)
-                }
-                3 -> {
-                    Toast.makeText(context, "身長を入力してください", Toast.LENGTH_SHORT)
-                }
-                4 -> {
-                    Toast.makeText(context, "色の選択と身長を入力してください", Toast.LENGTH_SHORT)
-                }
-                5 -> {
-                    Toast.makeText(context, "体重を入力してください", Toast.LENGTH_SHORT)
-                }
-                6 -> {
-                    Toast.makeText(context, "色の選択と体重の入力してください", Toast.LENGTH_SHORT)
-                }
-                8 -> {
-                    Toast.makeText(context, "身長と体重を入力してください", Toast.LENGTH_SHORT)
-                }
-                9 -> {
-                    Toast.makeText(context, "全項目入力をしてください", Toast.LENGTH_SHORT)
+            val gpsNotRange=GPSNotRangeSpinner.selectedItem as String
+            val gpsSetting=GPSSettingSpinner.selectedItem as String
+            var gpsSettingNum=""
+
+            //色をRGBに変換
+            val colorToRGB= arrayOf("#ff0000","#0090ff","#00ff00","#ffff00","#000000","#ffffff")
+            val lineColorList= arrayOf("赤","青","緑","黄","黒","白")
+            var colorRGB=""
+            for (c in 0..5){
+                if (lineColor==lineColorList[c]){
+                    colorRGB=colorToRGB[c]
                 }
             }
+
+            if(gpsSetting=="取得しない"){
+                fragItem=2
+                gpsSettingNum="2"
+            }else if (gpsSetting=="常時取得"){
+                gpsSettingNum="0"
+            }else if (gpsSetting=="アプリ使用中のみ取得"){
+                gpsSettingNum="1"
+            }
+
 
 
                 if (fragItem == 1) {
-                    //身長・体重・線の色をサーバーに送信
-                    Toast.makeText(context,weight + "Kg:" + height + "cm:" + lineColor + "保存しました",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    //保存した旨の通知
+                    Toast.makeText(context, "保存しました", Toast.LENGTH_SHORT).show()
                     //LOCALSETTINGにデータを保存(身長,体重,目標歩数 ※未実装,GPS取得設定 ※未実装,自宅座標 ※未実装,非取得範囲 ※未実装,マイカラー) val test = height.toString() + "," + weight.toString() + "," + "0" + "," + "0" + "," + "0.0" + "," + "0.0" + "," + "0" + lineColor.toString()
                     val str =
-                        height.toString() + "," + weight.toString() + "," + "0" + "," + "0" + "," + "0.0" + "," + "0.0" + "," + "0" + "," + lineColor.toString()
+                        height.toString() + "," + weight.toString() + "," + Walk.toString() + "," + gpsSettingNum.toString()+ "," + latitude.toString() + "," + longitude.toString() + "," + gpsNotRange.toString() + "," + colorRGB.toString()
                     GLOBAL.FileWrite(str, "LOCALSETTING.txt")
 
                     findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)
+                }else if (fragItem==2){
+                    Toast.makeText(context,"'取得しない'は選択できません",Toast.LENGTH_SHORT).show()
+                }else  if(fragItem==0){
+                    Toast.makeText(context,"空白は認められません",Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -171,14 +154,15 @@ class UsrinfoFragment : Fragment() {
 
 
 
-
+        //キャンセルボタン
         view.findViewById<Button>(R.id.buttonUsrinfoCancel).setOnClickListener {
-            //キャンセルボタン・変更前の色再送信？
-            Toast.makeText(context,"キャンセルしました"+nowSelectLine,Toast.LENGTH_SHORT).show()
+            //キャンセルした旨の通知
+            Toast.makeText(context,"キャンセルしました",Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)
         }
 
 
+        //GoogleMAPに遷移(仮置き)
         view.findViewById<Button>(R.id.buttonToGPS).setOnClickListener {
             findNavController().navigate(R.id.action_usrinfoFragment_to_mapSettingFragment  )
         }

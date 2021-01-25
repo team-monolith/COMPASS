@@ -329,7 +329,7 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
 
     //拡大名刺画面の表示
-    /*fun FriendCardLoardStart(){
+    fun FriendCardLoardStart(){
         val friendFragmentTransaction=supportFragmentManager.beginTransaction()
 
         if(supportFragmentManager.findFragmentByTag("FRIENDCARD")==null){
@@ -339,15 +339,15 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
                 "FRIENDCARD"
             ).commit()
         }
-    }*/
+    }
 
-    /*fun FriendCardLoadStop(){
+    fun FriendCardLoadStop(){
         val friendFragmentTransaction=supportFragmentManager.beginTransaction()
 
         if(supportFragmentManager.findFragmentByTag("FRIENDCARD")!=null){
             friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag("FRIENDCARD")!!)
                 .commit()
         }
-    }*/
+    }
 
 }
