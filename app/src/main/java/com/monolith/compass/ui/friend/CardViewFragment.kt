@@ -99,6 +99,9 @@ class CardViewFragment: Fragment() {
             override fun onSingleTapUp(e: MotionEvent): Boolean {
                 //止まっているときのみ判定
                 if(pos.X!!.toInt()%width==0){
+
+                    //これを読んだらタップしたカードの番号がわかるよ
+                    //onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     val n=onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     Toast.makeText(getContext(), "n=$n", Toast.LENGTH_SHORT).show()
                 }
