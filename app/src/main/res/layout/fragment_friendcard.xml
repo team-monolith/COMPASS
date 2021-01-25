@@ -11,12 +11,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Space
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_weight="0.05" />
+            android:layout_weight="0.1" />
 
         <LinearLayout
             android:id="@+id/innnerlayout"
@@ -91,7 +95,7 @@
         <Space
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_weight="0.05" />
+            android:layout_weight="0.1" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
