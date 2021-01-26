@@ -103,6 +103,7 @@ class CardViewFragment: Fragment() {
                     //これを読んだらタップしたカードの番号がわかるよ
                     //onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     val n=onTouchCardNumber(e.x.toInt(),e.y.toInt())
+                    if(n>=list.size)return false
                     Toast.makeText(getContext(), "n=$n", Toast.LENGTH_SHORT).show()
                     val ma=activity as MainActivity
                     ma.cardDataList=list[n]
@@ -283,7 +284,7 @@ class CardViewFragment: Fragment() {
 
         val POSTDATA = HashMap<String, String>()
 
-        POSTDATA.put("id","1,2,3,3,1,2,1,3,3,1,2,2,1,2,3,2,3,2,1,1,2,3,2,3,1,1,2,3,3")
+        POSTDATA.put("id","2")
 
         "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->

@@ -124,7 +124,7 @@ class ProfEditFragment : Fragment() {
         LoadIconImage()!!.compress(Bitmap.CompressFormat.PNG, 50, baos)
         val iconstr=Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP)
 
-        POSTDATA.put("id","1")
+        POSTDATA.put("id", GLOBAL.getID().toString())
         POSTDATA.put("name",name)
         POSTDATA.put("icon",iconstr)
         POSTDATA.put("comment",comment)
