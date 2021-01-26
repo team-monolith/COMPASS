@@ -308,6 +308,12 @@ class MyApp: Application(){
             8 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_8)
             9 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_9)
             10 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_10)
+            11 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_11)
+            12 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_12)
+            13 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_13)
+            14 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_14)
+            15 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_15)
+            16 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_16)
         }
         return img
     }
@@ -319,6 +325,10 @@ class MyApp: Application(){
             3 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_3)
             4 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_4)
             5 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_5)
+            6 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_6)
+            7 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_7)
+            8 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_8)
+            9 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_9)
         }
         return img
     }
