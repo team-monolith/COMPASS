@@ -305,16 +305,57 @@ class CardViewFragment: Fragment() {
         scan.useDelimiter(",|\n")
 
         while(scan.hasNext()){
-            val ID:Int=scan.nextInt()
-            val NAME:String=scan.next()
-            val ICON:String=scan.next()
-            val LEVEL:Int=scan.nextInt()
-            val DISTANCE:Int=scan.nextInt()
-            val BADGE:Int=scan.nextInt()
-            val BACKGROUND:Int=scan.nextInt()
-            val FRAME:Int=scan.nextInt()
-            val COMMENT:String=scan.next()
-            val STATE:Int=scan.nextInt()
+            var buf:String=scan.next()
+
+            val ID:Int
+            if(buf!="")ID=buf.toInt()
+            else ID=0
+
+            buf=scan.next()
+            val NAME:String
+            if(buf!="")NAME=buf
+            else NAME="NAME"
+
+            buf=scan.next()
+            val ICON:String
+            if(buf!="")ICON=buf
+            else ICON="ICON"
+
+            buf=scan.next()
+            val LEVEL:Int
+            if(buf!="")LEVEL=-1
+            else LEVEL=0
+
+            buf=scan.next()
+            val DISTANCE:Int
+            if(buf!="")DISTANCE=buf.toInt()
+            else DISTANCE=0
+
+            buf=scan.next()
+            val BADGE:Int
+            if(buf!="")BADGE=buf.toInt()
+            else BADGE=0
+
+            buf=scan.next()
+            val BACK:Int
+            if(buf!="")BACK=buf.toInt()
+            else BACK=0
+
+            buf=scan.next()
+            val FRAME:Int
+            if(buf!="")FRAME=buf.toInt()
+            else FRAME=0
+
+            buf=scan.next()
+            val COMMENT:String
+            if(buf!="")COMMENT=buf
+            else COMMENT=""
+
+            buf=scan.next()
+            val STATE:Int
+            if(buf!="")STATE=buf.toInt()
+            else STATE=0
+
             list.add(
                 MyApp.CARDDATA(
                     ID,
@@ -323,7 +364,7 @@ class CardViewFragment: Fragment() {
                     LEVEL,
                     DISTANCE,
                     BADGE,
-                    BACKGROUND,
+                    BACK,
                     FRAME,
                     COMMENT,
                     STATE
