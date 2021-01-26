@@ -351,10 +351,17 @@ class CardViewFragment: Fragment() {
             if(buf!="")COMMENT=buf
             else COMMENT=""
 
-            buf=scan.next()
             val STATE:Int
-            if(buf!="")STATE=buf.toInt()
-            else STATE=0
+            if(scan.hasNext()){
+                buf=scan.next()
+                if(buf!="")STATE=buf.toInt()
+                else STATE=0
+            }
+            else{
+                STATE=0
+            }
+
+
 
             list.add(
                 MyApp.CARDDATA(
