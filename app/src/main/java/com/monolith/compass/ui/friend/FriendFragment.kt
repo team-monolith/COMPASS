@@ -13,9 +13,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
+import com.google.android.material.tabs.TabLayout
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.fitness.DayFragment
+import com.monolith.compass.ui.fitness.FitnessFragment
+import com.monolith.compass.ui.fitness.MonthFragment
+import com.monolith.compass.ui.fitness.WeekFragment
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -43,12 +48,46 @@ class FriendFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var transaction = childFragmentManager.beginTransaction()
+        transaction.replace(R.id.card_frame, CardViewFragment())
+        transaction.commit()
+
+        val tab=view.findViewById<TabLayout>(R.id.tablayout)
+
+        // OnTabSelectedListenerの実装
+        tab.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+
+            // タブが選択された際に呼ばれる
+            override fun onTabSelected(tab: TabLayout.Tab) {
+
+                transaction = childFragmentManager.beginTransaction()
+
+                //現在のモードに合わせて画面を入れ変える
+                when (tab.position) {
+                    0 -> {
+                        transaction.replace(R.id.card_frame, CardViewFragment()).commit()
+                    }
+                    1 -> {
+                        transaction.replace(R.id.card_frame, CardViewFragment()).commit()
+                    }
+                }
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+        })
+
         //コンボボックス生成処理
-        val spinner=view.findViewById<Spinner>(R.id.spinnerSortFriend)
+        /*val spinner=view.findViewById<Spinner>(R.id.spinnerSortFriend)
         val spinnerSort= arrayOf("新しい順","新しい順","新しい順","新しい順")//"古い順","お気に入り順","名前順","ID順")
         val adapter=context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,spinnerSort) }
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter=adapter
+        spinner.adapter=adapter*/
 
     }
 

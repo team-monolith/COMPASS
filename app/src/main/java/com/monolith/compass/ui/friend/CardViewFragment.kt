@@ -128,7 +128,6 @@ class CardViewFragment: Fragment() {
             }
 
             override fun onLongPress(e: MotionEvent) {
-                // TODO Auto-generated method stub
             }
 
             override fun onFling(
@@ -150,6 +149,16 @@ class CardViewFragment: Fragment() {
 
     override fun onStop() {
         super.onStop()
+        (activity as MainActivity).LoadStop()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).LoadStop()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
         (activity as MainActivity).LoadStop()
     }
 
