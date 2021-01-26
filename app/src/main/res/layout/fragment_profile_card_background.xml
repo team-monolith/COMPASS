@@ -64,7 +64,7 @@
                 android:id="@+id/back_img0"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:background="@drawable/card_background_0" />
+                android:background="@drawable/card_background_10" />
 
             <ImageView
                 android:id="@+id/back_img1"

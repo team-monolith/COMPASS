@@ -322,7 +322,7 @@ class MyApp: Application(){
     }
 
     fun FrameBitmapSearch(ID:Int,res:Resources):Bitmap{
-        var img = BitmapFactory.decodeResource(res, R.drawable.frame_1)
+        var img = BitmapFactory.decodeResource(res, R.drawable.frame_0)
         when(ID){
             0 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_0)
             2 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_2)
@@ -345,7 +345,7 @@ class MyApp: Application(){
     }
 
     fun CardBackBitmapSearch(ID: Int,res: Resources):Bitmap{
-        var img = BitmapFactory.decodeResource(res,R.drawable.card_background_1)
+        var img = BitmapFactory.decodeResource(res,R.drawable.card_background_0)
         when(ID){
             2 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_2)
             3 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_3)
