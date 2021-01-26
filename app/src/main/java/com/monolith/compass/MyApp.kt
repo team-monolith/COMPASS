@@ -5,8 +5,10 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.graphics.Color.parseColor
 import android.util.Base64
 import android.widget.Toast
+import androidx.core.graphics.toColorInt
 import com.monolith.compass.R
 import java.io.File
 import java.io.FileNotFoundException
@@ -23,7 +25,7 @@ class MyApp: Application(){
 
     var DIRECTORY:String?=null
 
-    data class LOCAL_DC(var height:Float,var weight:Float,var TARGET: Int,var GPSFLG:Int,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: Color)
+    data class LOCAL_DC(var HEIGHT:Float,var WEIGHT:Float,var TARGET: Int,var GPSFLG:Int,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: String)
 
     data class GPSDATA(var GPS_D:Date?,var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
 
@@ -35,6 +37,7 @@ class MyApp: Application(){
 
     data class COORDINATE(var X: Float?, var Y: Float?)
 
+    var LOCAL_DATA = mutableListOf<LOCAL_DC>()
 
     var GPS_LOG=mutableListOf<GPSDATA>()
 
@@ -122,11 +125,41 @@ class MyApp: Application(){
     }
 
     fun LocalSettingRead(child:String){
+        val GLOBAL= getInstance()
+        GLOBAL.LOCAL_DATA.clear()
+        try{
+            val scan= Scanner(FileRead(child))
+            scan.useDelimiter("[,\n]")
+            while(scan.hasNextLine()&&scan.hasNext()){
+                val HEIGHT:String=scan.next()
+                val WEIGHT:String=scan.next()
+                val TARGET:String=scan.next()
+                val GPSFLG:String=scan.next()
+                val HOME_X:String=scan.next()
+                val HOME_Y:String=scan.next()
+                val ACQUIED:String=scan.next()
+                val MYCOLOR:String=scan.next()
 
+                GLOBAL.LOCAL_DATA.add(MyApp.LOCAL_DC(HEIGHT.toFloat(),WEIGHT.toFloat(),TARGET.toInt(),GPSFLG.toInt(),HOME_X.toFloat(),HOME_Y.toFloat(),ACQUIED.toInt(),MYCOLOR.toString()))
+            }
+        }catch(e: FileNotFoundException){
+        }
     }
 
     fun LocalSettingWrite(data:LOCAL_DC,child:String){
-
+        val GLOBAL=getInstance()
+        var buf=""
+        try{
+            val file=File(GLOBAL.DIRECTORY+"/",child)
+            for(i in GLOBAL.LOCAL_DATA.indices){
+                buf+= GLOBAL.LOCAL_DATA[i].HEIGHT.toString() + "," + GLOBAL.LOCAL_DATA[i].WEIGHT +  "," + GLOBAL.LOCAL_DATA[i].TARGET +GLOBAL.LOCAL_DATA[i].GPSFLG+","+GLOBAL.LOCAL_DATA[i].HOME_X+","+GLOBAL.LOCAL_DATA[i].HOME_Y + "," + GLOBAL.LOCAL_DATA[i].ACQUIED + "," + LOCAL_DATA[i].MYCOLOR
+                if(i!=GLOBAL.LOCAL_DATA.lastIndex)buf+="\n"
+            }
+            file.writeText(buf)
+        } catch(e:FileNotFoundException){
+            val file= File(GLOBAL.DIRECTORY+"/", child)
+            file.writeText("")
+        }
     }
 
     fun getID():Int?{
