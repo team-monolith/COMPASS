@@ -6,324 +6,317 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_img"
-        app:layout_constraintVertical_bias="0.366">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/card_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_weight="0.75"
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            android:visibility="visible"
+            tools:srcCompat="@drawable/frame_0" />
 
-            <TableLayout
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TableRow
-                    android:id="@+id/day_tr"
+                <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/day_img"
-                        android:layout_width="88dp"
-                        android:layout_height="88dp"
-                        app:srcCompat="@drawable/badge_icon_0" />
-
-                    <LinearLayout
+                    <TableRow
+                        android:id="@+id/day_tr"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/day_txt"
+                        <ImageView
+                            android:id="@+id/day_img"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            app:srcCompat="@drawable/badge_icon_0" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:gravity="bottom|center_horizontal"
-                            android:text="TextView"
-                            android:textSize="22dp" />
-
-                        <ProgressBar
-                            android:id="@+id/day_pb"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="281dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp" />
-                    </LinearLayout>
+                            android:orientation="vertical">
 
-                </TableRow>
+                            <TextView
+                                android:id="@+id/day_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:gravity="bottom|center_horizontal"
+                                android:text="TextView"
+                                android:textSize="22dp" />
 
-                <TableRow
-                    android:id="@+id/level_tr"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                            <ProgressBar
+                                android:id="@+id/day_pb"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="281dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp" />
+                        </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/level_img"
-                        android:layout_width="88dp"
-                        android:layout_height="88dp"
-                        app:srcCompat="@drawable/badge_icon_1" />
+                    </TableRow>
 
-                    <LinearLayout
+                    <TableRow
+                        android:id="@+id/level_tr"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/level_txt"
+                        <ImageView
+                            android:id="@+id/level_img"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            app:srcCompat="@drawable/badge_icon_1" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:gravity="bottom|center_horizontal"
-                            android:text="TextView"
-                            android:textSize="22dp" />
-
-                        <ProgressBar
-                            android:id="@+id/level_pb"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="281dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp" />
-                    </LinearLayout>
+                            android:orientation="vertical">
 
-                </TableRow>
+                            <TextView
+                                android:id="@+id/level_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:gravity="bottom|center_horizontal"
+                                android:text="TextView"
+                                android:textSize="22dp" />
 
-                <TableRow
-                    android:id="@+id/distance_tr"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                            <ProgressBar
+                                android:id="@+id/level_pb"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="281dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp" />
+                        </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/distance_img"
-                        android:layout_width="88dp"
-                        android:layout_height="88dp"
-                        app:srcCompat="@drawable/badge_icon_2" />
+                    </TableRow>
 
-                    <LinearLayout
+                    <TableRow
+                        android:id="@+id/distance_tr"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/distance_txt"
+                        <ImageView
+                            android:id="@+id/distance_img"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            app:srcCompat="@drawable/badge_icon_2" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:gravity="bottom|center_horizontal"
-                            android:text="TextView"
-                            android:textSize="22dp" />
-
-                        <ProgressBar
-                            android:id="@+id/distance_pb"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="281dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp" />
-                    </LinearLayout>
+                            android:orientation="vertical">
 
-                </TableRow>
+                            <TextView
+                                android:id="@+id/distance_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:gravity="bottom|center_horizontal"
+                                android:text="TextView"
+                                android:textSize="22dp" />
 
-                <TableRow
-                    android:id="@+id/step_tr"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                            <ProgressBar
+                                android:id="@+id/distance_pb"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="281dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp" />
+                        </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/step_img"
-                        android:layout_width="88dp"
-                        android:layout_height="88dp"
-                        app:srcCompat="@drawable/badge_icon_3" />
+                    </TableRow>
 
-                    <LinearLayout
+                    <TableRow
+                        android:id="@+id/step_tr"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/step_txt"
+                        <ImageView
+                            android:id="@+id/step_img"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            app:srcCompat="@drawable/badge_icon_3" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:gravity="bottom|center_horizontal"
-                            android:text="TextView"
-                            android:textSize="22dp" />
-
-                        <ProgressBar
-                            android:id="@+id/step_pb"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="281dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp" />
-                    </LinearLayout>
+                            android:orientation="vertical">
 
-                </TableRow>
+                            <TextView
+                                android:id="@+id/step_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:gravity="bottom|center_horizontal"
+                                android:text="TextView"
+                                android:textSize="22dp" />
 
-                <TableRow
-                    android:id="@+id/development_tr"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                            <ProgressBar
+                                android:id="@+id/step_pb"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="281dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp" />
+                        </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/development_img"
-                        android:layout_width="88dp"
-                        android:layout_height="88dp"
-                        app:srcCompat="@drawable/badge_icon_4" />
+                    </TableRow>
 
-                    <LinearLayout
+                    <TableRow
+                        android:id="@+id/development_tr"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/development_txt"
+                        <ImageView
+                            android:id="@+id/development_img"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            app:srcCompat="@drawable/badge_icon_4" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:gravity="bottom|center_horizontal"
-                            android:text="TextView"
-                            android:textSize="22dp" />
-
-                        <ProgressBar
-                            android:id="@+id/development_pb"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="281dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp" />
-                    </LinearLayout>
+                            android:orientation="vertical">
 
-                </TableRow>
+                            <TextView
+                                android:id="@+id/development_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:gravity="bottom|center_horizontal"
+                                android:text="TextView"
+                                android:textSize="22dp" />
 
-                <TableRow
-                    android:id="@+id/calorie_tr"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                            <ProgressBar
+                                android:id="@+id/development_pb"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="281dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp" />
+                        </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/calorie_img"
-                        android:layout_width="88dp"
-                        android:layout_height="88dp"
-                        app:srcCompat="@drawable/badge_icon_5" />
+                    </TableRow>
 
-                    <LinearLayout
+                    <TableRow
+                        android:id="@+id/calorie_tr"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/calorie_txt"
+                        <ImageView
+                            android:id="@+id/calorie_img"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            app:srcCompat="@drawable/badge_icon_5" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:gravity="bottom|center_horizontal"
-                            android:text="TextView"
-                            android:textSize="22dp" />
-
-                        <ProgressBar
-                            android:id="@+id/calorie_pb"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="281dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp" />
-                    </LinearLayout>
+                            android:orientation="vertical">
 
-                </TableRow>
+                            <TextView
+                                android:id="@+id/calorie_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:gravity="bottom|center_horizontal"
+                                android:text="TextView"
+                                android:textSize="22dp" />
 
-                <TableRow
-                    android:id="@+id/friend_tr"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                            <ProgressBar
+                                android:id="@+id/calorie_pb"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="281dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp" />
+                        </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/friend_img"
-                        android:layout_width="88dp"
-                        android:layout_height="88dp"
-                        app:srcCompat="@drawable/badge_icon_6" />
+                    </TableRow>
 
-                    <LinearLayout
+                    <TableRow
+                        android:id="@+id/friend_tr"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/friend_txt"
+                        <ImageView
+                            android:id="@+id/friend_img"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            app:srcCompat="@drawable/badge_icon_6" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:gravity="bottom|center_horizontal"
-                            android:text="TextView"
-                            android:textSize="22dp" />
-
-                        <ProgressBar
-                            android:id="@+id/friend_pb"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="281dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp" />
-                    </LinearLayout>
+                            android:orientation="vertical">
 
-                </TableRow>
+                            <TextView
+                                android:id="@+id/friend_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:gravity="bottom|center_horizontal"
+                                android:text="TextView"
+                                android:textSize="22dp" />
 
-                <TableRow
-                    android:id="@+id/event_tr"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                            <ProgressBar
+                                android:id="@+id/friend_pb"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="281dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp" />
+                        </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/event_img"
-                        android:layout_width="88dp"
-                        android:layout_height="88dp"
-                        app:srcCompat="@drawable/badge_icon_7" />
+                    </TableRow>
 
-                    <LinearLayout
+                    <TableRow
+                        android:id="@+id/event_tr"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/event_txt"
+                        <ImageView
+                            android:id="@+id/event_img"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            app:srcCompat="@drawable/badge_icon_7" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:gravity="bottom|center_horizontal"
-                            android:text="TextView8"
-                            android:textSize="22dp" />
-
-                        <ProgressBar
-                            android:id="@+id/event_pb"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="281dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp" />
-                    </LinearLayout>
+                            android:orientation="vertical">
 
-                </TableRow>
+                            <TextView
+                                android:id="@+id/event_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:gravity="bottom|center_horizontal"
+                                android:text="TextView8"
+                                android:textSize="22dp" />
 
-            </TableLayout>
-        </LinearLayout>
-    </ScrollView>
+                            <ProgressBar
+                                android:id="@+id/event_pb"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="281dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp" />
+                        </LinearLayout>
 
-    <Button
-        android:id="@+id/edit"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="649dp"
-        android:text="編集"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+                    </TableRow>
 
-    <ImageView
-        android:id="@+id/card_img"
-        android:layout_width="243dp"
-        android:layout_height="122dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+                </TableLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/back_fl"

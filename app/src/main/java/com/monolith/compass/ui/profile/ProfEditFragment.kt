@@ -3,6 +3,7 @@ package com.monolith.compass.ui.profile
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
 import android.util.Base64.NO_WRAP
 import android.util.Base64.encodeToString
 import android.view.LayoutInflater
@@ -33,6 +34,10 @@ class ProfEditFragment : Fragment() {
 
     val GLOBAL= MyApp.getInstance()
 
+    var endbool:Boolean=false
+
+    var handler=Handler()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,7 +67,6 @@ class ProfEditFragment : Fragment() {
         //保存ボタン処理
         view.findViewById<Button>(R.id.combtn).setOnClickListener{
             UploadData(name.text.toString(),phrase.text.toString())
-            findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile)
         }
         view.findViewById<Button>(R.id.back_bt).setOnClickListener{
             findNavController().navigate(R.id.navigation_profile)
@@ -118,6 +122,8 @@ class ProfEditFragment : Fragment() {
 
     fun UploadData(name:String,comment:String){
 
+        HandlerDraw()
+
         val POSTDATA = HashMap<String, String>()
 
         val baos = ByteArrayOutputStream()
@@ -139,15 +145,30 @@ class ProfEditFragment : Fragment() {
             .response { _, response, result ->
                 when (result) {
                     is Result.Success -> {
-                        val test=2
+                        endbool=true
                     }
                     is Result.Failure -> {
-                        val test=2
+                        UploadData(name,comment)
                     }
                 }
             }
 
     }
+
+    //通信終了監視用
+    fun HandlerDraw() {
+        handler.post(object : Runnable {
+            override fun run() {
+                if(endbool){
+                    findNavController().navigate(R.id.navigation_profile)
+                }
+                else{
+                    handler.postDelayed(this, 0)
+                }
+            }
+        })
+    }
+
 }
 
 /*
