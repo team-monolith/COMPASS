@@ -18,25 +18,40 @@
         app:srcCompat="@android:drawable/ic_search_category_default"
         tools:ignore="ContentDescription" />
 
-    <Spinner
-        android:id="@+id/spinnerSortFriend"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/card_frame"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <fragment
-        android:id="@+id/fragment"
-        android:name="com.monolith.compass.ui.friend.CardViewFragment"
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_passing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="すれ違った人" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="お気に入り" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <FrameLayout
+        android:id="@+id/card_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/imageButton">
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
