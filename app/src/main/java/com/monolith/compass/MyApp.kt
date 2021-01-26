@@ -324,6 +324,7 @@ class MyApp: Application(){
     fun FrameBitmapSearch(ID:Int,res:Resources):Bitmap{
         var img = BitmapFactory.decodeResource(res, R.drawable.frame_1)
         when(ID){
+            0 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_0)
             2 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_2)
             3 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_3)
             4 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_4)
