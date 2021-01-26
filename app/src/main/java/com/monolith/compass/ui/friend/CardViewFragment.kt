@@ -284,7 +284,7 @@ class CardViewFragment: Fragment() {
 
         val POSTDATA = HashMap<String, String>()
 
-        POSTDATA.put("id","2")
+        POSTDATA.put("id","1,2,3,4,5")
 
         "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
@@ -323,7 +323,7 @@ class CardViewFragment: Fragment() {
 
             buf=scan.next()
             val LEVEL:Int
-            if(buf!="")LEVEL=-1
+            if(buf!="")LEVEL=buf.toInt()
             else LEVEL=0
 
             buf=scan.next()
