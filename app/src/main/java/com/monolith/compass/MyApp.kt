@@ -23,7 +23,7 @@ class MyApp: Application(){
 
     var DIRECTORY:String?=null
 
-    data class LOCAL_DC(var ID:Int,var height:Float,var weight:Float,var TARGET: Int,var GPSFLG:Int,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: Color)
+    data class LOCAL_DC(var height:Float,var weight:Float,var TARGET: Int,var GPSFLG:Int,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: Color)
 
     data class GPSDATA(var GPS_D:Date?,var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
 
@@ -121,12 +121,26 @@ class MyApp: Application(){
         }
     }
 
-    fun LocalSettingRead(){
+    fun LocalSettingRead(child:String){
 
     }
 
-    fun LocalSettingWrite(){
+    fun LocalSettingWrite(data:LOCAL_DC,child:String){
 
+    }
+
+    fun getID():Int?{
+        val GLOBAL=getInstance()
+
+        if(GLOBAL.DIRECTORY==null)return null
+
+        val file=File(GLOBAL.DIRECTORY+"/","ID.txt")
+
+        if(!file.exists()) return -1
+
+        val scan=Scanner(file)
+
+        return scan.nextInt()
     }
 
     @SuppressLint("SimpleDateFormat")

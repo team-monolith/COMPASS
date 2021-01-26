@@ -1,6 +1,7 @@
 package com.monolith.compass
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.location.LocationManager
@@ -26,37 +27,37 @@ import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
-    SettingFragment.OnClickListener,EasyPermissions.PermissionCallbacks{
+class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
+    SettingFragment.OnClickListener, EasyPermissions.PermissionCallbacks {
 
     private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
     private lateinit var locationManager: LocationManager   //ロケーションマネージャーインスタンス保管用
 
     //植田テスト用
-    var cardDataList=MyApp.CARDDATA(0,"",null,0,0,0,0,0,"",0)
-
-
-
+    var cardDataList = MyApp.CARDDATA(0, "", null, 0, 0, 0, 0, 0, "", 0)
 
 
     //この3つは吉田のテスト用
     //var profString = arrayOfNulls<String>(3)//name,icon,phrase
-    var profString = arrayOf("よしだ","nasideii","よろしくお願いします。")
+    var profString = arrayOf("よしだ", "nasideii", "よろしくお願いします。")
+
     //var profInt = arrayOfNulls<Int>(6)//id,distance,favbadge,background,frame,badge
-    var profInt = arrayOf(12345,130,47,1,2,11002233)
+    var profInt = arrayOf(12345, 130, 47, 1, 2, 11002233)
+
     // profsave = backgound,frame,save
-    var profsave = arrayOf(-1,-1)
+    var profsave = arrayOf(-1, -1)
     //ここまで吉田
 
 
     var itemselectedlog: Int? = null    //直近アイテム選択ログ保管用
 
-    companion object{
+    companion object {
         private val REQUEST_CODE = 0
         private const val READ_REQUEST_CODE: Int = 42
     }
 
+    @SuppressLint("CutPasteId")
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +65,8 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
         //カレントディレクトリを設定しデータを読み込む
         GLOBAL.DIRECTORY = "$filesDir"
+
+        FirstCheck()
 
         //アイテムIDを設定する
         itemselectedlog =
@@ -148,11 +151,11 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
         //startBackgroundLocationService()
     }
 
-    override fun onStop(){
+    override fun onStop() {
         super.onStop()
         val POSTDATA = HashMap<String, String>()
         val data = GLOBAL.FileRead("GPSBUF.txt")
-        POSTDATA.put("json",data)
+        POSTDATA.put("json", data)
         "https://a.compass-user.work/system/map/receive_csv.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
                 when (result) {
@@ -180,10 +183,10 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     //必要なパーミッションの許可を一括で取得
     //一つでも欠けている場合はfalseを返却
     @RequiresApi(Build.VERSION_CODES.Q)
-    private fun RequestPermission(){
+    private fun RequestPermission() {
 
         //取得するべきパーミッションを配列で保存
-        val permissions=arrayOf(
+        val permissions = arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACTIVITY_RECOGNITION,
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -191,13 +194,17 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
         //パーミッションが許可されているか確認
         //if文の中は「パーミッションが許可されていない」際の処理
-        if(!EasyPermissions.hasPermissions(this,*permissions)){
+        if (!EasyPermissions.hasPermissions(this, *permissions)) {
             //パーミッションを取得する
-            EasyPermissions.requestPermissions(this,"許可されていない権限があります。\nアプリ利用の為許可をお願いします。", REQUEST_CODE,*permissions)
+            EasyPermissions.requestPermissions(
+                this,
+                "許可されていない権限があります。\nアプリ利用の為許可をお願いします。",
+                REQUEST_CODE,
+                *permissions
+            )
         }
 
     }
-
 
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
@@ -270,7 +277,7 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     //(activity as MainActivity).LoadStart()で呼出ができる
 
     //ロード表示を開始
-    fun LoadStart(){
+    fun LoadStart() {
 
         LoadStop()
 
@@ -287,7 +294,7 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
     }
 
     //ロード表示を終了
-    fun LoadStop(){
+    fun LoadStop() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         if (supportFragmentManager.findFragmentByTag("LOADING") != null) {
@@ -318,7 +325,7 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
                     resultData?.data?.also { uri ->
                         val inputStream = contentResolver?.openInputStream(uri)
                         val image = BitmapFactory.decodeStream(inputStream)
-                        GLOBAL.ImageBuffer=image
+                        GLOBAL.ImageBuffer = image
                     }
                 } catch (e: Exception) {
                     Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show()
@@ -329,10 +336,10 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
 
 
     //拡大名刺画面の表示
-    fun FriendCardLoardStart(){
-        val friendFragmentTransaction=supportFragmentManager.beginTransaction()
+    fun FriendCardLoardStart() {
+        val friendFragmentTransaction = supportFragmentManager.beginTransaction()
 
-        if(supportFragmentManager.findFragmentByTag("FRIENDCARD")==null){
+        if (supportFragmentManager.findFragmentByTag("FRIENDCARD") == null) {
             friendFragmentTransaction.add(
                 R.id.nav_host_fragment,
                 FriendCardFragment(),
@@ -341,12 +348,29 @@ class MainActivity : AppCompatActivity(),NavChoiceFragment.OnClickListener,
         }
     }
 
-    fun FriendCardLoadStop(){
-        val friendFragmentTransaction=supportFragmentManager.beginTransaction()
+    fun FriendCardLoadStop() {
+        val friendFragmentTransaction = supportFragmentManager.beginTransaction()
 
-        if(supportFragmentManager.findFragmentByTag("FRIENDCARD")!=null){
+        if (supportFragmentManager.findFragmentByTag("FRIENDCARD") != null) {
             friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag("FRIENDCARD")!!)
                 .commit()
+        }
+    }
+
+    fun FirstCheck(){
+        if(GLOBAL.getID()==-1){
+            val POSTDATA = HashMap<String, String>()
+            "https://b.compass-user.work/system/user/add_user.php".httpPost(POSTDATA.toList())
+                .response { _, response, result ->
+                    when (result) {
+                        is Result.Success -> {
+                            String(response.data)
+                            GLOBAL.FileWrite(String(response.data),"ID.txt")
+                        }
+                        is Result.Failure -> {
+                        }
+                    }
+                }
         }
     }
 
