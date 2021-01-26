@@ -23,7 +23,7 @@ class MyApp: Application(){
 
     var DIRECTORY:String?=null
 
-    data class LOCAL_DC(var ID:Int,var height:Float,var weight:Float,var TARGET: Int,var GPSFLG:Boolean,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: Color)
+    data class LOCAL_DC(var ID:Int,var height:Float,var weight:Float,var TARGET: Int,var GPSFLG:Int,var HOME_X:Float,var HOME_Y:Float,var ACQUIED:Int,var MYCOLOR: Color)
 
     data class GPSDATA(var GPS_D:Date?,var GPS_X:Float?,var GPS_Y:Float?,var GPS_A:Float?,var GPS_S:Float?)
 
@@ -119,6 +119,14 @@ class MyApp: Application(){
             val file= File(GLOBAL.DIRECTORY+"/", child)
             file.writeText(str)
         }
+    }
+
+    fun LocalSettingRead(){
+
+    }
+
+    fun LocalSettingWrite(){
+
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -265,9 +273,12 @@ class MyApp: Application(){
         //※ビューは一度作ったものをリサイズして利用するので、位置は無理やりハードコートしています
         paint.textSize=150f
 
-        canvas.drawText("ID：$str_id",(width-frameWidth)/4+frameWidth/2+125,(height-frameWidth)/4+frameWidth-250,paint)
+        val id:String=str_id.padStart(5,'0')
+        val distance:String=String.format("%,d",str_distance.toInt())
+
+        canvas.drawText("ID：$id",(width-frameWidth)/4+frameWidth/2+125,(height-frameWidth)/4+frameWidth-250,paint)
         canvas.drawText(str_name,(width-frameWidth)/4+frameWidth/2+125,((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2,paint)
-        canvas.drawText(str_distance+"m",(width-frameWidth)/4*3+frameWidth/2-paint.measureText(str_distance+"m"),((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
+        canvas.drawText(distance+"m",(width-frameWidth)/4*3+frameWidth/2-paint.measureText(distance+"m"),((height-frameWidth)/4f)+(paint.fontMetrics.top/-2) +frameWidth/2+200,paint)
 
         if(str_comment.length<=20){
             canvas.drawText(str_comment,width/2f-paint.measureText(str_comment)/2f,1475f,paint)
