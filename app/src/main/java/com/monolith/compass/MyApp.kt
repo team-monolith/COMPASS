@@ -355,12 +355,7 @@ class MyApp: Application(){
         val img_frame:Bitmap=FrameBitmapSearch(DATA.FRAME,res)
         val img_back:Bitmap=CardBackBitmapSearch(DATA.BACKGROUND,res)
 
-        //val img_badge_back=Bitmap.createScaledBitmap(BadgeBackBitmapSearch(DATA.BACKGROUND,res),(img_frame.height/4),(img_frame.height/4),true)
-        //val img_badge_icon=Bitmap.createScaledBitmap(BadgeIconBitmapSearch(DATA.BADGE,res),(img_frame.height/4),(img_frame.height/4),true)
-
         val id:String=DATA.STATE.toString().padStart(8,'0')
-
-        val test=id[6].toString().toInt()
 
         val img_badge_back: Array<Bitmap> =arrayOf(
             Bitmap.createScaledBitmap(BadgeBackBitmapSearch(id[0].toString().toInt(),res),(img_frame.height/7*2),(img_frame.height/7*2),true),
