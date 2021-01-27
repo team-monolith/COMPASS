@@ -75,8 +75,6 @@ class MyApp : Application() {
 
     data class COORDINATE(var X: Float?, var Y: Float?)
 
-    lateinit var LOCAL_DATA:LOCAL_DC//一応lateinitにしてます
-
     var GPS_LOG = mutableListOf<GPSDATA>()
 
     var ACTIVITY_LOG = mutableListOf<ACTIVITYDATA>()
@@ -162,7 +160,7 @@ class MyApp : Application() {
         }
     }
 
-    fun LocalSettingRead(child: String) {
+    fun LocalSettingRead(child: String): LOCAL_DC{
         val GLOBAL = getInstance()
         try {
             val scan = Scanner(FileRead(child))
@@ -177,8 +175,7 @@ class MyApp : Application() {
                 val ACQUIED: String = scan.next()
                 val MYCOLOR: String = scan.next()
 
-                GLOBAL.LOCAL_DATA=
-                    LOCAL_DC(
+                return LOCAL_DC(
                         HEIGHT.toFloat(),
                         WEIGHT.toFloat(),
                         TARGET.toInt(),
@@ -191,6 +188,8 @@ class MyApp : Application() {
             }
         } catch (e: FileNotFoundException) {
         }
+
+        return LOCAL_DC(0f,0f,0,0,0f,0f,0,"#000000")
     }
 
     fun LocalSettingWrite(data: LOCAL_DC, child: String) {
@@ -198,7 +197,7 @@ class MyApp : Application() {
         var buf = ""
         try {
             val file = File(GLOBAL.DIRECTORY + "/", child)
-                buf += GLOBAL.LOCAL_DATA.HEIGHT.toString() + "," + GLOBAL.LOCAL_DATA.WEIGHT + "," + GLOBAL.LOCAL_DATA.TARGET + GLOBAL.LOCAL_DATA.GPSFLG + "," + GLOBAL.LOCAL_DATA.HOME_X + "," + GLOBAL.LOCAL_DATA.HOME_Y + "," + GLOBAL.LOCAL_DATA.ACQUIED + "," + LOCAL_DATA.MYCOLOR
+                buf += data.HEIGHT.toString() + "," + data.WEIGHT + "," + data.TARGET + "," + data.GPSFLG + "," + data.HOME_X + "," + data.HOME_Y + "," + data.ACQUIED + "," + data.MYCOLOR
             file.writeText(buf)
         } catch (e: FileNotFoundException) {
             val file = File(GLOBAL.DIRECTORY + "/", child)

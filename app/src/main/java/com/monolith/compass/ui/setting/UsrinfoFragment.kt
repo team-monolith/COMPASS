@@ -1,5 +1,6 @@
 package com.monolith.compass.ui.setting
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
+import org.w3c.dom.Text
 
 
 class UsrinfoFragment : Fragment() {
@@ -37,8 +39,18 @@ class UsrinfoFragment : Fragment() {
     }
 
 
+    @SuppressLint("CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val data: MyApp.LOCAL_DC =GLOBAL.LocalSettingRead("LOCAL.txt")
+
+        view.findViewById<TextView>(R.id.editWeight).text=data.WEIGHT.toString()
+        view.findViewById<TextView>(R.id.editHeight).text=data.HEIGHT.toString()
+        view.findViewById<TextView>(R.id.editWalk).text=data.TARGET.toString()
+        view.findViewById<TextView>(R.id.editHomeGPSPositionE).text=data.HOME_X.toString()
+        view.findViewById<TextView>(R.id.editHomeGPSPositionN).text=data.HOME_Y.toString()
+
 
         //コンボボックス生成処理・所持している線の色の読み込み処理が必要
         //現在設定中の色を取得ー＞nowSelectLine
@@ -146,7 +158,7 @@ class UsrinfoFragment : Fragment() {
 
             //色をRGBに変換
             val colorToRGB =
-                arrayOf("#ff0000", "#0090ff", "#00ff00", "#ffff00", "#000000", "#ffffff")
+                arrayOf("#ff0000", "#0000ff", "#00ff00", "#ffff00", "#000000", "#ffffff")
             val lineColorList = arrayOf("赤", "青", "緑", "黄", "黒", "白")
             var colorRGB = ""
             for (c in 0..5) {
@@ -169,10 +181,7 @@ class UsrinfoFragment : Fragment() {
             if (fragItem == 1) {
                 //保存した旨の通知
                 Toast.makeText(context, "保存しました", Toast.LENGTH_SHORT).show()
-                //LOCALSETTINGにデータを保存(身長,体重,目標歩数 ※未実装,GPS取得設定 ※未実装,自宅座標 ※未実装,非取得範囲 ※未実装,マイカラー) val test = height.toString() + "," + weight.toString() + "," + "0" + "," + "0" + "," + "0.0" + "," + "0.0" + "," + "0" + lineColor.toString()
-                val str =
-                    height.toString() + "," + weight.toString() + "," + Walk.toString() + "," + gpsSettingNum.toString() + "," + latitude.toString() + "," + longitude.toString() + "," + gpsNotRange.toString() + "," + colorRGB.toString()
-                GLOBAL.FileWrite(str, "LOCALSETTING.txt")
+                GLOBAL.LocalSettingWrite(MyApp.LOCAL_DC(height.toFloat(),weight.toFloat(),Walk.toInt(),gpsSettingNum.toInt(),latitude.toFloat(),longitude.toFloat(),gpsNotRange.toInt(),colorRGB),"LOCAL.txt")
 
                 findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)
             } else if (fragItem == 2) {
