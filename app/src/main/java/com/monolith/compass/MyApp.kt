@@ -75,7 +75,7 @@ class MyApp : Application() {
 
     data class COORDINATE(var X: Float?, var Y: Float?)
 
-    var LOCAL_DATA = mutableListOf<LOCAL_DC>()
+    lateinit var LOCAL_DATA:LOCAL_DC//一応lateinitにしてます
 
     var GPS_LOG = mutableListOf<GPSDATA>()
 
@@ -164,7 +164,6 @@ class MyApp : Application() {
 
     fun LocalSettingRead(child: String) {
         val GLOBAL = getInstance()
-        GLOBAL.LOCAL_DATA.clear()
         try {
             val scan = Scanner(FileRead(child))
             scan.useDelimiter("[,\n]")
@@ -178,7 +177,7 @@ class MyApp : Application() {
                 val ACQUIED: String = scan.next()
                 val MYCOLOR: String = scan.next()
 
-                GLOBAL.LOCAL_DATA.add(
+                GLOBAL.LOCAL_DATA=
                     LOCAL_DC(
                         HEIGHT.toFloat(),
                         WEIGHT.toFloat(),
@@ -189,7 +188,6 @@ class MyApp : Application() {
                         ACQUIED.toInt(),
                         MYCOLOR
                     )
-                )
             }
         } catch (e: FileNotFoundException) {
         }
@@ -200,10 +198,7 @@ class MyApp : Application() {
         var buf = ""
         try {
             val file = File(GLOBAL.DIRECTORY + "/", child)
-            for (i in GLOBAL.LOCAL_DATA.indices) {
-                buf += GLOBAL.LOCAL_DATA[i].HEIGHT.toString() + "," + GLOBAL.LOCAL_DATA[i].WEIGHT + "," + GLOBAL.LOCAL_DATA[i].TARGET + GLOBAL.LOCAL_DATA[i].GPSFLG + "," + GLOBAL.LOCAL_DATA[i].HOME_X + "," + GLOBAL.LOCAL_DATA[i].HOME_Y + "," + GLOBAL.LOCAL_DATA[i].ACQUIED + "," + LOCAL_DATA[i].MYCOLOR
-                if (i != GLOBAL.LOCAL_DATA.lastIndex) buf += "\n"
-            }
+                buf += GLOBAL.LOCAL_DATA.HEIGHT.toString() + "," + GLOBAL.LOCAL_DATA.WEIGHT + "," + GLOBAL.LOCAL_DATA.TARGET + GLOBAL.LOCAL_DATA.GPSFLG + "," + GLOBAL.LOCAL_DATA.HOME_X + "," + GLOBAL.LOCAL_DATA.HOME_Y + "," + GLOBAL.LOCAL_DATA.ACQUIED + "," + LOCAL_DATA.MYCOLOR
             file.writeText(buf)
         } catch (e: FileNotFoundException) {
             val file = File(GLOBAL.DIRECTORY + "/", child)
