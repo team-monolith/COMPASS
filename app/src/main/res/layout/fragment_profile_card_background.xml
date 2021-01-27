@@ -21,67 +21,67 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/back_img0"
+                android:id="@+id/frame_img0"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_0" />
 
             <ImageView
-                android:id="@+id/back_img1"
+                android:id="@+id/frame_img1"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_1" />
 
             <ImageView
-                android:id="@+id/back_img2"
+                android:id="@+id/frame_img2"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_2" />
 
             <ImageView
-                android:id="@+id/back_img3"
+                android:id="@+id/frame_img3"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_3" />
 
             <ImageView
-                android:id="@+id/back_img4"
+                android:id="@+id/frame_img4"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_4" />
 
             <ImageView
-                android:id="@+id/back_img5"
+                android:id="@+id/frame_img5"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_5" />
 
             <ImageView
-                android:id="@+id/back_img6"
+                android:id="@+id/frame_img6"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_6" />
 
             <ImageView
-                android:id="@+id/back_img7"
+                android:id="@+id/frame_img7"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_7" />
 
             <ImageView
-                android:id="@+id/back_img8"
+                android:id="@+id/frame_img8"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_8" />
 
             <ImageView
-                android:id="@+id/back_img9"
+                android:id="@+id/frame_img9"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_9" />
 
             <ImageView
-                android:id="@+id/back_img10"
+                android:id="@+id/frame_img10"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/card_background_10" />
