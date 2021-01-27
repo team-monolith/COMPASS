@@ -45,18 +45,15 @@ class UsrinfoFragment : Fragment() {
 
         val data: MyApp.LOCAL_DC =GLOBAL.LocalSettingRead("LOCAL.txt")
 
-        view.findViewById<TextView>(R.id.editWeight).text=data.WEIGHT.toString()
-        view.findViewById<TextView>(R.id.editHeight).text=data.HEIGHT.toString()
-        view.findViewById<TextView>(R.id.editWalk).text=data.TARGET.toString()
-        view.findViewById<TextView>(R.id.editHomeGPSPositionE).text=data.HOME_X.toString()
-        view.findViewById<TextView>(R.id.editHomeGPSPositionN).text=data.HOME_Y.toString()
+        val colorItems: Array<String> =arrayOf("赤", "青", "緑", "黄", "黒", "白")
+        val colorId: Array<String> =arrayOf("#ff0000", "#0000ff", "#00ff00", "#ffff00", "#000000", "#ffffff")
 
 
         //コンボボックス生成処理・所持している線の色の読み込み処理が必要
         //現在設定中の色を取得ー＞nowSelectLine
         val colorSpinner = view.findViewById<Spinner>(R.id.spinnerLineColor)
         val nowSelectLine = "金色"
-        val colorSpinnerItems = arrayOf("赤", "青", "緑", "黄", "黒", "白")
+        val colorSpinnerItems = colorItems
         val colorAdapter = context?.let {
             ArrayAdapter(
                 it,
@@ -116,6 +113,25 @@ class UsrinfoFragment : Fragment() {
         }
 
 
+        //データをもとに再配置
+        view.findViewById<TextView>(R.id.editWeight).text=data.WEIGHT.toString()
+        view.findViewById<TextView>(R.id.editHeight).text=data.HEIGHT.toString()
+        view.findViewById<TextView>(R.id.editWalk).text=data.TARGET.toString()
+        view.findViewById<TextView>(R.id.editHomeGPSPositionE).text=data.HOME_Y.toString()
+        view.findViewById<TextView>(R.id.editHomeGPSPositionN).text=data.HOME_X.toString()
+        for(i in 0 until colorItems.size){
+            if(colorId[i] == data.MYCOLOR){
+                colorSpinner.setSelection(i)
+            }
+        }
+        GPSSettingSpinner.setSelection(data.GPSFLG)
+        for(i in 0 until GPSNotRangeItems.size){
+            if(GPSNotRangeItems[i] == data.ACQUIED.toString()){
+                GPSNotRangeSpinner.setSelection(i)
+            }
+        }
+
+
         //保存ボタン押下処理
         view.findViewById<Button>(R.id.buttonUsrinfoSave).setOnClickListener {
 
@@ -157,13 +173,10 @@ class UsrinfoFragment : Fragment() {
             var gpsSettingNum = ""
 
             //色をRGBに変換
-            val colorToRGB =
-                arrayOf("#ff0000", "#0000ff", "#00ff00", "#ffff00", "#000000", "#ffffff")
-            val lineColorList = arrayOf("赤", "青", "緑", "黄", "黒", "白")
             var colorRGB = ""
             for (c in 0..5) {
-                if (lineColor == lineColorList[c]) {
-                    colorRGB = colorToRGB[c]
+                if (lineColor == colorItems[c]) {
+                    colorRGB = colorId[c]
                 }
             }
 
@@ -210,6 +223,7 @@ class UsrinfoFragment : Fragment() {
 
 
 }
+
 
 
 //メモ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・
