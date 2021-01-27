@@ -347,6 +347,71 @@ class MyApp: Application(){
         return output
     }
 
+    //名刺のBitmap画像を
+    //CARDDATA型データを渡し、第二引数でresourcesを投げる
+    //こっちは裏面だよ
+    fun CreateBackBitmap(DATA:CARDDATA,res:Resources): Bitmap {
+
+        val img_frame:Bitmap=FrameBitmapSearch(DATA.FRAME,res)
+        val img_back:Bitmap=CardBackBitmapSearch(DATA.BACKGROUND,res)
+
+        //val img_badge_back=Bitmap.createScaledBitmap(BadgeBackBitmapSearch(DATA.BACKGROUND,res),(img_frame.height/4),(img_frame.height/4),true)
+        //val img_badge_icon=Bitmap.createScaledBitmap(BadgeIconBitmapSearch(DATA.BADGE,res),(img_frame.height/4),(img_frame.height/4),true)
+
+        val id:String=DATA.STATE.toString().padStart(8,'0')
+
+        val test=id[6].toString().toInt()
+
+        val img_badge_back: Array<Bitmap> =arrayOf(
+            Bitmap.createScaledBitmap(BadgeBackBitmapSearch(id[0].toString().toInt(),res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeBackBitmapSearch(id[1].toString().toInt(),res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeBackBitmapSearch(id[2].toString().toInt(),res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeBackBitmapSearch(id[3].toString().toInt(),res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeBackBitmapSearch(id[4].toString().toInt(),res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeBackBitmapSearch(id[5].toString().toInt(),res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeBackBitmapSearch(id[6].toString().toInt(),res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeBackBitmapSearch(id[7].toString().toInt(),res),(img_frame.height/7*2),(img_frame.height/7*2),true)
+        )
+
+
+        val img_badge_icon:Array<Bitmap> = arrayOf(
+            Bitmap.createScaledBitmap(BadgeIconBitmapSearch(0,res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeIconBitmapSearch(1,res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeIconBitmapSearch(2,res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeIconBitmapSearch(3,res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeIconBitmapSearch(4,res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeIconBitmapSearch(5,res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeIconBitmapSearch(6,res),(img_frame.height/7*2),(img_frame.height/7*2),true),
+            Bitmap.createScaledBitmap(BadgeIconBitmapSearch(7,res),(img_frame.height/7*2),(img_frame.height/7*2),true)
+        )
+
+
+
+        val width=img_frame.width
+        val height=img_frame.height
+
+        val frameWidth:Float=img_frame.width/12.54f
+
+        val paint= Paint()
+        val output= Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
+        val canvas= Canvas(output)
+
+        paint.isAntiAlias=true
+
+        canvas.drawBitmap(img_back,0f,0f,paint)
+
+        canvas.drawBitmap(img_frame,0f,0f,paint)
+
+        for(x in 0..3){
+            for(y in 0..1){
+                canvas.drawBitmap(img_badge_back[y*4+x],(width)/5f*(x+1)-(img_badge_back[0].width/2),(height-frameWidth*2)/4f*(y*2+1)-(img_badge_back[0].height/2)+frameWidth,paint)
+                canvas.drawBitmap(img_badge_icon[y*4+x],(width)/5f*(x+1)-(img_badge_back[0].width/2),(height-frameWidth*2)/4f*(y*2+1)-(img_badge_back[0].height/2)+frameWidth,paint)
+            }
+        }
+
+        return output
+    }
+
     fun IconBitmapCreate(data:String?):Bitmap?{
         if(data==null)return null
         val decodedByte: ByteArray = Base64.decode(data, 0)

@@ -153,7 +153,7 @@ class ProfileFragment : Fragment() {
         "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
                 when (result) {
-                    is Result.Success -> {
+                    is Result.Success -> {   
                         CardBitmap=MyApp().CreateCardBitmap(setData(String(response.data)),resources)
                     }
                     is Result.Failure -> {
