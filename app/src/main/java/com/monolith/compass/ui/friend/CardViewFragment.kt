@@ -1,6 +1,7 @@
 package com.monolith.compass.ui.friend
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -8,7 +9,10 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.os.Handler
 import android.util.AttributeSet
+import android.util.Log
 import android.view.*
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Scroller
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -88,6 +92,7 @@ class CardViewFragment: Fragment() {
             onTouch(view, event)
         }
 
+
     }
 
     override fun onAttach(context: Context) {
@@ -107,7 +112,7 @@ class CardViewFragment: Fragment() {
                     Toast.makeText(getContext(), "n=$n", Toast.LENGTH_SHORT).show()
                     val ma=activity as MainActivity
                     ma.cardDataList=list[n]
-                    ma.FriendCardLoardStart()
+                    ma.FriendCardLoardStart(0)
                 }
                 return false
             }
@@ -416,5 +421,11 @@ class CardViewFragment: Fragment() {
 
         return output
     }
+
+
+
+
+
+
 
 }

@@ -1,7 +1,11 @@
 package com.monolith.compass.ui.friend
 
+import android.app.ActivityManager
+import android.app.AlertDialog
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,12 +86,24 @@ class FriendFragment : Fragment() {
 
         })
 
-        //コンボボックス生成処理
-        /*val spinner=view.findViewById<Spinner>(R.id.spinnerSortFriend)
-        val spinnerSort= arrayOf("新しい順","新しい順","新しい順","新しい順")//"古い順","お気に入り順","名前順","ID順")
-        val adapter=context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,spinnerSort) }
-        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter=adapter*/
+
+
+        //検索ボタン押したときの処理
+        view.findViewById<ImageButton>(R.id.imageButton).setOnClickListener {
+
+            //ID入力ダイアログ生成処理
+            val searchID=EditText(context)
+            searchID.inputType=InputType.TYPE_CLASS_NUMBER
+            val searchDialog= AlertDialog.Builder(activity)
+            searchDialog.setTitle("ID検索")
+            searchDialog.setMessage("検索したい名刺のIDを入力してください")
+            searchDialog.setView(searchID)
+            searchDialog.setPositiveButton("OK") { dialog, which ->
+                Toast.makeText(context,searchID.text.toString(),Toast.LENGTH_SHORT).show()
+            }
+            searchDialog.setNegativeButton("Cancel", null)
+            searchDialog.show()
+        }
 
     }
 
@@ -146,12 +162,6 @@ class FriendFragment : Fragment() {
 
         getFriendData(view)
 
-        //コンボボックス生成処理
-        val spinner=view.findViewById<Spinner>(R.id.spinnerSortFriend)
-        val spinnerSort= arrayOf("新しい順","新しい順","新しい順","新しい順")//"古い順","お気に入り順","名前順","ID順")
-        val adapter=context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,spinnerSort) }
-        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter=adapter
 
     }
 

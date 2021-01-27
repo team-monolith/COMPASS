@@ -20,7 +20,9 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.friend.FriendCardBackFragment
 import com.monolith.compass.ui.friend.FriendCardFragment
+import com.monolith.compass.ui.friend.FriendFragment
 import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import pub.devrel.easypermissions.EasyPermissions
@@ -336,23 +338,27 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
 
 
     //拡大名刺画面の表示
-    fun FriendCardLoardStart() {
+    fun FriendCardLoardStart(i:Int) {
+        val tagList= arrayOf("FRIENDCARD","FRIENDCARDBACK")
+        val fragmentList= arrayOf(FriendCardFragment(),FriendCardBackFragment())
         val friendFragmentTransaction = supportFragmentManager.beginTransaction()
 
-        if (supportFragmentManager.findFragmentByTag("FRIENDCARD") == null) {
+        if (supportFragmentManager.findFragmentByTag(tagList[i]) == null) {
             friendFragmentTransaction.add(
                 R.id.nav_host_fragment,
-                FriendCardFragment(),
-                "FRIENDCARD"
+                fragmentList[i],
+                tagList[i]
             ).commit()
         }
     }
 
-    fun FriendCardLoadStop() {
+        //拡大名刺画面を閉じる
+    fun FriendCardLoadStop(i: Int) {
+            val tagList= arrayOf("FRIENDCARD","FRIENDCARDBACK")
         val friendFragmentTransaction = supportFragmentManager.beginTransaction()
 
-        if (supportFragmentManager.findFragmentByTag("FRIENDCARD") != null) {
-            friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag("FRIENDCARD")!!)
+        if (supportFragmentManager.findFragmentByTag(tagList[i]) != null) {
+            friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag(tagList[i])!!)
                 .commit()
         }
     }

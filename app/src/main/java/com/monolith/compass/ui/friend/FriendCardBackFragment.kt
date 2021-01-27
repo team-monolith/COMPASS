@@ -16,7 +16,7 @@ import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 
 
-class FriendCardFragment : Fragment() {
+class FriendCardBackFragment : Fragment() {
 
 
     private lateinit var friendViewModel: FriendViewModel
@@ -29,7 +29,7 @@ class FriendCardFragment : Fragment() {
     ): View? {
         friendViewModel =
             ViewModelProvider(this).get(FriendViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_friend_card, container, false)
+        val root = inflater.inflate(R.layout.fragment_friend_card_back, container, false)
         friendViewModel.text.observe(viewLifecycleOwner, Observer {
         })
         return root
@@ -43,28 +43,24 @@ class FriendCardFragment : Fragment() {
         val card=view.findViewById<ImageView>(R.id.cardImage)
         card.setImageBitmap(MyApp().CreateCardBitmap(ma.cardDataList,resources))
 
-        //拡大名刺タップ時の動作
+
+
+        /*
+        //拡大名刺タップ時の動作------いらない気がするのでコメントアウトして放置
         view.findViewById<ImageView>(R.id.cardImage).setOnClickListener {
             //名刺拡大画面を閉じる
-            ma.FriendCardLoadStop(0)
+            ma.FriendCardLoadStop(1)
         }
+        */
 
         //お気に入りボタンタップ時の動作
         view.findViewById<ImageButton>(R.id.imageSetFav).setOnClickListener{
-            if(view.findViewById<ImageButton>(R.id.imageButtonTest).visibility!=View.VISIBLE){
-                view.findViewById<ImageButton>(R.id.imageButtonTest).visibility=View.VISIBLE
-            }else{
-                view.findViewById<ImageButton>(R.id.imageButtonTest).visibility=View.INVISIBLE
-            }
+
         }
 
         //裏面ボタンタップ時動作
         view.findViewById<ImageButton>(R.id.imageToCardBack).setOnClickListener {
-            ma.FriendCardLoardStart(1)
-        }
-
-        view.findViewById<ImageButton>(R.id.imageButtonTest).setOnClickListener {
-            Toast.makeText(context,"透過ボタン",Toast.LENGTH_SHORT).show()
+            ma.FriendCardLoadStop(1)
         }
 
 
