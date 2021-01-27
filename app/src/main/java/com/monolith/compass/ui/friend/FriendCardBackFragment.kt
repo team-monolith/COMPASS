@@ -41,7 +41,7 @@ class FriendCardBackFragment : Fragment() {
         val ma = activity as MainActivity
         //メインアクティビティのcardDataListから名刺データを受け取り生成
         val card=view.findViewById<ImageView>(R.id.cardImage)
-        card.setImageBitmap(MyApp().CreateCardBitmap(ma.cardDataList,resources))
+        card.setImageBitmap(MyApp().CreateBackBitmap(ma.cardDataList,resources))
 
 
 

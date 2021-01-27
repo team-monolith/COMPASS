@@ -19,6 +19,10 @@ class UsrinfoFragment : Fragment() {
     val GLOBAL = MyApp.getInstance()
 
 
+
+
+
+
     //var _clickListener: SettingFragment.OnClickListener? = null
 
 
@@ -40,6 +44,25 @@ class UsrinfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        GLOBAL.LocalSettingRead("LOCALSETTING.txt")
+        //身長float、体重float、歩数int、GPS取得設定int、経度float、緯度float、非取得範囲int、色string
+        val editLocalSettiongData= arrayOf(GLOBAL.LOCAL_DATA[0].toString()//身長
+            ,GLOBAL.LOCAL_DATA[1].toString()//体重
+            ,GLOBAL.LOCAL_DATA[2].toString()//歩数
+            ,GLOBAL.LOCAL_DATA[4].toString()//経度
+            ,GLOBAL.LOCAL_DATA[5].toString()//緯度
+            )
+        val editItemLists= arrayOf(R.id.editHeight,R.id.editWeight,R.id.editWalk,R.id.editHomeGPSPositionE,R.id.editHomeGPSPositionN)
+        for(i in 0..4){
+            view.findViewById<EditText>(editItemLists[i]).text=editLocalSettiongData[i]
+        }
+
+
+
+
+
+
         //コンボボックス生成処理・所持している線の色の読み込み処理が必要
         //現在設定中の色を取得ー＞nowSelectLine
         val colorSpinner = view.findViewById<Spinner>(R.id.spinnerLineColor)
@@ -55,7 +78,7 @@ class UsrinfoFragment : Fragment() {
         colorAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         colorSpinner.adapter = colorAdapter
 
-
+        //GPS非取得範囲スピナー生成
         val GPSNotRangeSpinner = view.findViewById<Spinner>(R.id.GPSNotRangeSpinner)
         val defaultGPSNotRange: Int = 100
         val GPSNotRangeItems = arrayOf("100", "250", "500", "1000")
@@ -69,7 +92,7 @@ class UsrinfoFragment : Fragment() {
         GPSNotRagneAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         GPSNotRangeSpinner.adapter = GPSNotRagneAdapter
 
-
+        //GPS取得設定のスピナー生成
         val GPSSettingSpinner = view.findViewById<Spinner>(R.id.GPSSettingSpinner)
         val GPSSettingList = arrayOf("常時取得", "アプリ使用中のみ取得", "取得しない")
         val GPSSettingAdapter = context?.let {
@@ -85,7 +108,8 @@ class UsrinfoFragment : Fragment() {
 
 
 
-
+        /*
+        //色選択のスピナーが選択されたとき
         colorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             //　アイテムが選択された時
             override fun onItemSelected(
@@ -102,6 +126,8 @@ class UsrinfoFragment : Fragment() {
 
             }
         }
+
+         */
 
 
         //保存ボタン押下処理
@@ -171,7 +197,7 @@ class UsrinfoFragment : Fragment() {
                 Toast.makeText(context, "保存しました", Toast.LENGTH_SHORT).show()
                 //LOCALSETTINGにデータを保存(身長,体重,目標歩数 ※未実装,GPS取得設定 ※未実装,自宅座標 ※未実装,非取得範囲 ※未実装,マイカラー) val test = height.toString() + "," + weight.toString() + "," + "0" + "," + "0" + "," + "0.0" + "," + "0.0" + "," + "0" + lineColor.toString()
                 val str =
-                    height.toString() + "," + weight.toString() + "," + Walk.toString() + "," + gpsSettingNum.toString() + "," + latitude.toString() + "," + longitude.toString() + "," + gpsNotRange.toString() + "," + colorRGB.toString()
+                    height.toString() + "," + weight.toString() + "," + Walk.toString() + "," + gpsSettingNum.toString() + "," + longitude.toString() + "," + latitude.toString() + "," + gpsNotRange.toString() + "," + colorRGB.toString()
                 GLOBAL.FileWrite(str, "LOCALSETTING.txt")
 
                 findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)
@@ -196,6 +222,9 @@ class UsrinfoFragment : Fragment() {
         view.findViewById<Button>(R.id.buttonToGPS).setOnClickListener {
             findNavController().navigate(R.id.action_usrinfoFragment_to_mapSettingFragment)
         }
+
+
+
 
     }
 
