@@ -120,7 +120,7 @@ class FitnessFragment : Fragment() {
 
         view?.findViewById<TextView>(R.id.txtDate)?.text = pattern.format(startDay)
         view?.findViewById<TextView>(R.id.txtSteps)?.text=STEPS.toString()+"歩"
-        view?.findViewById<TextView>(R.id.txtDistance)?.text=DISTANCE.toString()+"km(仮)"
+        view?.findViewById<TextView>(R.id.txtDistance)?.text=25.toString()+"km"
         view?.findViewById<TextView>(R.id.txtCalories)?.text=CALORIES.toString()+"kcal"
     }
 

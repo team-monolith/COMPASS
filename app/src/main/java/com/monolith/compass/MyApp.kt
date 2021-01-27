@@ -67,8 +67,9 @@ class MyApp : Application() {
         var LEVEL: Int,
         var DISTANCE: Int,
         var BADGE: Int,
-        var BACKGROUND: Int,
+        var BADGEBACK: Int,
         var FRAME: Int,
+        var BACKGROUND: Int,
         var COMMENT: String,
         var STATE: Int
     )
@@ -326,7 +327,6 @@ class MyApp : Application() {
     //CARDDATA型データを渡し、第二引数でresourcesを投げる
     fun CreateCardBitmap(DATA: CARDDATA, res: Resources): Bitmap {
 
-
         val img_card: Bitmap = BitmapFactory.decodeResource(res, R.drawable.card)
         val img_frame: Bitmap = FrameBitmapSearch(DATA.FRAME, res)
         val img_back: Bitmap = CardBackBitmapSearch(DATA.BACKGROUND, res)
@@ -341,7 +341,7 @@ class MyApp : Application() {
         else img_icon = null
 
         val img_badge_back = Bitmap.createScaledBitmap(
-            BadgeBackBitmapSearch(DATA.BACKGROUND, res),
+            BadgeBackBitmapSearch(DATA.BADGEBACK, res),
             (img_frame.height / 5),
             (img_frame.height / 5),
             true

@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     private lateinit var locationManager: LocationManager   //ロケーションマネージャーインスタンス保管用
 
     //植田テスト用
-    var cardDataList = MyApp.CARDDATA(0, "", null, 0, 0, 0, 0, 0, "", 0)
+    var cardDataList = MyApp.CARDDATA(0, "", null, 0, 0, 0, 0, 0, 0,"", 0)
 
 
     //この3つは吉田のテスト用
@@ -320,6 +320,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (resultCode != RESULT_OK) {
+            findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_profile_edit)
             return
         }
         when (requestCode) {
