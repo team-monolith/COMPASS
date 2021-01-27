@@ -263,9 +263,12 @@ class MyApp : Application() {
             var scan = Scanner(FileRead(child))
             scan.useDelimiter("[,\n]")
 
+            var target=GLOBAL.LocalSettingRead("LOCAL.txt").TARGET
+            if(target==0)target=10000
+
             //ファイルが存在しない場合は新規で作る。目標値は仮置き
             if (!scan.hasNextLine()) {
-                FileWrite(pattern.format(Date()).toString() + ",10000,0,0,0\n", "ACTIVITYLOG.txt")
+                FileWrite(pattern.format(Date()).toString() + ","+target+",0,0,0\n", "ACTIVITYLOG.txt")
                 scan = Scanner(FileRead(child))
             }
 
@@ -282,7 +285,7 @@ class MyApp : Application() {
                     Date()
                 )
             ) {
-                FileWrite(pattern.format(Date()).toString() + ",10000,0,0,0\n", "ACTIVITYLOG.txt")
+                FileWrite(pattern.format(Date()).toString() + ","+target+",0,0,0\n", "ACTIVITYLOG.txt")
                 val cl = Calendar.getInstance()
                 cl.time = Date()
 

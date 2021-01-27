@@ -138,7 +138,7 @@ class DayFragment : Fragment() {
             //最後までフォルダを参照しても存在しない場合は0をセットする
             else if (i == GLOBAL.ACTIVITY_LOG.lastIndex) {
                 step = 0
-                target = 99999//仮
+                target = GLOBAL.LocalSettingRead("LOCAL.txt").TARGET
             }
         }
 
