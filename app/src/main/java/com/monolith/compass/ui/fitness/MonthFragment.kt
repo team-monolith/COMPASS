@@ -97,7 +97,7 @@ open class MonthFragment : Fragment() {
                 tapFlg = true
             }
             event.action == MotionEvent.ACTION_MOVE -> {
-                posX += event.x.toInt() - logX!!
+                posX += event.x.toInt() - logX
                 logX = event.x.toInt()
                 tapFlg = true
             }

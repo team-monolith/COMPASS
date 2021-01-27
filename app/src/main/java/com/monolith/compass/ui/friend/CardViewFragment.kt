@@ -10,7 +10,6 @@ import android.os.Handler
 import android.util.AttributeSet
 import android.view.*
 import android.widget.Scroller
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.github.kittinunf.fuel.httpPost
@@ -104,7 +103,6 @@ class CardViewFragment: Fragment() {
                     //onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     val n=onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     if(n>=list.size)return false
-                    Toast.makeText(getContext(), "n=$n", Toast.LENGTH_SHORT).show()
                     val ma=activity as MainActivity
                     ma.cardDataList=list[n]
                     ma.FriendCardLoardStart()
@@ -284,7 +282,7 @@ class CardViewFragment: Fragment() {
 
         val POSTDATA = HashMap<String, String>()
 
-        POSTDATA.put("id","1,2,3,4,5")
+        POSTDATA.put("id","1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
 
         "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
