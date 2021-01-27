@@ -75,6 +75,9 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
             findViewById<BottomNavigationView>(R.id.nav_view).menu.findItem(R.id.navigation_profile).itemId
         RequestPermission()
 
+        //カード背景を確認のためおいてます、動作確認時はコメントアウトを消してMyAPPでブレーク置いてね
+        //GLOBAL.CreateBackBitmap(MyApp.CARDDATA(1,"テスト",null,12,10000000,1,2,3,"TEST",1234344),resources)
+
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
