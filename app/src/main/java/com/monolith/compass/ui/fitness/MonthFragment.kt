@@ -43,6 +43,8 @@ open class MonthFragment : Fragment() {
 
     var steplist=mutableListOf<Int>()//歩数データ保持用
 
+    var target=10000
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -138,11 +140,13 @@ open class MonthFragment : Fragment() {
                 //もしi日がデータとして存在する場合は値を取得
                 if(prevDate==GLOBAL.ACTIVITY_LOG[x].DATE){
                     steplist.add(GLOBAL.ACTIVITY_LOG[x].STEP)
+                    target=GLOBAL.ACTIVITY_LOG[x].TARGET
                     break
                 }
                 //最後までフォルダを参照しても存在しない場合は0をセットする
                 else if(x == GLOBAL.ACTIVITY_LOG.lastIndex){
                     steplist.add(0)
+                    target=GLOBAL.LocalSettingRead("LOCAL.txt").TARGET
                 }
             }
         }
@@ -247,7 +251,7 @@ open class MonthFragment : Fragment() {
 
             Draw.arrow(height, width, tapFlg, canvas)
 
-            Draw.monthgraph(steplist,10000,height,width,posX,canvas)
+            Draw.monthgraph(steplist,target,height,width,posX,canvas)
 
         }
     }
