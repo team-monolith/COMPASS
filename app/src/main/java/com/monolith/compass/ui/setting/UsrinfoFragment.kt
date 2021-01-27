@@ -1,5 +1,6 @@
 package com.monolith.compass.ui.setting
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,16 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
+import org.w3c.dom.Text
 
 
 class UsrinfoFragment : Fragment() {
     private lateinit var settingViewModel: SettingViewModel
 
     val GLOBAL = MyApp.getInstance()
-
-
-
-
 
 
     //var _clickListener: SettingFragment.OnClickListener? = null
@@ -41,33 +39,21 @@ class UsrinfoFragment : Fragment() {
     }
 
 
+    @SuppressLint("CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val data: MyApp.LOCAL_DC =GLOBAL.LocalSettingRead("LOCAL.txt")
 
-        GLOBAL.LocalSettingRead("LOCALSETTING.txt")
-        //身長float、体重float、歩数int、GPS取得設定int、経度float、緯度float、非取得範囲int、色string
-        val editLocalSettiongData= arrayOf(GLOBAL.LOCAL_DATA[0].toString()//身長
-            ,GLOBAL.LOCAL_DATA[1].toString()//体重
-            ,GLOBAL.LOCAL_DATA[2].toString()//歩数
-            ,GLOBAL.LOCAL_DATA[4].toString()//経度
-            ,GLOBAL.LOCAL_DATA[5].toString()//緯度
-            )
-        val editItemLists= arrayOf(R.id.editHeight,R.id.editWeight,R.id.editWalk,R.id.editHomeGPSPositionE,R.id.editHomeGPSPositionN)
-        for(i in 0..4){
-            view.findViewById<EditText>(editItemLists[i]).text=editLocalSettiongData[i]
-        }
-
-
-
-
+        val colorItems: Array<String> =arrayOf("赤", "青", "緑", "黄", "黒", "白")
+        val colorId: Array<String> =arrayOf("#ff0000", "#0000ff", "#00ff00", "#ffff00", "#000000", "#ffffff")
 
 
         //コンボボックス生成処理・所持している線の色の読み込み処理が必要
         //現在設定中の色を取得ー＞nowSelectLine
         val colorSpinner = view.findViewById<Spinner>(R.id.spinnerLineColor)
         val nowSelectLine = "金色"
-        val colorSpinnerItems = arrayOf("赤", "青", "緑", "黄", "黒", "白")
+        val colorSpinnerItems = colorItems
         val colorAdapter = context?.let {
             ArrayAdapter(
                 it,
@@ -78,7 +64,7 @@ class UsrinfoFragment : Fragment() {
         colorAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         colorSpinner.adapter = colorAdapter
 
-        //GPS非取得範囲スピナー生成
+
         val GPSNotRangeSpinner = view.findViewById<Spinner>(R.id.GPSNotRangeSpinner)
         val defaultGPSNotRange: Int = 100
         val GPSNotRangeItems = arrayOf("100", "250", "500", "1000")
@@ -92,7 +78,7 @@ class UsrinfoFragment : Fragment() {
         GPSNotRagneAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         GPSNotRangeSpinner.adapter = GPSNotRagneAdapter
 
-        //GPS取得設定のスピナー生成
+
         val GPSSettingSpinner = view.findViewById<Spinner>(R.id.GPSSettingSpinner)
         val GPSSettingList = arrayOf("常時取得", "アプリ使用中のみ取得", "取得しない")
         val GPSSettingAdapter = context?.let {
@@ -108,8 +94,7 @@ class UsrinfoFragment : Fragment() {
 
 
 
-        /*
-        //色選択のスピナーが選択されたとき
+
         colorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             //　アイテムが選択された時
             override fun onItemSelected(
@@ -127,7 +112,24 @@ class UsrinfoFragment : Fragment() {
             }
         }
 
-         */
+
+        //データをもとに再配置
+        view.findViewById<TextView>(R.id.editWeight).text=data.WEIGHT.toString()
+        view.findViewById<TextView>(R.id.editHeight).text=data.HEIGHT.toString()
+        view.findViewById<TextView>(R.id.editWalk).text=data.TARGET.toString()
+        view.findViewById<TextView>(R.id.editHomeGPSPositionE).text=data.HOME_Y.toString()
+        view.findViewById<TextView>(R.id.editHomeGPSPositionN).text=data.HOME_X.toString()
+        for(i in 0 until colorItems.size){
+            if(colorId[i] == data.MYCOLOR){
+                colorSpinner.setSelection(i)
+            }
+        }
+        GPSSettingSpinner.setSelection(data.GPSFLG)
+        for(i in 0 until GPSNotRangeItems.size){
+            if(GPSNotRangeItems[i] == data.ACQUIED.toString()){
+                GPSNotRangeSpinner.setSelection(i)
+            }
+        }
 
 
         //保存ボタン押下処理
@@ -171,13 +173,10 @@ class UsrinfoFragment : Fragment() {
             var gpsSettingNum = ""
 
             //色をRGBに変換
-            val colorToRGB =
-                arrayOf("#ff0000", "#0090ff", "#00ff00", "#ffff00", "#000000", "#ffffff")
-            val lineColorList = arrayOf("赤", "青", "緑", "黄", "黒", "白")
             var colorRGB = ""
             for (c in 0..5) {
-                if (lineColor == lineColorList[c]) {
-                    colorRGB = colorToRGB[c]
+                if (lineColor == colorItems[c]) {
+                    colorRGB = colorId[c]
                 }
             }
 
@@ -195,10 +194,7 @@ class UsrinfoFragment : Fragment() {
             if (fragItem == 1) {
                 //保存した旨の通知
                 Toast.makeText(context, "保存しました", Toast.LENGTH_SHORT).show()
-                //LOCALSETTINGにデータを保存(身長,体重,目標歩数 ※未実装,GPS取得設定 ※未実装,自宅座標 ※未実装,非取得範囲 ※未実装,マイカラー) val test = height.toString() + "," + weight.toString() + "," + "0" + "," + "0" + "," + "0.0" + "," + "0.0" + "," + "0" + lineColor.toString()
-                val str =
-                    height.toString() + "," + weight.toString() + "," + Walk.toString() + "," + gpsSettingNum.toString() + "," + longitude.toString() + "," + latitude.toString() + "," + gpsNotRange.toString() + "," + colorRGB.toString()
-                GLOBAL.FileWrite(str, "LOCALSETTING.txt")
+                GLOBAL.LocalSettingWrite(MyApp.LOCAL_DC(height.toFloat(),weight.toFloat(),Walk.toInt(),gpsSettingNum.toInt(),latitude.toFloat(),longitude.toFloat(),gpsNotRange.toInt(),colorRGB),"LOCAL.txt")
 
                 findNavController().navigate(R.id.action_usrinfoFragment_to_navigation_setting)
             } else if (fragItem == 2) {
@@ -223,13 +219,11 @@ class UsrinfoFragment : Fragment() {
             findNavController().navigate(R.id.action_usrinfoFragment_to_mapSettingFragment)
         }
 
-
-
-
     }
 
 
 }
+
 
 
 //メモ～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・～・

@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 
 
-class ProfCardFrameFragment : Fragment() {
+class ProfCardBackFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreateView(
@@ -21,7 +23,7 @@ class ProfCardFrameFragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_profile_card_frame, container, false)
+        val root = inflater.inflate(R.layout.fragment_profile_card_background, container, false)
         return root
     }
 
@@ -45,36 +47,19 @@ class ProfCardFrameFragment : Fragment() {
             ma.profsave[1]= 5
         }
         view.findViewById<ImageView>(R.id.back_img6).setOnClickListener{
-            ma.profsave[1]= 6
+            ma.profsave[1]= 5
         }
         view.findViewById<ImageView>(R.id.back_img7).setOnClickListener{
-            ma.profsave[1]= 7
+            ma.profsave[1]= 5
         }
         view.findViewById<ImageView>(R.id.back_img8).setOnClickListener{
-            ma.profsave[1]= 8
+            ma.profsave[1]= 5
         }
         view.findViewById<ImageView>(R.id.back_img9).setOnClickListener{
-            ma.profsave[1]= 9
-        }
-        view.findViewById<ImageView>(R.id.back_img10).setOnClickListener{
-            ma.profsave[1]= 10
+            ma.profsave[1]= 5
         }
 
-        /*
-        view.findViewById<Button>(R.id.tab).setOnClickListener{
-            findNavController().navigate(R.id.action_navigation_profile_card_frame_to_navigation_profile_card_background)
-        }
-        view.findViewById<Button>(R.id.back_bt).setOnClickListener{
-            ma.profsave[0] = -1
-            ma.profsave[1] = -1
-            findNavController().navigate(R.id.action_navigation_profile_card_frame_to_navigation_profile_edit)
-        }
-        view.findViewById<Button>(R.id.save_btn).setOnClickListener{
-            ma.profInt[3] = ma.profsave[0]
-            ma.profInt[4] = ma.profsave[1]
-            findNavController().navigate(R.id.action_navigation_profile_card_frame_to_navigation_profile_edit)
-        }
-        */
 
     }
+
 }
