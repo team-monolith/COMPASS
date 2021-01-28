@@ -39,7 +39,7 @@ class DayFragment : Fragment() {
 
     var scene: Array<Bitmap?> = arrayOfNulls(3)
 
-    var sky: Bitmap?=null
+    var sky: Bitmap? = null
 
     var posX: Int = 0  //表示座標管理用
     var logX: Int = 0  //タップ追従用
@@ -53,7 +53,7 @@ class DayFragment : Fragment() {
     var step: Int = 0
     var target: Int = 0
 
-    var scene_sun:Bitmap?=null
+    var scene_sun: Bitmap? = null
 
 
     override fun onCreateView(
@@ -82,9 +82,19 @@ class DayFragment : Fragment() {
                 Draw.CreateBack(height, width, resources)
             )
 
-            sky = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.nature_back),(height / 6 * 5)/6*16,height / 6 * 5,true)
+            sky = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    R.drawable.nature_back
+                ), (height / 6 * 5) / 6 * 16, height / 6 * 5, true
+            )
 
-            scene_sun=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.nature_sun),height/4,height/4,true)
+            scene_sun = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    R.drawable.nature_sun
+                ), height / 4, height / 4, true
+            )
         })
         return view
     }
@@ -241,8 +251,8 @@ class DayFragment : Fragment() {
                     if (posX <= -width) {
                         setDate(1)
                         posX = 0
-                        scene[1]=scene[2]
-                        scene[2]=Draw.CreateBack(height,width,resources)
+                        scene[1] = scene[2]
+                        scene[2] = Draw.CreateBack(height, width, resources)
                         Draw.anim_reset()
                     }
                 }
@@ -263,8 +273,8 @@ class DayFragment : Fragment() {
                     if (posX >= width) {
                         setDate(-1)
                         posX = 0
-                        scene[1]=scene[0]
-                        scene[0]=Draw.CreateBack(height,width,resources)
+                        scene[1] = scene[0]
+                        scene[0] = Draw.CreateBack(height, width, resources)
                         Draw.anim_reset()
                     }
                 }
@@ -295,15 +305,20 @@ class DayFragment : Fragment() {
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
 
-            val paint=Paint()
+            val paint = Paint()
 
             canvas!!.save()
 
             if (sky != null) {
-                canvas.drawBitmap(sky!!,0f,0f,paint)
+                canvas.drawBitmap(sky!!, 0f, 0f, paint)
             }
 
-            if(scene_sun!=null)canvas.drawBitmap(scene_sun!!,width/5*4-scene_sun!!.width/2f,scene_sun!!.height/5f,paint)
+            if (scene_sun != null) canvas.drawBitmap(
+                scene_sun!!,
+                width / 5 * 4 - scene_sun!!.width / 2f,
+                scene_sun!!.height / 5f,
+                paint
+            )
 
             if (scene[2] != null) {
                 canvas.drawBitmap(scene[0]!!, posX * 1f - width, 0f, Paint())
