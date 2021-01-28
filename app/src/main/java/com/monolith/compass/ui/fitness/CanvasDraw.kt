@@ -99,6 +99,7 @@ class CanvasDraw : Fragment() {
         Current: Int,
         Target: Int,
         pos: Int,
+        toDayFlg:Boolean,
         canvas: Canvas?
     ) {
 
@@ -119,7 +120,7 @@ class CanvasDraw : Fragment() {
                 meter = width - (walker[0]!!.width / 2)
             }
 
-            if (steps < Target) {
+            if (steps < Target||toDayFlg) {
                 canvas!!.drawBitmap(
                     walker[anim_walk % 6]!!,
                     pos + meter.toFloat() - (walker[0]!!.width / 2),

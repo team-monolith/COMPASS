@@ -129,15 +129,22 @@ class DayFragment : Fragment() {
         cl.time = prevDate
         cl.add(Calendar.DAY_OF_YEAR, Direction)
         val today=Calendar.getInstance()
-        today.time=prevDate
+        today.time=Date()
 
-        todayFlg = cl.compareTo(today)==0
+
 
         //時刻データを破棄
         cl.clear(Calendar.MINUTE)
         cl.clear(Calendar.SECOND)
         cl.clear(Calendar.MILLISECOND)
         cl.set(Calendar.HOUR_OF_DAY, 0)
+        today.clear(Calendar.MINUTE)
+        today.clear(Calendar.SECOND)
+        today.clear(Calendar.MILLISECOND)
+        today.set(Calendar.HOUR_OF_DAY, 0)
+
+
+        todayFlg = cl.compareTo(today)==0
 
         //calendar型からdate型に変換
         prevDate = cl.time
@@ -400,7 +407,7 @@ class DayFragment : Fragment() {
             Draw.arrow(height, width, tapFlg, canvas)
             Draw.meter(height, width, step, target, posX, canvas)
             Draw.steps(height, width, step, target, walker, posX, canvas)
-            Draw.human(walker, joyful, height, width,step, target, posX, canvas)
+            Draw.human(walker, joyful, height, width,step, target, posX,todayFlg, canvas)
 
         }
     }
