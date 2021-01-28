@@ -647,7 +647,6 @@ class MyApp : Application() {
         return img
     }
 
-
     fun BadgeBackBitmapSearch(ID: Int, res: Resources): Bitmap {
         var img = BitmapFactory.decodeResource(res, R.drawable.badge_background_0)
         when (ID) {
@@ -671,6 +670,27 @@ class MyApp : Application() {
             7 -> img = BitmapFactory.decodeResource(res, R.drawable.badge_icon_7)
         }
         return img
+    }
+
+    fun Favorite_add(ID:Int){
+
+        val favorite = FileRead("FAVORITE.txt")
+        val arr = favorite.split(",")
+        for(i in 0..arr.size){
+            if(ID.toString() == arr[i]){
+
+            }
+        }
+        //ファイル内に同じIDが無いか探索する
+
+    }
+
+    fun Favorite_delete(ID:Int){
+
+    }
+
+    fun Favorite_list() :String{
+        return "0"
     }
 
 
