@@ -32,6 +32,7 @@ class ProfCardBackgroundFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        /*背景用フラグメントを表示する*/
         var transaction = childFragmentManager.beginTransaction()
         transaction.replace(R.id.frame, ProfCardBackFragment())
         transaction.commit()
@@ -57,10 +58,10 @@ class ProfCardBackgroundFragment : Fragment() {
 
                 //現在のモードに合わせて画面を入れ変える
                 when (tab.position) {
-                    0 -> {
+                    0 -> { //背景設定用
                         transaction.replace(R.id.frame, ProfCardBackFragment()).commit()
                     }
-                    1 -> {
+                    1 -> { //フレーム用
                         transaction.replace(R.id.frame, ProfCardFrameFragment()).commit()
                     }
                 }

@@ -67,8 +67,9 @@ class MyApp : Application() {
         var LEVEL: Int,
         var DISTANCE: Int,
         var BADGE: Int,
-        var BACKGROUND: Int,
+        var BADGEBACK: Int,
         var FRAME: Int,
+        var BACKGROUND: Int,
         var COMMENT: String,
         var STATE: Int
     )
@@ -263,9 +264,12 @@ class MyApp : Application() {
             var scan = Scanner(FileRead(child))
             scan.useDelimiter("[,\n]")
 
+            var target=GLOBAL.LocalSettingRead("LOCAL.txt").TARGET
+            if(target==0)target=10000
+
             //ファイルが存在しない場合は新規で作る。目標値は仮置き
             if (!scan.hasNextLine()) {
-                FileWrite(pattern.format(Date()).toString() + ",10000,0,0,0\n", "ACTIVITYLOG.txt")
+                FileWrite(pattern.format(Date()).toString() + ","+target+",0,0,0\n", "ACTIVITYLOG.txt")
                 scan = Scanner(FileRead(child))
             }
 
@@ -282,7 +286,7 @@ class MyApp : Application() {
                     Date()
                 )
             ) {
-                FileWrite(pattern.format(Date()).toString() + ",10000,0,0,0\n", "ACTIVITYLOG.txt")
+                FileWrite(pattern.format(Date()).toString() + ","+target+",0,0,0\n", "ACTIVITYLOG.txt")
                 val cl = Calendar.getInstance()
                 cl.time = Date()
 
@@ -323,7 +327,6 @@ class MyApp : Application() {
     //CARDDATA型データを渡し、第二引数でresourcesを投げる
     fun CreateCardBitmap(DATA: CARDDATA, res: Resources): Bitmap {
 
-
         val img_card: Bitmap = BitmapFactory.decodeResource(res, R.drawable.card)
         val img_frame: Bitmap = FrameBitmapSearch(DATA.FRAME, res)
         val img_back: Bitmap = CardBackBitmapSearch(DATA.BACKGROUND, res)
@@ -338,7 +341,7 @@ class MyApp : Application() {
         else img_icon = null
 
         val img_badge_back = Bitmap.createScaledBitmap(
-            BadgeBackBitmapSearch(DATA.BACKGROUND, res),
+            BadgeBackBitmapSearch(DATA.BADGEBACK, res),
             (img_frame.height / 5),
             (img_frame.height / 5),
             true
@@ -644,7 +647,6 @@ class MyApp : Application() {
         return img
     }
 
-
     fun BadgeBackBitmapSearch(ID: Int, res: Resources): Bitmap {
         var img = BitmapFactory.decodeResource(res, R.drawable.badge_background_0)
         when (ID) {
@@ -670,7 +672,51 @@ class MyApp : Application() {
         return img
     }
 
+    /*お気に入りを追加する部品 (存在しない場合リストに追加しtrueを返す)*/
+    fun Favorite_add(ID:Int):Boolean{
+        var favorite = FileRead("FAVORITE.txt")
+        val arr = favorite.split(",")
+        for(i in arr.indices){
+            //ファイル内に同じIDが無いか探索する
+            if(ID.toString() == arr[i]){
+                return false //存在した場合false
+            }
+        }
+        if(favorite != ""){
+            //お気に入りリストにすでにデータがある場合
+            favorite += ID.toString()
+        }else{
+            //お気に入りリストにすでにデータがない場合
+            favorite = ID.toString()
+        }
+        FileWrite(favorite,"FAVORITE.txt") //変更後のデータを"FAVORITE.txt"に書き込む
+        return true
+    }
 
+    /*指定されたIDをお気に入りデータから削除する*/
+    fun Favorite_delete(ID:Int){
+        var favorite = FileRead("FAVORITE.txt")
+        var favorite_work = ""
+        var delete_flg = false
+        var arr = favorite.split(",").toMutableList()
+        for(i in arr.indices){
+            //ファイル内に同じIDが無いか探索する
+            if(ID.toString() == arr[i]){
+                delete_flg = true //削除対象のIDが見つかった場合
+            }
+            //見つかった場合"arr[i]"に"arr[1 + 1]"のデータを格納していく
+            if(delete_flg){
+                arr[i] = arr[i+1]
+            }
+        }
+        favorite_work = arr.joinToString(",")
+        FileWrite(favorite_work,"FAVORITE.txt") //変更後のデータを"FAVORITE.txt"に書き込む
+    }
+
+    /*お気に入りのリストを返却する*/
+    fun Favorite_list() :String{
+        return FileRead("FAVORITE.txt")
+    }
 }
 
 /*

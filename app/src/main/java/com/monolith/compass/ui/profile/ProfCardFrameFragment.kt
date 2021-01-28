@@ -29,35 +29,59 @@ class ProfCardFrameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val ma = activity as MainActivity
-        view.findViewById<ImageView>(R.id.back_img1).setOnClickListener{
+        view.findViewById<ImageView>(R.id.frame_img0).setOnClickListener{
+            ma.profsave[1]= 0
+        }
+        view.findViewById<ImageView>(R.id.frame_img1).setOnClickListener{
             ma.profsave[1]= 1
         }
-        view.findViewById<ImageView>(R.id.back_img2).setOnClickListener{
+        view.findViewById<ImageView>(R.id.frame_img1).setOnClickListener{
+            ma.profsave[1]= 1
+        }
+        view.findViewById<ImageView>(R.id.frame_img2).setOnClickListener{
             ma.profsave[1]= 2
         }
-        view.findViewById<ImageView>(R.id.back_img3).setOnClickListener{
+        view.findViewById<ImageView>(R.id.frame_img3).setOnClickListener{
             ma.profsave[1]= 3
         }
-        view.findViewById<ImageView>(R.id.back_img4).setOnClickListener{
+        view.findViewById<ImageView>(R.id.frame_img4).setOnClickListener{
             ma.profsave[1]= 4
         }
-        view.findViewById<ImageView>(R.id.back_img5).setOnClickListener{
+        view.findViewById<ImageView>(R.id.frame_img5).setOnClickListener{
             ma.profsave[1]= 5
         }
-        view.findViewById<ImageView>(R.id.back_img6).setOnClickListener{
+        view.findViewById<ImageView>(R.id.frame_img6).setOnClickListener{
             ma.profsave[1]= 6
         }
-        view.findViewById<ImageView>(R.id.back_img7).setOnClickListener{
+        view.findViewById<ImageView>(R.id.frame_img7).setOnClickListener{
             ma.profsave[1]= 7
         }
-        view.findViewById<ImageView>(R.id.back_img8).setOnClickListener{
+        view.findViewById<ImageView>(R.id.frame_img8).setOnClickListener{
             ma.profsave[1]= 8
         }
-        view.findViewById<ImageView>(R.id.back_img9).setOnClickListener{
+        view.findViewById<ImageView>(R.id.frame_img9).setOnClickListener{
             ma.profsave[1]= 9
         }
-        view.findViewById<ImageView>(R.id.back_img10).setOnClickListener{
+        view.findViewById<ImageView>(R.id.frame_img10).setOnClickListener{
             ma.profsave[1]= 10
+        }
+        view.findViewById<ImageView>(R.id.frame_img11).setOnClickListener{
+            ma.profsave[1]= 11
+        }
+        view.findViewById<ImageView>(R.id.frame_img12).setOnClickListener{
+            ma.profsave[1]= 12
+        }
+        view.findViewById<ImageView>(R.id.frame_img13).setOnClickListener{
+            ma.profsave[1]= 13
+        }
+        view.findViewById<ImageView>(R.id.frame_img14).setOnClickListener{
+            ma.profsave[1]= 14
+        }
+        view.findViewById<ImageView>(R.id.frame_img15).setOnClickListener{
+            ma.profsave[1]= 15
+        }
+        view.findViewById<ImageView>(R.id.frame_img16).setOnClickListener{
+            ma.profsave[1]= 16
         }
 
         /*

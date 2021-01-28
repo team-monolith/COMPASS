@@ -119,13 +119,13 @@ class UsrinfoFragment : Fragment() {
         view.findViewById<TextView>(R.id.editWalk).text=data.TARGET.toString()
         view.findViewById<TextView>(R.id.editHomeGPSPositionE).text=data.HOME_Y.toString()
         view.findViewById<TextView>(R.id.editHomeGPSPositionN).text=data.HOME_X.toString()
-        for(i in 0 until colorItems.size){
+        for(i in colorItems.indices){
             if(colorId[i] == data.MYCOLOR){
                 colorSpinner.setSelection(i)
             }
         }
         GPSSettingSpinner.setSelection(data.GPSFLG)
-        for(i in 0 until GPSNotRangeItems.size){
+        for(i in GPSNotRangeItems.indices){
             if(GPSNotRangeItems[i] == data.ACQUIED.toString()){
                 GPSNotRangeSpinner.setSelection(i)
             }

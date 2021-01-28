@@ -294,8 +294,9 @@ class EventFragment : Fragment() {
             val LEVEL:Int=scan.nextInt()
             val DISTANCE:Int=scan.nextInt()
             val BADGE:Int=scan.nextInt()
-            val BACKGROUND:Int=scan.nextInt()
+            val BADGEBACK:Int=scan.nextInt()
             val FRAME:Int=scan.nextInt()
+            val BACKGROUND:Int=scan.nextInt()
             val COMMENT:String=scan.next()
             val STATE:Int=scan.nextInt()
             list.add(
@@ -306,8 +307,9 @@ class EventFragment : Fragment() {
                     LEVEL,
                     DISTANCE,
                     BADGE,
-                    BACKGROUND,
+                    BADGEBACK,
                     FRAME,
+                    BACKGROUND,
                     COMMENT,
                     STATE
                 )

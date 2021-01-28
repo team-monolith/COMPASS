@@ -20,9 +20,7 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
-import com.monolith.compass.ui.friend.FriendCardBackFragment
 import com.monolith.compass.ui.friend.FriendCardFragment
-import com.monolith.compass.ui.friend.FriendFragment
 import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import pub.devrel.easypermissions.EasyPermissions
@@ -354,7 +352,6 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
                 tagList[i]
             ).commit()
         }
-
     }
 
         //拡大名刺画面を閉じる
@@ -364,6 +361,8 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
         if (supportFragmentManager.findFragmentByTag(tagList[i]) != null) {
             friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag(tagList[i])!!)
 
+        if (supportFragmentManager.findFragmentByTag("FRIENDCARD") != null) {
+            friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag("FRIENDCARD")!!)
                 .commit()
         }
     }

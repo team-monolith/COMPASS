@@ -14,7 +14,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Scroller
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.github.kittinunf.fuel.httpPost
@@ -109,7 +108,6 @@ class CardViewFragment: Fragment() {
                     //onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     val n=onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     if(n>=list.size)return false
-                    Toast.makeText(getContext(), "n=$n", Toast.LENGTH_SHORT).show()
                     val ma=activity as MainActivity
                     ma.cardDataList=list[n]
                     ma.FriendCardLoardStart(0)
@@ -289,7 +287,7 @@ class CardViewFragment: Fragment() {
 
         val POSTDATA = HashMap<String, String>()
 
-        POSTDATA.put("id","1,2,3,4,5")
+        POSTDATA.put("id","1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
 
         "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
@@ -345,14 +343,19 @@ class CardViewFragment: Fragment() {
             else BADGE=0
 
             buf=scan.next()
-            val BACK:Int
-            if(buf!="")BACK=buf.toInt()
-            else BACK=0
+            val BADGEBACK:Int
+            if(buf!="")BADGEBACK=buf.toInt()
+            else BADGEBACK=0
 
             buf=scan.next()
             val FRAME:Int
             if(buf!="")FRAME=buf.toInt()
             else FRAME=0
+
+            buf=scan.next()
+            val BACK:Int
+            if(buf!="")BACK=buf.toInt()
+            else BACK=0
 
             buf=scan.next()
             val COMMENT:String
@@ -369,8 +372,6 @@ class CardViewFragment: Fragment() {
                 STATE=0
             }
 
-
-
             list.add(
                 MyApp.CARDDATA(
                     ID,
@@ -379,8 +380,9 @@ class CardViewFragment: Fragment() {
                     LEVEL,
                     DISTANCE,
                     BADGE,
-                    BACK,
+                    BADGEBACK,
                     FRAME,
+                    BACK,
                     COMMENT,
                     STATE
                 )
@@ -403,18 +405,20 @@ class CardViewFragment: Fragment() {
         for(i in list.indices){
             //比率で近似値の0.6を入れています
             val image= Bitmap.createScaledBitmap(
-                MyApp().CreateCardBitmap(list[i],resources),width/24*22,
-                (width/24*22*0.6).toInt(),true)
+                MyApp().CreateCardBitmap(list[i],resources),width/10*8,
+                (width/10*8*0.6).toInt(),true)
+
+            // /24*12でGalaxyS20だとぴったり、発表の際は入れ替える
 
             when(i%3){
                 0->{
-                    canvas.drawBitmap(image,width/24f+width*((i-(i%3))/3),(height/2-image.height/2f)/2-image.height/2,paint)
+                    canvas.drawBitmap(image,width/10f+width*((i-(i%3))/3),(height/2-image.height/2f)/2-image.height/2,paint)
                 }
                 1->{
-                    canvas.drawBitmap(image,width/24f+width*((i-(i%3))/3),height/2-image.height/2f,paint)
+                    canvas.drawBitmap(image,width/10f+width*((i-(i%3))/3),height/2-image.height/2f,paint)
                 }
                 2->{
-                    canvas.drawBitmap(image,width/24f+width*((i-(i%3))/3),((height/2+image.height/2f)+height)/2-image.height/2,paint)
+                    canvas.drawBitmap(image,width/10f+width*((i-(i%3))/3),((height/2+image.height/2f)+height)/2-image.height/2,paint)
                 }
             }
         }
