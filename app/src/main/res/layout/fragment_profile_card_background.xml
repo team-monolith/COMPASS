@@ -26,6 +26,14 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank18"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img0"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
