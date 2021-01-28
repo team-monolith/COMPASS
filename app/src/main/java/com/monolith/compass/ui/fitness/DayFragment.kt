@@ -22,7 +22,6 @@ import java.util.*
 
 class DayFragment : Fragment() {
 
-    private lateinit var dayViewModel: FitnessViewModel
 
     private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
@@ -57,15 +56,14 @@ class DayFragment : Fragment() {
 
     var scene_sun: Bitmap? = null
 
+    var todayFlg:Boolean=false
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dayViewModel =
-            ViewModelProvider(this).get(FitnessViewModel::class.java)
-
         val view = inflater.inflate(R.layout.fragment_blank, container, false)
         val layout = view.findViewById<ConstraintLayout>(R.id.blanklayout)
         moveview = MoveView(this.activity)
@@ -130,6 +128,10 @@ class DayFragment : Fragment() {
         val cl = Calendar.getInstance()
         cl.time = prevDate
         cl.add(Calendar.DAY_OF_YEAR, Direction)
+        val today=Calendar.getInstance()
+        today.time=prevDate
+
+        todayFlg = cl.compareTo(today)==0
 
         //時刻データを破棄
         cl.clear(Calendar.MINUTE)
@@ -199,6 +201,75 @@ class DayFragment : Fragment() {
                 BitmapFactory.decodeResource(
                     resources,
                     com.monolith.compass.R.drawable.walk_6
+                ), 256, 256, false
+            )
+        )
+
+        joyful = arrayOf(
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful01
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful02
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful03
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful04
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful05
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful06
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful07
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful08
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful09
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful10
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful11
                 ), 256, 256, false
             )
         )
@@ -290,8 +361,6 @@ class DayFragment : Fragment() {
             if (posX == 0) accelerator = 0
         }
 
-        setDate(0)
-
     }
 
     inner class MoveView : View {
@@ -331,7 +400,7 @@ class DayFragment : Fragment() {
             Draw.arrow(height, width, tapFlg, canvas)
             Draw.meter(height, width, step, target, posX, canvas)
             Draw.steps(height, width, step, target, walker, posX, canvas)
-            Draw.human(walker, height, width, posX, canvas)
+            Draw.human(walker, joyful, height, width,step, target, posX, canvas)
 
         }
     }
