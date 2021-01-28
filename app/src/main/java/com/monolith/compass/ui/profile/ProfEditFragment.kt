@@ -67,8 +67,10 @@ class ProfEditFragment : Fragment() {
         //保存ボタン処理
         view.findViewById<Button>(R.id.combtn).setOnClickListener{
             UploadData(name.text.toString(),phrase.text.toString())
+            iconBufferDelete()
         }
         view.findViewById<Button>(R.id.back_bt).setOnClickListener{
+            iconBufferDelete()
             findNavController().navigate(R.id.navigation_profile)
         }
         icon_img.setOnClickListener{
@@ -118,6 +120,11 @@ class ProfEditFragment : Fragment() {
         catch(e:Exception){
             return null
         }
+    }
+
+    fun iconBufferDelete(){
+        val file=File(GLOBAL.DIRECTORY+"/icon.png")
+        file.delete()
     }
 
     fun UploadData(name:String,comment:String){
