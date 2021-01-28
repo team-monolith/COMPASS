@@ -29,7 +29,9 @@
                     android:id="@+id/frame_img0"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:background="@drawable/card_background_0" />
+                    android:background="@drawable/frame_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
 
             </FrameLayout>
 
@@ -43,6 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:background="@drawable/card_background_1" />
+
             </FrameLayout>
 
             <FrameLayout

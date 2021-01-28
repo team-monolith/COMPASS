@@ -26,12 +26,21 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img0"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:background="@drawable/frame_0"
                     android:scaleX="0.9"
                     android:scaleY="0.9" />
+
             </FrameLayout>
 
             <FrameLayout
@@ -40,12 +49,21 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank2"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img1"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:background="@drawable/frame_1"
                     android:scaleX="0.9"
                     android:scaleY="0.9" />
+
             </FrameLayout>
 
             <FrameLayout
@@ -54,18 +72,35 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank3"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img2"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:background="@drawable/frame_2"
                     android:scaleX="0.9"
                     android:scaleY="0.9" />
+
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/f_layout3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/blank4"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
 
                 <ImageView
                     android:id="@+id/frame_img3"
@@ -82,6 +117,14 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank5"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img4"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
@@ -94,6 +137,14 @@
                 android:id="@+id/f_layout5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/blank6"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
 
                 <ImageView
                     android:id="@+id/frame_img5"
@@ -110,6 +161,14 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank7"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img6"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
@@ -122,6 +181,14 @@
                 android:id="@+id/f_layout7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/blank8"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
 
                 <ImageView
                     android:id="@+id/frame_img7"
@@ -138,6 +205,14 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank9"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img8"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
@@ -150,6 +225,14 @@
                 android:id="@+id/f_layout9"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/blank10"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
 
                 <ImageView
                     android:id="@+id/frame_img9"
@@ -166,6 +249,14 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank11"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img10"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
@@ -178,6 +269,14 @@
                 android:id="@+id/f_layout11"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/blank12"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
 
                 <ImageView
                     android:id="@+id/frame_img11"
@@ -194,6 +293,14 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank13"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img12"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
@@ -208,6 +315,14 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank14"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img13"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
@@ -220,6 +335,14 @@
                 android:id="@+id/f_layout14"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/blank15"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
 
                 <ImageView
                     android:id="@+id/frame_img14"
@@ -237,6 +360,14 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/blank16"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
+
+                <ImageView
                     android:id="@+id/frame_img15"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
@@ -249,6 +380,14 @@
                 android:id="@+id/f_layout16"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/blank17"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_0"
+                    android:scaleX="0.9"
+                    android:scaleY="0.9" />
 
                 <ImageView
                     android:id="@+id/frame_img16"
