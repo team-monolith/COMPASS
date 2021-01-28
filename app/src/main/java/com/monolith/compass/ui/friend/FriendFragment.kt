@@ -100,6 +100,15 @@ class FriendFragment : Fragment() {
             searchDialog.setView(searchID)
             searchDialog.setPositiveButton("OK") { dialog, which ->
                 Toast.makeText(context,searchID.text.toString(),Toast.LENGTH_SHORT).show()
+                val ma=activity as MainActivity
+                val idText=searchID.text.toString().toInt()
+                for (i in ma.cardIDs){
+                    if (idText==ma.cardIDs[i]){
+
+                    }
+                }
+
+
             }
             searchDialog.setNegativeButton("Cancel", null)
             searchDialog.show()

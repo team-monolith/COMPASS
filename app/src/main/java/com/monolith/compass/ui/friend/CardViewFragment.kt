@@ -309,11 +309,14 @@ class CardViewFragment: Fragment() {
         val scan= Scanner(data.replace("<br>",""))
         scan.useDelimiter(",|\n")
 
+        val ma=activity as MainActivity
+
         while(scan.hasNext()){
             var buf:String=scan.next()
 
             val ID:Int
             if(buf!="")ID=buf.toInt()
+
             else ID=0
 
             buf=scan.next()
@@ -382,6 +385,7 @@ class CardViewFragment: Fragment() {
                     STATE
                 )
             )
+            ma.cardIDs.add(ID)
         }
     }
 

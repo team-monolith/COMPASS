@@ -51,21 +51,24 @@ class FriendCardFragment : Fragment() {
 
         //お気に入りボタンタップ時の動作
         view.findViewById<ImageButton>(R.id.imageSetFav).setOnClickListener{
-            if(view.findViewById<ImageButton>(R.id.imageButtonTest).visibility!=View.VISIBLE){
-                view.findViewById<ImageButton>(R.id.imageButtonTest).visibility=View.VISIBLE
-            }else{
-                view.findViewById<ImageButton>(R.id.imageButtonTest).visibility=View.INVISIBLE
-            }
+            view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.VISIBLE
+            view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.INVISIBLE
         }
+
+        //お気に入り登録済みボタンタップ時の動作
+        view.findViewById<ImageButton>(R.id.imageRemoveFav).setOnClickListener {
+            view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.INVISIBLE
+            view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.VISIBLE
+        }
+
+
 
         //裏面ボタンタップ時動作
         view.findViewById<ImageButton>(R.id.imageToCardBack).setOnClickListener {
             ma.FriendCardLoardStart(1)
         }
 
-        view.findViewById<ImageButton>(R.id.imageButtonTest).setOnClickListener {
-            Toast.makeText(context,"透過ボタン",Toast.LENGTH_SHORT).show()
-        }
+
 
 
     }

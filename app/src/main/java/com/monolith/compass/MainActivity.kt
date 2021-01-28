@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
 
     //植田テスト用
     var cardDataList = MyApp.CARDDATA(0, "", null, 0, 0, 0, 0, 0, "", 0)
+    var cardIDs= mutableListOf<Int>()
 
 
     //この3つは吉田のテスト用
@@ -353,15 +354,16 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
                 tagList[i]
             ).commit()
         }
+
     }
 
         //拡大名刺画面を閉じる
     fun FriendCardLoadStop(i: Int) {
             val tagList= arrayOf("FRIENDCARD","FRIENDCARDBACK")
-        val friendFragmentTransaction = supportFragmentManager.beginTransaction()
-
+            val friendFragmentTransaction = supportFragmentManager.beginTransaction()
         if (supportFragmentManager.findFragmentByTag(tagList[i]) != null) {
             friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag(tagList[i])!!)
+
                 .commit()
         }
     }

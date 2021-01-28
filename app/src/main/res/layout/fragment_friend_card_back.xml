@@ -66,6 +66,19 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
+                    android:id="@+id/imageRemoveFav"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="#7C7C7C"
+                    android:src="@android:drawable/btn_star_big_on"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
                     android:id="@+id/imageToCardBack"
                     android:layout_width="40dp"
                     android:layout_height="40dp"

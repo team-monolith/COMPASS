@@ -45,8 +45,10 @@ class FriendCardBackFragment : Fragment() {
 
 
 
+
+
         /*
-        //拡大名刺タップ時の動作------いらない気がするのでコメントアウトして放置
+        //拡大名刺タップ時の動作------いらない気がするのでコメントアウトして放置中
         view.findViewById<ImageView>(R.id.cardImage).setOnClickListener {
             //名刺拡大画面を閉じる
             ma.FriendCardLoadStop(1)
@@ -55,7 +57,14 @@ class FriendCardBackFragment : Fragment() {
 
         //お気に入りボタンタップ時の動作
         view.findViewById<ImageButton>(R.id.imageSetFav).setOnClickListener{
+            view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.VISIBLE
+            view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.INVISIBLE
+        }
 
+        //お気に入り登録済みボタンタップ時の動作
+        view.findViewById<ImageButton>(R.id.imageRemoveFav).setOnClickListener {
+            view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.INVISIBLE
+            view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.VISIBLE
         }
 
         //裏面ボタンタップ時動作
