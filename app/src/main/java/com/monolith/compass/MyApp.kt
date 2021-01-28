@@ -684,7 +684,7 @@ class MyApp : Application() {
         }
         if(favorite != ""){
             //お気に入りリストにすでにデータがある場合
-            favorite += ID.toString()
+            favorite += "," + ID.toString()
         }else{
             //お気に入りリストにすでにデータがない場合
             favorite = ID.toString()

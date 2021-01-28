@@ -65,10 +65,10 @@ class FriendFragment : Fragment() {
                 //現在のモードに合わせて画面を入れ変える
                 when (tab.position) {
                     0 -> {
-                        transaction.replace(R.id.card_frame, CardViewFragment()).commit()
+                        transaction.replace(R.id.card_frame, CardViewFragment()).commit() //すれ違い
                     }
                     1 -> {
-                        transaction.replace(R.id.card_frame, CardViewFragment()).commit()
+                        transaction.replace(R.id.card_frame, FavoriteViewFragment()).commit() //お気に入り
                     }
                 }
 
