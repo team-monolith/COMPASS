@@ -335,14 +335,19 @@ class CardViewFragment: Fragment() {
             else BADGE=0
 
             buf=scan.next()
-            val BACK:Int
-            if(buf!="")BACK=buf.toInt()
-            else BACK=0
+            val BADGEBACK:Int
+            if(buf!="")BADGEBACK=buf.toInt()
+            else BADGEBACK=0
 
             buf=scan.next()
             val FRAME:Int
             if(buf!="")FRAME=buf.toInt()
             else FRAME=0
+
+            buf=scan.next()
+            val BACK:Int
+            if(buf!="")BACK=buf.toInt()
+            else BACK=0
 
             buf=scan.next()
             val COMMENT:String
@@ -359,8 +364,6 @@ class CardViewFragment: Fragment() {
                 STATE=0
             }
 
-
-
             list.add(
                 MyApp.CARDDATA(
                     ID,
@@ -369,8 +372,9 @@ class CardViewFragment: Fragment() {
                     LEVEL,
                     DISTANCE,
                     BADGE,
-                    BACK,
+                    BADGEBACK,
                     FRAME,
+                    BACK,
                     COMMENT,
                     STATE
                 )
@@ -392,18 +396,20 @@ class CardViewFragment: Fragment() {
         for(i in list.indices){
             //比率で近似値の0.6を入れています
             val image= Bitmap.createScaledBitmap(
-                MyApp().CreateCardBitmap(list[i],resources),width/24*22,
-                (width/24*22*0.6).toInt(),true)
+                MyApp().CreateCardBitmap(list[i],resources),width/10*8,
+                (width/10*8*0.6).toInt(),true)
+
+            // /24*12でGalaxyS20だとぴったり、発表の際は入れ替える
 
             when(i%3){
                 0->{
-                    canvas.drawBitmap(image,width/24f+width*((i-(i%3))/3),(height/2-image.height/2f)/2-image.height/2,paint)
+                    canvas.drawBitmap(image,width/10f+width*((i-(i%3))/3),(height/2-image.height/2f)/2-image.height/2,paint)
                 }
                 1->{
-                    canvas.drawBitmap(image,width/24f+width*((i-(i%3))/3),height/2-image.height/2f,paint)
+                    canvas.drawBitmap(image,width/10f+width*((i-(i%3))/3),height/2-image.height/2f,paint)
                 }
                 2->{
-                    canvas.drawBitmap(image,width/24f+width*((i-(i%3))/3),((height/2+image.height/2f)+height)/2-image.height/2,paint)
+                    canvas.drawBitmap(image,width/10f+width*((i-(i%3))/3),((height/2+image.height/2f)+height)/2-image.height/2,paint)
                 }
             }
         }

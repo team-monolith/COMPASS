@@ -198,14 +198,19 @@ class ProfileFragment : Fragment() {
         else BADGE = 0
 
         buf = scan.next()
-        val BACK: Int
-        if (buf != "") BACK = buf.toInt()
-        else BACK = 0
+        val BADGEBACK: Int
+        if (buf != "") BADGEBACK = buf.toInt()
+        else BADGEBACK = 0
 
         buf = scan.next()
         val FRAME: Int
         if (buf != "") FRAME = buf.toInt()
         else FRAME = 0
+
+        buf = scan.next()
+        val BACK: Int
+        if (buf != "") BACK = buf.toInt()
+        else BACK = 0
 
         buf = scan.next()
         val COMMENT: String
@@ -228,8 +233,9 @@ class ProfileFragment : Fragment() {
             LEVEL,
             DISTANCE,
             BADGE,
-            BACK,
+            BADGEBACK,
             FRAME,
+            BACK,
             COMMENT,
             STATE
         )
