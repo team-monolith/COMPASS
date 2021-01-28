@@ -131,7 +131,7 @@ class CanvasDraw : Fragment() {
         //文字を実際に描画
         canvas!!.drawText(
             steps.toString(),
-            pos + anim_meter.toFloat() - 50,
+            pos + anim_meter.toFloat()-paint.measureText(steps.toString())/3*2,
             (height / 6 * 5f)-walker[0]!!.height,
             paint
         )
