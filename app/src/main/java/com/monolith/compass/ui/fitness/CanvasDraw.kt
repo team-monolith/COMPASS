@@ -93,27 +93,47 @@ class CanvasDraw : Fragment() {
     //人間のアニメーションを表示する関数
     fun human(
         walker: Array<Bitmap?>,
+        joyful: Array<Bitmap?>,
         height: Int,
         width: Int,
+        Current: Int,
+        Target: Int,
         pos: Int,
         canvas: Canvas?
     ) {
 
         //atache後であることを念のため確認。リソース抜け時クラッシュを回避するため要記載
-        if (walker[0] != null) {
+        if (walker[5] != null && joyful[10] != null) {
             val paint = Paint()
             paint.isAntiAlias = true
 
-            var meter=anim_meter
-            if(anim_meter>=width-(walker[anim_walk % 3]!!.width / 2)){
-                meter=width-(walker[anim_walk % 3]!!.width / 2)
+            //表示上の歩数を管理する変数
+            var steps =
+                (anim_meter / ((Current.toFloat() / Target.toFloat()) * width) * Current).toInt()
+
+            //小数点以下の誤差を修正
+            if (abs(steps - Current) <= 1) steps = Current
+
+            var meter = anim_meter
+            if (anim_meter >= width - (walker[0]!!.width / 2)) {
+                meter = width - (walker[0]!!.width / 2)
             }
-            canvas!!.drawBitmap(
-                walker[anim_walk % 6]!!,
-                pos + meter.toFloat()-(walker[anim_walk % 3]!!.width / 2),
-                ((height / 6 * 5) - walker[anim_walk % 3]!!.height).toFloat(),
-                null
-            )
+
+            if (steps < Target) {
+                canvas!!.drawBitmap(
+                    walker[anim_walk % 6]!!,
+                    pos + meter.toFloat() - (walker[0]!!.width / 2),
+                    ((height / 6 * 5) - walker[0]!!.height).toFloat(),
+                    null
+                )
+            } else {
+                canvas!!.drawBitmap(
+                    joyful[anim_walk % 11]!!,
+                    pos + meter.toFloat() - (joyful[0]!!.width / 2),
+                    ((height / 6 * 5) - joyful[0]!!.height).toFloat(),
+                    null
+                )
+            }
 
         }
 
@@ -145,14 +165,13 @@ class CanvasDraw : Fragment() {
             (anim_meter / ((Current.toFloat() / Target.toFloat()) * width) * Current).toInt()
 
         //小数点以下の誤差を修正
-        if (abs(steps - Current) <= 100) steps = Current
+        if (abs(steps - Current) <= 1) steps = Current
 
-        var meter=anim_meter
-        if(anim_meter>=width-(walker[anim_walk % 3]!!.width / 2)){
-            meter=width-(walker[anim_walk % 3]!!.width / 2)
+        var meter = anim_meter
+        if (anim_meter >= width - (walker[0]!!.width / 2)) {
+            meter = width - (walker[0]!!.width / 2)
         }
 
-        //文字を実際に描画
         canvas!!.drawText(
             steps.toString(),
             pos + meter.toFloat() - paint.measureText(steps.toString()) / 3 * 2,
