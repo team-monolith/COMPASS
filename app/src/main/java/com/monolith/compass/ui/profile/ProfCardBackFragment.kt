@@ -87,6 +87,21 @@ class ProfCardBackFragment : Fragment() {
             view.findViewById<FrameLayout>(R.id.s_layout10).setBackgroundColor(Color.rgb(255, 0, 0))
             ma.profsave[1]= 10
         }
+        view.findViewById<ImageView>(R.id.frame_img11).setOnClickListener{
+            reset_color()
+            view.findViewById<FrameLayout>(R.id.s_layout11).setBackgroundColor(Color.rgb(255, 0, 0))
+            ma.profsave[1]= 11
+        }
+        view.findViewById<ImageView>(R.id.frame_img12).setOnClickListener{
+            reset_color()
+            view.findViewById<FrameLayout>(R.id.s_layout12).setBackgroundColor(Color.rgb(255, 0, 0))
+            ma.profsave[1]= 12
+        }
+        view.findViewById<ImageView>(R.id.frame_img13).setOnClickListener{
+            reset_color()
+            view.findViewById<FrameLayout>(R.id.s_layout13).setBackgroundColor(Color.rgb(255, 0, 0))
+            ma.profsave[1]= 13
+        }
     }
 
     fun reset_color(){
@@ -101,7 +116,8 @@ class ProfCardBackFragment : Fragment() {
         val change8 = view?.findViewById<FrameLayout>(R.id.s_layout8)?.setBackgroundColor(Color.rgb(255,255,255))
         val change9 = view?.findViewById<FrameLayout>(R.id.s_layout9)?.setBackgroundColor(Color.rgb(255,255,255))
         val change10 = view?.findViewById<FrameLayout>(R.id.s_layout10)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change11 = view?.findViewById<FrameLayout>(R.id.s_layout11)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change12 = view?.findViewById<FrameLayout>(R.id.s_layout12)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change13 = view?.findViewById<FrameLayout>(R.id.s_layout13)?.setBackgroundColor(Color.rgb(255,255,255))
     }
-
-
 }

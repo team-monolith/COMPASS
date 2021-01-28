@@ -162,6 +162,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:background="@drawable/card_background_10" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/s_layout11"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img11"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_11" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/s_layout12"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img12"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_12" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/s_layout13"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img13"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_13" />
             </FrameLayout>
 
         </LinearLayout>
