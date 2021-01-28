@@ -646,10 +646,10 @@ class MyApp : Application() {
             7 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_7)
             8 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_8)
             9 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_9)
-            9 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_10)
-            9 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_11)
-            9 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_12)
-            9 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_13)
+            10 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_10)
+            11 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_11)
+            12 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_12)
+            13 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_13)
         }
         return img
     }
