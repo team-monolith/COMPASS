@@ -283,7 +283,9 @@ class FavoriteViewFragment: Fragment() {
     fun getFriendData() {
 
         val POSTDATA = HashMap<String, String>()
-        POSTDATA.put("id",GLOBAL.Favorite_list())
+        if(GLOBAL.Favorite_list() != ""){
+            POSTDATA.put("id",GLOBAL.Favorite_list())
+        }
 
         "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
