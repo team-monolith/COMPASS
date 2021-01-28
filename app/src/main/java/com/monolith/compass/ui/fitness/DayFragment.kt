@@ -37,6 +37,8 @@ class DayFragment : Fragment() {
 
     var walker: Array<Bitmap?> = arrayOfNulls(6)
 
+    var joyful: Array<Bitmap?> = arrayOfNulls(11)
+
     var scene: Array<Bitmap?> = arrayOfNulls(3)
 
     var sky: Bitmap? = null
