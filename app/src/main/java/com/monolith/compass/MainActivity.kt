@@ -45,6 +45,9 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     //var profInt = arrayOfNulls<Int>(6)//id,distance,favbadge,background,frame,badge
     var profInt = arrayOf(12345, 130, 47, 1, 2, 11002233)
 
+    //背景、フレーム選択位置表示保持用
+    var profView = arrayOf(-1,-1)
+
     // profsave = backgound,frame,save
     var profsave = arrayOf(-1, -1)
     //ここまで吉田

@@ -93,6 +93,11 @@ class ProfCardBackgroundFragment : Fragment() {
         view.findViewById<ImageView>(R.id.iv_save).setOnClickListener{
             ma.profInt[3] = ma.profsave[0]
             ma.profInt[4] = ma.profsave[1]
+
+            //表示用領域をクリア
+            ma.profView[0] = -1
+            ma.profView[1] = -1
+
             findNavController().navigate(R.id.action_navigation_profile_card_to_navigation_profile_edit)
         }
 
