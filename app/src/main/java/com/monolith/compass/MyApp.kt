@@ -672,28 +672,51 @@ class MyApp : Application() {
         return img
     }
 
-    fun Favorite_add(ID:Int){
-
-        val favorite = FileRead("FAVORITE.txt")
+    /*お気に入りを追加する部品 (存在しない場合リストに追加しtrueを返す)*/
+    fun Favorite_add(ID:Int):Boolean{
+        var favorite = FileRead("FAVORITE.txt")
         val arr = favorite.split(",")
-        for(i in 0..arr.size){
+        for(i in arr.indices){
+            //ファイル内に同じIDが無いか探索する
             if(ID.toString() == arr[i]){
-
+                return false //存在した場合false
             }
         }
-        //ファイル内に同じIDが無いか探索する
-
+        if(favorite != ""){
+            //お気に入りリストにすでにデータがある場合
+            favorite += ID.toString()
+        }else{
+            //お気に入りリストにすでにデータがない場合
+            favorite = ID.toString()
+        }
+        FileWrite(favorite,"FAVORITE.txt") //変更後のデータを"FAVORITE.txt"に書き込む
+        return true
     }
 
+    /*指定されたIDをお気に入りデータから削除する*/
     fun Favorite_delete(ID:Int){
-
+        var favorite = FileRead("FAVORITE.txt")
+        var favorite_work = ""
+        var delete_flg = false
+        var arr = favorite.split(",").toMutableList()
+        for(i in arr.indices){
+            //ファイル内に同じIDが無いか探索する
+            if(ID.toString() == arr[i]){
+                delete_flg = true //削除対象のIDが見つかった場合
+            }
+            //見つかった場合"arr[i]"に"arr[1 + 1]"のデータを格納していく
+            if(delete_flg){
+                arr[i] = arr[i+1]
+            }
+        }
+        favorite_work = arr.joinToString(",")
+        FileWrite(favorite_work,"FAVORITE.txt") //変更後のデータを"FAVORITE.txt"に書き込む
     }
 
+    /*お気に入りのリストを返却する*/
     fun Favorite_list() :String{
-        return "0"
+        return FileRead("FAVORITE.txt")
     }
-
-
 }
 
 /*
