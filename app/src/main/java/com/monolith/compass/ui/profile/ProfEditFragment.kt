@@ -122,6 +122,7 @@ class ProfEditFragment : Fragment() {
 
     fun UploadData(name:String,comment:String){
 
+        val ma = activity as MainActivity // 追記
         HandlerDraw()
 
         val POSTDATA = HashMap<String, String>()
@@ -136,9 +137,9 @@ class ProfEditFragment : Fragment() {
         POSTDATA.put("comment",comment)
         POSTDATA.put("level","12")
         POSTDATA.put("distance","213131")
-        POSTDATA.put("frame","0")
+        POSTDATA.put("frame",ma.profInt[4].toString())
         POSTDATA.put("badge","1")
-        POSTDATA.put("background","2")
+        POSTDATA.put("background",ma.profInt[3].toString())
         POSTDATA.put("state","12345678")
 
         "https://b.compass-user.work/system/user/change_user.php".httpPost(POSTDATA.toList())
