@@ -68,13 +68,10 @@ class CanvasDraw : Fragment() {
 
         paint.textSize = 50f
 
-        //相対表現が足りてない（X,Y軸）。余裕があったら再設計
-        //文字サイズが50なので25のはずがずれるため20
-        //x軸を200引いているのは7桁表示時にtextSize/2*7で余裕がある値
         paint.alpha=(255*(1-abs(pos)*1f/width*1f)).toInt()
         canvas.drawText(
             Target.toString(),
-             width - 200f,
+             width - paint.measureText(Target.toString())-20f,
             (height + (height / 6 * 5)) / 2f + 20f,
             paint
         )
@@ -89,12 +86,32 @@ class CanvasDraw : Fragment() {
             val paint = Paint()
             paint.isAntiAlias = true
 
-            canvas!!.drawBitmap(
-                walker[anim_walk % 6]!!,
-                pos + anim_meter.toFloat() - (walker[anim_walk % 3]!!.width / 2),
-                ((height / 6 * 5) - walker[anim_walk % 3]!!.height).toFloat(),
-                null
-            )
+            if(pos + anim_meter.toFloat() - (walker[anim_walk % 3]!!.width / 2)<0){
+                canvas!!.drawBitmap(
+                    walker[anim_walk % 6]!!,
+                    0f,
+                    ((height / 6 * 5) - walker[anim_walk % 3]!!.height).toFloat(),
+                    null
+                )
+            }
+            else if(pos + anim_meter.toFloat() - (walker[anim_walk % 3]!!.width / 2)>width-(walker[anim_walk % 3]!!.width)){
+                canvas!!.drawBitmap(
+                    walker[anim_walk % 6]!!,
+                    width-(walker[anim_walk % 3]!!.width*1f),
+                    ((height / 6 * 5) - walker[anim_walk % 3]!!.height).toFloat(),
+                    null
+                )
+            }
+            else{
+                canvas!!.drawBitmap(
+                    walker[anim_walk % 6]!!,
+                    pos + anim_meter.toFloat() - (walker[anim_walk % 3]!!.width / 2),
+                    ((height / 6 * 5) - walker[anim_walk % 3]!!.height).toFloat(),
+                    null
+                )
+            }
+
+
 
         }
 
@@ -128,13 +145,35 @@ class CanvasDraw : Fragment() {
         //小数点以下の誤差を修正
         if (abs(steps - Current) <= 100) steps = Current
 
-        //文字を実際に描画
-        canvas!!.drawText(
-            steps.toString(),
-            pos + anim_meter.toFloat() - 50,
-            (height / 6 * 5f)-walker[0]!!.height,
-            paint
-        )
+
+
+        if(pos + anim_meter.toFloat() - (walker[anim_walk % 3]!!.width / 2)<0){
+            //文字を実際に描画
+            canvas!!.drawText(
+                steps.toString(),
+                (walker[anim_walk % 3]!!.width / 2)-paint.measureText(steps.toString())/3*2,
+                (height / 6 * 5f)-walker[0]!!.height,
+                paint
+            )
+        }
+        else if(pos + anim_meter.toFloat() - (walker[anim_walk % 3]!!.width / 2)>width-(walker[anim_walk % 3]!!.width)){
+            //文字を実際に描画
+            canvas!!.drawText(
+                steps.toString(),
+                width-(walker[anim_walk % 3]!!.width/2f)-paint.measureText(steps.toString())/3*2,
+                (height / 6 * 5f)-walker[0]!!.height,
+                paint
+            )
+        }
+        else {
+            //文字を実際に描画
+            canvas!!.drawText(
+                steps.toString(),
+                pos + anim_meter.toFloat()-paint.measureText(steps.toString())/3*2,
+                (height / 6 * 5f)-walker[0]!!.height,
+                paint
+            )
+        }
 
     }
 

@@ -236,7 +236,7 @@ class MapFragment : Fragment() {
             view?.findViewById<FloatingActionButton>(R.id.fab_current)
                 ?.setColorFilter(Color.parseColor("#0000FF"))
             //自分を中心に画面配置
-            if (Location.GPS_X != null && Current.MAP_X != null) {
+            if (Location.GPS_X != null && Current.MAP_X != null&&Location.GPS_Y != null && Current.MAP_Y != null) {
 
                 //座標の中心からのずれを計算
                 val sX=((Location.GPS_X!! - Current.MAP_X!!)*10000).toInt()
@@ -297,10 +297,12 @@ class MapFragment : Fragment() {
             canvas.translate(pos.X!!,pos.Y!!)
 
             //地図の拡大縮小
-            canvas.scale(scale, scale, Center.X!!,Center.Y!!)
+            canvas.scale(scale, scale)//, Center.X!!,Center.Y!!)
 
             //マップの表示処理
-            if(layerFlg&&Current.BITMAP!=null)canvas.drawBitmap(Current.BITMAP!!,0f,0f,Paint())
+            if(layerFlg&&Current.BITMAP!=null){
+                canvas.drawBitmap(Current.BITMAP!!,0f,0f,Paint())
+            }
 
             //移動履歴を表示
             if(Current.MAP_X!=null)Draw.Log(Current,canvas)
@@ -342,7 +344,7 @@ class MapFragment : Fragment() {
 
         //https://ky-server.net/~monolith/system/dev/test.php
         //https://a.compass-user.work/system/map/show_csv.php
-        "https://a.compass-user.work/system/map/show_csv.php".httpPost(POSTDATA.toList())
+        "https://ky-server.net/~monolith/system/dev/test.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
                 when (result) {
                     is Result.Success -> {
