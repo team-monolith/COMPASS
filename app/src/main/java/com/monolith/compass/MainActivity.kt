@@ -20,7 +20,10 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
+import com.monolith.compass.ui.friend.CardViewFragment
+import com.monolith.compass.ui.friend.FriendCardBackFragment
 import com.monolith.compass.ui.friend.FriendCardFragment
+import com.monolith.compass.ui.friend.FriendSearchFragment
 import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import pub.devrel.easypermissions.EasyPermissions
@@ -35,8 +38,10 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     private lateinit var locationManager: LocationManager   //ロケーションマネージャーインスタンス保管用
 
     //植田テスト用
-    var cardDataList = MyApp.CARDDATA(0, "", null, 0, 0, 0, 0, 0, "", 0)
+    var cardDataList = MyApp.CARDDATA(0, "", null, 0, 0, 0, 0, 0, 0, "",0)
     var cardIDs= mutableListOf<Int>()
+    var searchNumber=1000000
+    var favFrag=0
 
 
     //この3つは吉田のテスト用
@@ -342,7 +347,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     //拡大名刺画面の表示
     fun FriendCardLoardStart(i:Int) {
         val tagList= arrayOf("FRIENDCARD","FRIENDCARDBACK")
-        val fragmentList= arrayOf(FriendCardFragment(),FriendCardBackFragment())
+        val fragmentList= arrayOf(FriendCardFragment(), FriendCardBackFragment())
         val friendFragmentTransaction = supportFragmentManager.beginTransaction()
 
         if (supportFragmentManager.findFragmentByTag(tagList[i]) == null) {
@@ -358,13 +363,27 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     fun FriendCardLoadStop(i: Int) {
             val tagList= arrayOf("FRIENDCARD","FRIENDCARDBACK")
             val friendFragmentTransaction = supportFragmentManager.beginTransaction()
-        if (supportFragmentManager.findFragmentByTag(tagList[i]) != null) {
-            friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag(tagList[i])!!)
 
-        if (supportFragmentManager.findFragmentByTag("FRIENDCARD") != null) {
-            friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag("FRIENDCARD")!!)
-                .commit()
+            if (supportFragmentManager.findFragmentByTag(tagList[i]) != null) {
+                friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag(tagList[i])!!)
+                    .commit()
+            }
         }
+
+    fun searchFriend(){
+        val searchFriendTransaction =supportFragmentManager.beginTransaction()
+        searchFriendTransaction.add(
+            R.id.nav_host_fragment,
+            FriendSearchFragment(),
+            "SEARCHFRIEND"
+        ).commit()
+    }
+
+
+
+    fun removeSearchFriend(){
+        val searchFriendTransaction =supportFragmentManager.beginTransaction()
+        searchFriendTransaction.remove(supportFragmentManager.findFragmentByTag("SEARCHFRIEND")!!).commit()
     }
 
     fun FirstCheck(){

@@ -110,6 +110,8 @@ class CardViewFragment: Fragment() {
                     if(n>=list.size)return false
                     val ma=activity as MainActivity
                     ma.cardDataList=list[n]
+
+
                     ma.FriendCardLoardStart(0)
                 }
                 return false
@@ -304,124 +306,143 @@ class CardViewFragment: Fragment() {
 
     fun setFriendData(data:String){
 
+
         val scan= Scanner(data.replace("<br>",""))
         scan.useDelimiter(",|\n")
 
         val ma=activity as MainActivity
 
-        while(scan.hasNext()){
-            var buf:String=scan.next()
 
-            val ID:Int
-            if(buf!="")ID=buf.toInt()
 
-            else ID=0
+            while (scan.hasNext()) {
+                var buf: String = scan.next()
 
-            buf=scan.next()
-            val NAME:String
-            if(buf!="")NAME=buf
-            else NAME="NAME"
+                val ID: Int
+                if (buf != "") ID = buf.toInt()
+                else ID = 0
 
-            buf=scan.next()
-            val ICON:String
-            if(buf!="")ICON=buf
-            else ICON="ICON"
+                buf = scan.next()
+                val NAME: String
+                if (buf != "") NAME = buf
+                else NAME = "NAME"
 
-            buf=scan.next()
-            val LEVEL:Int
-            if(buf!="")LEVEL=buf.toInt()
-            else LEVEL=0
+                buf = scan.next()
+                val ICON: String
+                if (buf != "") ICON = buf
+                else ICON = "ICON"
 
-            buf=scan.next()
-            val DISTANCE:Int
-            if(buf!="")DISTANCE=buf.toInt()
-            else DISTANCE=0
+                buf = scan.next()
+                val LEVEL: Int
+                if (buf != "") LEVEL = buf.toInt()
+                else LEVEL = 0
 
-            buf=scan.next()
-            val BADGE:Int
-            if(buf!="")BADGE=buf.toInt()
-            else BADGE=0
+                buf = scan.next()
+                val DISTANCE: Int
+                if (buf != "") DISTANCE = buf.toInt()
+                else DISTANCE = 0
 
-            buf=scan.next()
-            val BADGEBACK:Int
-            if(buf!="")BADGEBACK=buf.toInt()
-            else BADGEBACK=0
+                buf = scan.next()
+                val BADGE: Int
+                if (buf != "") BADGE = buf.toInt()
+                else BADGE = 0
 
-            buf=scan.next()
-            val FRAME:Int
-            if(buf!="")FRAME=buf.toInt()
-            else FRAME=0
+                buf = scan.next()
+                val BADGEBACK: Int
+                if (buf != "") BADGEBACK = buf.toInt()
+                else BADGEBACK = 0
 
-            buf=scan.next()
-            val BACK:Int
-            if(buf!="")BACK=buf.toInt()
-            else BACK=0
+                buf = scan.next()
+                val FRAME: Int
+                if (buf != "") FRAME = buf.toInt()
+                else FRAME = 0
 
-            buf=scan.next()
-            val COMMENT:String
-            if(buf!="")COMMENT=buf
-            else COMMENT=""
+                buf = scan.next()
+                val BACK: Int
+                if (buf != "") BACK = buf.toInt()
+                else BACK = 0
 
-            val STATE:Int
-            if(scan.hasNext()){
-                buf=scan.next()
-                if(buf!="")STATE=buf.toInt()
-                else STATE=0
-            }
-            else{
-                STATE=0
-            }
+                buf = scan.next()
+                val COMMENT: String
+                if (buf != "") COMMENT = buf
+                else COMMENT = ""
 
-            list.add(
-                MyApp.CARDDATA(
-                    ID,
-                    NAME,
-                    GLOBAL.IconBitmapCreate(ICON),
-                    LEVEL,
-                    DISTANCE,
-                    BADGE,
-                    BADGEBACK,
-                    FRAME,
-                    BACK,
-                    COMMENT,
-                    STATE
+                val STATE: Int
+                if (scan.hasNext()) {
+                    buf = scan.next()
+                    if (buf != "") STATE = buf.toInt()
+                    else STATE = 0
+                } else {
+                    STATE = 0
+                }
+
+                list.add(
+                    MyApp.CARDDATA(
+                        ID,
+                        NAME,
+                        GLOBAL.IconBitmapCreate(ICON),
+                        LEVEL,
+                        DISTANCE,
+                        BADGE,
+                        BADGEBACK,
+                        FRAME,
+                        BACK,
+                        COMMENT,
+                        STATE
+                    )
                 )
-            )
-            ma.cardIDs.add(ID)
-        }
+
+                ma.cardIDs.add(ID)
+            }
+
     }
 
 
 
     fun view_create(): Bitmap {
 
+        val ma=activity as MainActivity
         val page=(list.size-(list.size%3))/3+1
 
         val paint= Paint()
         val output= Bitmap.createBitmap(width*page,height, Bitmap.Config.ARGB_8888)
         val canvas= Canvas(output)
 
+            for (i in list.indices) {
+                //比率で近似値の0.6を入れています
+                val image = Bitmap.createScaledBitmap(
+                    MyApp().CreateCardBitmap(list[i], resources), width / 10 * 8,
+                    (width / 10 * 8 * 0.6).toInt(), true
+                )
 
-        for(i in list.indices){
-            //比率で近似値の0.6を入れています
-            val image= Bitmap.createScaledBitmap(
-                MyApp().CreateCardBitmap(list[i],resources),width/10*8,
-                (width/10*8*0.6).toInt(),true)
+                // /24*12でGalaxyS20だとぴったり、発表の際は入れ替える
 
-            // /24*12でGalaxyS20だとぴったり、発表の際は入れ替える
-
-            when(i%3){
-                0->{
-                    canvas.drawBitmap(image,width/10f+width*((i-(i%3))/3),(height/2-image.height/2f)/2-image.height/2,paint)
-                }
-                1->{
-                    canvas.drawBitmap(image,width/10f+width*((i-(i%3))/3),height/2-image.height/2f,paint)
-                }
-                2->{
-                    canvas.drawBitmap(image,width/10f+width*((i-(i%3))/3),((height/2+image.height/2f)+height)/2-image.height/2,paint)
+                when (i % 3) {
+                    0 -> {
+                        canvas.drawBitmap(
+                            image,
+                            width / 10f + width * ((i - (i % 3)) / 3),
+                            (height / 2 - image.height / 2f) / 2 - image.height / 2,
+                            paint
+                        )
+                    }
+                    1 -> {
+                        canvas.drawBitmap(
+                            image,
+                            width / 10f + width * ((i - (i % 3)) / 3),
+                            height / 2 - image.height / 2f,
+                            paint
+                        )
+                    }
+                    2 -> {
+                        canvas.drawBitmap(
+                            image,
+                            width / 10f + width * ((i - (i % 3)) / 3),
+                            ((height / 2 + image.height / 2f) + height) / 2 - image.height / 2,
+                            paint
+                        )
+                    }
                 }
             }
-        }
 
         pos.X=0f
 

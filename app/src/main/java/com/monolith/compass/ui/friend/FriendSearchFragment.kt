@@ -16,12 +16,13 @@ import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 
 
-class FriendCardFragment : Fragment() {
+class FriendSearchFragment : Fragment() {
 
 
     private lateinit var friendViewModel: FriendViewModel
     var count=0
     val GLOBAL = MyApp.getInstance()
+    val ma = activity as MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +31,7 @@ class FriendCardFragment : Fragment() {
     ): View? {
         friendViewModel =
             ViewModelProvider(this).get(FriendViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_friend_card, container, false)
+        val root = inflater.inflate(R.layout.fragment_friend_search, container, false)
         friendViewModel.text.observe(viewLifecycleOwner, Observer {
         })
         return root
@@ -39,27 +40,16 @@ class FriendCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val ma = activity as MainActivity
-
-
-        val favIDList=GLOBAL.Favorite_list()
-
-
-
-
-
-
-
-
 
         //メインアクティビティのcardDataListから名刺データを受け取り生成
         val card=view.findViewById<ImageView>(R.id.cardImage)
         card.setImageBitmap(MyApp().CreateCardBitmap(ma.cardDataList,resources))
 
         //拡大名刺タップ時の動作
-        view.findViewById<ImageView>(R.id.cardImage).setOnClickListener {
-            //名刺拡大画面を閉じる
-            ma.FriendCardLoadStop(0)
+        view.findViewById<ImageView>(R.id.imageButtonZoom).setOnClickListener {
+            //名刺拡大画面に
+            ma.FriendCardLoardStart(0)
+
         }
 
         //お気に入りボタンタップ時の動作
@@ -76,9 +66,9 @@ class FriendCardFragment : Fragment() {
 
 
 
-        //裏面ボタンタップ時動作
-        view.findViewById<ImageButton>(R.id.imageToCardBack).setOnClickListener {
-            ma.FriendCardLoardStart(1)
+        //バックボタンタップ時動作
+        view.findViewById<ImageButton>(R.id.imageButtonRemoveSearch).setOnClickListener {
+            ma.removeSearchFriend()
         }
 
 

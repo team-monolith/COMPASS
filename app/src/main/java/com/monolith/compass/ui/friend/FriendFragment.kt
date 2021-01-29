@@ -104,7 +104,11 @@ class FriendFragment : Fragment() {
                 val idText=searchID.text.toString().toInt()
                 for (i in ma.cardIDs){
                     if (idText==ma.cardIDs[i]){
-
+                        Toast.makeText(context,"検索成功",Toast.LENGTH_SHORT).show()
+                        ma.searchNumber=i
+                        val friendFrag=activity as CardViewFragment
+                        ma.cardDataList=friendFrag.list[i]
+                        ma.searchFriend()
                     }
                 }
 
