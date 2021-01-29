@@ -53,7 +53,6 @@ class ProfEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<TextView>(R.id.name_txt)
-        view.findViewById<TextView>(R.id.name_txt)
 
 
         val name = view.findViewById<EditText>(R.id.name_txtedit)
@@ -76,11 +75,6 @@ class ProfEditFragment : Fragment() {
         }
 
         badge_img.setOnClickListener{
-            /*frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
-            val transaction = childFragmentManager.beginTransaction()
-            transaction.add(R.id.back_fl,ProfileBlackFragment())
-            transaction.add(R.id.frame,ProfBadgeListFragment())
-            transaction.commit()*/
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,ProfBadgeListFragment())
             transaction.commit()
@@ -138,7 +132,8 @@ class ProfEditFragment : Fragment() {
         POSTDATA.put("level","12")
         POSTDATA.put("distance","213131")
         POSTDATA.put("frame",ma.profInt[4].toString())
-        POSTDATA.put("badge","1")
+        POSTDATA.put("badge",ma.profBadge[0].toString())
+        POSTDATA.put("badge_background",ma.profBadge[1].toString())
         POSTDATA.put("background",ma.profInt[3].toString())
         POSTDATA.put("state","12345678")
 

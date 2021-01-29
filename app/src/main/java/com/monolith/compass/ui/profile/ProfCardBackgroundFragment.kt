@@ -87,6 +87,8 @@ class ProfCardBackgroundFragment : Fragment() {
         view.findViewById<ImageView>(R.id.iv_close).setOnClickListener{
             ma.profsave[0] = -1
             ma.profsave[1] = -1
+
+            reset_View() //表示用領域をクリア
             findNavController().navigate(R.id.action_navigation_profile_card_to_navigation_profile_edit)
         }
 
@@ -94,14 +96,16 @@ class ProfCardBackgroundFragment : Fragment() {
             ma.profInt[3] = ma.profsave[0]
             ma.profInt[4] = ma.profsave[1]
 
-            //表示用領域をクリア
-            ma.profView[0] = -1
-            ma.profView[1] = -1
-
+            reset_View() //表示用領域をクリア
             findNavController().navigate(R.id.action_navigation_profile_card_to_navigation_profile_edit)
         }
-
-
     }
+
+    fun reset_View(){
+        val ma = activity as MainActivity
+        ma.profView[0] = -1
+        ma.profView[1] = -1
+    }
+
 
 }

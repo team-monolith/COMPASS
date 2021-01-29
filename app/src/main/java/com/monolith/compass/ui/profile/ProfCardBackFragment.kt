@@ -121,6 +121,7 @@ class ProfCardBackFragment : Fragment() {
         }
     }
 
+    /*指定されたIDの色赤にセット*/
     fun chenge_color(ID:Int){
         when(ID){
             0-> view?.findViewById<FrameLayout>(R.id.s_layout0)?.setBackgroundColor(Color.rgb(255, 0, 0))
@@ -140,6 +141,7 @@ class ProfCardBackFragment : Fragment() {
         }
     }
 
+    /*すべての色を白にセット*/
     fun reset_color(){
         val change0 = view?.findViewById<FrameLayout>(R.id.s_layout0)?.setBackgroundColor(Color.rgb(255,255,255))
         val change1 = view?.findViewById<FrameLayout>(R.id.s_layout1)?.setBackgroundColor(Color.rgb(255,255,255))
