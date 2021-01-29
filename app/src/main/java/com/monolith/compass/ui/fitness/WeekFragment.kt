@@ -19,8 +19,6 @@ import java.util.*
 
 class WeekFragment : Fragment(){
 
-    private lateinit var dayViewModel: FitnessViewModel
-
     private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
     val Draw = CanvasDraw()
@@ -50,8 +48,6 @@ class WeekFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dayViewModel =
-            ViewModelProvider(this).get(FitnessViewModel::class.java)
 
         val view = inflater.inflate(R.layout.fragment_blank, container, false)
         val layout = view.findViewById<ConstraintLayout>(R.id.blanklayout)

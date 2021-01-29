@@ -613,6 +613,7 @@ class MyApp : Application() {
         var img = BitmapFactory.decodeResource(res, R.drawable.frame_0)
         when (ID) {
             0 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_0)
+            1 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_1)
             2 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_2)
             3 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_3)
             4 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_4)
@@ -635,6 +636,8 @@ class MyApp : Application() {
     fun CardBackBitmapSearch(ID: Int, res: Resources): Bitmap {
         var img = BitmapFactory.decodeResource(res, R.drawable.card_background_0)
         when (ID) {
+            0 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_0)
+            1 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_1)
             2 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_2)
             3 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_3)
             4 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_4)
@@ -643,6 +646,10 @@ class MyApp : Application() {
             7 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_7)
             8 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_8)
             9 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_9)
+            10 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_10)
+            11 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_11)
+            12 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_12)
+            13 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_13)
         }
         return img
     }
@@ -684,7 +691,7 @@ class MyApp : Application() {
         }
         if(favorite != ""){
             //お気に入りリストにすでにデータがある場合
-            favorite += ID.toString()
+            favorite += "," + ID.toString()
         }else{
             //お気に入りリストにすでにデータがない場合
             favorite = ID.toString()

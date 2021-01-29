@@ -22,7 +22,6 @@ import java.util.*
 
 class DayFragment : Fragment() {
 
-    private lateinit var dayViewModel: FitnessViewModel
 
     private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
@@ -37,9 +36,11 @@ class DayFragment : Fragment() {
 
     var walker: Array<Bitmap?> = arrayOfNulls(6)
 
+    var joyful: Array<Bitmap?> = arrayOfNulls(11)
+
     var scene: Array<Bitmap?> = arrayOfNulls(3)
 
-    var sky: Bitmap?=null
+    var sky: Bitmap? = null
 
     var posX: Int = 0  //表示座標管理用
     var logX: Int = 0  //タップ追従用
@@ -53,7 +54,9 @@ class DayFragment : Fragment() {
     var step: Int = 0
     var target: Int = 0
 
-    var scene_sun:Bitmap?=null
+    var scene_sun: Bitmap? = null
+
+    var todayFlg:Boolean=false
 
 
     override fun onCreateView(
@@ -61,9 +64,6 @@ class DayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dayViewModel =
-            ViewModelProvider(this).get(FitnessViewModel::class.java)
-
         val view = inflater.inflate(R.layout.fragment_blank, container, false)
         val layout = view.findViewById<ConstraintLayout>(R.id.blanklayout)
         moveview = MoveView(this.activity)
@@ -82,9 +82,19 @@ class DayFragment : Fragment() {
                 Draw.CreateBack(height, width, resources)
             )
 
-            sky = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.nature_back),(height / 6 * 5)/6*16,height / 6 * 5,true)
+            sky = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    R.drawable.nature_back
+                ), (height / 6 * 5) / 6 * 16, height / 6 * 5, true
+            )
 
-            scene_sun=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.nature_sun),height/4,height/4,true)
+            scene_sun = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    R.drawable.nature_sun
+                ), height / 4, height / 4, true
+            )
         })
         return view
     }
@@ -118,12 +128,23 @@ class DayFragment : Fragment() {
         val cl = Calendar.getInstance()
         cl.time = prevDate
         cl.add(Calendar.DAY_OF_YEAR, Direction)
+        val today=Calendar.getInstance()
+        today.time=Date()
+
+
 
         //時刻データを破棄
         cl.clear(Calendar.MINUTE)
         cl.clear(Calendar.SECOND)
         cl.clear(Calendar.MILLISECOND)
         cl.set(Calendar.HOUR_OF_DAY, 0)
+        today.clear(Calendar.MINUTE)
+        today.clear(Calendar.SECOND)
+        today.clear(Calendar.MILLISECOND)
+        today.set(Calendar.HOUR_OF_DAY, 0)
+
+
+        todayFlg = cl.compareTo(today)==0
 
         //calendar型からdate型に変換
         prevDate = cl.time
@@ -191,6 +212,75 @@ class DayFragment : Fragment() {
             )
         )
 
+        joyful = arrayOf(
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful01
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful02
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful03
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful04
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful05
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful06
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful07
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful08
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful09
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful10
+                ), 256, 256, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.joyful11
+                ), 256, 256, false
+            )
+        )
+
     }
 
     //タッチイベント実行時処理
@@ -241,8 +331,8 @@ class DayFragment : Fragment() {
                     if (posX <= -width) {
                         setDate(1)
                         posX = 0
-                        scene[1]=scene[2]
-                        scene[2]=Draw.CreateBack(height,width,resources)
+                        scene[1] = scene[2]
+                        scene[2] = Draw.CreateBack(height, width, resources)
                         Draw.anim_reset()
                     }
                 }
@@ -263,8 +353,8 @@ class DayFragment : Fragment() {
                     if (posX >= width) {
                         setDate(-1)
                         posX = 0
-                        scene[1]=scene[0]
-                        scene[0]=Draw.CreateBack(height,width,resources)
+                        scene[1] = scene[0]
+                        scene[0] = Draw.CreateBack(height, width, resources)
                         Draw.anim_reset()
                     }
                 }
@@ -277,8 +367,6 @@ class DayFragment : Fragment() {
             }
             if (posX == 0) accelerator = 0
         }
-
-        setDate(0)
 
     }
 
@@ -295,15 +383,20 @@ class DayFragment : Fragment() {
         override fun onDraw(canvas: Canvas?) {
             super.onDraw(canvas)
 
-            val paint=Paint()
+            val paint = Paint()
 
             canvas!!.save()
 
             if (sky != null) {
-                canvas.drawBitmap(sky!!,0f,0f,paint)
+                canvas.drawBitmap(sky!!, 0f, 0f, paint)
             }
 
-            if(scene_sun!=null)canvas.drawBitmap(scene_sun!!,width/5*4-scene_sun!!.width/2f,scene_sun!!.height/5f,paint)
+            if (scene_sun != null) canvas.drawBitmap(
+                scene_sun!!,
+                width / 5 * 4 - scene_sun!!.width / 2f,
+                scene_sun!!.height / 5f,
+                paint
+            )
 
             if (scene[2] != null) {
                 canvas.drawBitmap(scene[0]!!, posX * 1f - width, 0f, Paint())
@@ -314,7 +407,7 @@ class DayFragment : Fragment() {
             Draw.arrow(height, width, tapFlg, canvas)
             Draw.meter(height, width, step, target, posX, canvas)
             Draw.steps(height, width, step, target, walker, posX, canvas)
-            Draw.human(walker, height, width, posX, canvas)
+            Draw.human(walker, joyful, height, width,step, target, posX,todayFlg, canvas)
 
         }
     }

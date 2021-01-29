@@ -86,6 +86,9 @@ class ProfileFragment : Fragment() {
         view.findViewById<ProgressBar>(R.id.friend_pb)
         view.findViewById<ProgressBar>(R.id.event_pb)
 
+        imgCard.scaleX=0.3f
+        imgCard.scaleY=0.3f
+
         // アニメーションをセットする
 
         val gifMovie: Int = R.drawable.load

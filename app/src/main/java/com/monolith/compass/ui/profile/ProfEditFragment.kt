@@ -67,8 +67,10 @@ class ProfEditFragment : Fragment() {
         //保存ボタン処理
         view.findViewById<Button>(R.id.combtn).setOnClickListener{
             UploadData(name.text.toString(),phrase.text.toString())
+            iconBufferDelete()
         }
         view.findViewById<Button>(R.id.back_bt).setOnClickListener{
+            iconBufferDelete()
             findNavController().navigate(R.id.navigation_profile)
         }
         icon_img.setOnClickListener{
@@ -120,8 +122,14 @@ class ProfEditFragment : Fragment() {
         }
     }
 
+    fun iconBufferDelete(){
+        val file=File(GLOBAL.DIRECTORY+"/icon.png")
+        file.delete()
+    }
+
     fun UploadData(name:String,comment:String){
 
+        val ma = activity as MainActivity // 追記
         HandlerDraw()
 
         val POSTDATA = HashMap<String, String>()
@@ -136,9 +144,9 @@ class ProfEditFragment : Fragment() {
         POSTDATA.put("comment",comment)
         POSTDATA.put("level","12")
         POSTDATA.put("distance","213131")
-        POSTDATA.put("frame","0")
+        POSTDATA.put("frame",ma.profInt[4].toString())
         POSTDATA.put("badge","1")
-        POSTDATA.put("background","2")
+        POSTDATA.put("background",ma.profInt[3].toString())
         POSTDATA.put("state","12345678")
 
         "https://b.compass-user.work/system/user/change_user.php".httpPost(POSTDATA.toList())

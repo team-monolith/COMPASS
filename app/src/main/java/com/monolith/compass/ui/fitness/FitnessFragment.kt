@@ -20,7 +20,6 @@ class FitnessFragment : Fragment() {
 
     private val GLOBAL = MyApp.getInstance()    //グローバル変数宣言用
 
-    private lateinit var fitnessViewModel: FitnessViewModel
 
     enum class Period {
         DAY, WEEK, MONTH
@@ -34,8 +33,6 @@ class FitnessFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fitnessViewModel =
-            ViewModelProvider(this).get(FitnessViewModel::class.java)
         return inflater.inflate(R.layout.fragment_fitness, container, false)
     }
 
