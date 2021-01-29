@@ -45,8 +45,9 @@ class ProfEditFragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_profile_edit, container, false)
 
+        PreloadData()
+        val root = inflater.inflate(R.layout.fragment_profile_edit, container, false)
         return root
     }
 
@@ -66,10 +67,10 @@ class ProfEditFragment : Fragment() {
         //保存ボタン処理
         view.findViewById<Button>(R.id.combtn).setOnClickListener{
             UploadData(name.text.toString(),phrase.text.toString())
-            iconBufferDelete()
+            //iconBufferDelete()
         }
         view.findViewById<Button>(R.id.back_bt).setOnClickListener{
-            iconBufferDelete()
+            //iconBufferDelete()
             findNavController().navigate(R.id.navigation_profile)
         }
         icon_img.setOnClickListener{
@@ -86,12 +87,12 @@ class ProfEditFragment : Fragment() {
         card_img.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
         }
+        PreloadData()
         val ma = activity as MainActivity?
-
         name.setText(ma!!.profString[0])
         phrase.setText(ma.profString[2])
-        val back_id =ma.profInt[2]/10
-        val badge_id = ma.profInt[2] %10
+        val back_id = ma.profBadge[0]
+        val badge_id = ma.profBadge[1]
         val back = resources.getIdentifier("badge_background_$back_id","drawable","com.monolith.compass")
         val badge = resources.getIdentifier("badge_icon_$badge_id","drawable","com.monolith.compass")
         badge_img.setBackgroundResource(back)
@@ -122,7 +123,6 @@ class ProfEditFragment : Fragment() {
     }
 
     fun UploadData(name:String,comment:String){
-
         val ma = activity as MainActivity // 追記
         HandlerDraw()
 
@@ -155,7 +155,32 @@ class ProfEditFragment : Fragment() {
                     }
                 }
             }
+    }
 
+    fun PreloadData(){
+        val ma = activity as MainActivity
+        val POSTDATA = java.util.HashMap<String, String>()
+        POSTDATA.put("id", GLOBAL.getID().toString())
+        "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
+            .response { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val getdata = String(response.data)
+                        val arr = getdata.split(",")
+                        //テキスト関連
+                        ma.profString[0] = arr[1] //名前
+                        ma.profString[2] = arr[9] //コメント
+
+                        //画像関連
+                        ma.profBadge[0] = Integer.parseInt(arr[6])
+                        ma.profBadge[1] = Integer.parseInt(arr[7])
+                        ma.profInt[3] = Integer.parseInt(arr[9])
+                        ma.profInt[4] = Integer.parseInt(arr[8])
+                    }
+                    is Result.Failure -> {
+                    }
+                }
+            }
     }
 
     //通信終了監視用

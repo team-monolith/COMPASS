@@ -137,13 +137,13 @@ class ProfBadgeListFragment : Fragment() {
     }
 
     /*バッチのセット(background:背景,icon:アイコン)*/
-    fun setBadge(background:Int,badge:Int){
+    fun setBadge(background:Int,badge_num:Int){
         val ma = activity as MainActivity
         val back = resources.getIdentifier("badge_background_" + background.toString(), "drawable", "com.monolith.compass")
-        val badge = resources.getIdentifier("badge_icon_" + badge.toString(), "drawable", "com.monolith.compass")
+        val badge = resources.getIdentifier("badge_icon_" + badge_num.toString(), "drawable", "com.monolith.compass")
         val fg = parentFragment as ProfEditFragment
         val badge_img = fg.view?.findViewById<ImageView>(R.id.badge_img)
-        ma.profBadge[0] = badge
+        ma.profBadge[0] = badge_num
         ma.profBadge[1] = background
         badge_img?.setBackgroundResource(back)
         badge_img?.setImageResource(badge)
