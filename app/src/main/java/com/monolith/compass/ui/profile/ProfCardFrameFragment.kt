@@ -32,112 +32,93 @@ class ProfCardFrameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val ma = activity as MainActivity
-
         chenge_color(GLOBAL.cardData.FRAME)
 
         view.findViewById<ImageView>(R.id.frame_img0).setOnClickListener{
             reset_color()
             chenge_color(0)
             GLOBAL.cardData.FRAME= 0
-            ma.profsave[1]= 0
 
         }
         view.findViewById<ImageView>(R.id.frame_img1).setOnClickListener{
             reset_color()
             chenge_color(1)
             GLOBAL.cardData.FRAME= 1
-            ma.profsave[1]= 1
         }
         view.findViewById<ImageView>(R.id.frame_img2).setOnClickListener{
             reset_color()
             chenge_color(2)
             GLOBAL.cardData.FRAME= 2
-            ma.profsave[1]= 2
         }
         view.findViewById<ImageView>(R.id.frame_img3).setOnClickListener{
             reset_color()
             chenge_color(3)
             GLOBAL.cardData.FRAME= 3
-            ma.profsave[1]= 3
         }
         view.findViewById<ImageView>(R.id.frame_img4).setOnClickListener{
             reset_color()
             chenge_color(4)
             GLOBAL.cardData.FRAME= 4
-            ma.profsave[1]= 4
         }
         view.findViewById<ImageView>(R.id.frame_img5).setOnClickListener{
             reset_color()
             chenge_color(5)
             GLOBAL.cardData.FRAME= 5
-            ma.profsave[1]= 5
         }
         view.findViewById<ImageView>(R.id.frame_img6).setOnClickListener{
             reset_color()
             chenge_color(6)
             GLOBAL.cardData.FRAME= 6
-            ma.profsave[1]= 6
         }
         view.findViewById<ImageView>(R.id.frame_img7).setOnClickListener{
             reset_color()
             chenge_color(7)
             GLOBAL.cardData.FRAME= 7
-            ma.profsave[1]= 7
         }
         view.findViewById<ImageView>(R.id.frame_img8).setOnClickListener{
             reset_color()
             chenge_color(8)
             GLOBAL.cardData.FRAME= 8
-            ma.profsave[1]= 8
         }
         view.findViewById<ImageView>(R.id.frame_img9).setOnClickListener{
             reset_color()
             chenge_color(9)
             GLOBAL.cardData.FRAME= 9
-            ma.profsave[1]= 9
         }
         view.findViewById<ImageView>(R.id.frame_img10).setOnClickListener{
             reset_color()
             chenge_color(10)
             GLOBAL.cardData.FRAME= 10
-            ma.profsave[1]= 10
         }
         view.findViewById<ImageView>(R.id.frame_img11).setOnClickListener{
             reset_color()
             chenge_color(11)
             GLOBAL.cardData.FRAME= 11
-            ma.profsave[1]= 11
         }
         view.findViewById<ImageView>(R.id.frame_img12).setOnClickListener{
             reset_color()
             chenge_color(12)
             GLOBAL.cardData.FRAME= 12
-            ma.profsave[1]= 12
         }
         view.findViewById<ImageView>(R.id.frame_img13).setOnClickListener{
             reset_color()
             chenge_color(13)
             GLOBAL.cardData.FRAME= 13
-            ma.profsave[1]= 13
         }
         view.findViewById<ImageView>(R.id.frame_img14).setOnClickListener{
             reset_color()
             chenge_color(14)
             GLOBAL.cardData.FRAME= 14
-            ma.profsave[1]= 14
         }
         view.findViewById<ImageView>(R.id.frame_img15).setOnClickListener{
             reset_color()
             chenge_color(15)
             GLOBAL.cardData.FRAME= 15
-            ma.profsave[1]= 15
         }
         view.findViewById<ImageView>(R.id.frame_img16).setOnClickListener{
             reset_color()
             chenge_color(16)
             GLOBAL.cardData.FRAME= 16
-            ma.profsave[1]= 16
         }
     }
 

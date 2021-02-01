@@ -44,7 +44,6 @@ class ProfEditFragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val ma = activity as MainActivity?
         PreloadData()
 
         val root = inflater.inflate(R.layout.fragment_profile_edit, container, false)
@@ -91,7 +90,6 @@ class ProfEditFragment : Fragment() {
             transaction.commit()
             //findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)//ここ
         }
-        val ma = activity as MainActivity
         PreloadData()
         name.setText(GLOBAL.cardData.NAME)
         phrase.setText(GLOBAL.cardData.COMMENT)
@@ -127,7 +125,6 @@ class ProfEditFragment : Fragment() {
     }
 
     fun UploadData(name:String,comment:String){
-        val ma = activity as MainActivity // 追記
         val hash = GLOBAL.CreateHash(GLOBAL.getID().toString() + "ok@fewfwaffeefewgweg4ew")
         HandlerDraw()
 
@@ -167,8 +164,6 @@ class ProfEditFragment : Fragment() {
     }
 
     fun PreloadData(){
-        val ma = activity as MainActivity
-
             val hash = GLOBAL.CreateHash( "kolwegoewgkowope:g")
             val POSTDATA = java.util.HashMap<String, String>()
             POSTDATA.put("hash",hash)
