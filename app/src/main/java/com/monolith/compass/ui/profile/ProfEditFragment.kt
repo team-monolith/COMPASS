@@ -46,7 +46,7 @@ class ProfEditFragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         val ma = activity as MainActivity?
-        ma?.PreloadData()
+        PreloadData()
 
         val root = inflater.inflate(R.layout.fragment_profile_edit, container, false)
         return root
@@ -89,7 +89,7 @@ class ProfEditFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
         }
         val ma = activity as MainActivity?
-        ma?.PreloadData()
+        PreloadData()
         name.setText(ma!!.profString[0])
         phrase.setText(ma.profString[2])
         val back_id = ma.profBadge[0]
@@ -162,6 +162,33 @@ class ProfEditFragment : Fragment() {
             }
     }
 
+    fun PreloadData(){
+        val ma = activity as MainActivity
+        val hash = GLOBAL.CreateHash( "kolwegoewgkowope:g")
+        val POSTDATA = java.util.HashMap<String, String>()
+        POSTDATA.put("hash",hash)
+        POSTDATA.put("id", GLOBAL.getID().toString())
+        "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
+            .response { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val getdata = String(response.data)
+                        val arr = getdata.split(",")
+                        //テキスト関連
+                        ma.profString[0] = arr[1] //名前
+                        ma.profString[2] = arr[9] //コメント
+
+                        //画像関連
+                        ma.profBadge[0] = Integer.parseInt(arr[6])
+                        ma.profBadge[1] = Integer.parseInt(arr[7])
+                        ma.profCard[0] = Integer.parseInt(arr[9])
+                        ma.profCard[1] = Integer.parseInt(arr[8])
+                    }
+                    is Result.Failure -> {
+                    }
+                }
+            }
+    }
 
 
     //通信終了監視用
