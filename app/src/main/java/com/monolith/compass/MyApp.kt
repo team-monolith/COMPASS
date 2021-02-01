@@ -12,6 +12,7 @@ import androidx.core.graphics.toColorInt
 import com.monolith.compass.R
 import java.io.File
 import java.io.FileNotFoundException
+import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -706,14 +707,14 @@ class MyApp : Application() {
         var favorite_work = ""
         var delete_flg = false
         var arr = favorite.split(",").toMutableList()
-        for(i in arr.indices){
+        for(i in 0..arr.size - 2){
             //ファイル内に同じIDが無いか探索する
             if(ID.toString() == arr[i]){
                 delete_flg = true //削除対象のIDが見つかった場合
             }
             //見つかった場合"arr[i]"に"arr[1 + 1]"のデータを格納していく
             if(delete_flg){
-                arr[i] = arr[i+1]
+                    arr[i] = arr[i+1]
             }
         }
         favorite_work = arr.joinToString(",")
@@ -724,6 +725,15 @@ class MyApp : Application() {
     fun Favorite_list() :String{
         return FileRead("FAVORITE.txt")
     }
+
+    fun CreateHash(str:String):String{
+        val strHash = MessageDigest.getInstance("MD5")
+            .digest(str.toByteArray())
+            .joinToString(separator = "") {
+                "%02x".format(it) }
+        return strHash
+    }
+
 }
 
 /*
