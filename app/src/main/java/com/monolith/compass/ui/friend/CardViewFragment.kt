@@ -279,9 +279,9 @@ class CardViewFragment: Fragment() {
     }
 
     fun getFriendData() {
-
+        val hash = GLOBAL.CreateHash("kolwegoewgkowope:g")
         val POSTDATA = HashMap<String, String>()
-
+        POSTDATA.put("hash",hash)
         POSTDATA.put("id","1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20")
 
         "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())

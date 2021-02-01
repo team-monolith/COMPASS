@@ -281,9 +281,10 @@ class FavoriteViewFragment: Fragment() {
     }
 
     fun getFriendData() {
-
+        val hash = GLOBAL.CreateHash( "kolwegoewgkowope:g")
         val POSTDATA = HashMap<String, String>()
         if(GLOBAL.Favorite_list() != ""){
+            POSTDATA.put("hash",hash)
             POSTDATA.put("id",GLOBAL.Favorite_list())
         }
 
