@@ -136,24 +136,9 @@ class ProfCardFrameFragment : Fragment() {
             ma.profView[1]= 16
             ma.profsave[1]= 16
         }
-
-        /*
-        view.findViewById<Button>(R.id.tab).setOnClickListener{
-            findNavController().navigate(R.id.action_navigation_profile_card_frame_to_navigation_profile_card_background)
-        }
-        view.findViewById<Button>(R.id.back_bt).setOnClickListener{
-            ma.profsave[0] = -1
-            ma.profsave[1] = -1
-            findNavController().navigate(R.id.action_navigation_profile_card_frame_to_navigation_profile_edit)
-        }
-        view.findViewById<Button>(R.id.save_btn).setOnClickListener{
-            ma.profInt[3] = ma.profsave[0]
-            ma.profInt[4] = ma.profsave[1]
-            findNavController().navigate(R.id.action_navigation_profile_card_frame_to_navigation_profile_edit)
-        }
-        */
     }
 
+    /*指定されたIDの色赤にセット*/
     fun chenge_color(ID:Int){
         when(ID){
             0-> view?.findViewById<FrameLayout>(R.id.f_layout0)?.setBackgroundColor(Color.rgb(255, 0, 0))
@@ -176,6 +161,7 @@ class ProfCardFrameFragment : Fragment() {
         }
     }
 
+    /*すべての色を白にセット*/
     fun reset_color(){
         val change0 = view?.findViewById<FrameLayout>(R.id.f_layout0)?.setBackgroundColor(Color.rgb(255,255,255))
         val change1 = view?.findViewById<FrameLayout>(R.id.f_layout1)?.setBackgroundColor(Color.rgb(255,255,255))

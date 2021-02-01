@@ -47,10 +47,16 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
 
     //この3つは吉田のテスト用
     //var profString = arrayOfNulls<String>(3)//name,icon,phrase
-    var profString = arrayOf("よしだ", "nasideii", "よろしくお願いします。")
+    var profString = arrayOf("", "nasideii", "")
 
     //var profInt = arrayOfNulls<Int>(6)//id,distance,favbadge,background,frame,badge
     var profInt = arrayOf(12345, 130, 47, 1, 2, 11002233)
+
+    //バッチデータ保存用(badge,badge_background)
+    var profBadge = arrayOf(1,1)
+
+    //名刺表示用(background,frame)
+    var profCard = arrayOf(1,1)
 
     //背景、フレーム選択位置表示保持用
     var profView = arrayOf(-1,-1)
