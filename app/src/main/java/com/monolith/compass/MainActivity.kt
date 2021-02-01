@@ -410,7 +410,9 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
 
     fun FirstCheck(){
         if(GLOBAL.getID()==-1){
+            val hash = GLOBAL.CreateHash("pewwgekgewgwe@epkgweg")
             val POSTDATA = HashMap<String, String>()
+            POSTDATA.put("hash",hash)
             "https://b.compass-user.work/system/user/add_user.php".httpPost(POSTDATA.toList())
                 .response { _, response, result ->
                     when (result) {

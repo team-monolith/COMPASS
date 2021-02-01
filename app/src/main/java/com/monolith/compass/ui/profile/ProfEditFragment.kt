@@ -162,7 +162,9 @@ class ProfEditFragment : Fragment() {
 
     fun PreloadData(){
         val ma = activity as MainActivity
+        val hash = GLOBAL.CreateHash( "kolwegoewgkowope:g")
         val POSTDATA = java.util.HashMap<String, String>()
+        POSTDATA.put("hash",hash)
         POSTDATA.put("id", GLOBAL.getID().toString())
         "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
