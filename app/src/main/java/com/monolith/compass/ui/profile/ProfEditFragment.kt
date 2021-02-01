@@ -87,14 +87,14 @@ class ProfEditFragment : Fragment() {
         card_img.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
         }
-        PreloadData()
         val ma = activity as MainActivity?
+        PreloadData()
         name.setText(ma!!.profString[0])
         phrase.setText(ma.profString[2])
         val back_id = ma.profBadge[0]
         val badge_id = ma.profBadge[1]
-        val back = resources.getIdentifier("badge_background_$back_id","drawable","com.monolith.compass")
-        val badge = resources.getIdentifier("badge_icon_$badge_id","drawable","com.monolith.compass")
+        val back = resources.getIdentifier("badge_background_" + back_id,"drawable","com.monolith.compass")
+        val badge = resources.getIdentifier("badge_icon_" + badge_id,"drawable","com.monolith.compass")
         badge_img.setBackgroundResource(back)
         badge_img.setImageResource(badge)
         val card_back_id = ma.profInt[3]
@@ -124,6 +124,7 @@ class ProfEditFragment : Fragment() {
 
     fun UploadData(name:String,comment:String){
         val ma = activity as MainActivity // 追記
+        val hash = GLOBAL.CreateHash(GLOBAL.getID().toString() + "ok@fewfwaffeefewgweg4ew")
         HandlerDraw()
 
         val POSTDATA = HashMap<String, String>()
@@ -132,6 +133,7 @@ class ProfEditFragment : Fragment() {
         LoadIconImage()!!.compress(Bitmap.CompressFormat.PNG, 50, baos)
         val iconstr=Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP)
 
+        POSTDATA.put("hash",hash)
         POSTDATA.put("id", GLOBAL.getID().toString())
         POSTDATA.put("name",name)
         POSTDATA.put("icon",iconstr)
@@ -151,6 +153,7 @@ class ProfEditFragment : Fragment() {
                         endbool=true
                     }
                     is Result.Failure -> {
+
                         UploadData(name,comment)
                     }
                 }
@@ -178,6 +181,8 @@ class ProfEditFragment : Fragment() {
                         ma.profInt[4] = Integer.parseInt(arr[8])
                     }
                     is Result.Failure -> {
+
+
                     }
                 }
             }

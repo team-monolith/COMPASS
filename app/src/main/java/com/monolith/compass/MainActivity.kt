@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     var profString = arrayOf("", "nasideii", "")
 
     //var profInt = arrayOfNulls<Int>(6)//id,distance,favbadge,background,frame,badge
-    var profInt = arrayOf(12345, 130, 47, 1, 2, 11002233)
+    var profInt = arrayOf(12345, 130, 47,1 ,1 , 11002233)
 
     //バッチデータ保存用(badge,badge_background)
     var profBadge = arrayOf(1,1)
@@ -386,5 +386,6 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
                 }
         }
     }
+
 
 }
