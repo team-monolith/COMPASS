@@ -7,8 +7,6 @@ import android.graphics.BitmapFactory
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -37,20 +35,14 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     //植田テスト用
     var cardDataList = MyApp.CARDDATA(0, "", null, 0, 0, 0, 0, 0, 0,"", 0)
 
-    var preload_flg = false
 
     //この3つは吉田のテスト用
     //var profString = arrayOfNulls<String>(3)//name,icon,phrase
-    var profString = arrayOf("", "nasideii", "")
+    var profString = arrayOf("よしだ", "nasideii", "よろしくお願いします。")
 
     //var profInt = arrayOfNulls<Int>(6)//id,distance,favbadge,background,frame,badge
     var profInt = arrayOf(12345, 130, 47,1 ,1 , 11002233)
 
-    //バッチデータ保存用(badge,badge_background)
-    var profBadge = arrayOf(1,1)
-
-    //名刺表示用(background,frame)
-    var profCard = arrayOf(1,1)
 
     //背景、フレーム選択位置表示保持用
     var profView = arrayOf(-1,-1)

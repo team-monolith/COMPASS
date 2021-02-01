@@ -13,13 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.github.kittinunf.fuel.core.Progress
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
-import com.monolith.compass.ui.map.MapFragment
 import java.util.*
 import kotlin.collections.HashMap
 

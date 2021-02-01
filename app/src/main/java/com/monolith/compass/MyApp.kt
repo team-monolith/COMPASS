@@ -5,10 +5,8 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
-import android.graphics.Color.parseColor
 import android.util.Base64
 import android.widget.Toast
-import androidx.core.graphics.toColorInt
 import com.monolith.compass.R
 import java.io.File
 import java.io.FileNotFoundException
@@ -82,6 +80,8 @@ class MyApp : Application() {
     var ACTIVITY_LOG = mutableListOf<ACTIVITYDATA>()
 
     var GPS_BUF: GPSDATA = GPSDATA(null, null, null, null, null)
+
+    var cardData = CARDDATA(0, "", null, 0, 0, 0, 0, 0, 0,"", 0)
 
     var ImageBuffer: Bitmap? = null
 
