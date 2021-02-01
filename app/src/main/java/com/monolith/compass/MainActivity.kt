@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     //植田テスト用
     var cardDataList = MyApp.CARDDATA(0, "", null, 0, 0, 0, 0, 0, 0,"", 0)
 
+    var preload_flg = false
 
     //この3つは吉田のテスト用
     //var profString = arrayOfNulls<String>(3)//name,icon,phrase
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     var profBadge = arrayOf(1,1)
 
     //名刺表示用(background,frame)
-    var profCard = arrayOf(2,2)
+    var profCard = arrayOf(1,1)
 
     //背景、フレーム選択位置表示保持用
     var profView = arrayOf(-1,-1)

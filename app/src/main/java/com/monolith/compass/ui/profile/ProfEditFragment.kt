@@ -57,6 +57,7 @@ class ProfEditFragment : Fragment() {
         view.findViewById<TextView>(R.id.name_txt)
 
 
+
         val name = view.findViewById<EditText>(R.id.name_txtedit)
         val phrase = view.findViewById<EditText>(R.id.phrase_txtedit)
         val frame = view.findViewById<FrameLayout>(R.id.frame)
@@ -68,10 +69,14 @@ class ProfEditFragment : Fragment() {
         //保存ボタン処理
         view.findViewById<Button>(R.id.combtn).setOnClickListener{
             UploadData(name.text.toString(),phrase.text.toString())
+            val ma = activity as MainActivity
+            ma.preload_flg = false
             //iconBufferDelete()
         }
         view.findViewById<Button>(R.id.back_bt).setOnClickListener{
             //iconBufferDelete()
+            val ma = activity as MainActivity
+            ma.preload_flg = false
             findNavController().navigate(R.id.navigation_profile)
         }
         icon_img.setOnClickListener{
@@ -89,7 +94,7 @@ class ProfEditFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
         }
         val ma = activity as MainActivity?
-        PreloadData()
+        //PreloadData()
         name.setText(ma!!.profString[0])
         phrase.setText(ma.profString[2])
         val back_id = ma.profBadge[0]
@@ -164,30 +169,34 @@ class ProfEditFragment : Fragment() {
 
     fun PreloadData(){
         val ma = activity as MainActivity
-        val hash = GLOBAL.CreateHash( "kolwegoewgkowope:g")
-        val POSTDATA = java.util.HashMap<String, String>()
-        POSTDATA.put("hash",hash)
-        POSTDATA.put("id", GLOBAL.getID().toString())
-        "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
-            .response { _, response, result ->
-                when (result) {
-                    is Result.Success -> {
-                        val getdata = String(response.data)
-                        val arr = getdata.split(",")
-                        //テキスト関連
-                        ma.profString[0] = arr[1] //名前
-                        ma.profString[2] = arr[9] //コメント
+        if(!ma.preload_flg){
+            ma.preload_flg = true
+            val hash = GLOBAL.CreateHash( "kolwegoewgkowope:g")
+            val POSTDATA = java.util.HashMap<String, String>()
+            POSTDATA.put("hash",hash)
+            POSTDATA.put("id", GLOBAL.getID().toString())
+            "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
+                .response { _, response, result ->
+                    when (result) {
+                        is Result.Success -> {
+                            val getdata = String(response.data)
+                            val arr = getdata.split(",")
+                            //テキスト関連
+                            ma.profString[0] = arr[1] //名前
+                            ma.profString[2] = arr[9] //コメント
 
-                        //画像関連
-                        ma.profBadge[0] = Integer.parseInt(arr[6])
-                        ma.profBadge[1] = Integer.parseInt(arr[7])
-                        ma.profCard[0] = Integer.parseInt(arr[9])
-                        ma.profCard[1] = Integer.parseInt(arr[8])
-                    }
-                    is Result.Failure -> {
+                            //画像関連
+                            ma.profBadge[0] = Integer.parseInt(arr[6])
+                            ma.profBadge[1] = Integer.parseInt(arr[5])
+                            ma.profCard[0] = Integer.parseInt(arr[8])
+                            ma.profCard[1] = Integer.parseInt(arr[7])
+                        }
+                        is Result.Failure -> {
+                        }
                     }
                 }
-            }
+        }
+
     }
 
 

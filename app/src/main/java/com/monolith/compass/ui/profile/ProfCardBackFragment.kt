@@ -35,7 +35,6 @@ class ProfCardBackFragment : Fragment() {
         chenge_color(ma.profView[0])
 
         view.findViewById<ImageView>(R.id.frame_img0).setOnClickListener{
-
             reset_color()
             chenge_color(0)
             ma.profCard[0]= 0
@@ -129,7 +128,7 @@ class ProfCardBackFragment : Fragment() {
         view.findViewById<ImageView>(R.id.frame_img13).setOnClickListener{
             reset_color()
             chenge_color(13)
-            ma.profCard[0] = 13
+            ma.profCard[0]= 13
             ma.profView[0]= 13
             ma.profsave[0]= 13
         }
