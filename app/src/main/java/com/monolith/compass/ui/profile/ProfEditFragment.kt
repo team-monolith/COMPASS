@@ -45,8 +45,9 @@ class ProfEditFragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
+        val ma = activity as MainActivity?
+        ma?.PreloadData()
 
-        PreloadData()
         val root = inflater.inflate(R.layout.fragment_profile_edit, container, false)
         return root
     }
@@ -88,7 +89,7 @@ class ProfEditFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)
         }
         val ma = activity as MainActivity?
-        PreloadData()
+        ma?.PreloadData()
         name.setText(ma!!.profString[0])
         phrase.setText(ma.profString[2])
         val back_id = ma.profBadge[0]
@@ -97,8 +98,8 @@ class ProfEditFragment : Fragment() {
         val badge = resources.getIdentifier("badge_icon_" + badge_id,"drawable","com.monolith.compass")
         badge_img.setBackgroundResource(back)
         badge_img.setImageResource(badge)
-        val card_back_id = ma.profInt[3]
-        val card_frame_id = ma.profInt[4]
+        val card_back_id = ma.profCard[0]
+        val card_frame_id = ma.profCard[1]
         val card_back_res =resources.getIdentifier("card_background_$card_back_id","drawable","com.monolith.compass")
         val card_frame_res =resources.getIdentifier("frame_$card_frame_id","drawable","com.monolith.compass")
         card_img.setImageResource(card_frame_res)
@@ -140,10 +141,11 @@ class ProfEditFragment : Fragment() {
         POSTDATA.put("comment",comment)
         POSTDATA.put("level","12")
         POSTDATA.put("distance","213131")
-        POSTDATA.put("frame",ma.profInt[4].toString())
+        POSTDATA.put("background",ma.profCard[0].toString())
+        POSTDATA.put("frame",ma.profCard[1].toString())
         POSTDATA.put("badge",ma.profBadge[0].toString())
         POSTDATA.put("badge_background",ma.profBadge[1].toString())
-        POSTDATA.put("background",ma.profInt[3].toString())
+
         POSTDATA.put("state","12345678")
 
         "https://b.compass-user.work/system/user/change_user.php".httpPost(POSTDATA.toList())
@@ -160,35 +162,7 @@ class ProfEditFragment : Fragment() {
             }
     }
 
-    fun PreloadData(){
-        val ma = activity as MainActivity
-        val hash = GLOBAL.CreateHash( "kolwegoewgkowope:g")
-        val POSTDATA = java.util.HashMap<String, String>()
-        POSTDATA.put("hash",hash)
-        POSTDATA.put("id", GLOBAL.getID().toString())
-        "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
-            .response { _, response, result ->
-                when (result) {
-                    is Result.Success -> {
-                        val getdata = String(response.data)
-                        val arr = getdata.split(",")
-                        //テキスト関連
-                        ma.profString[0] = arr[1] //名前
-                        ma.profString[2] = arr[9] //コメント
 
-                        //画像関連
-                        ma.profBadge[0] = Integer.parseInt(arr[6])
-                        ma.profBadge[1] = Integer.parseInt(arr[7])
-                        ma.profInt[3] = Integer.parseInt(arr[9])
-                        ma.profInt[4] = Integer.parseInt(arr[8])
-                    }
-                    is Result.Failure -> {
-
-
-                    }
-                }
-            }
-    }
 
     //通信終了監視用
     fun HandlerDraw() {
