@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     var profBadge = arrayOf(1,1)
 
     //名刺表示用(background,frame)
-    var profCard = arrayOf(1,1)
+    var profCard = arrayOf(2,2)
 
     //背景、フレーム選択位置表示保持用
     var profView = arrayOf(-1,-1)
@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        PreloadData()
 
         //カレントディレクトリを設定しデータを読み込む
         GLOBAL.DIRECTORY = "$filesDir"
@@ -387,6 +388,33 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
                     }
                 }
         }
+    }
+
+    fun PreloadData(){
+        val hash = GLOBAL.CreateHash( "kolwegoewgkowope:g")
+        val POSTDATA = java.util.HashMap<String, String>()
+        POSTDATA.put("hash",hash)
+        POSTDATA.put("id", GLOBAL.getID().toString())
+        "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
+            .response { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val getdata = String(response.data)
+                        val arr = getdata.split(",")
+                        //テキスト関連
+                        profString[0] = arr[1] //名前
+                        profString[2] = arr[9] //コメント
+
+                        //画像関連
+                        profBadge[0] = Integer.parseInt(arr[6])
+                        profBadge[1] = Integer.parseInt(arr[7])
+                        profCard[0] = Integer.parseInt(arr[9])
+                        profCard[1] = Integer.parseInt(arr[8])
+                    }
+                    is Result.Failure -> {
+                    }
+                }
+            }
     }
 
 
