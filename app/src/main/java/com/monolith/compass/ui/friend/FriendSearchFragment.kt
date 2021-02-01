@@ -22,7 +22,7 @@ class FriendSearchFragment : Fragment() {
     private lateinit var friendViewModel: FriendViewModel
     var count=0
     val GLOBAL = MyApp.getInstance()
-    val ma = activity as MainActivity
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +40,8 @@ class FriendSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val ma = activity as MainActivity
+
 
         //メインアクティビティのcardDataListから名刺データを受け取り生成
         val card=view.findViewById<ImageView>(R.id.cardImage)
@@ -53,15 +55,15 @@ class FriendSearchFragment : Fragment() {
         }
 
         //お気に入りボタンタップ時の動作
-        view.findViewById<ImageButton>(R.id.imageSetFav).setOnClickListener{
-            view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.VISIBLE
-            view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.INVISIBLE
+        view.findViewById<ImageButton>(R.id.imageButtonSetFav).setOnClickListener{
+            view.findViewById<ImageButton>(R.id.imageButtonRemoveFav).visibility=View.VISIBLE
+            view.findViewById<ImageButton>(R.id.imageButtonSetFav).visibility=View.INVISIBLE
         }
 
         //お気に入り登録済みボタンタップ時の動作
-        view.findViewById<ImageButton>(R.id.imageRemoveFav).setOnClickListener {
-            view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.INVISIBLE
-            view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.VISIBLE
+        view.findViewById<ImageButton>(R.id.imageButtonRemoveFav).setOnClickListener {
+            view.findViewById<ImageButton>(R.id.imageButtonRemoveFav).visibility=View.INVISIBLE
+            view.findViewById<ImageButton>(R.id.imageButtonSetFav).visibility=View.VISIBLE
         }
 
 

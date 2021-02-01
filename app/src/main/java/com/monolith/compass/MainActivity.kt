@@ -39,9 +39,10 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
 
     //植田テスト用
     var cardDataList = MyApp.CARDDATA(0, "", null, 0, 0, 0, 0, 0, 0, "",0)
+    var cardList=mutableListOf<MyApp.CARDDATA>()
     var cardIDs= mutableListOf<Int>()
     var searchNumber=1000000
-    var favFrag=0
+
 
 
     //この3つは吉田のテスト用
@@ -367,7 +368,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
             val tagList= arrayOf("FRIENDCARD","FRIENDCARDBACK")
             val friendFragmentTransaction = supportFragmentManager.beginTransaction()
 
-            if (supportFragmentManager.findFragmentByTag(tagList[i]) != null) {
+            if (supportFragmentManager.findFragmentByTag(tagList[i]).toString() != tagList[i]) {
                 friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag(tagList[i])!!)
                     .commit()
             }
@@ -380,6 +381,15 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
             FriendSearchFragment(),
             "SEARCHFRIEND"
         ).commit()
+    }
+
+    fun checkSearchFriend(): Int {
+        var checkFrag=0
+        val searchFriendTransaction =supportFragmentManager.beginTransaction()
+        if (supportFragmentManager.findFragmentByTag("SEARCHFRIEND") !=null){
+            checkFrag=1
+        }
+        return checkFrag
     }
 
 

@@ -3,6 +3,7 @@ package com.monolith.compass.ui.friend
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +45,27 @@ class FriendCardFragment : Fragment() {
 
         val favIDList=GLOBAL.Favorite_list()
 
+        Toast.makeText(context,ma.cardDataList.ID.toString(),Toast.LENGTH_SHORT).show()
 
+        val favID=ma.cardDataList.ID
+
+        Toast.makeText(context,favIDList[0].toString(),Toast.LENGTH_SHORT).show()
+
+        var favFrag=0
+        var favCount=0
+        favIDList.forEach {
+            if (favIDList[favCount].toString().toInt()==favID){
+                favFrag=1
+            }
+        }
+
+        if (favFrag==1){
+            view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.VISIBLE
+            view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.INVISIBLE
+        }else{
+            view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.INVISIBLE
+            view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.VISIBLE
+        }
 
 
 
@@ -64,12 +85,17 @@ class FriendCardFragment : Fragment() {
 
         //お気に入りボタンタップ時の動作
         view.findViewById<ImageButton>(R.id.imageSetFav).setOnClickListener{
+            GLOBAL.Favorite_add(favID)
+            Toast.makeText(context,"お気に入りに登録しました！！",Toast.LENGTH_SHORT).show()
             view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.VISIBLE
             view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.INVISIBLE
+
         }
 
         //お気に入り登録済みボタンタップ時の動作
         view.findViewById<ImageButton>(R.id.imageRemoveFav).setOnClickListener {
+            //GLOBAL.Favorite_delete(favID)
+            Toast.makeText(context,"お気に入りを解除しました！！",Toast.LENGTH_SHORT).show()
             view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.INVISIBLE
             view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.VISIBLE
         }

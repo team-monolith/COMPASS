@@ -107,7 +107,7 @@ class FavoriteViewFragment: Fragment() {
                     if(n>=list.size)return false
                     val ma=activity as MainActivity
                     ma.cardDataList=list[n]
-                    ma.FriendCardLoardStart()
+                    ma.FriendCardLoardStart(0)
                 }
                 return false
             }

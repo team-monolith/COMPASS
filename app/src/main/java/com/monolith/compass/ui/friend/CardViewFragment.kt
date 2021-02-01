@@ -390,7 +390,21 @@ class CardViewFragment: Fragment() {
                         STATE
                     )
                 )
-
+                ma.cardList.add(
+                    MyApp.CARDDATA(
+                        ID,
+                        NAME,
+                        GLOBAL.IconBitmapCreate(ICON),
+                        LEVEL,
+                        DISTANCE,
+                        BADGE,
+                        BADGEBACK,
+                        FRAME,
+                        BACK,
+                        COMMENT,
+                        STATE
+                    )
+                )
                 ma.cardIDs.add(ID)
             }
 

@@ -1,5 +1,6 @@
 package com.monolith.compass.ui.friend
 
+import android.app.Activity
 import android.app.ActivityManager
 import android.app.AlertDialog
 import android.content.Context
@@ -91,6 +92,9 @@ class FriendFragment : Fragment() {
         //検索ボタン押したときの処理
         view.findViewById<ImageButton>(R.id.imageButton).setOnClickListener {
 
+            makeSearchDialog()
+
+            /*
             //ID入力ダイアログ生成処理
             val searchID=EditText(context)
             searchID.inputType=InputType.TYPE_CLASS_NUMBER
@@ -102,22 +106,96 @@ class FriendFragment : Fragment() {
                 Toast.makeText(context,searchID.text.toString(),Toast.LENGTH_SHORT).show()
                 val ma=activity as MainActivity
                 val idText=searchID.text.toString().toInt()
-                for (i in ma.cardIDs){
+                var i=0
+                ma.cardIDs.forEach {
                     if (idText==ma.cardIDs[i]){
                         Toast.makeText(context,"検索成功",Toast.LENGTH_SHORT).show()
                         ma.searchNumber=i
-                        val friendFrag=activity as CardViewFragment
-                        ma.cardDataList=friendFrag.list[i]
+                        ma.cardDataList=ma.cardList[i]
                         ma.searchFriend()
                     }
+                    i++
                 }
+
+                val searchFaileddialog=AlertDialog.Builder(context)
+                searchFaileddialog.setTitle("検索エラー")
+                searchFaileddialog.setMessage("入力されたIDを発見できませんでした")
+                searchFaileddialog.setPositiveButton("再入力"){dialog, which ->
+
+                }
+
 
 
             }
             searchDialog.setNegativeButton("Cancel", null)
             searchDialog.show()
+
+             */
         }
 
+    }
+
+
+
+    fun makeSearchDialog(){
+        //ID入力ダイアログ生成処理
+        val searchID=EditText(context)
+        searchID.inputType=InputType.TYPE_CLASS_NUMBER
+        val searchDialog= AlertDialog.Builder(activity)
+        searchDialog.setTitle("ID検索")
+        searchDialog.setMessage("検索したい名刺のIDを入力してください")
+        searchDialog.setView(searchID)
+        searchDialog.setPositiveButton("検索") { dialog, which ->
+            if (searchID.text.toString()!="") {
+                Toast.makeText(context, searchID.text.toString(), Toast.LENGTH_SHORT).show()
+                val ma = activity as MainActivity
+                val idText = searchID.text.toString().toInt()
+                var i = 0
+                ma.cardIDs.forEach {
+                    if (idText == ma.cardIDs[i]) {
+                        Toast.makeText(context, "検索成功", Toast.LENGTH_SHORT).show()
+                        ma.searchNumber = i
+                        ma.cardDataList = ma.cardList[i]
+                        ma.searchFriend()
+                    }
+                    i++
+                }
+                val checkFrag = ma.checkSearchFriend()
+                if (checkFrag == 1) {
+                    makeFailedSearchDialog()
+                }
+            }else{
+                nullAlertDialog()
+            }
+
+
+        }
+        searchDialog.setNegativeButton("閉じる", null)
+        searchDialog.show()
+    }
+
+
+    fun makeFailedSearchDialog(){
+        val searchFaileddialog=AlertDialog.Builder(activity)
+        searchFaileddialog.setTitle("検索エラー")
+        searchFaileddialog.setMessage("入力されたIDを発見できませんでした")
+        searchFaileddialog.setPositiveButton("再入力"){dialog, which ->
+            makeSearchDialog()
+        }
+        searchFaileddialog.setNegativeButton("閉じる",null)
+        searchFaileddialog.show()
+    }
+
+
+    fun nullAlertDialog(){
+        val kuuhakuDialog=AlertDialog.Builder(activity)
+        kuuhakuDialog.setTitle("入力エラー")
+        kuuhakuDialog.setMessage("空白は認められません\n再度入力してください")
+        kuuhakuDialog.setPositiveButton("再入力"){dialog, which ->
+            makeSearchDialog()
+        }
+        kuuhakuDialog.setNegativeButton("閉じる",null)
+        kuuhakuDialog.show()
     }
 
 
