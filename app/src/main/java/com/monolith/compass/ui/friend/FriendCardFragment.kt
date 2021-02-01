@@ -45,11 +45,11 @@ class FriendCardFragment : Fragment() {
 
         val favIDList=GLOBAL.Favorite_list()
 
-        Toast.makeText(context,ma.cardDataList.ID.toString(),Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context,ma.cardDataList.ID.toString(),Toast.LENGTH_SHORT).show()
 
         val favID=ma.cardDataList.ID
 
-        Toast.makeText(context,favIDList[0].toString(),Toast.LENGTH_SHORT).show()
+
 
         var favFrag=0
         var favCount=0

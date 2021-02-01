@@ -42,7 +42,7 @@ class FriendCardBackFragment : Fragment() {
         val ma = activity as MainActivity
         val favIDList=GLOBAL.Favorite_list()
 
-        Toast.makeText(context,ma.cardDataList.ID.toString(),Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context,ma.cardDataList.ID.toString(),Toast.LENGTH_SHORT).show()
 
         val favID=ma.cardDataList.ID
 

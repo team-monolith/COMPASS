@@ -153,7 +153,6 @@ class FriendFragment : Fragment() {
                 var i = 0
                 ma.cardIDs.forEach {
                     if (idText == ma.cardIDs[i]) {
-                        Toast.makeText(context, "検索成功", Toast.LENGTH_SHORT).show()
                         ma.searchNumber = i
                         ma.cardDataList = ma.cardList[i]
                         ma.searchFriend()
