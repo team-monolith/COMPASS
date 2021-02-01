@@ -20,10 +20,7 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.monolith.compass.com.monolith.compass.MyApp
-import com.monolith.compass.ui.friend.CardViewFragment
-import com.monolith.compass.ui.friend.FriendCardBackFragment
-import com.monolith.compass.ui.friend.FriendCardFragment
-import com.monolith.compass.ui.friend.FriendSearchFragment
+import com.monolith.compass.ui.friend.*
 import com.monolith.compass.ui.map.NavChoiceFragment
 import com.monolith.compass.ui.setting.SettingFragment
 import pub.devrel.easypermissions.EasyPermissions
@@ -381,12 +378,15 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
         }
 
     fun searchFriend(){
+        val cardViewFrag=FriendFragment()
         val searchFriendTransaction =supportFragmentManager.beginTransaction()
         searchFriendTransaction.add(
             R.id.nav_host_fragment,
             FriendSearchFragment(),
             "SEARCHFRIEND"
-        ).commit()
+        )
+            .hide(cardViewFrag)
+            .commit()
     }
 
     fun checkSearchFriend(): Int {
@@ -401,8 +401,11 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
 
 
     fun removeSearchFriend(){
+        val cardViewFrag=CardViewFragment()
         val searchFriendTransaction =supportFragmentManager.beginTransaction()
-        searchFriendTransaction.remove(supportFragmentManager.findFragmentByTag("SEARCHFRIEND")!!).commit()
+        searchFriendTransaction.remove(supportFragmentManager.findFragmentByTag("SEARCHFRIEND")!!)
+            .show(cardViewFrag)
+            .commit()
     }
 
     fun FirstCheck(){

@@ -94,7 +94,7 @@ class FriendCardFragment : Fragment() {
 
         //お気に入り登録済みボタンタップ時の動作
         view.findViewById<ImageButton>(R.id.imageRemoveFav).setOnClickListener {
-            //GLOBAL.Favorite_delete(favID)
+            GLOBAL.Favorite_delete(favID)
             Toast.makeText(context,"お気に入りを解除しました！！",Toast.LENGTH_SHORT).show()
             view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.INVISIBLE
             view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.VISIBLE
