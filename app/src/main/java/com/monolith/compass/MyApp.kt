@@ -19,6 +19,8 @@ class MyApp : Application() {
 
     //このコメント下にグローバル変数等記述、必要分のみをコメント付きで記述すること
 
+    var click_badge = "" //クリック時のバッチ
+
     val CENTRAL_LATITUDE: Int = 1304090//X座標側、下四桁が少数
     val CENTRAL_LONGITUDE: Int = 335840//Y座標側、下四桁が小数
 
@@ -78,6 +80,7 @@ class MyApp : Application() {
         var STATE: Int
     )
 
+    /*達成データ*/
     data class BADGE_PROGRESS(
         var LOGIN_DAY:Int, //ログイン日数
         var BADGE_LEVEL:Int, //レベル
