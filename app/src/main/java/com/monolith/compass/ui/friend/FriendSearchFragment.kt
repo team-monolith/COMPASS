@@ -51,17 +51,10 @@ class FriendSearchFragment : Fragment() {
             }
         }
 
-        if (favFrag==1){
-            view.findViewById<ImageButton>(R.id.imageButtonRemoveFav).visibility=View.VISIBLE
-            view.findViewById<ImageButton>(R.id.imageButtonSetFav).visibility=View.INVISIBLE
-        }else{
-            view.findViewById<ImageButton>(R.id.imageButtonRemoveFav).visibility=View.INVISIBLE
-            view.findViewById<ImageButton>(R.id.imageButtonSetFav).visibility=View.VISIBLE
-        }
 
 
         //メインアクティビティのcardDataListから名刺データを受け取り生成
-        val card=view.findViewById<ImageView>(R.id.cardImage)
+        val card=view.findViewById<ImageView>(R.id.cardImage001)
         card.setImageBitmap(MyApp().CreateCardBitmap(ma.cardDataList,resources))
 
         //拡大名刺タップ時の動作
@@ -71,30 +64,14 @@ class FriendSearchFragment : Fragment() {
 
         }
 
-        //お気に入りボタンタップ時の動作
-        view.findViewById<ImageButton>(R.id.imageButtonSetFav).setOnClickListener{
-            GLOBAL.Favorite_add(favID)
-            Toast.makeText(context,"お気に入りに登録しました！！",Toast.LENGTH_SHORT).show()
-            view.findViewById<ImageButton>(R.id.imageButtonRemoveFav).visibility=View.VISIBLE
-            view.findViewById<ImageButton>(R.id.imageButtonSetFav).visibility=View.INVISIBLE
-        }
-
-        //お気に入り登録済みボタンタップ時の動作
-        view.findViewById<ImageButton>(R.id.imageButtonRemoveFav).setOnClickListener {
-            GLOBAL.Favorite_delete(favID)
-            Toast.makeText(context,"お気に入りを解除しました！！",Toast.LENGTH_SHORT).show()
-            view.findViewById<ImageButton>(R.id.imageButtonRemoveFav).visibility=View.INVISIBLE
-            view.findViewById<ImageButton>(R.id.imageButtonSetFav).visibility=View.VISIBLE
-        }
-
-        //view.findViewById<ImageView>(R.id.friendcardImage).setOnClickListener{
-        //}
-
-
 
         //バックボタンタップ時動作
         view.findViewById<ImageButton>(R.id.imageButtonRemoveSearch).setOnClickListener {
             ma.removeSearchFriend()
+        }
+
+        view.findViewById<ImageView>(R.id.cardImage001).setOnClickListener {
+            ma.FriendCardLoardStart(0)
         }
 
 
