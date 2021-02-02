@@ -7,8 +7,6 @@ import android.graphics.BitmapFactory
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -44,16 +42,11 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
 
     //この3つは吉田のテスト用
     //var profString = arrayOfNulls<String>(3)//name,icon,phrase
-    var profString = arrayOf("", "nasideii", "")
+    var profString = arrayOf("よしだ", "nasideii", "よろしくお願いします。")
 
     //var profInt = arrayOfNulls<Int>(6)//id,distance,favbadge,background,frame,badge
     var profInt = arrayOf(12345, 130, 47,1 ,1 , 11002233)
 
-    //バッチデータ保存用(badge,badge_background)
-    var profBadge = arrayOf(1,1)
-
-    //名刺表示用(background,frame)
-    var profCard = arrayOf(2,2)
 
     //背景、フレーム選択位置表示保持用
     var profView = arrayOf(-1,-1)
@@ -75,7 +68,6 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        PreloadData()
 
         //カレントディレクトリを設定しデータを読み込む
         GLOBAL.DIRECTORY = "$filesDir"
@@ -428,32 +420,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
         }
     }
 
-    fun PreloadData(){
-        val hash = GLOBAL.CreateHash( "kolwegoewgkowope:g")
-        val POSTDATA = java.util.HashMap<String, String>()
-        POSTDATA.put("hash",hash)
-        POSTDATA.put("id", GLOBAL.getID().toString())
-        "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
-            .response { _, response, result ->
-                when (result) {
-                    is Result.Success -> {
-                        val getdata = String(response.data)
-                        val arr = getdata.split(",")
-                        //テキスト関連
-                        profString[0] = arr[1] //名前
-                        profString[2] = arr[9] //コメント
 
-                        //画像関連
-                        profBadge[0] = Integer.parseInt(arr[6])
-                        profBadge[1] = Integer.parseInt(arr[7])
-                        profCard[0] = Integer.parseInt(arr[9])
-                        profCard[1] = Integer.parseInt(arr[8])
-                    }
-                    is Result.Failure -> {
-                    }
-                }
-            }
-    }
 
 
 }

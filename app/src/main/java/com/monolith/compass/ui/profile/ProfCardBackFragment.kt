@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
+import com.monolith.compass.com.monolith.compass.MyApp
 
 
 class ProfCardBackFragment : Fragment() {
+    val GLOBAL= MyApp.getInstance()
     private lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreateView(
@@ -32,106 +34,77 @@ class ProfCardBackFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val ma = activity as MainActivity
 
-        chenge_color(ma.profView[0])
+        chenge_color(GLOBAL.cardData.BACKGROUND)
 
         view.findViewById<ImageView>(R.id.frame_img0).setOnClickListener{
-
             reset_color()
             chenge_color(0)
-            ma.profCard[0]= 0
-            ma.profView[0]= 0
-            ma.profsave[0]= 0
+            GLOBAL.cardData.BACKGROUND = 0
         }
         view.findViewById<ImageView>(R.id.frame_img1).setOnClickListener{
             reset_color()
             chenge_color(1)
-            ma.profCard[0]= 1
-            ma.profView[0]= 1
-            ma.profsave[0]= 1
+            GLOBAL.cardData.BACKGROUND = 1
         }
         view.findViewById<ImageView>(R.id.frame_img2).setOnClickListener{
             reset_color()
             chenge_color(2)
-            ma.profCard[0]= 2
-            ma.profView[0]= 2
-            ma.profsave[0]= 2
+            GLOBAL.cardData.BACKGROUND = 2
         }
         view.findViewById<ImageView>(R.id.frame_img3).setOnClickListener{
             reset_color()
             chenge_color(3)
-            ma.profCard[0]= 3
-            ma.profView[0]= 3
-            ma.profsave[0]= 3
+            GLOBAL.cardData.BACKGROUND = 3
         }
         view.findViewById<ImageView>(R.id.frame_img4).setOnClickListener{
             reset_color()
             chenge_color(4)
-            ma.profCard[0]= 4
-            ma.profView[0]= 4
-            ma.profsave[0]= 4
+            GLOBAL.cardData.BACKGROUND = 4
         }
         view.findViewById<ImageView>(R.id.frame_img5).setOnClickListener{
             reset_color()
             chenge_color(5)
-            ma.profCard[0]= 5
-            ma.profView[0]= 5
-            ma.profsave[0]= 5
+            GLOBAL.cardData.BACKGROUND = 5
         }
         view.findViewById<ImageView>(R.id.frame_img6).setOnClickListener{
             reset_color()
             chenge_color(6)
-            ma.profCard[0]= 6
-            ma.profView[0]= 6
-            ma.profsave[0]= 6
+            GLOBAL.cardData.BACKGROUND = 6
         }
         view.findViewById<ImageView>(R.id.frame_img7).setOnClickListener{
             reset_color()
             chenge_color(7)
-            ma.profCard[0]= 7
-            ma.profView[0]= 7
-            ma.profsave[0]= 7
+            GLOBAL.cardData.BACKGROUND = 7
         }
         view.findViewById<ImageView>(R.id.frame_img8).setOnClickListener{
             reset_color()
             chenge_color(8)
-            ma.profCard[0]= 8
-            ma.profView[0]= 8
-            ma.profsave[0]= 8
+            GLOBAL.cardData.BACKGROUND = 8
         }
         view.findViewById<ImageView>(R.id.frame_img9).setOnClickListener{
             reset_color()
             chenge_color(9)
-            ma.profCard[0]= 9
-            ma.profView[0]= 9
-            ma.profsave[0]= 9
+            GLOBAL.cardData.BACKGROUND = 9
         }
         view.findViewById<ImageView>(R.id.frame_img10).setOnClickListener{
             reset_color()
             chenge_color(10)
-            ma.profCard[0]= 10
-            ma.profView[0]= 10
-            ma.profsave[0]= 10
+            GLOBAL.cardData.BACKGROUND = 10
         }
         view.findViewById<ImageView>(R.id.frame_img11).setOnClickListener{
             reset_color()
             chenge_color(11)
-            ma.profCard[0] = 11
-            ma.profView[0]= 11
-            ma.profsave[0]= 11
+            GLOBAL.cardData.BACKGROUND = 11
         }
         view.findViewById<ImageView>(R.id.frame_img12).setOnClickListener{
             reset_color()
             chenge_color(12)
-            ma.profCard[0] = 12
-            ma.profView[0]= 12
-            ma.profsave[0]= 12
+            GLOBAL.cardData.BACKGROUND = 12
         }
         view.findViewById<ImageView>(R.id.frame_img13).setOnClickListener{
             reset_color()
             chenge_color(13)
-            ma.profCard[0] = 13
-            ma.profView[0]= 13
-            ma.profsave[0]= 13
+            GLOBAL.cardData.BACKGROUND = 13
         }
     }
 

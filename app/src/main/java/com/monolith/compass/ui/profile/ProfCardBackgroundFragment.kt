@@ -1,5 +1,6 @@
 package com.monolith.compass.ui.profile
 
+import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +12,13 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
+import com.monolith.compass.com.monolith.compass.MyApp
 import com.monolith.compass.ui.friend.CardViewFragment
 
 
 class ProfCardBackgroundFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
-
+    val GLOBAL= MyApp.getInstance()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,12 +39,12 @@ class ProfCardBackgroundFragment : Fragment() {
         transaction.replace(R.id.frame, ProfCardBackFragment())
         transaction.commit()
 
-        val ma = activity as MainActivity
-
+        /*
         if(ma.profsave[0]==-1){
             ma.profsave[0] = ma.profInt[3]
             ma.profsave[1] = ma.profInt[4]
         }
+         */
 
 
         val tab=view.findViewById<TabLayout>(R.id.tab)
@@ -85,26 +87,25 @@ class ProfCardBackgroundFragment : Fragment() {
         */
 
         view.findViewById<ImageView>(R.id.iv_close).setOnClickListener{
-            ma.profsave[0] = -1
-            ma.profsave[1] = -1
-
-            reset_View() //表示用領域をクリア
-            findNavController().navigate(R.id.action_navigation_profile_card_to_navigation_profile_edit)
+            //ma.profsave[0] = -1
+            //ma.profsave[1] = -1
+            val fg = parentFragment as ProfEditFragment
+            parentFragmentManager.beginTransaction().remove(this).commit()
         }
 
         view.findViewById<ImageView>(R.id.iv_save).setOnClickListener{
-            ma.profInt[3] = ma.profsave[0]
-            ma.profInt[4] = ma.profsave[1]
+            //ma.profInt[3] = ma.profsave[0]
+            //ma.profInt[4] = ma.profsave[1]
 
-            reset_View() //表示用領域をクリア
-            findNavController().navigate(R.id.action_navigation_profile_card_to_navigation_profile_edit)
+
+            val card_back = resources.getIdentifier("card_background_" + GLOBAL.cardData.BACKGROUND.toString(), "drawable", "com.monolith.compass")
+            val card_frame = resources.getIdentifier("frame_" + GLOBAL.cardData.FRAME.toString(), "drawable", "com.monolith.compass")
+            val fg = parentFragment as ProfEditFragment
+            val card = fg.view?.findViewById<ImageView>(R.id.card_img)
+            card?.setBackgroundResource(card_back)
+            card?.setImageResource(card_frame)
+            parentFragmentManager.beginTransaction().remove(this).commit()
         }
-    }
-
-    fun reset_View(){
-        val ma = activity as MainActivity
-        ma.profView[0] = -1
-        ma.profView[1] = -1
     }
 
 

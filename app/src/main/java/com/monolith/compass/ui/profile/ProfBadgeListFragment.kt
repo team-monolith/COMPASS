@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
+import com.monolith.compass.com.monolith.compass.MyApp
 
 
 class ProfBadgeListFragment : Fragment() {
+    val GLOBAL= MyApp.getInstance()
     private lateinit var profileViewModel: ProfileViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -138,13 +140,12 @@ class ProfBadgeListFragment : Fragment() {
 
     /*バッチのセット(background:背景,icon:アイコン)*/
     fun setBadge(background:Int,badge_num:Int){
-        val ma = activity as MainActivity
         val back = resources.getIdentifier("badge_background_" + background.toString(), "drawable", "com.monolith.compass")
         val badge = resources.getIdentifier("badge_icon_" + badge_num.toString(), "drawable", "com.monolith.compass")
         val fg = parentFragment as ProfEditFragment
         val badge_img = fg.view?.findViewById<ImageView>(R.id.badge_img)
-        ma.profBadge[0] = badge_num
-        ma.profBadge[1] = background
+        GLOBAL.cardData.BADGE = badge_num
+        GLOBAL.cardData.BADGEBACK = background
         badge_img?.setBackgroundResource(back)
         badge_img?.setImageResource(badge)
         parentFragmentManager.beginTransaction().remove(this).commit()
