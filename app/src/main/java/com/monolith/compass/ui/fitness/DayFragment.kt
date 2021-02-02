@@ -36,7 +36,7 @@ class DayFragment : Fragment() {
 
     var walker: Array<Bitmap?> = arrayOfNulls(6)
 
-    var joyful: Array<Bitmap?> = arrayOfNulls(11)
+    var joyful: Array<Bitmap?> = arrayOfNulls(16)
 
     var scene: Array<Bitmap?> = arrayOfNulls(3)
 
@@ -216,69 +216,100 @@ class DayFragment : Fragment() {
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful01
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun01
+                ), 256, 512, false
             ),
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful02
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun02
+                ), 256, 512, false
             ),
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful03
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun03
+                ), 256, 512, false
             ),
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful04
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun04
+                ), 256, 512, false
             ),
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful05
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun05
+                ), 256, 512, false
             ),
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful06
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun06
+                ), 256, 512, false
             ),
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful07
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun07
+                ), 256, 512, false
             ),
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful08
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun08
+                ), 256, 512, false
             ),
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful09
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun09
+                ), 256, 512, false
             ),
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful10
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun10
+                ), 256, 512, false
             ),
             Bitmap.createScaledBitmap(
                 BitmapFactory.decodeResource(
                     resources,
-                    com.monolith.compass.R.drawable.joyful11
-                ), 256, 256, false
+                    com.monolith.compass.R.drawable.fun11
+                ), 256, 512, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.fun12
+                ), 256, 512, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.fun13
+                ), 256, 512, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.fun14
+                ), 256, 512, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.fun15
+                ), 256, 512, false
+            ),
+            Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    com.monolith.compass.R.drawable.fun16
+                ), 256, 512, false
             )
+
         )
 
     }
