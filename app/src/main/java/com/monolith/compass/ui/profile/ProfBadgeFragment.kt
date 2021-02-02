@@ -29,8 +29,6 @@ class ProfBadgeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.back_bt).setOnClickListener{
-            findNavController().navigate(R.id.navigation_profile)
-        }
+
     }
 }
