@@ -24,6 +24,7 @@ class MyApp : Application() {
 
     var DIRECTORY: String? = null
 
+    /*ローカル保存領域*/
     data class LOCAL_DC(
         var HEIGHT: Float,
         var WEIGHT: Float,
@@ -35,6 +36,7 @@ class MyApp : Application() {
         var MYCOLOR: String
     )
 
+    /*GPS情報*/
     data class GPSDATA(
         var GPS_D: Date?,
         var GPS_X: Float?,
@@ -43,6 +45,7 @@ class MyApp : Application() {
         var GPS_S: Float?
     )
 
+    /*マップ情報*/
     data class MAPDATA(
         var MAP: Array<Array<Int?>>,
         var MAP_X: Float?,
@@ -51,6 +54,7 @@ class MyApp : Application() {
         var BITMAP: Bitmap?
     )
 
+    /*歩数等の情報*/
     data class ACTIVITYDATA(
         var DATE: Date,
         var TARGET: Int,
@@ -59,6 +63,7 @@ class MyApp : Application() {
         var CAL: Int
     )
 
+    /*カード情報*/
     data class CARDDATA(
         var ID: Int,
         var NAME: String,
@@ -71,6 +76,12 @@ class MyApp : Application() {
         var BACKGROUND: Int,
         var COMMENT: String,
         var STATE: Int
+    )
+
+    data class BADGE_PROGRESS(
+        var LOGIN_DAY:Int,
+        var LEVEL:Int
+
     )
 
     data class COORDINATE(var X: Float?, var Y: Float?)

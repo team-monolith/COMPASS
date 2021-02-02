@@ -110,10 +110,8 @@ class ProfileFragment : Fragment() {
 
 
         day_img.setOnClickListener {
-            frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
             val transaction = childFragmentManager.beginTransaction()
-            transaction.add(R.id.back_fl, ProfileBlackFragment())
-            transaction.add(R.id.frame, ProfBadgeFragment())
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
             transaction.commit()
         }
 
