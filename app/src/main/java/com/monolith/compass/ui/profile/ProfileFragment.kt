@@ -109,13 +109,31 @@ class ProfileFragment : Fragment() {
         }
 
         level_img.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
+            //findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
 
         distance_img.setOnClickListener {
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
         }
         imgCard.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
+        }
+
+        dev_img.setOnClickListener{
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
+        }
+
+        event_img.setOnClickListener{
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
         }
     }
 
