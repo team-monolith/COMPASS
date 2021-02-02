@@ -104,7 +104,7 @@ class CanvasDraw : Fragment() {
     ) {
 
         //atache後であることを念のため確認。リソース抜け時クラッシュを回避するため要記載
-        if (walker[5] != null && joyful[10] != null) {
+        if (walker[5] != null && joyful[15] != null) {
             val paint = Paint()
             paint.isAntiAlias = true
 
@@ -129,7 +129,7 @@ class CanvasDraw : Fragment() {
                 )
             } else {
                 canvas!!.drawBitmap(
-                    joyful[anim_walk % 11]!!,
+                    joyful[anim_walk % 16]!!,
                     pos + meter.toFloat() - (joyful[0]!!.width / 2),
                     ((height / 6 * 5) - joyful[0]!!.height).toFloat(),
                     null
