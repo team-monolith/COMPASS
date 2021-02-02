@@ -79,9 +79,14 @@ class MyApp : Application() {
     )
 
     data class BADGE_PROGRESS(
-        var LOGIN_DAY:Int,
-        var LEVEL:Int
-
+        var LOGIN_DAY:Int, //ログイン日数
+        var BADGE_LEVEL:Int, //レベル
+        var BADGE_DISTANCE:Int, //距離
+        var STEPS:Int,
+        var DEV_DISTANCE:Int, //新規開拓距離
+        var CONS_CAL:Int, //消費カロリー
+        var PASSING:Int, //すれ違い人数
+        var EVENT:Int //イベント参加回数
     )
 
     data class COORDINATE(var X: Float?, var Y: Float?)
@@ -92,7 +97,9 @@ class MyApp : Application() {
 
     var GPS_BUF: GPSDATA = GPSDATA(null, null, null, null, null)
 
-    var cardData = CARDDATA(0, "", null, 0, 0, 0, 0, 0, 0,"", 0)
+    var cardData = CARDDATA(0, "", null, 12, 10, 0, 0, 0, 0,"", 0)
+
+    var progressData = BADGE_PROGRESS(1,cardData.LEVEL,cardData.DISTANCE,5000,20,300,5,1)
 
     var ImageBuffer: Bitmap? = null
 
