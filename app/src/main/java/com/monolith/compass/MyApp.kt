@@ -749,7 +749,7 @@ class MyApp : Application() {
     }
 
     fun CreateHash(str:String):String{
-        val strHash = MessageDigest.getInstance("MD5")
+        val strHash = MessageDigest.getInstance("sha256")
             .digest(str.toByteArray())
             .joinToString(separator = "") {
                 "%02x".format(it) }
