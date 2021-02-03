@@ -490,17 +490,19 @@ class ProfileFragment : Fragment() {
     }
 
     fun GetData(){
-        var sum=0;
-        for(i in GLOBAL.ACTIVITY_LOG.indices){
-            sum += GLOBAL.ACTIVITY_LOG[i].STEP
-        }
-        GLOBAL.progressData.STEPS = sum
+        var step_sum=0
+        var distance_sum = 0
+        var kcal_sum = 0
 
-        sum=0;
         for(i in GLOBAL.ACTIVITY_LOG.indices){
-            sum += GLOBAL.ACTIVITY_LOG[i].DISTANCE
+            step_sum += GLOBAL.ACTIVITY_LOG[i].STEP
+            distance_sum += GLOBAL.ACTIVITY_LOG[i].DISTANCE
+            kcal_sum += GLOBAL.ACTIVITY_LOG[i].CAL
         }
-        GLOBAL.progressData.BADGE_DISTANCE = sum
+
+        GLOBAL.progressData.STEPS = step_sum
+        GLOBAL.progressData.BADGE_DISTANCE = distance_sum
+        GLOBAL.progressData.CONS_CAL = kcal_sum
     }
 
 }
