@@ -344,7 +344,7 @@ class MapFragment : Fragment() {
 
         //https://ky-server.net/~monolith/system/dev/test.php
         //https://a.compass-user.work/system/map/show_csv.php
-        "https://ky-server.net/~monolith/system/dev/test.php".httpPost(POSTDATA.toList())
+        "https://a.compass-user.work/system/map/show_csv.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
                 when (result) {
                     is Result.Success -> {
