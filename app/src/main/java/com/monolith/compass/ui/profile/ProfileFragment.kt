@@ -2,7 +2,6 @@ package com.monolith.compass.ui.profile
 
 
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -15,10 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
-import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
-import org.w3c.dom.Text
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -95,9 +92,12 @@ class ProfileFragment : Fragment() {
         // gif画像のセット
         Glide.with(this).load(gifMovie).into(imgCard)
 
+        GetData()
+
         getUserData(imgCard)
 
         SetProgressData()
+
 
         imgCard.setImageResource(R.drawable.ic_launcher_background)
 
@@ -487,6 +487,20 @@ class ProfileFragment : Fragment() {
         event_prog?.setProgress(GLOBAL.progressData.EVENT)
 
 
+    }
+
+    fun GetData(){
+        var sum=0;
+        for(i in GLOBAL.ACTIVITY_LOG.indices){
+            sum += GLOBAL.ACTIVITY_LOG[i].STEP
+        }
+        GLOBAL.progressData.STEPS = sum
+
+        sum=0;
+        for(i in GLOBAL.ACTIVITY_LOG.indices){
+            sum += GLOBAL.ACTIVITY_LOG[i].DISTANCE
+        }
+        GLOBAL.progressData.BADGE_DISTANCE = sum
     }
 
 }
