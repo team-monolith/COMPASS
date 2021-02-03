@@ -173,7 +173,6 @@ class LocationService: Service(), LocationListener,SensorEventListener {
         ) {
             MyApp().FileWriteAdd(filestr, "GPSLOG.txt")
             MyApp().FileWriteAdd(filestr, "GPSBUF.txt")
-
         }
         MyApp().GPSFileRead("GPSLOG.txt")
 
