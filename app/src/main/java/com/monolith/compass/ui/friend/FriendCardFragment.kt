@@ -43,7 +43,7 @@ class FriendCardFragment : Fragment() {
         val ma = activity as MainActivity
 
 
-        val favIDList=GLOBAL.Favorite_list()
+        val favIDList=GLOBAL.Favorite_Readlist()
 
         //Toast.makeText(context,ma.cardDataList.ID.toString(),Toast.LENGTH_SHORT).show()
 
@@ -52,12 +52,14 @@ class FriendCardFragment : Fragment() {
 
 
         var favFrag=0
-        var favCount=0
-        favIDList.forEach {
-            if (favIDList[favCount].toString().toInt()==favID){
+        for (i in favIDList.indices){
+            if (favIDList[i]==favID.toString()){
                 favFrag=1
             }
         }
+
+
+
 
         if (favFrag==1){
             view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.VISIBLE

@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainer
+import androidx.fragment.app.replace
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.github.kittinunf.fuel.httpPost
@@ -350,6 +351,24 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
         val fragmentList= arrayOf(FriendCardFragment(), FriendCardBackFragment())
         val friendFragmentTransaction = supportFragmentManager.beginTransaction()
 
+        if (i==0){
+            friendFragmentTransaction.add(
+                R.id.nav_host_fragment,
+                fragmentList[i],
+                tagList[i]
+            ).commit()
+        }
+
+        if(i==1){
+            friendFragmentTransaction.replace(
+                R.id.nav_host_fragment,
+                FriendCardBackFragment()
+            ).commit()
+        }
+
+
+
+        /*
         if (supportFragmentManager.findFragmentByTag(tagList[i]) == null) {
             friendFragmentTransaction.add(
                 R.id.nav_host_fragment,
@@ -357,6 +376,8 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
                 tagList[i]
             ).commit()
         }
+
+         */
     }
 
         //拡大名刺画面を閉じる
@@ -364,10 +385,32 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
             val tagList= arrayOf("FRIENDCARD","FRIENDCARDBACK")
             val friendFragmentTransaction = supportFragmentManager.beginTransaction()
 
+
+            if(i==1){
+                friendFragmentTransaction.replace(
+                    R.id.nav_host_fragment,
+                    FriendCardFragment(),
+                    "FRIENDCARD"
+                ).commit()
+            }
+
+            if(i==0){
+                friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag("FRIENDCARD")!!)
+                    .replace(R.id.nav_host_fragment,FriendFragment())
+                    .commit()
+
+            }
+
+
+
+
+            /*
             if (supportFragmentManager.findFragmentByTag(tagList[i]).toString() != tagList[i]) {
                 friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag(tagList[i])!!)
                     .commit()
             }
+
+             */
         }
 
     fun searchFriend(){
