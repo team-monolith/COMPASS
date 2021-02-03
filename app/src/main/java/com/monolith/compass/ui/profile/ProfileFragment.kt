@@ -123,8 +123,12 @@ class ProfileFragment : Fragment() {
             transaction.add(R.id.back_fl,ProfBadgeFragment())
             transaction.commit()
         }
-        imgCard.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
+
+        step_img.setOnClickListener {
+            GLOBAL.click_badge = "step"
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
         }
 
         dev_img.setOnClickListener{
@@ -134,10 +138,29 @@ class ProfileFragment : Fragment() {
             transaction.commit()
         }
 
-        event_img.setOnClickListener{
+        calo_img.setOnClickListener {
+            GLOBAL.click_badge = "calo"
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,ProfBadgeFragment())
             transaction.commit()
+        }
+
+        friend_img.setOnClickListener{
+            GLOBAL.click_badge = "friend"
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
+        }
+
+        event_img.setOnClickListener{
+            GLOBAL.click_badge = "event"
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
+        }
+
+        imgCard.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
     }
 
