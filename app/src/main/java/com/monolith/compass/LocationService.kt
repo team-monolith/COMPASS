@@ -155,6 +155,8 @@ class LocationService: Service(), LocationListener,SensorEventListener {
         //誤差が大きい場合はそもそも記録しない
         if (GLOBAL.GPS_BUF.GPS_A!! > 15f) return
 
+        if(GLOBAL.GPS_BUF.GPS_S!! > 30f)return
+
         val last = GLOBAL.GPS_LOG.lastIndex
 
         val filestr: String =

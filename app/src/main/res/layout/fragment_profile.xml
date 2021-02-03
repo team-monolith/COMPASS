@@ -63,7 +63,7 @@
                                 android:layout_height="55dp"
                                 android:gravity="bottom|center_horizontal"
                                 android:text="TextView"
-                                android:textSize="22dp" />
+                                android:textSize="20dp" />
 
                             <ProgressBar
                                 android:id="@+id/day_pb"
@@ -97,7 +97,7 @@
                                 android:layout_height="55dp"
                                 android:gravity="bottom|center_horizontal"
                                 android:text="TextView"
-                                android:textSize="22dp" />
+                                android:textSize="20dp" />
 
                             <ProgressBar
                                 android:id="@+id/level_pb"
@@ -131,7 +131,7 @@
                                 android:layout_height="55dp"
                                 android:gravity="bottom|center_horizontal"
                                 android:text="TextView"
-                                android:textSize="22dp" />
+                                android:textSize="20dp" />
 
                             <ProgressBar
                                 android:id="@+id/distance_pb"
@@ -165,7 +165,7 @@
                                 android:layout_height="55dp"
                                 android:gravity="bottom|center_horizontal"
                                 android:text="TextView"
-                                android:textSize="22dp" />
+                                android:textSize="20dp" />
 
                             <ProgressBar
                                 android:id="@+id/step_pb"
@@ -199,7 +199,7 @@
                                 android:layout_height="55dp"
                                 android:gravity="bottom|center_horizontal"
                                 android:text="TextView"
-                                android:textSize="22dp" />
+                                android:textSize="20dp" />
 
                             <ProgressBar
                                 android:id="@+id/development_pb"
@@ -233,7 +233,7 @@
                                 android:layout_height="55dp"
                                 android:gravity="bottom|center_horizontal"
                                 android:text="TextView"
-                                android:textSize="22dp" />
+                                android:textSize="20dp" />
 
                             <ProgressBar
                                 android:id="@+id/calorie_pb"
@@ -267,7 +267,7 @@
                                 android:layout_height="55dp"
                                 android:gravity="bottom|center_horizontal"
                                 android:text="TextView"
-                                android:textSize="22dp" />
+                                android:textSize="20dp" />
 
                             <ProgressBar
                                 android:id="@+id/friend_pb"
@@ -301,7 +301,7 @@
                                 android:layout_height="55dp"
                                 android:gravity="bottom|center_horizontal"
                                 android:text="TextView8"
-                                android:textSize="22dp" />
+                                android:textSize="20dp" />
 
                             <ProgressBar
                                 android:id="@+id/event_pb"
@@ -328,19 +328,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/frame"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 <!-- バッジ一覧（並び順変更済み)

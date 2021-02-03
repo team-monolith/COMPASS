@@ -18,6 +18,7 @@ import com.github.kittinunf.result.Result
 import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
+import org.w3c.dom.Text
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -96,35 +97,47 @@ class ProfileFragment : Fragment() {
 
         getUserData(imgCard)
 
-        val ma = activity as MainActivity?
-        day_img.setBackgroundResource(getResouceId(ma!!.profInt[5] / 10000000))
-        level_img.setBackgroundResource(getResouceId(ma.profInt[5] / 1000000 % 10))
-        distance_img.setBackgroundResource(getResouceId(ma.profInt[5] / 100000 % 10))
-        step_img.setBackgroundResource(getResouceId(ma.profInt[5] / 10000 % 10))
-        dev_img.setBackgroundResource(getResouceId(ma.profInt[5] / 1000 % 10))
-        calo_img.setBackgroundResource(getResouceId(ma.profInt[5] / 100 % 10))
-        friend_img.setBackgroundResource(getResouceId(ma.profInt[5] / 10 % 10))
-        event_img.setBackgroundResource(getResouceId(ma.profInt[5] % 10))
+        SetProgressData()
 
         imgCard.setImageResource(R.drawable.ic_launcher_background)
 
 
         day_img.setOnClickListener {
-            frame.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
+            GLOBAL.click_badge = "day"
             val transaction = childFragmentManager.beginTransaction()
-            transaction.add(R.id.back_fl, ProfileBlackFragment())
-            transaction.add(R.id.frame, ProfBadgeFragment())
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
             transaction.commit()
         }
 
         level_img.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
+            GLOBAL.click_badge = "level"
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
+            //findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
 
         distance_img.setOnClickListener {
+            GLOBAL.click_badge = "distance"
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
         }
         imgCard.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
+        }
+
+        dev_img.setOnClickListener{
+            GLOBAL.click_badge = "dev"
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
+        }
+
+        event_img.setOnClickListener{
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
         }
     }
 
@@ -241,6 +254,218 @@ class ProfileFragment : Fragment() {
             STATE
         )
     }
+
+    fun SetProgressData(){
+        //ログイン日数にセット
+        var work = 0
+        var disp_max = ""
+
+        val day_img = view?.findViewById<ImageView>(R.id.day_img)
+        val day_txt = view?.findViewById<TextView>(R.id.day_txt)
+        val day_prog = view?.findViewById<ProgressBar>(R.id.day_pb)
+        work = GLOBAL.progressData.LOGIN_DAY
+
+        if(work < 7){ //ログイン日数プログレスバーの最大値を設定
+            day_prog?.setMax(7)
+            disp_max = "7"
+            day_img?.setBackgroundResource(resources.getIdentifier("badge_background_1","drawable","com.monolith.compass"))
+        }else if(work < 30){
+            day_prog?.setMax(30)
+            disp_max = "30"
+            day_img?.setBackgroundResource(resources.getIdentifier("badge_background_2","drawable","com.monolith.compass"))
+        }else if(work <   180){
+            day_prog?.setMax(180)
+            disp_max = "180"
+            day_img?.setBackgroundResource(resources.getIdentifier("badge_background_3","drawable","com.monolith.compass"))
+        }else if(work <180){
+            day_prog?.setMax(365)
+            disp_max = "365"
+            day_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
+        }
+        day_img?.setImageResource(resources.getIdentifier("badge_icon_0","drawable","com.monolith.compass"))
+        day_txt?.setText(disp_max +"日ログインしよう\n" + GLOBAL.progressData.LOGIN_DAY.toString() + "/" +  disp_max)
+        day_prog?.setProgress(GLOBAL.progressData.LOGIN_DAY)
+
+        //レベルにセット
+        val lvl_img = view?.findViewById<ImageView>(R.id.level_img)
+        val lvl_txt = view?.findViewById<TextView>(R.id.level_txt)
+        val lvl_prog = view?.findViewById<ProgressBar>(R.id.level_pb)
+        work = GLOBAL.progressData.BADGE_LEVEL
+        if(work < 10){ //ログイン日数プログレスバーの最大値を設定
+            lvl_prog?.setMax(10)
+            disp_max = "10"
+            lvl_img?.setBackgroundResource(resources.getIdentifier("badge_background_1","drawable","com.monolith.compass"))
+        }else if(work < 25){
+            lvl_prog?.setMax(25)
+            disp_max = "25"
+            lvl_img?.setBackgroundResource(resources.getIdentifier("badge_background_2","drawable","com.monolith.compass"))
+        }else if(work < 50){
+            lvl_prog?.setMax(50)
+            disp_max = "50"
+            lvl_img?.setBackgroundResource(resources.getIdentifier("badge_background_3","drawable","com.monolith.compass"))
+        }else if(work < 180){
+            lvl_prog?.setMax(180)
+            disp_max = "180"
+            lvl_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
+        }
+        lvl_img?.setImageResource(resources.getIdentifier("badge_icon_1","drawable","com.monolith.compass"))
+        lvl_txt?.setText(disp_max + "レベルに上げよう\n"+GLOBAL.progressData.BADGE_LEVEL.toString() + "/" + disp_max)
+        lvl_prog?.setProgress(GLOBAL.progressData.BADGE_LEVEL)
+
+        //
+        val distance_img = view?.findViewById<ImageView>(R.id.distance_img)
+        val distance_txt = view?.findViewById<TextView>(R.id.distance_txt)
+        val distance_prog = view?.findViewById<ProgressBar>(R.id.distance_pb)
+        work = GLOBAL.progressData.BADGE_DISTANCE
+        if(work < 10){
+            distance_prog?.setMax(10)
+            disp_max = "10"
+            distance_img?.setBackgroundResource(resources.getIdentifier("badge_background_1","drawable","com.monolith.compass"))
+        }else if(work < 100){
+            distance_prog?.setMax(100)
+            disp_max = "100"
+            distance_img?.setBackgroundResource(resources.getIdentifier("badge_background_2","drawable","com.monolith.compass"))
+        }else if(work < 1000){
+            distance_prog?.setMax(1000)
+            disp_max = "1000"
+            distance_img?.setBackgroundResource(resources.getIdentifier("badge_background_3","drawable","com.monolith.compass"))
+        }else if(work < 10000){
+            distance_prog?.setMax(10000)
+            disp_max = "10000"
+            distance_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
+        }
+        distance_img?.setImageResource(resources.getIdentifier("badge_icon_2","drawable","com.monolith.compass"))
+        distance_txt?.setText(disp_max + "km 進めよう\n"+GLOBAL.progressData.BADGE_DISTANCE.toString() + "/" + disp_max)
+        distance_prog?.setProgress(GLOBAL.progressData.BADGE_DISTANCE)
+
+        val step_img = view?.findViewById<ImageView>(R.id.step_img)
+        val step_txt = view?.findViewById<TextView>(R.id.step_txt)
+        val step_prog = view?.findViewById<ProgressBar>(R.id.step_pb)
+        work = GLOBAL.progressData.STEPS
+        if(work < 100000){ //ログイン日数プログレスバーの最大値を設定
+            step_prog?.setMax(100000)
+            disp_max = "10"
+            step_img?.setBackgroundResource(resources.getIdentifier("badge_background_1","drawable","com.monolith.compass"))
+        }else if(work < 1000000){
+            step_prog?.setMax(1000000)
+            disp_max = "100"
+            step_img?.setBackgroundResource(resources.getIdentifier("badge_background_2","drawable","com.monolith.compass"))
+        }else if(work < 5000000){
+            step_prog?.setMax(5000000)
+            disp_max = "500"
+            step_img?.setBackgroundResource(resources.getIdentifier("badge_background_3","drawable","com.monolith.compass"))
+        }else if(work < 10000000){
+            step_prog?.setMax(10000000)
+            disp_max = "1000"
+            step_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
+        }
+        step_img?.setImageResource(resources.getIdentifier("badge_icon_3","drawable","com.monolith.compass"))
+        step_txt?.setText(disp_max + "万歩 歩るこう\n" + (GLOBAL.progressData.STEPS / 10000).toString() + "/" + disp_max)
+        step_prog?.setProgress(GLOBAL.progressData.STEPS)
+
+        val dev_img = view?.findViewById<ImageView>(R.id.development_img)
+        val dev_txt = view?.findViewById<TextView>(R.id.development_txt)
+        val dev_prog = view?.findViewById<ProgressBar>(R.id.development_pb)
+        work = GLOBAL.progressData.DEV_DISTANCE
+        if(work < 1){ //ログイン日数プログレスバーの最大値を設定
+            dev_prog?.setMax(1)
+            disp_max = "1"
+            dev_img?.setBackgroundResource(resources.getIdentifier("badge_background_1","drawable","com.monolith.compass"))
+        }else if(work < 10){
+            dev_prog?.setMax(10)
+            disp_max = "10"
+            dev_img?.setBackgroundResource(resources.getIdentifier("badge_background_2","drawable","com.monolith.compass"))
+        }else if(work < 100){
+            dev_prog?.setMax(100)
+            disp_max = "100"
+            dev_img?.setBackgroundResource(resources.getIdentifier("badge_background_3","drawable","com.monolith.compass"))
+        }else if(work < 500){
+            dev_prog?.setMax(500)
+            disp_max = "500"
+            dev_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
+        }
+        dev_img?.setImageResource(resources.getIdentifier("badge_icon_4","drawable","com.monolith.compass"))
+        dev_txt?.setText(disp_max + "km 新規開拓しよう\n" +GLOBAL.progressData.DEV_DISTANCE.toString() + "/" + disp_max)
+        dev_prog?.setProgress(GLOBAL.progressData.DEV_DISTANCE)
+
+        val cal_img = view?.findViewById<ImageView>(R.id.calorie_img)
+        val cal_txt = view?.findViewById<TextView>(R.id.calorie_txt)
+        val cal_prog = view?.findViewById<ProgressBar>(R.id.calorie_pb)
+        work = GLOBAL.progressData.CONS_CAL
+        if(work < 1000){ //ログイン日数プログレスバーの最大値を設定
+            cal_prog?.setMax(1000)
+            disp_max = "1000"
+            cal_img?.setBackgroundResource(resources.getIdentifier("badge_background_1","drawable","com.monolith.compass"))
+        }else if(work < 5000){
+            cal_prog?.setMax(5000)
+            disp_max = "5000"
+            cal_img?.setBackgroundResource(resources.getIdentifier("badge_background_2","drawable","com.monolith.compass"))
+        }else if(work < 25000){
+            cal_prog?.setMax(25000)
+            disp_max = "25000"
+            cal_img?.setBackgroundResource(resources.getIdentifier("badge_background_3","drawable","com.monolith.compass"))
+        }else if(work < 50000){
+            cal_prog?.setMax(50000)
+            disp_max = "50000"
+            cal_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
+        }
+        cal_img?.setImageResource(resources.getIdentifier("badge_icon_5","drawable","com.monolith.compass"))
+        cal_txt?.setText(disp_max + "カロリ消費しよう\n" +  GLOBAL.progressData.CONS_CAL.toString() + "/" + disp_max)
+        cal_prog?.setProgress(GLOBAL.progressData.CONS_CAL)
+
+        val friend_img = view?.findViewById<ImageView>(R.id.friend_img)
+        val friend_txt = view?.findViewById<TextView>(R.id.friend_txt)
+        val friend_prog = view?.findViewById<ProgressBar>(R.id.friend_pb)
+        work = GLOBAL.progressData.PASSING
+        if(work < 1){ //ログイン日数プログレスバーの最大値を設定
+            friend_prog?.setMax(1)
+            disp_max = "1"
+            friend_img?.setBackgroundResource(resources.getIdentifier("badge_background_1","drawable","com.monolith.compass"))
+        }else if(work < 10){
+            friend_prog?.setMax(10)
+            disp_max = "10"
+            friend_img?.setBackgroundResource(resources.getIdentifier("badge_background_2","drawable","com.monolith.compass"))
+        }else if(work < 50){
+            friend_prog?.setMax(50)
+            disp_max = "50"
+            friend_img?.setBackgroundResource(resources.getIdentifier("badge_background_3","drawable","com.monolith.compass"))
+        }else if(work < 100){
+            friend_prog?.setMax(100)
+            disp_max = "100"
+            friend_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
+        }
+        friend_img?.setImageResource(resources.getIdentifier("badge_icon_6","drawable","com.monolith.compass"))
+        friend_txt?.setText(disp_max + "人とすれ違おう\n" +GLOBAL.progressData.PASSING.toString() + "/" + disp_max)
+        friend_prog?.setProgress(GLOBAL.progressData.PASSING)
+
+        val event_img = view?.findViewById<ImageView>(R.id.event_img)
+        val event_txt = view?.findViewById<TextView>(R.id.event_txt)
+        val event_prog = view?.findViewById<ProgressBar>(R.id.event_pb)
+        work = GLOBAL.progressData.EVENT
+        if(work < 1){ //ログイン日数プログレスバーの最大値を設定
+            event_prog?.setMax(1)
+            disp_max = "1"
+            event_img?.setBackgroundResource(resources.getIdentifier("badge_background_1","drawable","com.monolith.compass"))
+        }else if(work < 3){
+            event_prog?.setMax(3)
+            disp_max = "3"
+            event_img?.setBackgroundResource(resources.getIdentifier("badge_background_2","drawable","com.monolith.compass"))
+        }else if(work < 6){
+            event_prog?.setMax(6)
+            disp_max = "6"
+            event_img?.setBackgroundResource(resources.getIdentifier("badge_background_3","drawable","com.monolith.compass"))
+        }else if(work < 10){
+            event_prog?.setMax(10)
+            disp_max = "10"
+            event_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
+        }
+        event_img?.setImageResource(resources.getIdentifier("badge_icon_7","drawable","com.monolith.compass"))
+        event_txt?.setText(disp_max + "回イベントに参加しよう\n" + GLOBAL.progressData.EVENT.toString() + "/" + disp_max)
+        event_prog?.setProgress(GLOBAL.progressData.EVENT)
+
+
+    }
+
 }
 
 /*

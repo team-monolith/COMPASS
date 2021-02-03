@@ -19,11 +19,14 @@ class MyApp : Application() {
 
     //このコメント下にグローバル変数等記述、必要分のみをコメント付きで記述すること
 
+    var click_badge = "" //クリック時のバッチ
+
     val CENTRAL_LATITUDE: Int = 1304090//X座標側、下四桁が少数
     val CENTRAL_LONGITUDE: Int = 335840//Y座標側、下四桁が小数
 
     var DIRECTORY: String? = null
 
+    /*ローカル保存領域*/
     data class LOCAL_DC(
         var HEIGHT: Float,
         var WEIGHT: Float,
@@ -35,6 +38,7 @@ class MyApp : Application() {
         var MYCOLOR: String
     )
 
+    /*GPS情報*/
     data class GPSDATA(
         var GPS_D: Date?,
         var GPS_X: Float?,
@@ -43,6 +47,7 @@ class MyApp : Application() {
         var GPS_S: Float?
     )
 
+    /*マップ情報*/
     data class MAPDATA(
         var MAP: Array<Array<Int?>>,
         var MAP_X: Float?,
@@ -51,6 +56,7 @@ class MyApp : Application() {
         var BITMAP: Bitmap?
     )
 
+    /*歩数等の情報*/
     data class ACTIVITYDATA(
         var DATE: Date,
         var TARGET: Int,
@@ -59,6 +65,7 @@ class MyApp : Application() {
         var CAL: Int
     )
 
+    /*カード情報*/
     data class CARDDATA(
         var ID: Int,
         var NAME: String,
@@ -73,6 +80,18 @@ class MyApp : Application() {
         var STATE: Int
     )
 
+    /*達成データ*/
+    data class BADGE_PROGRESS(
+        var LOGIN_DAY:Int, //ログイン日数
+        var BADGE_LEVEL:Int, //レベル
+        var BADGE_DISTANCE:Int, //距離
+        var STEPS:Int,
+        var DEV_DISTANCE:Int, //新規開拓距離
+        var CONS_CAL:Int, //消費カロリー
+        var PASSING:Int, //すれ違い人数
+        var EVENT:Int //イベント参加回数
+    )
+
     data class COORDINATE(var X: Float?, var Y: Float?)
 
     var GPS_LOG = mutableListOf<GPSDATA>()
@@ -81,7 +100,9 @@ class MyApp : Application() {
 
     var GPS_BUF: GPSDATA = GPSDATA(null, null, null, null, null)
 
-    var cardData = CARDDATA(0, "", null, 0, 0, 0, 0, 0, 0,"", 0)
+    var cardData = CARDDATA(0, "", null, 12, 10, 0, 0, 0, 0,"", 0)
+
+    var progressData = BADGE_PROGRESS(1,cardData.LEVEL,cardData.DISTANCE,5000,20,300,5,1)
 
     var ImageBuffer: Bitmap? = null
 
@@ -736,7 +757,7 @@ class MyApp : Application() {
     }
 
     fun CreateHash(str:String):String{
-        val strHash = MessageDigest.getInstance("MD5")
+        val strHash = MessageDigest.getInstance("sha256")
             .digest(str.toByteArray())
             .joinToString(separator = "") {
                 "%02x".format(it) }
