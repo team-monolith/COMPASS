@@ -180,22 +180,22 @@ class ProfBadgeFragment : Fragment() {
 
             "calo" ->
             {
-                copper_txt.setText("1000カロリ消費しよう\n" + GLOBAL.progressData.CONS_CAL.toString() + "/1000")
+                copper_txt.setText("1000kcal 消費しよう\n" + GLOBAL.progressData.CONS_CAL.toString() + "/1000")
                 copper_pb.setMax(1000)
                 copper_pb.setProgress(GLOBAL.progressData.CONS_CAL)
                 copper_img.setImageResource(resources.getIdentifier("badge_icon_5","drawable","com.monolith.compass"))
 
-                silver_txt.setText("5000カロリ消費しよう\n" + GLOBAL.progressData.CONS_CAL.toString() + "/5000")
+                silver_txt.setText("5000kcal 消費しよう\n" + GLOBAL.progressData.CONS_CAL.toString() + "/5000")
                 silver_pb.setMax(5000)
                 silver_pb.setProgress(GLOBAL.progressData.CONS_CAL)
                 silver_img.setImageResource(resources.getIdentifier("badge_icon_5","drawable","com.monolith.compass"))
 
-                gold_txt.setText("25000カロリ消費しよう\n" + GLOBAL.progressData.CONS_CAL.toString() + "/25000")
+                gold_txt.setText("25000kcal 消費しよう\n" + GLOBAL.progressData.CONS_CAL.toString() + "/25000")
                 gold_pb.setMax(25000)
                 gold_pb.setProgress(GLOBAL.progressData.CONS_CAL)
                 gold_img.setImageResource(resources.getIdentifier("badge_icon_5","drawable","com.monolith.compass"))
 
-                platinum_txt.setText("50000カロリ消費しよう\n" + GLOBAL.progressData.CONS_CAL.toString() + "/50000")
+                platinum_txt.setText("50000kcal 消費しよう\n" + GLOBAL.progressData.CONS_CAL.toString() + "/50000")
                 platinum_pb.setMax(50000)
                 platinum_pb.setProgress(GLOBAL.progressData.CONS_CAL)
                 platinum_img.setImageResource(resources.getIdentifier("badge_icon_5","drawable","com.monolith.compass"))
@@ -203,22 +203,22 @@ class ProfBadgeFragment : Fragment() {
 
             "friend" ->
             {
-                copper_txt.setText("1人とすれ違おう\n" + GLOBAL.progressData.PASSING.toString() + "/1")
+                copper_txt.setText("1人とすれ違う\n" + GLOBAL.progressData.PASSING.toString() + "/1")
                 copper_pb.setMax(1)
                 copper_pb.setProgress(GLOBAL.progressData.PASSING)
                 copper_img.setImageResource(resources.getIdentifier("badge_icon_6","drawable","com.monolith.compass"))
 
-                silver_txt.setText("10人とすれ違おう\n" + GLOBAL.progressData.PASSING.toString() + "/10")
+                silver_txt.setText("10人とすれ違う\n" + GLOBAL.progressData.PASSING.toString() + "/10")
                 silver_pb.setMax(10)
                 silver_pb.setProgress(GLOBAL.progressData.PASSING)
                 silver_img.setImageResource(resources.getIdentifier("badge_icon_6","drawable","com.monolith.compass"))
 
-                gold_txt.setText("50人とすれ違おう\n" + GLOBAL.progressData.PASSING.toString() + "/50")
+                gold_txt.setText("50人とすれ違う\n" + GLOBAL.progressData.PASSING.toString() + "/50")
                 gold_pb.setMax(50)
                 gold_pb.setProgress(GLOBAL.progressData.PASSING)
                 gold_img.setImageResource(resources.getIdentifier("badge_icon_6","drawable","com.monolith.compass"))
 
-                platinum_txt.setText("100人とすれ違おう\n" + GLOBAL.progressData.PASSING.toString() + "/100")
+                platinum_txt.setText("100人とすれ違う\n" + GLOBAL.progressData.PASSING.toString() + "/100")
                 platinum_pb.setMax(100)
                 platinum_pb.setProgress(GLOBAL.progressData.PASSING)
                 platinum_img.setImageResource(resources.getIdentifier("badge_icon_6","drawable","com.monolith.compass"))

@@ -383,7 +383,7 @@ class ProfileFragment : Fragment() {
             step_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         step_img?.setImageResource(resources.getIdentifier("badge_icon_3","drawable","com.monolith.compass"))
-        step_txt?.setText(disp_max + "万歩 歩るこう\n" + (GLOBAL.progressData.STEPS / 10000).toString() + "/" + disp_max)
+        step_txt?.setText(disp_max + "万歩 歩こう\n" + (GLOBAL.progressData.STEPS / 10000).toString() + "/" + disp_max)
         step_prog?.setProgress(GLOBAL.progressData.STEPS)
 
         val dev_img = view?.findViewById<ImageView>(R.id.development_img)
@@ -433,7 +433,7 @@ class ProfileFragment : Fragment() {
             cal_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         cal_img?.setImageResource(resources.getIdentifier("badge_icon_5","drawable","com.monolith.compass"))
-        cal_txt?.setText(disp_max + "カロリ消費しよう\n" +  GLOBAL.progressData.CONS_CAL.toString() + "/" + disp_max)
+        cal_txt?.setText(disp_max + "kcal 消費しよう\n" +  GLOBAL.progressData.CONS_CAL.toString() + "/" + disp_max)
         cal_prog?.setProgress(GLOBAL.progressData.CONS_CAL)
 
         val friend_img = view?.findViewById<ImageView>(R.id.friend_img)
@@ -458,7 +458,7 @@ class ProfileFragment : Fragment() {
             friend_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         friend_img?.setImageResource(resources.getIdentifier("badge_icon_6","drawable","com.monolith.compass"))
-        friend_txt?.setText(disp_max + "人とすれ違おう\n" +GLOBAL.progressData.PASSING.toString() + "/" + disp_max)
+        friend_txt?.setText(disp_max + "人とすれ違う\n" +GLOBAL.progressData.PASSING.toString() + "/" + disp_max)
         friend_prog?.setProgress(GLOBAL.progressData.PASSING)
 
         val event_img = view?.findViewById<ImageView>(R.id.event_img)
