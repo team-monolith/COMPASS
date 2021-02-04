@@ -23,7 +23,7 @@ import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 
-class fbgdfgbdIconEditFragment:Fragment(){
+class IconEditFragment:Fragment(){
 
     val GLOBAL = MyApp.getInstance()
 
