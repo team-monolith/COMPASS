@@ -759,6 +759,12 @@ class MyApp : Application() {
         return strHash
     }
 
+    fun calc_cal() {
+        for (i in ACTIVITY_LOG.indices) {
+            ACTIVITY_LOG[i].CAL = (ACTIVITY_LOG[i].STEP * 31.5 / 1000).toInt()
+        }
+
+    }
 }
 
 /*
