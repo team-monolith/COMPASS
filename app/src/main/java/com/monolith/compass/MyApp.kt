@@ -773,20 +773,22 @@ class MyApp : Application() {
     }
 
     fun login_cnt(){
-        progressData.LOGIN_DAY = FileRead("DAY_CNT.txt").toInt()
         val pattern = SimpleDateFormat("yyyy/MM/dd")
         val today = pattern.format(Date()).toString()
-        if(FileRead("TODAYBUF.txt") != ""){
+        try{
+            progressData.LOGIN_DAY = FileRead("DAY_CNT.txt").toInt()
             if(FileRead("TODAYBUF.txt") != today){
                 val add_cnt = FileRead("DAY_CNT.txt").toInt() + 1
                 FileWrite(add_cnt.toString(),"DAY_CNT.txt")
                 progressData.LOGIN_DAY = add_cnt
             }
-        }else{
+        }catch (e: FileNotFoundException){
             FileWrite(today,"TODAYBUF.txt")
             FileWrite("1","DAY_CNT.txt")
             progressData.LOGIN_DAY = 1
         }
+
+
     }
 
 }
