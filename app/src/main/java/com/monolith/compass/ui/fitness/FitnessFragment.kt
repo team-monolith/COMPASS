@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,12 +39,13 @@ class FitnessFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        GLOBAL.calc()
         // Fragmentを作成します
         val transaction = childFragmentManager.beginTransaction()
         transaction.add(R.id.frame, DayFragment())
         transaction.commit()
 
-        val btnPeriod = view.findViewById<Button>(R.id.btnPeriod)
+        val btnPeriod = view.findViewById<ImageView>(R.id.btnPeriod)
 
         //表示期間変更ボタンリスナー
         btnPeriod.setOnClickListener {
@@ -53,44 +55,50 @@ class FitnessFragment : Fragment() {
             //現在のモードに合わせて画面を入れ変える
             when (GraphPeriod) {
                 Period.DAY -> {
+
                     transaction.replace(R.id.frame, WeekFragment())
                     GraphPeriod = Period.WEEK
-                    btnPeriod.text = "WEEK"
+                    btnPeriod.setImageResource(R.drawable.length2)
                 }
                 Period.WEEK -> {
 
                     transaction.replace(R.id.frame, MonthFragment())
                     GraphPeriod = Period.MONTH
-                    btnPeriod.text = "MONTH"
+                    btnPeriod.setImageResource(R.drawable.length3)
+
                 }
                 Period.MONTH -> {
+
                     transaction.replace(R.id.frame, DayFragment())
                     GraphPeriod = Period.DAY
-                    btnPeriod.text = "DAY"
+                    btnPeriod.setImageResource(R.drawable.length1)
                 }
             }
 
             transaction.commit()
         }
-        view.findViewById<Button>(R.id.btnToday).setOnClickListener {
+        view.findViewById<ImageView>(R.id.btnToday).setOnClickListener {
             val transaction = childFragmentManager.beginTransaction()
 
             //現在のモードに合わせて画面を入れ変える
             when (GraphPeriod) {
                 Period.DAY -> {
+                    btnPeriod.setImageResource(R.drawable.length1)
                     transaction.replace(R.id.frame, DayFragment())
                     GraphPeriod = Period.DAY
-                    btnPeriod.text = "DAY"
+                    //btnPeriod.text = "DAY"
                 }
                 Period.WEEK -> {
+                    btnPeriod.setImageResource(R.drawable.length2)
                     transaction.replace(R.id.frame, WeekFragment())
                     GraphPeriod = Period.WEEK
-                    btnPeriod.text = "WEEK"
+                    //btnPeriod.text = "WEEK"
                 }
                 Period.MONTH -> {
+                    btnPeriod.setImageResource(R.drawable.length3)
                     transaction.replace(R.id.frame, MonthFragment())
                     GraphPeriod = Period.MONTH
-                    btnPeriod.text = "MONTH"
+                    //btnPeriod.text = "MONTH"
                 }
             }
 
@@ -110,13 +118,13 @@ class FitnessFragment : Fragment() {
 
         if(dayNum!=-1){
             STEPS=GLOBAL.ACTIVITY_LOG[dayNum].STEP
-            DISTANCE=GLOBAL.ACTIVITY_LOG[dayNum].STEP
+            DISTANCE=GLOBAL.ACTIVITY_LOG[dayNum].DISTANCE
             CALORIES=GLOBAL.ACTIVITY_LOG[dayNum].CAL
         }
 
         view?.findViewById<TextView>(R.id.txtDate)?.text = pattern.format(startDay)
         view?.findViewById<TextView>(R.id.txtSteps)?.text=STEPS.toString()+"歩"
-        view?.findViewById<TextView>(R.id.txtDistance)?.text=25.toString()+"km"
+        view?.findViewById<TextView>(R.id.txtDistance)?.text=DISTANCE.toString()+"km"
         view?.findViewById<TextView>(R.id.txtCalories)?.text=CALORIES.toString()+"kcal"
     }
 
@@ -140,7 +148,7 @@ class FitnessFragment : Fragment() {
             val n = SearchDayNumber(day)
             if(n!=-1){
                 STEPS+=GLOBAL.ACTIVITY_LOG[n].STEP
-                DISTANCE+=0//仮置き
+                DISTANCE+=GLOBAL.ACTIVITY_LOG[n].DISTANCE
                 CALORIES+=GLOBAL.ACTIVITY_LOG[n].CAL
             }
             cl.add(Calendar.DAY_OF_YEAR,1)

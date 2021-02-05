@@ -363,6 +363,9 @@ class MapFragment : Fragment() {
         origindata=origindata.replace("<br>","")
         origindata=origindata.replace("\r\n","")
 
+        //Current.MAP_X = 130.3707f
+        //Current.MAP_Y = 33.5886f
+
         Current.MAP_X = 130.4088f
         Current.MAP_Y = 33.5841f
 

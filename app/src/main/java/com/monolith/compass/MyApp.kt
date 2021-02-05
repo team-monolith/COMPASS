@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.monolith.compass.R
 import java.io.File
 import java.io.FileNotFoundException
+import java.lang.Exception
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.*
@@ -102,7 +103,7 @@ class MyApp : Application() {
 
     var cardData = CARDDATA(0, "", null, 12, 10, 0, 0, 0, 0,"", 0)
 
-    var progressData = BADGE_PROGRESS(1,cardData.LEVEL,cardData.DISTANCE,5000,20,300,5,1)
+    var progressData = BADGE_PROGRESS(0,cardData.LEVEL,cardData.DISTANCE,0,0,0,5,1)
 
     var ImageBuffer: Bitmap? = null
 
@@ -764,12 +765,40 @@ class MyApp : Application() {
         return strHash
     }
 
-    fun calc_cal() {
+    //カロリ、距離計算用
+    fun calc() {
         for (i in ACTIVITY_LOG.indices) {
             ACTIVITY_LOG[i].CAL = (ACTIVITY_LOG[i].STEP * 31.5 / 1000).toInt()
+            ACTIVITY_LOG[i].DISTANCE = ((LocalSettingRead("LOCAL.txt").HEIGHT.toInt() * 0.45) / 100000 * ACTIVITY_LOG[i].STEP).toInt()
+        }
+    }
+
+    fun login_cnt(){
+        val GLOBAL = getInstance()
+        val pattern = SimpleDateFormat("yyyy/MM/dd")
+        val today = pattern.format(Date()).toString()
+
+        val file1 = File(GLOBAL.DIRECTORY + "/", "TODAYBUF.txt")
+        val file2 = File(GLOBAL.DIRECTORY + "/", "DAY_CNT.txt")
+        try{
+            if(file1.exists() && file2.exists()){
+                progressData.LOGIN_DAY = FileRead("DAY_CNT.txt").toInt()
+                if(FileRead("TODAYBUF.txt") != today){
+                    val add_cnt = FileRead("DAY_CNT.txt").toInt() + 1
+                    FileWrite(add_cnt.toString(),"DAY_CNT.txt")
+                    progressData.LOGIN_DAY = add_cnt
+                }
+            }else{
+                FileWrite(today,"TODAYBUF.txt")
+                FileWrite("1","DAY_CNT.txt")
+                progressData.LOGIN_DAY = 1
+            }
+        }catch (e: Exception){
         }
 
+
     }
+
 }
 
 /*
