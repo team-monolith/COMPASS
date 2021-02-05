@@ -102,7 +102,7 @@ class MyApp : Application() {
 
     var cardData = CARDDATA(0, "", null, 12, 10, 0, 0, 0, 0,"", 0)
 
-    var progressData = BADGE_PROGRESS(1,cardData.LEVEL,cardData.DISTANCE,5000,20,300,5,1)
+    var progressData = BADGE_PROGRESS(0,cardData.LEVEL,cardData.DISTANCE,0,0,0,5,1)
 
     var ImageBuffer: Bitmap? = null
 
@@ -773,8 +773,20 @@ class MyApp : Application() {
     }
 
     fun login_cnt(){
-        val today = Date().toString()
-        FileWrite(today,"LOGIN_DAY.txt")
+        progressData.LOGIN_DAY = FileRead("DAY_CNT.txt").toInt()
+        val pattern = SimpleDateFormat("yyyy/MM/dd")
+        val today = pattern.format(Date()).toString()
+        if(FileRead("TODAYBUF.txt") != ""){
+            if(FileRead("TODAYBUF.txt") != today){
+                val add_cnt = FileRead("DAY_CNT.txt").toInt() + 1
+                FileWrite(add_cnt.toString(),"DAY_CNT.txt")
+                progressData.LOGIN_DAY = add_cnt
+            }
+        }else{
+            FileWrite(today,"TODAYBUF.txt")
+            FileWrite("1","DAY_CNT.txt")
+            progressData.LOGIN_DAY = 1
+        }
     }
 
 }
