@@ -41,7 +41,7 @@ class FriendSearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val ma = activity as MainActivity
-        val favIDList=GLOBAL.Favorite_list()
+        val favIDList=GLOBAL.Favorite_Readlist()
         val favID=ma.cardDataList.ID
         var favFrag=0
         var favCount=0
@@ -49,6 +49,7 @@ class FriendSearchFragment : Fragment() {
             if (favIDList[favCount].toString().toInt()==favID){
                 favFrag=1
             }
+            favCount+=1
         }
 
 

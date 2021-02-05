@@ -728,26 +728,31 @@ class MyApp : Application() {
         var favorite_work = ""
         var delete_flg = false
         var arr = favorite.split(",").toMutableList()
-        if (arr.size!=1) {
-            for (i in 0..arr.size - 2) {
+            for (i in arr.indices ) {
                 //ファイル内に同じIDが無いか探索する
                 if (ID.toString() == arr[i]) {
                     delete_flg = true //削除対象のIDが見つかった場合
                 }
                 //見つかった場合"arr[i]"に"arr[1 + 1]"のデータを格納していく
                 if (delete_flg) {
-                    arr[i] = arr[i + 1]
+                    arr.removeAt(i)
+                    delete_flg=false
+
                 }
             }
-        }else{
-            arr.clear()
-        }
         favorite_work = arr.joinToString(",")
         FileWrite(favorite_work,"FAVORITE.txt") //変更後のデータを"FAVORITE.txt"に書き込む
     }
 
     /*お気に入りのリストを返却する*/
-    fun Favorite_list() :String{
+    fun Favorite_Readlist() :List<String> {
+        val favoriteFile = FileRead("FAVORITE.txt")
+        var favFile = favoriteFile.split(",")
+
+        return favFile
+    }
+
+    fun Favorite_list():String{
         return FileRead("FAVORITE.txt")
     }
 
