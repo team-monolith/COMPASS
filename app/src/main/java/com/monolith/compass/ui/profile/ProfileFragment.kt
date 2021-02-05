@@ -49,7 +49,8 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        GLOBAL.calc_cal()
+        GLOBAL.calc()
+        GLOBAL.login_cnt()
         HandlerDraw(view)
 
         val imgCard = view.findViewById<ImageView>(R.id.card_img)

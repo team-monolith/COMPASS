@@ -38,6 +38,7 @@ class FitnessFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        GLOBAL.calc()
         // Fragmentを作成します
         val transaction = childFragmentManager.beginTransaction()
         transaction.add(R.id.frame, DayFragment())
@@ -110,13 +111,13 @@ class FitnessFragment : Fragment() {
 
         if(dayNum!=-1){
             STEPS=GLOBAL.ACTIVITY_LOG[dayNum].STEP
-            DISTANCE=GLOBAL.ACTIVITY_LOG[dayNum].STEP
+            DISTANCE=GLOBAL.ACTIVITY_LOG[dayNum].DISTANCE
             CALORIES=GLOBAL.ACTIVITY_LOG[dayNum].CAL
         }
 
         view?.findViewById<TextView>(R.id.txtDate)?.text = pattern.format(startDay)
         view?.findViewById<TextView>(R.id.txtSteps)?.text=STEPS.toString()+"歩"
-        view?.findViewById<TextView>(R.id.txtDistance)?.text=25.toString()+"km"
+        view?.findViewById<TextView>(R.id.txtDistance)?.text=DISTANCE.toString()+"km"
         view?.findViewById<TextView>(R.id.txtCalories)?.text=CALORIES.toString()+"kcal"
     }
 
@@ -140,7 +141,7 @@ class FitnessFragment : Fragment() {
             val n = SearchDayNumber(day)
             if(n!=-1){
                 STEPS+=GLOBAL.ACTIVITY_LOG[n].STEP
-                DISTANCE+=0//仮置き
+                DISTANCE+=GLOBAL.ACTIVITY_LOG[n].DISTANCE
                 CALORIES+=GLOBAL.ACTIVITY_LOG[n].CAL
             }
             cl.add(Calendar.DAY_OF_YEAR,1)
