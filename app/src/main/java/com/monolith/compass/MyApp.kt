@@ -795,8 +795,10 @@ class MyApp : Application() {
             }
         }catch (e: Exception){
         }
+    }
 
-
+    fun replace_comma(text:String):String{
+        return text.replace(",","?")
     }
 
 }

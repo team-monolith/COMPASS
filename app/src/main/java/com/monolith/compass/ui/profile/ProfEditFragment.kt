@@ -67,7 +67,7 @@ class ProfEditFragment : Fragment() {
 
         //保存ボタン処理
         view.findViewById<ImageView>(R.id.iv_save3).setOnClickListener{
-            UploadData(name.text.toString(),phrase.text.toString())
+            UploadData(GLOBAL.replace_comma(name.text.toString()),GLOBAL.replace_comma(phrase.text.toString()))
             //iconBufferDelete()
         }
         view.findViewById<ImageView>(R.id.iv_close3).setOnClickListener{

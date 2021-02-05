@@ -48,27 +48,31 @@
 
     <ImageView
         android:id="@+id/btnToday"
-        android:layout_width="110dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="148dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="94dp"
         android:adjustViewBounds="false"
+        android:background="@color/teal_200"
         android:cropToPadding="false"
         android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/frame"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.532"
+        app:layout_constraintStart_toEndOf="@+id/separater1"
+        app:layout_constraintTop_toTopOf="@+id/separater1"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/today" />
 
     <ImageView
         android:id="@+id/btnPeriod"
         android:layout_width="148dp"
         android:layout_height="51dp"
-        android:layout_marginStart="132dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="132dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtDate"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/teal_200"
+        app:layout_constraintBottom_toTopOf="@+id/frame"
+        app:layout_constraintEnd_toStartOf="@+id/separater1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/separater1"
+        app:layout_constraintVertical_bias="0.021"
         app:srcCompat="@drawable/length1" />
 
     <FrameLayout
@@ -88,12 +92,12 @@
         android:id="@+id/txtDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="32dp"
         android:text="2020年12月01日"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPeriod" />
+        app:layout_constraintTop_toBottomOf="@+id/btnToday" />
 
     <TextView
         android:id="@+id/strSteps"
