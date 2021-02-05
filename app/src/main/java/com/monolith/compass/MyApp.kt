@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.monolith.compass.R
 import java.io.File
 import java.io.FileNotFoundException
+import java.lang.Exception
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.*
@@ -773,19 +774,26 @@ class MyApp : Application() {
     }
 
     fun login_cnt(){
+        val GLOBAL = getInstance()
         val pattern = SimpleDateFormat("yyyy/MM/dd")
         val today = pattern.format(Date()).toString()
+
+        val file1 = File(GLOBAL.DIRECTORY + "/", "TODAYBUF.txt")
+        val file2 = File(GLOBAL.DIRECTORY + "/", "DAY_CNT.txt")
         try{
-            progressData.LOGIN_DAY = FileRead("DAY_CNT.txt").toInt()
-            if(FileRead("TODAYBUF.txt") != today){
-                val add_cnt = FileRead("DAY_CNT.txt").toInt() + 1
-                FileWrite(add_cnt.toString(),"DAY_CNT.txt")
-                progressData.LOGIN_DAY = add_cnt
+            if(file1.exists() && file2.exists()){
+                progressData.LOGIN_DAY = FileRead("DAY_CNT.txt").toInt()
+                if(FileRead("TODAYBUF.txt") != today){
+                    val add_cnt = FileRead("DAY_CNT.txt").toInt() + 1
+                    FileWrite(add_cnt.toString(),"DAY_CNT.txt")
+                    progressData.LOGIN_DAY = add_cnt
+                }
+            }else{
+                FileWrite(today,"TODAYBUF.txt")
+                FileWrite("1","DAY_CNT.txt")
+                progressData.LOGIN_DAY = 1
             }
-        }catch (e: FileNotFoundException){
-            FileWrite(today,"TODAYBUF.txt")
-            FileWrite("1","DAY_CNT.txt")
-            progressData.LOGIN_DAY = 1
+        }catch (e: Exception){
         }
 
 
