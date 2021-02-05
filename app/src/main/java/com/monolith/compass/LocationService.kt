@@ -173,7 +173,6 @@ class LocationService: Service(), LocationListener,SensorEventListener {
         ) {
             MyApp().FileWriteAdd(filestr, "GPSLOG.txt")
             MyApp().FileWriteAdd(filestr, "GPSBUF.txt")
-
         }
         MyApp().GPSFileRead("GPSLOG.txt")
 
@@ -238,6 +237,7 @@ class LocationService: Service(), LocationListener,SensorEventListener {
 
             if(event.sensor.type == Sensor.TYPE_STEP_COUNTER){
                 GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP+=(event.values[0]-mPrevCount).toInt()
+                GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].CAL=(GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP * 31.5 /1000).toInt()
                 MyApp().ActivityFileWrite("ACTIVITYLOG.txt")
                 mPrevCount=event.values[0]
                 if(today!=LocalDate.now()){

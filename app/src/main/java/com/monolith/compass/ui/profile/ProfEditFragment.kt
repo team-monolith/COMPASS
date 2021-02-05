@@ -2,6 +2,7 @@ package com.monolith.compass.ui.profile
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.Image
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -65,11 +66,11 @@ class ProfEditFragment : Fragment() {
         if(LoadIconImage()!=null)icon_img.setImageBitmap(LoadIconImage())
 
         //保存ボタン処理
-        view.findViewById<Button>(R.id.combtn).setOnClickListener{
+        view.findViewById<ImageView>(R.id.iv_save3).setOnClickListener{
             UploadData(name.text.toString(),phrase.text.toString())
             //iconBufferDelete()
         }
-        view.findViewById<Button>(R.id.back_bt).setOnClickListener{
+        view.findViewById<ImageView>(R.id.iv_close3).setOnClickListener{
             //iconBufferDelete()
             findNavController().navigate(R.id.navigation_profile)
         }

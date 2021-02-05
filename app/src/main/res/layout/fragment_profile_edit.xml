@@ -25,6 +25,30 @@
                 android:layout_height="727dp">
 
                 <ImageView
+                    android:id="@+id/iv_close3"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toTopOf="@+id/card_img"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_close_24" />
+
+                <ImageView
+                    android:id="@+id/iv_save3"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toTopOf="@+id/card_img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_save_24" />
+
+                <ImageView
                     android:id="@+id/card_img"
                     android:layout_width="405dp"
                     android:layout_height="228dp"
@@ -50,18 +74,6 @@
                     app:layout_constraintTop_toTopOf="@+id/card_img"
                     app:layout_constraintVertical_bias="0.9"
                     app:srcCompat="@drawable/ic_baseline_account_box_24" />
-
-                <Button
-                    android:id="@+id/combtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="保存"
-                    app:layout_constraintBottom_toTopOf="@+id/card_img"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
 
                 <EditText
                     android:id="@+id/name_txtedit"
@@ -138,15 +150,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.932" />
-
-                <Button
-                    android:id="@+id/back_bt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="戻る"
-                    app:layout_constraintBottom_toTopOf="@+id/card_img"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

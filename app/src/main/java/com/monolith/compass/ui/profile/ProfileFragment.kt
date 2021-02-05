@@ -2,7 +2,6 @@ package com.monolith.compass.ui.profile
 
 
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -15,10 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
-import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
-import org.w3c.dom.Text
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -52,7 +49,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        GLOBAL.calc_cal()
         HandlerDraw(view)
 
         val imgCard = view.findViewById<ImageView>(R.id.card_img)
@@ -95,9 +92,12 @@ class ProfileFragment : Fragment() {
         // gif画像のセット
         Glide.with(this).load(gifMovie).into(imgCard)
 
+        GetData()
+
         getUserData(imgCard)
 
         SetProgressData()
+
 
         imgCard.setImageResource(R.drawable.ic_launcher_background)
 
@@ -123,8 +123,12 @@ class ProfileFragment : Fragment() {
             transaction.add(R.id.back_fl,ProfBadgeFragment())
             transaction.commit()
         }
-        imgCard.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
+
+        step_img.setOnClickListener {
+            GLOBAL.click_badge = "step"
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
         }
 
         dev_img.setOnClickListener{
@@ -134,10 +138,29 @@ class ProfileFragment : Fragment() {
             transaction.commit()
         }
 
-        event_img.setOnClickListener{
+        calo_img.setOnClickListener {
+            GLOBAL.click_badge = "calo"
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,ProfBadgeFragment())
             transaction.commit()
+        }
+
+        friend_img.setOnClickListener{
+            GLOBAL.click_badge = "friend"
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
+        }
+
+        event_img.setOnClickListener{
+            GLOBAL.click_badge = "event"
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.add(R.id.back_fl,ProfBadgeFragment())
+            transaction.commit()
+        }
+
+        imgCard.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_edit)
         }
     }
 
@@ -360,7 +383,7 @@ class ProfileFragment : Fragment() {
             step_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         step_img?.setImageResource(resources.getIdentifier("badge_icon_3","drawable","com.monolith.compass"))
-        step_txt?.setText(disp_max + "万歩 歩るこう\n" + (GLOBAL.progressData.STEPS / 10000).toString() + "/" + disp_max)
+        step_txt?.setText(disp_max + "万歩 歩こう\n" + (GLOBAL.progressData.STEPS / 10000).toString() + "/" + disp_max)
         step_prog?.setProgress(GLOBAL.progressData.STEPS)
 
         val dev_img = view?.findViewById<ImageView>(R.id.development_img)
@@ -410,7 +433,7 @@ class ProfileFragment : Fragment() {
             cal_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         cal_img?.setImageResource(resources.getIdentifier("badge_icon_5","drawable","com.monolith.compass"))
-        cal_txt?.setText(disp_max + "カロリ消費しよう\n" +  GLOBAL.progressData.CONS_CAL.toString() + "/" + disp_max)
+        cal_txt?.setText(disp_max + "kcal 消費しよう\n" +  GLOBAL.progressData.CONS_CAL.toString() + "/" + disp_max)
         cal_prog?.setProgress(GLOBAL.progressData.CONS_CAL)
 
         val friend_img = view?.findViewById<ImageView>(R.id.friend_img)
@@ -435,7 +458,7 @@ class ProfileFragment : Fragment() {
             friend_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         friend_img?.setImageResource(resources.getIdentifier("badge_icon_6","drawable","com.monolith.compass"))
-        friend_txt?.setText(disp_max + "人とすれ違おう\n" +GLOBAL.progressData.PASSING.toString() + "/" + disp_max)
+        friend_txt?.setText(disp_max + "人とすれ違う\n" +GLOBAL.progressData.PASSING.toString() + "/" + disp_max)
         friend_prog?.setProgress(GLOBAL.progressData.PASSING)
 
         val event_img = view?.findViewById<ImageView>(R.id.event_img)
@@ -464,6 +487,22 @@ class ProfileFragment : Fragment() {
         event_prog?.setProgress(GLOBAL.progressData.EVENT)
 
 
+    }
+
+    fun GetData(){
+        var step_sum=0
+        var distance_sum = 0
+        var kcal_sum = 0
+
+        for(i in GLOBAL.ACTIVITY_LOG.indices){
+            step_sum += GLOBAL.ACTIVITY_LOG[i].STEP
+            distance_sum += GLOBAL.ACTIVITY_LOG[i].DISTANCE
+            kcal_sum += GLOBAL.ACTIVITY_LOG[i].CAL
+        }
+
+        GLOBAL.progressData.STEPS = step_sum
+        GLOBAL.progressData.BADGE_DISTANCE = distance_sum
+        GLOBAL.progressData.CONS_CAL = kcal_sum
     }
 
 }

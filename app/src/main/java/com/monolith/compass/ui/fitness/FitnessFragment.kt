@@ -38,7 +38,6 @@ class FitnessFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // Fragmentを作成します
         val transaction = childFragmentManager.beginTransaction()
         transaction.add(R.id.frame, DayFragment())
@@ -161,6 +160,8 @@ class FitnessFragment : Fragment() {
         }
         return -1
     }
+
+
 
 
 }

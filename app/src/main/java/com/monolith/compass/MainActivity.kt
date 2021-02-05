@@ -166,6 +166,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
         super.onStop()
         val POSTDATA = HashMap<String, String>()
         val data = GLOBAL.FileRead("GPSBUF.txt")
+        POSTDATA.put("id",GLOBAL.getID().toString())
         POSTDATA.put("json", data)
         "https://a.compass-user.work/system/map/receive_csv.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
