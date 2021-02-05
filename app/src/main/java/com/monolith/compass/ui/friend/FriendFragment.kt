@@ -37,6 +37,7 @@ class FriendFragment : Fragment() {
 
     val GLOBAL=MyApp.getInstance()
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -86,6 +87,14 @@ class FriendFragment : Fragment() {
             }
 
         })
+
+
+        val ma=activity as MainActivity
+
+
+        if (ma.favFrag==1) {
+            tab.getTabAt(1)?.select()
+        }
 
 
 
@@ -195,6 +204,10 @@ class FriendFragment : Fragment() {
         }
         kuuhakuDialog.setNegativeButton("閉じる",null)
         kuuhakuDialog.show()
+    }
+
+    fun tabSelect(view: View){
+
     }
 
 

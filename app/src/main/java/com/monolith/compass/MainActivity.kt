@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     var cardList=mutableListOf<MyApp.CARDDATA>()
     var cardIDs= mutableListOf<Int>()
     var searchNumber=1000000
+    var favFrag=0
 
 
 
@@ -398,6 +399,7 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
                 friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag("FRIENDCARD")!!)
                     .replace(R.id.nav_host_fragment,FriendFragment())
                     .commit()
+                favFrag=1
 
             }
 
