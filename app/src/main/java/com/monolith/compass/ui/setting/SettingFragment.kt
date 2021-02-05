@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -99,7 +100,7 @@ class SettingFragment : Fragment() {
         view.findViewById<Button>(R.id.btnSystemSetting).setOnClickListener (View.OnClickListener {
             findNavController().navigate(R.id.action_navigation_setting_to_systemSettingFragment)
         })
-        view.findViewById<Button>(R.id.btnInfomation).setOnClickListener (View.OnClickListener {
+        view.findViewById<ImageButton>(R.id.btnInfomation).setOnClickListener (View.OnClickListener {
             findNavController().navigate(R.id.action_navigation_setting_to_infomationFragment)
         })
         view.findViewById<Button>(R.id.btnTerms).setOnClickListener (View.OnClickListener {
