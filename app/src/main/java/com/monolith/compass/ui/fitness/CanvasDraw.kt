@@ -166,7 +166,7 @@ class CanvasDraw : Fragment() {
             (anim_meter / ((Current.toFloat() / Target.toFloat()) * width) * Current).toInt()
 
         //小数点以下の誤差を修正
-        if (abs(steps - Current) <= 1) steps = Current
+        if (abs(steps - Current) <= 30) steps = Current
 
         var meter = anim_meter
         if (anim_meter >= width - (walker[0]!!.width / 2)) {
