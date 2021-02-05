@@ -100,6 +100,7 @@ class FriendCardFragment : Fragment() {
             Toast.makeText(context,"お気に入りを解除しました！！",Toast.LENGTH_SHORT).show()
             view.findViewById<ImageButton>(R.id.imageRemoveFav).visibility=View.INVISIBLE
             view.findViewById<ImageButton>(R.id.imageSetFav).visibility=View.VISIBLE
+            ma.favFrag=1
         }
 
 

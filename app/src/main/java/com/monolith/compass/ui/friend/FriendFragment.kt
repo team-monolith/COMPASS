@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
@@ -91,8 +92,8 @@ class FriendFragment : Fragment() {
 
         val ma=activity as MainActivity
 
-
         if (ma.favFrag==1) {
+            ma.favFrag=0
             tab.getTabAt(1)?.select()
         }
 

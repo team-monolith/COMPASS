@@ -460,7 +460,12 @@ class CardViewFragment: Fragment() {
 
         pos.X=0f
 
-        (activity as MainActivity).LoadStop()
+        while (true) {
+            (activity as MainActivity).LoadStop()
+            if((activity as MainActivity).LoadCheck()==1){
+                break
+            }
+        }
 
         return output
     }

@@ -77,6 +77,9 @@
         <action
             android:id="@+id/action_navigation_friend_to_friendCardFragment"
             app:destination="@id/friendCardFragment" />
+        <action
+            android:id="@+id/action_navigation_friend_self"
+            app:destination="@id/navigation_friend" />
     </fragment>
     <fragment
         android:id="@+id/navigation_setting"

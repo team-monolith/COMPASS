@@ -101,11 +101,13 @@ class FavoriteViewFragment: Fragment() {
                 //止まっているときのみ判定
                 if(pos.X!!.toInt()%width==0){
 
+
                     //これを読んだらタップしたカードの番号がわかるよ
                     //onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     val n=onTouchCardNumber(e.x.toInt(),e.y.toInt())
                     if(n>=list.size)return false
                     val ma=activity as MainActivity
+                    ma.tabFrag=1
                     ma.cardDataList=list[n]
                     ma.FriendCardLoardStart(0)
                 }
@@ -420,7 +422,12 @@ class FavoriteViewFragment: Fragment() {
 
         pos.X=0f
 
-        (activity as MainActivity).LoadStop()
+        while (true) {
+            (activity as MainActivity).LoadStop()
+            if((activity as MainActivity).LoadCheck()==1){
+                break
+            }
+        }
 
         return output
     }
