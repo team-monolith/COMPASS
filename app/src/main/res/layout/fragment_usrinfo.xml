@@ -214,7 +214,8 @@
                     android:text="GPS取得設定"
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/GPSSettingSpinner" />
+                    app:layout_constraintTop_toTopOf="@+id/GPSSettingSpinner"
+                    tools:ignore="HardcodedText" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -254,7 +255,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="マップ画面に遷移するゾ☆"
+                    android:text="Googleマップに遷移"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

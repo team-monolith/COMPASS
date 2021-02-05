@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ui.setting.SystemSettingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,38 +14,39 @@
         <Button
             android:id="@+id/buttonInitialize"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="初期化"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="100dp"
+            android:text="アプリ初期化"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.095"
             tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/buttonClearCache"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginTop="100dp"
             android:text="キャッシュクリア"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.311"
+            app:layout_constraintTop_toBottomOf="@+id/buttonInitialize"
             tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/buttonTakeover"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="引継ぎ"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="100dp"
+            android:text="データ引継ぎ"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.484"
+            app:layout_constraintTop_toBottomOf="@+id/buttonClearCache"
             tools:ignore="HardcodedText,MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

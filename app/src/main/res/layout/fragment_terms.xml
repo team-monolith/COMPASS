@@ -1,104 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ui.setting.termsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1622dp">
+                <TextView
+                    android:id="@+id/TermsTextView"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="Compass　利用規約&#x0A;
+    この規約は、お客様が、チーム#Monolithが提供する「Compass」サービスをご利用いただく際の取り扱いにつき定めるものです。本規約に同意したうえで本サービスをご利用ください。&#x0A; 第1条(定義)&#x0A;本規約上で使用する用語の定義は、次に掲げる通りとします。&#x0A;
+    (1)本サービス　当社が運営するサービス及び関連するサービス&#x0A;
+    (2)本サイト	本サービスのコンテンツが掲載されたウェブサイト&#x0A;
+    (3)本コンテンツ	本サービス上で提供される文字、音、静止画、動画、ソフトウェアプログラム、コード等の総称（投稿情報を含む）&#x0A;
+    &#x0A;
+    第２条（本規約への同意）&#x0A;
+    １　利用者は、本利用規約に同意頂いた上で、本サービスを利用できるものとします。&#x0A;
+    ２　利用者が、本サービスをスマートフォンその他の情報端末にダウンロードし、本規約への同意手続を行った時点で、利用者と当チームとの間で、本規約の諸規定に従った利用契約が成立するものとします。&#x0A;
+    ３　利用者が未成年者である場合には、親権者その他の法定代理人の同意を得たうえで、本サービスをご利用ください。&#x0A;
+    ４　未成年者の利用者が、法定代理人の同意がないにもかかわらず同意があると偽りまたは年齢について成年と偽って本サービスを利用した場合、その他行為能力者であることを信じさせるために詐術を用いた場合、本サービスに関する一切の法律行為を取り消すことは出来ません。&#x0A;
+    ５ 本規約の同意時に未成年であった利用者が成年に達した後に本サービスを利用した場合、当該利用者は本サービスに関する一切の法律行為を追認したものとみなされます。&#x0A;
+    &#x0A;
+    第３条（規約の変更）&#x0A;
+    １　当社は、利用者の承諾を得ることなく、いつでも、本規約の内容を改定することができるものとし、利用者はこれを異議なく承諾するものとします。&#x0A;
+    ２　当社は、本規約を改定するときは、その内容について当社所定の方法により利用者に通知します。&#x0A;
+    &#x0A;
+    第５条（アカウントの管理）&#x0A;
+    １　利用者は、利用に際して登録した情報（以下、「登録情報」といいます。メールアドレスやID・パスワード等を含みます）について、自己の責任の下、任意に登録、管理するものとします。利用者は、これを第三者に利用させ、または貸与、譲渡、名義変更、売買などをしてはならないものとします。&#x0A;
+    ２　当社は、登録情報によって本サービスの利用があった場合、利用登録をおこなった本人が利用したものと扱うことができ、当該利用によって生じた結果ならびにそれに伴う一切の責任については、利用登録を行った本人に帰属するものとします。&#x0A;
+    &#x0A;
+    第６条（個人情報等の取り扱い）&#x0A;
+    個人情報及び利用者情報については、当社が別途定める「Compassサービスプライバシーポリシー」に則り、適正に取り扱うこととします。&#x0A;
+    &#x0A;
+    第７条（禁止行為）&#x0A;
+    本サービスの利用に際し、当社は、利用者に対し、次に掲げる行為を禁止します。当社において、利用者が禁止事項に違反したと認めた場合、利用の一時停止、退会処分その他当社が必要と判断した措置を取ることができます。&#x0A;
+    （１）当社または第三者の知的財産権を侵害する行為&#x0A;
+    （２）当社または第三者の名誉・信用を毀損または不当に差別もしくは誹謗中傷する行為&#x0A;
+    （中略）
+    （１１）上記の他、当社が不適切と判断する行為&#x0A;
+    &#x0A;
+    第８条（免責）&#x0A;
+    １　当社は、本サービスの内容変更、中断、終了によって生じたいかなる損害についても、一切責任を負いません。&#x0A;
+    ２　当社は、利用者の本サービスの利用環境について一切関与せず、また一切の責任を負いません。&#x0A;
+    （中略）
+    ９　第１項乃至前項の規定は、当社に故意または重過失が存する場合又は契約書が消費者契約法上の消費者に該当する場合には適用しません。&#x0A;
+    １０　前項が適用される場合であっても、当社は、過失（重過失を除きます。）による行為によって利用者に生じた損害のうち、特別な事情から生じた損害については、一切賠償する責任を負わないものとします。&#x0A;
+    １１　本サービスの利用に関し当社が損害賠償責任を負う場合、当該損害が発生した月に利用者から受領した利用額を限度として賠償責任を負うものとします。&#x0A;
+    第１２条（当社への連絡方法）&#x0A;
+    本サービスに関する利用者の当社へのご連絡・お問い合わせは、本サービスまたは当社が運営するwebサイト内の適宜の場所に設置するお問い合わせフォームからの送信または当社が別途指定する方法により行うものとします。&#x0A;
+    &#x0A;
+    第１５条（準拠法、管轄裁判所）&#x0A;
+    １　本規約の有効性，解釈及び履行については，日本法に準拠し，日本法に従って解釈されるものとする。&#x0A;
+    ２　当社と利用者等との間での論議・訴訟その他一切の紛争については、訴額に応じて、福岡簡易裁判所又は福岡地方裁判所を専属的合意管轄裁判所とします。&#x0A;
+    &#x0A;&#x0A;&#x0A;
+    2020年〇月●日　施行"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/textTerms"
-                        android:layout_width="278dp"
-                        android:layout_height="1447dp"
-                        android:layout_marginTop="60dp"
-                        android:text="Compass　利用規約&#x0A;
-この規約は、お客様が、チーム#Monolithが提供する「Compass」サービスをご利用いただく際の取り扱いにつき定めるものです。本規約に同意したうえで本サービスをご利用ください。&#x0A; 第1条(定義)&#x0A;本規約上で使用する用語の定義は、次に掲げる通りとします。&#x0A;
-(1)本サービス　当社が運営するサービス及び関連するサービス&#x0A;
-(2)本サイト	本サービスのコンテンツが掲載されたウェブサイト&#x0A;
-(3)本コンテンツ	本サービス上で提供される文字、音、静止画、動画、ソフトウェアプログラム、コード等の総称（投稿情報を含む）&#x0A;
-&#x0A;
-第２条（本規約への同意）&#x0A;
-１　利用者は、本利用規約に同意頂いた上で、本サービスを利用できるものとします。&#x0A;
-２　利用者が、本サービスをスマートフォンその他の情報端末にダウンロードし、本規約への同意手続を行った時点で、利用者と当チームとの間で、本規約の諸規定に従った利用契約が成立するものとします。&#x0A;
-３　利用者が未成年者である場合には、親権者その他の法定代理人の同意を得たうえで、本サービスをご利用ください。&#x0A;
-４　未成年者の利用者が、法定代理人の同意がないにもかかわらず同意があると偽りまたは年齢について成年と偽って本サービスを利用した場合、その他行為能力者であることを信じさせるために詐術を用いた場合、本サービスに関する一切の法律行為を取り消すことは出来ません。&#x0A;
-５ 本規約の同意時に未成年であった利用者が成年に達した後に本サービスを利用した場合、当該利用者は本サービスに関する一切の法律行為を追認したものとみなされます。&#x0A;
-&#x0A;
-第３条（規約の変更）&#x0A;
-１　当社は、利用者の承諾を得ることなく、いつでも、本規約の内容を改定することができるものとし、利用者はこれを異議なく承諾するものとします。&#x0A;
-２　当社は、本規約を改定するときは、その内容について当社所定の方法により利用者に通知します。&#x0A;
-&#x0A;
-第５条（アカウントの管理）&#x0A;
-１　利用者は、利用に際して登録した情報（以下、「登録情報」といいます。メールアドレスやID・パスワード等を含みます）について、自己の責任の下、任意に登録、管理するものとします。利用者は、これを第三者に利用させ、または貸与、譲渡、名義変更、売買などをしてはならないものとします。&#x0A;
-２　当社は、登録情報によって本サービスの利用があった場合、利用登録をおこなった本人が利用したものと扱うことができ、当該利用によって生じた結果ならびにそれに伴う一切の責任については、利用登録を行った本人に帰属するものとします。&#x0A;
-&#x0A;
-第６条（個人情報等の取り扱い）&#x0A;
-個人情報及び利用者情報については、当社が別途定める「Compassサービスプライバシーポリシー」に則り、適正に取り扱うこととします。&#x0A;
-&#x0A;
-第７条（禁止行為）&#x0A;
-本サービスの利用に際し、当社は、利用者に対し、次に掲げる行為を禁止します。当社において、利用者が禁止事項に違反したと認めた場合、利用の一時停止、退会処分その他当社が必要と判断した措置を取ることができます。&#x0A;
-（１）当社または第三者の知的財産権を侵害する行為&#x0A;
-（２）当社または第三者の名誉・信用を毀損または不当に差別もしくは誹謗中傷する行為&#x0A;
-（中略）
-（１１）上記の他、当社が不適切と判断する行為&#x0A;
-&#x0A;
-第８条（免責）&#x0A;
-１　当社は、本サービスの内容変更、中断、終了によって生じたいかなる損害についても、一切責任を負いません。&#x0A;
-２　当社は、利用者の本サービスの利用環境について一切関与せず、また一切の責任を負いません。&#x0A;
-（中略）
-９　第１項乃至前項の規定は、当社に故意または重過失が存する場合又は契約書が消費者契約法上の消費者に該当する場合には適用しません。&#x0A;
-１０　前項が適用される場合であっても、当社は、過失（重過失を除きます。）による行為によって利用者に生じた損害のうち、特別な事情から生じた損害については、一切賠償する責任を負わないものとします。&#x0A;
-１１　本サービスの利用に関し当社が損害賠償責任を負う場合、当該損害が発生した月に利用者から受領した利用額を限度として賠償責任を負うものとします。&#x0A;
-第１２条（当社への連絡方法）&#x0A;
-本サービスに関する利用者の当社へのご連絡・お問い合わせは、本サービスまたは当社が運営するwebサイト内の適宜の場所に設置するお問い合わせフォームからの送信または当社が別途指定する方法により行うものとします。&#x0A;
-&#x0A;
-第１５条（準拠法、管轄裁判所）&#x0A;
-１　本規約の有効性，解釈及び履行については，日本法に準拠し，日本法に従って解釈されるものとする。&#x0A;
-２　当社と利用者等との間での論議・訴訟その他一切の紛争については、訴額に応じて、東京簡易裁判所又は東京地方裁判所を専属的合意管轄裁判所とします。&#x0A;
-&#x0A;&#x0A;&#x0A;
-2020年〇月●日　施行"
-                        android:textAlignment="viewStart"
-                        android:textAllCaps="false"
-                        android:textColor="#000000"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.496"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="88dp">
 
-                    <Button
-                        android:id="@+id/btnPrev"
-                        android:layout_width="105dp"
-                        android:layout_height="53dp"
-                        android:layout_marginTop="10dp"
-                        android:text="戻る"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textTerms"
-                        tools:ignore="HardcodedText,MissingConstraints" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-        </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+                <Button
+                    android:id="@+id/btnPrev"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="承諾"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
