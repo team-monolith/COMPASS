@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     var cardIDs= mutableListOf<Int>()
     var searchNumber=1000000
     var favFrag=0
+    var tabFrag=0
+
 
 
 
@@ -398,10 +400,12 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
 
             if(i==0){
                 friendFragmentTransaction.remove(supportFragmentManager.findFragmentByTag("FRIENDCARD")!!)
-                    .replace(R.id.nav_host_fragment,FriendFragment())
                     .commit()
-                favFrag=1
-
+                if(tabFrag==1) {
+                    if (favFrag==1){
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_friend)
+                    }
+                }
             }
 
 
@@ -464,6 +468,16 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
                     }
                 }
         }
+    }
+
+
+    fun LoadCheck():Int{
+        var LoadCheckFrag=0
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        if (supportFragmentManager.findFragmentByTag("LOADING") == null) {
+            LoadCheckFrag=1
+        }
+        return LoadCheckFrag
     }
 
 
