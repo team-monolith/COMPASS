@@ -187,12 +187,12 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
     override fun onResume() {
         super.onResume()
         RequestPermission()
-        if(GLOBAL.LocalSettingRead("LOCAL.txt").GPSFLG == 1 || GLOBAL.LocalSettingRead("LOCAL.txt").GPSFLG == 0){
+        val work = GLOBAL.LocalSettingRead("LOCAL.txt").GPSFLG
+        if(work == 1 || work == 0){
             startBackgroundLocationService() //GPSの取得設定で取得する場合
         }else{
             stopBackgroundLocationService() //GPSの取得設定で取得しない場合
         }
-
         MyApp().GPSFileRead("GPSLOG.txt")
     }
 
