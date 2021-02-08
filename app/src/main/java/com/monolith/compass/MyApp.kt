@@ -7,6 +7,8 @@ import android.content.res.Resources
 import android.graphics.*
 import android.util.Base64
 import android.widget.Toast
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
 import com.monolith.compass.R
 import java.io.File
 import java.io.FileNotFoundException
@@ -799,6 +801,33 @@ class MyApp : Application() {
 
     fun replace_comma(text:String):String{
         return text.replace(",","?")
+    }
+
+    fun PreloadData(){
+        val hash = CreateHash( "kolwegoewgkowope:g")
+        val POSTDATA = java.util.HashMap<String, String>()
+        POSTDATA.put("hash",hash)
+        POSTDATA.put("id", getID().toString())
+        "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
+            .response { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val getdata = String(response.data)
+                        val arr = getdata.split(",")
+                        //テキスト関連
+                        cardData.NAME = arr[1] //名前
+                        cardData.COMMENT = arr[9] //コメント
+
+                        //画像関連
+                        cardData.BADGEBACK = Integer.parseInt(arr[6])
+                        cardData.BADGE = Integer.parseInt(arr[5])
+                        cardData.BACKGROUND = Integer.parseInt(arr[8])
+                        cardData.FRAME = Integer.parseInt(arr[7])
+                    }
+                    is Result.Failure -> {
+                    }
+                }
+            }
     }
 
 }

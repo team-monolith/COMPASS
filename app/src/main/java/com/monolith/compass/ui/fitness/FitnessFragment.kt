@@ -58,20 +58,20 @@ class FitnessFragment : Fragment() {
 
                     transaction.replace(R.id.frame, WeekFragment())
                     GraphPeriod = Period.WEEK
-                    btnPeriod.setImageResource(R.drawable.length2)
+                    btnPeriod.setImageResource(R.drawable.week)
                 }
                 Period.WEEK -> {
 
                     transaction.replace(R.id.frame, MonthFragment())
                     GraphPeriod = Period.MONTH
-                    btnPeriod.setImageResource(R.drawable.length3)
+                    btnPeriod.setImageResource(R.drawable.month)
 
                 }
                 Period.MONTH -> {
 
                     transaction.replace(R.id.frame, DayFragment())
                     GraphPeriod = Period.DAY
-                    btnPeriod.setImageResource(R.drawable.length1)
+                    btnPeriod.setImageResource(R.drawable.day)
                 }
             }
 
@@ -83,19 +83,19 @@ class FitnessFragment : Fragment() {
             //現在のモードに合わせて画面を入れ変える
             when (GraphPeriod) {
                 Period.DAY -> {
-                    btnPeriod.setImageResource(R.drawable.length1)
+                    btnPeriod.setImageResource(R.drawable.day)
                     transaction.replace(R.id.frame, DayFragment())
                     GraphPeriod = Period.DAY
                     //btnPeriod.text = "DAY"
                 }
                 Period.WEEK -> {
-                    btnPeriod.setImageResource(R.drawable.length2)
+                    btnPeriod.setImageResource(R.drawable.week)
                     transaction.replace(R.id.frame, WeekFragment())
                     GraphPeriod = Period.WEEK
                     //btnPeriod.text = "WEEK"
                 }
                 Period.MONTH -> {
-                    btnPeriod.setImageResource(R.drawable.length3)
+                    btnPeriod.setImageResource(R.drawable.month)
                     transaction.replace(R.id.frame, MonthFragment())
                     GraphPeriod = Period.MONTH
                     //btnPeriod.text = "MONTH"

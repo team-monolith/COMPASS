@@ -53,6 +53,8 @@ class ProfileFragment : Fragment() {
         GLOBAL.calc()
         GLOBAL.login_cnt()
 
+        GLOBAL.PreloadData() //名刺編集画面用にプリロードする
+
         val imgCard = view.findViewById<ImageView>(R.id.card_img)
         val frame = view.findViewById<FrameLayout>(R.id.frame)
         val back_fl = view.findViewById<FrameLayout>(R.id.back_fl)

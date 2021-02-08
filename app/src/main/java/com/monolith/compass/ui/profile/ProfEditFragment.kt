@@ -45,8 +45,6 @@ class ProfEditFragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        PreloadData()
-
         val root = inflater.inflate(R.layout.fragment_profile_edit, container, false)
         return root
     }
@@ -91,7 +89,6 @@ class ProfEditFragment : Fragment() {
             transaction.commit()
             //findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)//ここ
         }
-        PreloadData()
         name.setText(GLOBAL.cardData.NAME)
         phrase.setText(GLOBAL.cardData.COMMENT)
         val back_id = GLOBAL.cardData.BADGEBACK
@@ -163,36 +160,6 @@ class ProfEditFragment : Fragment() {
                 }
             }
     }
-
-    fun PreloadData(){
-            val hash = GLOBAL.CreateHash( "kolwegoewgkowope:g")
-            val POSTDATA = java.util.HashMap<String, String>()
-            POSTDATA.put("hash",hash)
-            POSTDATA.put("id", GLOBAL.getID().toString())
-            "https://b.compass-user.work/system/user/show_user.php".httpPost(POSTDATA.toList())
-                .response { _, response, result ->
-                    when (result) {
-                        is Result.Success -> {
-                            val getdata = String(response.data)
-                            val arr = getdata.split(",")
-                            //テキスト関連
-                            GLOBAL.cardData.NAME = arr[1] //名前
-                            GLOBAL.cardData.COMMENT = arr[9] //コメント
-
-                            //画像関連
-                            GLOBAL.cardData.BADGEBACK = Integer.parseInt(arr[6])
-                            GLOBAL.cardData.BADGE = Integer.parseInt(arr[5])
-                            GLOBAL.cardData.BACKGROUND = Integer.parseInt(arr[8])
-                            GLOBAL.cardData.FRAME = Integer.parseInt(arr[7])
-                        }
-                        is Result.Failure -> {
-                        }
-                    }
-                }
-
-
-    }
-
 
     //通信終了監視用
     fun HandlerDraw() {
