@@ -787,6 +787,7 @@ class MyApp : Application() {
                 progressData.LOGIN_DAY = FileRead("DAY_CNT.txt").toInt()
                 if(FileRead("TODAYBUF.txt") != today){
                     val add_cnt = FileRead("DAY_CNT.txt").toInt() + 1
+                    FileWrite(today,"TODAYBUF.txt")
                     FileWrite(add_cnt.toString(),"DAY_CNT.txt")
                     progressData.LOGIN_DAY = add_cnt
                 }
