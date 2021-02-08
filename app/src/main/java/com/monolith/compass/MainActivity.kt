@@ -166,6 +166,12 @@ class MainActivity : AppCompatActivity(), NavChoiceFragment.OnClickListener,
 
     override fun onStop() {
         super.onStop()
+        //GPSの取得設定が「アプリ使用中のみ」場合GPS取得処理を停止する
+        if(GLOBAL.LocalSettingRead("LOCAL.txt").GPSFLG == 1){
+            stopBackgroundLocationService()
+        }
+
+
         val POSTDATA = HashMap<String, String>()
         val data = GLOBAL.FileRead("GPSBUF.txt")
         POSTDATA.put("id",GLOBAL.getID().toString())
