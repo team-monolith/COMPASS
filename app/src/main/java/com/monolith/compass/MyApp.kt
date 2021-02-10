@@ -654,6 +654,13 @@ class MyApp : Application() {
             14 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_14)
             15 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_15)
             16 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_16)
+            17 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_17)
+            18 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_18)
+            19 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_19)
+            20 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_20)
+            21 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_21)
+            22 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_22)
+            23 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_23)
         }
         return img
     }
@@ -675,6 +682,14 @@ class MyApp : Application() {
             11 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_11)
             12 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_12)
             13 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_13)
+            14 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_14)
+            15 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_15)
+            16 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_16)
+            17 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_17)
+            18 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_18)
+            19 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_19)
+            20 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_20)
+            21 -> img = BitmapFactory.decodeResource(res, R.drawable.card_background_21)
         }
         return img
     }

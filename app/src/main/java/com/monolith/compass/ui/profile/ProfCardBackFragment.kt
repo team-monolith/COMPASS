@@ -106,6 +106,46 @@ class ProfCardBackFragment : Fragment() {
             chenge_color(13)
             GLOBAL.cardData.BACKGROUND = 13
         }
+        view.findViewById<ImageView>(R.id.frame_img14).setOnClickListener{
+            reset_color()
+            chenge_color(14)
+            GLOBAL.cardData.BACKGROUND = 14
+        }
+        view.findViewById<ImageView>(R.id.frame_img15).setOnClickListener{
+            reset_color()
+            chenge_color(15)
+            GLOBAL.cardData.BACKGROUND = 15
+        }
+        view.findViewById<ImageView>(R.id.frame_img16).setOnClickListener{
+            reset_color()
+            chenge_color(16)
+            GLOBAL.cardData.BACKGROUND = 16
+        }
+        view.findViewById<ImageView>(R.id.frame_img17).setOnClickListener{
+            reset_color()
+            chenge_color(17)
+            GLOBAL.cardData.BACKGROUND = 17
+        }
+        view.findViewById<ImageView>(R.id.frame_img18).setOnClickListener{
+            reset_color()
+            chenge_color(18)
+            GLOBAL.cardData.BACKGROUND = 18
+        }
+        view.findViewById<ImageView>(R.id.frame_img19).setOnClickListener{
+            reset_color()
+            chenge_color(19)
+            GLOBAL.cardData.BACKGROUND = 19
+        }
+        view.findViewById<ImageView>(R.id.frame_img20).setOnClickListener{
+            reset_color()
+            chenge_color(20)
+            GLOBAL.cardData.BACKGROUND = 20
+        }
+        view.findViewById<ImageView>(R.id.frame_img21).setOnClickListener{
+            reset_color()
+            chenge_color(21)
+            GLOBAL.cardData.BACKGROUND = 21
+        }
     }
 
     /*指定されたIDの色赤にセット*/
@@ -125,6 +165,14 @@ class ProfCardBackFragment : Fragment() {
             11-> view?.findViewById<FrameLayout>(R.id.s_layout11)?.setBackgroundColor(Color.rgb(255, 0, 0))
             12-> view?.findViewById<FrameLayout>(R.id.s_layout12)?.setBackgroundColor(Color.rgb(255, 0, 0))
             13-> view?.findViewById<FrameLayout>(R.id.s_layout13)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            14-> view?.findViewById<FrameLayout>(R.id.s_layout14)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            15-> view?.findViewById<FrameLayout>(R.id.s_layout15)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            16-> view?.findViewById<FrameLayout>(R.id.s_layout16)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            17-> view?.findViewById<FrameLayout>(R.id.s_layout17)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            18-> view?.findViewById<FrameLayout>(R.id.s_layout18)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            19-> view?.findViewById<FrameLayout>(R.id.s_layout19)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            20-> view?.findViewById<FrameLayout>(R.id.s_layout20)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            21-> view?.findViewById<FrameLayout>(R.id.s_layout21)?.setBackgroundColor(Color.rgb(255, 0, 0))
         }
     }
 
@@ -144,5 +192,13 @@ class ProfCardBackFragment : Fragment() {
         val change11 = view?.findViewById<FrameLayout>(R.id.s_layout11)?.setBackgroundColor(Color.rgb(255,255,255))
         val change12 = view?.findViewById<FrameLayout>(R.id.s_layout12)?.setBackgroundColor(Color.rgb(255,255,255))
         val change13 = view?.findViewById<FrameLayout>(R.id.s_layout13)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change14 = view?.findViewById<FrameLayout>(R.id.s_layout14)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change15 = view?.findViewById<FrameLayout>(R.id.s_layout15)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change16 = view?.findViewById<FrameLayout>(R.id.s_layout16)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change17 = view?.findViewById<FrameLayout>(R.id.s_layout17)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change18 = view?.findViewById<FrameLayout>(R.id.s_layout18)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change19 = view?.findViewById<FrameLayout>(R.id.s_layout19)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change20 = view?.findViewById<FrameLayout>(R.id.s_layout20)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change21 = view?.findViewById<FrameLayout>(R.id.s_layout21)?.setBackgroundColor(Color.rgb(255,255,255))
     }
 }

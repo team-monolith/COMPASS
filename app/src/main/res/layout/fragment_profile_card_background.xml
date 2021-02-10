@@ -202,6 +202,102 @@
                     android:background="@drawable/card_background_13" />
             </FrameLayout>
 
+            <FrameLayout
+                android:id="@+id/s_layout14"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img14"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_14" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/s_layout15"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img15"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_15" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/s_layout16"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img16"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_16" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/s_layout17"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img17"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_17" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/s_layout18"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img18"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_18" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/s_layout19"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img19"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_19" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/s_layout20"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img20"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_20" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/s_layout21"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/frame_img21"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:background="@drawable/card_background_21" />
+            </FrameLayout>
+
         </LinearLayout>
     </ScrollView>
 

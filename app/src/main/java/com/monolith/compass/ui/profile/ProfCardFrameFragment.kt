@@ -9,7 +9,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.monolith.compass.MainActivity
 import com.monolith.compass.R
 import com.monolith.compass.com.monolith.compass.MyApp
 
@@ -120,6 +119,41 @@ class ProfCardFrameFragment : Fragment() {
             chenge_color(16)
             GLOBAL.cardData.FRAME= 16
         }
+        view.findViewById<ImageView>(R.id.frame_img17).setOnClickListener{
+            reset_color()
+            chenge_color(17)
+            GLOBAL.cardData.FRAME= 17
+        }
+        view.findViewById<ImageView>(R.id.frame_img18).setOnClickListener{
+            reset_color()
+            chenge_color(18)
+            GLOBAL.cardData.FRAME= 18
+        }
+        view.findViewById<ImageView>(R.id.frame_img19).setOnClickListener{
+            reset_color()
+            chenge_color(19)
+            GLOBAL.cardData.FRAME= 19
+        }
+        view.findViewById<ImageView>(R.id.frame_img20).setOnClickListener{
+            reset_color()
+            chenge_color(20)
+            GLOBAL.cardData.FRAME= 20
+        }
+        view.findViewById<ImageView>(R.id.frame_img21).setOnClickListener{
+            reset_color()
+            chenge_color(21)
+            GLOBAL.cardData.FRAME= 21
+        }
+        view.findViewById<ImageView>(R.id.frame_img22).setOnClickListener{
+            reset_color()
+            chenge_color(22)
+            GLOBAL.cardData.FRAME= 22
+        }
+        view.findViewById<ImageView>(R.id.frame_img23).setOnClickListener{
+            reset_color()
+            chenge_color(23)
+            GLOBAL.cardData.FRAME= 23
+        }
     }
 
     /*指定されたIDの色赤にセット*/
@@ -142,6 +176,13 @@ class ProfCardFrameFragment : Fragment() {
             14-> view?.findViewById<FrameLayout>(R.id.f_layout14)?.setBackgroundColor(Color.rgb(255, 0, 0))
             15-> view?.findViewById<FrameLayout>(R.id.f_layout15)?.setBackgroundColor(Color.rgb(255, 0, 0))
             16-> view?.findViewById<FrameLayout>(R.id.f_layout16)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            17-> view?.findViewById<FrameLayout>(R.id.f_layout17)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            18-> view?.findViewById<FrameLayout>(R.id.f_layout18)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            19-> view?.findViewById<FrameLayout>(R.id.f_layout19)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            20-> view?.findViewById<FrameLayout>(R.id.f_layout20)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            21-> view?.findViewById<FrameLayout>(R.id.f_layout21)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            22-> view?.findViewById<FrameLayout>(R.id.f_layout22)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            23-> view?.findViewById<FrameLayout>(R.id.f_layout23)?.setBackgroundColor(Color.rgb(255, 0, 0))
         }
     }
 
@@ -164,5 +205,12 @@ class ProfCardFrameFragment : Fragment() {
         val change14 = view?.findViewById<FrameLayout>(R.id.f_layout14)?.setBackgroundColor(Color.rgb(255,255,255))
         val change15 = view?.findViewById<FrameLayout>(R.id.f_layout15)?.setBackgroundColor(Color.rgb(255,255,255))
         val change16 = view?.findViewById<FrameLayout>(R.id.f_layout16)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change17 = view?.findViewById<FrameLayout>(R.id.f_layout17)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change18 = view?.findViewById<FrameLayout>(R.id.f_layout18)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change19 = view?.findViewById<FrameLayout>(R.id.f_layout19)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change20 = view?.findViewById<FrameLayout>(R.id.f_layout20)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change21 = view?.findViewById<FrameLayout>(R.id.f_layout21)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change22 = view?.findViewById<FrameLayout>(R.id.f_layout22)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change23 = view?.findViewById<FrameLayout>(R.id.f_layout23)?.setBackgroundColor(Color.rgb(255,255,255))
     }
 }
