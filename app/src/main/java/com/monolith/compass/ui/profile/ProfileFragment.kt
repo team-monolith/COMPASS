@@ -50,10 +50,10 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         HandlerDraw(view)
-        GLOBAL.login_cnt()
 
-        GLOBAL.calc()
-
+        GLOBAL.ActivityFileRead("ACTIVITYLOG.txt") //データの読み込み
+        GLOBAL.login_cnt() //ログイン日数処理
+        GLOBAL.calc() //カロリ・移動距離の計算
         GLOBAL.PreloadData() //名刺編集画面用にプリロードする
 
         val imgCard = view.findViewById<ImageView>(R.id.card_img)
@@ -310,8 +310,8 @@ class ProfileFragment : Fragment() {
             day_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         day_img?.setImageResource(resources.getIdentifier("badge_icon_0","drawable","com.monolith.compass"))
-        day_txt?.setText(disp_max +"日ログインしよう\n" + GLOBAL.progressData.LOGIN_DAY.toString() + "/" +  disp_max)
-        day_prog?.setProgress(GLOBAL.progressData.LOGIN_DAY)
+        day_txt?.setText(disp_max +"日ログインしよう\n" + work.toString() + "/" +  disp_max)
+        day_prog?.setProgress(work)
 
         //レベルにセット
         val lvl_img = view?.findViewById<ImageView>(R.id.level_img)
@@ -336,14 +336,14 @@ class ProfileFragment : Fragment() {
             lvl_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         lvl_img?.setImageResource(resources.getIdentifier("badge_icon_1","drawable","com.monolith.compass"))
-        lvl_txt?.setText(disp_max + "レベルに上げよう\n"+GLOBAL.progressData.BADGE_LEVEL.toString() + "/" + disp_max)
-        lvl_prog?.setProgress(GLOBAL.progressData.BADGE_LEVEL)
+        lvl_txt?.setText(disp_max + "レベルに上げよう\n"+ work.toString() + "/" + disp_max)
+        lvl_prog?.setProgress(work)
 
         //
         val distance_img = view?.findViewById<ImageView>(R.id.distance_img)
         val distance_txt = view?.findViewById<TextView>(R.id.distance_txt)
         val distance_prog = view?.findViewById<ProgressBar>(R.id.distance_pb)
-        work = GLOBAL.progressData.BADGE_DISTANCE
+        work = GLOBAL.progressData.BADGE_DISTANCE / 1000
         if(work < 10){
             distance_prog?.setMax(10)
             disp_max = "10"
@@ -362,8 +362,8 @@ class ProfileFragment : Fragment() {
             distance_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         distance_img?.setImageResource(resources.getIdentifier("badge_icon_2","drawable","com.monolith.compass"))
-        distance_txt?.setText(disp_max + "km 進めよう\n"+GLOBAL.progressData.BADGE_DISTANCE.toString() + "/" + disp_max)
-        distance_prog?.setProgress(GLOBAL.progressData.BADGE_DISTANCE)
+        distance_txt?.setText(disp_max + "km 進めよう\n"+work.toString() + "/" + disp_max)
+        distance_prog?.setProgress(work)
 
         val step_img = view?.findViewById<ImageView>(R.id.step_img)
         val step_txt = view?.findViewById<TextView>(R.id.step_txt)
@@ -387,8 +387,8 @@ class ProfileFragment : Fragment() {
             step_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         step_img?.setImageResource(resources.getIdentifier("badge_icon_3","drawable","com.monolith.compass"))
-        step_txt?.setText(disp_max + "万歩 歩こう\n" + (GLOBAL.progressData.STEPS / 10000).toString() + "/" + disp_max)
-        step_prog?.setProgress(GLOBAL.progressData.STEPS)
+        step_txt?.setText(disp_max + "万歩 歩こう\n" + (work / 10000).toString() + "/" + disp_max)
+        step_prog?.setProgress(work)
 
         val dev_img = view?.findViewById<ImageView>(R.id.development_img)
         val dev_txt = view?.findViewById<TextView>(R.id.development_txt)
@@ -412,8 +412,8 @@ class ProfileFragment : Fragment() {
             dev_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         dev_img?.setImageResource(resources.getIdentifier("badge_icon_4","drawable","com.monolith.compass"))
-        dev_txt?.setText(disp_max + "km 新規開拓しよう\n" +GLOBAL.progressData.DEV_DISTANCE.toString() + "/" + disp_max)
-        dev_prog?.setProgress(GLOBAL.progressData.DEV_DISTANCE)
+        dev_txt?.setText(disp_max + "km 新規開拓しよう\n" + work.toString() + "/" + disp_max)
+        dev_prog?.setProgress(work)
 
         val cal_img = view?.findViewById<ImageView>(R.id.calorie_img)
         val cal_txt = view?.findViewById<TextView>(R.id.calorie_txt)
@@ -437,8 +437,8 @@ class ProfileFragment : Fragment() {
             cal_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         cal_img?.setImageResource(resources.getIdentifier("badge_icon_5","drawable","com.monolith.compass"))
-        cal_txt?.setText(disp_max + "kcal 消費しよう\n" +  GLOBAL.progressData.CONS_CAL.toString() + "/" + disp_max)
-        cal_prog?.setProgress(GLOBAL.progressData.CONS_CAL)
+        cal_txt?.setText(disp_max + "kcal 消費しよう\n" +  work.toString() + "/" + disp_max)
+        cal_prog?.setProgress(work)
 
         val friend_img = view?.findViewById<ImageView>(R.id.friend_img)
         val friend_txt = view?.findViewById<TextView>(R.id.friend_txt)
@@ -462,8 +462,8 @@ class ProfileFragment : Fragment() {
             friend_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         friend_img?.setImageResource(resources.getIdentifier("badge_icon_6","drawable","com.monolith.compass"))
-        friend_txt?.setText(disp_max + "人とすれ違う\n" +GLOBAL.progressData.PASSING.toString() + "/" + disp_max)
-        friend_prog?.setProgress(GLOBAL.progressData.PASSING)
+        friend_txt?.setText(disp_max + "人とすれ違う\n" + work.toString() + "/" + disp_max)
+        friend_prog?.setProgress(work)
 
         val event_img = view?.findViewById<ImageView>(R.id.event_img)
         val event_txt = view?.findViewById<TextView>(R.id.event_txt)
@@ -487,8 +487,8 @@ class ProfileFragment : Fragment() {
             event_img?.setBackgroundResource(resources.getIdentifier("badge_background_4","drawable","com.monolith.compass"))
         }
         event_img?.setImageResource(resources.getIdentifier("badge_icon_7","drawable","com.monolith.compass"))
-        event_txt?.setText(disp_max + "回イベントに参加しよう\n" + GLOBAL.progressData.EVENT.toString() + "/" + disp_max)
-        event_prog?.setProgress(GLOBAL.progressData.EVENT)
+        event_txt?.setText(disp_max + "回イベントに参加しよう\n" + work.toString() + "/" + disp_max)
+        event_prog?.setProgress(work)
 
 
     }

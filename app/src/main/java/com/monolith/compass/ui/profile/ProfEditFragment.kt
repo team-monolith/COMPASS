@@ -2,6 +2,7 @@ package com.monolith.compass.ui.profile
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.BitmapFactory.decodeResource
 import android.media.Image
 import android.os.Bundle
 import android.os.Handler
@@ -57,11 +58,14 @@ class ProfEditFragment : Fragment() {
 
         val name = view.findViewById<EditText>(R.id.name_txtedit)
         val phrase = view.findViewById<EditText>(R.id.phrase_txtedit)
-        val frame = view.findViewById<FrameLayout>(R.id.frame)
+        //val frame = view.findViewById<FrameLayout>(R.id.frame)
         val badge_img = view.findViewById<ImageView>(R.id.badge_img)
         val icon_img=view.findViewById<ImageView>(R.id.icon_img)
+        val card_img = view.findViewById<ImageView>(R.id.card_img)
 
-        if(LoadIconImage()!=null)icon_img.setImageBitmap(LoadIconImage())
+        if(LoadIconImage()!=null){
+            icon_img.setImageBitmap(LoadIconImage())
+        }
 
         //保存ボタン処理
         view.findViewById<ImageView>(R.id.iv_save3).setOnClickListener{
@@ -75,34 +79,26 @@ class ProfEditFragment : Fragment() {
         icon_img.setOnClickListener{
             findNavController().navigate(R.id.navigation_iconedit)
         }
-
         badge_img.setOnClickListener{
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,ProfBadgeListFragment())
             transaction.commit()
 
         }
-        val card_img = view.findViewById<ImageView>(R.id.card_img)
         card_img.setOnClickListener{
             val transaction = childFragmentManager.beginTransaction()
             transaction.add(R.id.back_fl,ProfCardBackgroundFragment())
             transaction.commit()
-            //findNavController().navigate(R.id.action_navigation_profile_edit_to_navigation_profile_card)//ここ
         }
+
         name.setText(GLOBAL.cardData.NAME)
         phrase.setText(GLOBAL.cardData.COMMENT)
-        val back_id = GLOBAL.cardData.BADGEBACK
-        val badge_id = GLOBAL.cardData.BADGE
-        val back = resources.getIdentifier("badge_background_" + back_id,"drawable","com.monolith.compass")
-        val badge = resources.getIdentifier("badge_icon_" + badge_id,"drawable","com.monolith.compass")
-        badge_img.setBackgroundResource(back)
-        badge_img.setImageResource(badge)
-        val card_back_id = GLOBAL.cardData.BACKGROUND
-        val card_frame_id = GLOBAL.cardData.FRAME
-        val card_back_res =resources.getIdentifier("card_background_$card_back_id","drawable","com.monolith.compass")
-        val card_frame_res =resources.getIdentifier("frame_$card_frame_id","drawable","com.monolith.compass")
-        card_img.setImageResource(card_frame_res)
-        card_img.setBackgroundResource(card_back_res)
+
+        badge_img.setBackgroundResource(resources.getIdentifier("badge_background_" + GLOBAL.cardData.BADGEBACK,"drawable","com.monolith.compass"))
+        badge_img.setImageResource(resources.getIdentifier("badge_icon_" + GLOBAL.cardData.BADGE,"drawable","com.monolith.compass"))
+
+        card_img.setImageResource(resources.getIdentifier("frame_" + GLOBAL.cardData.FRAME,"drawable","com.monolith.compass"))
+        card_img.setBackgroundResource(resources.getIdentifier("card_background_" + GLOBAL.cardData.BACKGROUND,"drawable","com.monolith.compass"))
 
     }
 
@@ -113,7 +109,7 @@ class ProfEditFragment : Fragment() {
             return BitmapFactory.decodeStream(fis)
         }
         catch(e:Exception){
-            return null
+            return BitmapFactory.decodeResource(resources, R.drawable.default_icon)
         }
     }
 
@@ -121,6 +117,8 @@ class ProfEditFragment : Fragment() {
         val file=File(GLOBAL.DIRECTORY+"/icon.png")
         file.delete()
     }
+
+
 
     fun UploadData(name:String,comment:String){
         val hash = GLOBAL.CreateHash(GLOBAL.getID().toString() + "ok@fewfwaffeefewgweg4ew")
@@ -144,7 +142,6 @@ class ProfEditFragment : Fragment() {
         POSTDATA.put("frame",GLOBAL.cardData.FRAME.toString())
         POSTDATA.put("badge", GLOBAL.cardData.BADGE.toString())
         POSTDATA.put("badge_background",GLOBAL.cardData.BADGEBACK.toString())
-
         POSTDATA.put("state","12345678")
 
         "https://b.compass-user.work/system/user/change_user.php".httpPost(POSTDATA.toList())
@@ -154,7 +151,6 @@ class ProfEditFragment : Fragment() {
                         endbool=true
                     }
                     is Result.Failure -> {
-
                         UploadData(name,comment)
                     }
                 }

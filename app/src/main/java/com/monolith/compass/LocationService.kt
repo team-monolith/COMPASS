@@ -235,8 +235,6 @@ class LocationService: Service(), LocationListener,SensorEventListener {
 
             if(event.sensor.type == Sensor.TYPE_STEP_COUNTER){
                 GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP += (event.values[0]- mPrevCount).toInt()
-                //GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].DISTANCE = ((GLOBAL.LocalSettingRead("LOCAL.txt").HEIGHT.toInt() * 0.45) / 10000 * (event.values[0]-mPrevCount).toInt()).toInt()
-                //GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].CAL=(GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP * 31.5 /1000).toInt()
                 MyApp().ActivityFileWrite("ACTIVITYLOG.txt")
                 mPrevCount=event.values[0]
                 if(today!=LocalDate.now()){
