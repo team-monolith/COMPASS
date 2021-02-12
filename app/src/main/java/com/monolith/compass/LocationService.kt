@@ -230,15 +230,13 @@ class LocationService: Service(), LocationListener,SensorEventListener {
 
     //歩行センサー検出時
     override fun onSensorChanged(event: SensorEvent?) {
-
         if (event != null) {
-
             if(mPrevCount == 0f)mPrevCount=event.values[0]
 
             if(event.sensor.type == Sensor.TYPE_STEP_COUNTER){
-                GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP+=(event.values[0]-mPrevCount).toInt()
-                GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].DISTANCE = ((GLOBAL.LocalSettingRead("LOCAL.txt").HEIGHT.toInt() * 0.45) / 100000 * (event.values[0]-mPrevCount).toInt()).toInt()
-                GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].CAL=(GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP * 31.5 /1000).toInt()
+                GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP += (event.values[0]- mPrevCount).toInt()
+                //GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].DISTANCE = ((GLOBAL.LocalSettingRead("LOCAL.txt").HEIGHT.toInt() * 0.45) / 10000 * (event.values[0]-mPrevCount).toInt()).toInt()
+                //GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].CAL=(GLOBAL.ACTIVITY_LOG[GLOBAL.ACTIVITY_LOG.lastIndex].STEP * 31.5 /1000).toInt()
                 MyApp().ActivityFileWrite("ACTIVITYLOG.txt")
                 mPrevCount=event.values[0]
                 if(today!=LocalDate.now()){
@@ -249,7 +247,6 @@ class LocationService: Service(), LocationListener,SensorEventListener {
             else{
             }
         }
-
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {

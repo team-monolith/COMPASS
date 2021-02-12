@@ -55,20 +55,17 @@ class FitnessFragment : Fragment() {
             //現在のモードに合わせて画面を入れ変える
             when (GraphPeriod) {
                 Period.DAY -> {
-
                     transaction.replace(R.id.frame, WeekFragment())
                     GraphPeriod = Period.WEEK
                     btnPeriod.setImageResource(R.drawable.week)
                 }
                 Period.WEEK -> {
-
                     transaction.replace(R.id.frame, MonthFragment())
                     GraphPeriod = Period.MONTH
                     btnPeriod.setImageResource(R.drawable.month)
 
                 }
                 Period.MONTH -> {
-
                     transaction.replace(R.id.frame, DayFragment())
                     GraphPeriod = Period.DAY
                     btnPeriod.setImageResource(R.drawable.day)
@@ -86,22 +83,18 @@ class FitnessFragment : Fragment() {
                     btnPeriod.setImageResource(R.drawable.day)
                     transaction.replace(R.id.frame, DayFragment())
                     GraphPeriod = Period.DAY
-                    //btnPeriod.text = "DAY"
                 }
                 Period.WEEK -> {
                     btnPeriod.setImageResource(R.drawable.week)
                     transaction.replace(R.id.frame, WeekFragment())
                     GraphPeriod = Period.WEEK
-                    //btnPeriod.text = "WEEK"
                 }
                 Period.MONTH -> {
                     btnPeriod.setImageResource(R.drawable.month)
                     transaction.replace(R.id.frame, MonthFragment())
                     GraphPeriod = Period.MONTH
-                    //btnPeriod.text = "MONTH"
                 }
             }
-
             transaction.commit()
         }
     }
@@ -124,7 +117,7 @@ class FitnessFragment : Fragment() {
 
         view?.findViewById<TextView>(R.id.txtDate)?.text = pattern.format(startDay)
         view?.findViewById<TextView>(R.id.txtSteps)?.text=STEPS.toString()+"歩"
-        view?.findViewById<TextView>(R.id.txtDistance)?.text=DISTANCE.toString()+"km"
+        view?.findViewById<TextView>(R.id.txtDistance)?.text=DISTANCE.toString()+"m"
         view?.findViewById<TextView>(R.id.txtCalories)?.text=CALORIES.toString()+"kcal"
     }
 
@@ -156,7 +149,7 @@ class FitnessFragment : Fragment() {
 
         view?.findViewById<TextView>(R.id.txtDate)?.text = pattern.format(startDay) + "  ～  " + pattern.format(endDay)
         view?.findViewById<TextView>(R.id.txtSteps)?.text=STEPS.toString()+"歩"
-        view?.findViewById<TextView>(R.id.txtDistance)?.text=DISTANCE.toString()+"km(仮)"
+        view?.findViewById<TextView>(R.id.txtDistance)?.text=DISTANCE.toString()+"m"
         view?.findViewById<TextView>(R.id.txtCalories)?.text=CALORIES.toString()+"kcal"
     }
 

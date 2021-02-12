@@ -50,8 +50,9 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         HandlerDraw(view)
-        GLOBAL.calc()
         GLOBAL.login_cnt()
+
+        GLOBAL.calc()
 
         GLOBAL.PreloadData() //名刺編集画面用にプリロードする
 

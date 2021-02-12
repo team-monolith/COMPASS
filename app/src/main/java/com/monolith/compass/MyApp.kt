@@ -788,7 +788,7 @@ class MyApp : Application() {
     fun calc() {
         for (i in ACTIVITY_LOG.indices) {
             ACTIVITY_LOG[i].CAL = (ACTIVITY_LOG[i].STEP * 31.5 / 1000).toInt()
-            ACTIVITY_LOG[i].DISTANCE = ((LocalSettingRead("LOCAL.txt").HEIGHT.toInt() * 0.45) / 100000 * ACTIVITY_LOG[i].STEP).toInt()
+            ACTIVITY_LOG[i].DISTANCE = ((LocalSettingRead("LOCAL.txt").HEIGHT.toInt() * 0.45) / 1000 * ACTIVITY_LOG[i].STEP).toInt()
         }
     }
 
