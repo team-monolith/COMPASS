@@ -28,7 +28,6 @@ class ProfCardFrameFragment : Fragment() {
         return root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         chenge_color(GLOBAL.cardData.FRAME)
@@ -154,6 +153,16 @@ class ProfCardFrameFragment : Fragment() {
             chenge_color(23)
             GLOBAL.cardData.FRAME= 23
         }
+        view.findViewById<ImageView>(R.id.frame_img24).setOnClickListener{
+            reset_color()
+            chenge_color(24)
+            GLOBAL.cardData.FRAME= 24
+        }
+        view.findViewById<ImageView>(R.id.frame_img25).setOnClickListener{
+            reset_color()
+            chenge_color(25)
+            GLOBAL.cardData.FRAME= 25
+        }
     }
 
     /*指定されたIDの色赤にセット*/
@@ -183,6 +192,8 @@ class ProfCardFrameFragment : Fragment() {
             21-> view?.findViewById<FrameLayout>(R.id.f_layout21)?.setBackgroundColor(Color.rgb(255, 0, 0))
             22-> view?.findViewById<FrameLayout>(R.id.f_layout22)?.setBackgroundColor(Color.rgb(255, 0, 0))
             23-> view?.findViewById<FrameLayout>(R.id.f_layout23)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            24-> view?.findViewById<FrameLayout>(R.id.f_layout24)?.setBackgroundColor(Color.rgb(255, 0, 0))
+            25-> view?.findViewById<FrameLayout>(R.id.f_layout25)?.setBackgroundColor(Color.rgb(255, 0, 0))
         }
     }
 
@@ -212,5 +223,7 @@ class ProfCardFrameFragment : Fragment() {
         val change21 = view?.findViewById<FrameLayout>(R.id.f_layout21)?.setBackgroundColor(Color.rgb(255,255,255))
         val change22 = view?.findViewById<FrameLayout>(R.id.f_layout22)?.setBackgroundColor(Color.rgb(255,255,255))
         val change23 = view?.findViewById<FrameLayout>(R.id.f_layout23)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change24 = view?.findViewById<FrameLayout>(R.id.f_layout24)?.setBackgroundColor(Color.rgb(255,255,255))
+        val change25 = view?.findViewById<FrameLayout>(R.id.f_layout25)?.setBackgroundColor(Color.rgb(255,255,255))
     }
 }

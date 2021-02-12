@@ -661,6 +661,8 @@ class MyApp : Application() {
             21 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_21)
             22 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_22)
             23 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_23)
+            24 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_24)
+            25 -> img = BitmapFactory.decodeResource(res, R.drawable.frame_25)
         }
         return img
     }
