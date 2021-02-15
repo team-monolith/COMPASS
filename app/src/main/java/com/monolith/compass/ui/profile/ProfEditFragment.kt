@@ -119,7 +119,6 @@ class ProfEditFragment : Fragment() {
     }
 
 
-
     fun UploadData(name:String,comment:String){
         val hash = GLOBAL.CreateHash(GLOBAL.getID().toString() + "ok@fewfwaffeefewgweg4ew")
         HandlerDraw()
@@ -136,13 +135,13 @@ class ProfEditFragment : Fragment() {
         POSTDATA.put("name",name)
         POSTDATA.put("icon",iconstr)
         POSTDATA.put("comment",comment)
-        POSTDATA.put("level","12")
-        POSTDATA.put("distance","213131")
+        POSTDATA.put("level",GLOBAL.cardData.LEVEL.toString())
+        POSTDATA.put("distance",GLOBAL.cardData.DISTANCE.toString())
         POSTDATA.put("background",GLOBAL.cardData.BACKGROUND.toString())
         POSTDATA.put("frame",GLOBAL.cardData.FRAME.toString())
         POSTDATA.put("badge", GLOBAL.cardData.BADGE.toString())
         POSTDATA.put("badge_background",GLOBAL.cardData.BADGEBACK.toString())
-        POSTDATA.put("state","12345678")
+        POSTDATA.put("state",GLOBAL.cardData.STATE.toString())
 
         "https://b.compass-user.work/system/user/change_user.php".httpPost(POSTDATA.toList())
             .response { _, response, result ->
